@@ -13,6 +13,8 @@ from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     PageBreak, Paragraph, SimpleDocTemplate, Table, TableStyle,
 )
@@ -25,17 +27,32 @@ PAGE_WIDTH, PAGE_HEIGHT = A4
 MARGIN = 43
 WIDTH = PAGE_WIDTH - 2 * MARGIN
 
+# Use system fonts with Vietnamese coverage; never redistribute proprietary fonts.
+font_sets = [
+    (Path('C:/Windows/Fonts'), ['arial.ttf', 'arialbd.ttf', 'ariali.ttf', 'arialbi.ttf']),
+    (Path('/usr/share/fonts/truetype/dejavu'), ['DejaVuSans.ttf', 'DejaVuSans-Bold.ttf', 'DejaVuSans-Oblique.ttf', 'DejaVuSans-BoldOblique.ttf']),
+    (Path('/System/Library/Fonts/Supplemental'), ['Arial.ttf', 'Arial Bold.ttf', 'Arial Italic.ttf', 'Arial Bold Italic.ttf']),
+]
+for font_dir, filenames in font_sets:
+    if all((font_dir / name).is_file() for name in filenames):
+        for face, filename in zip(['BriefSans', 'BriefSans-Bold', 'BriefSans-Italic', 'BriefSans-BoldItalic'], filenames):
+            pdfmetrics.registerFont(TTFont(face, str(font_dir / filename)))
+        pdfmetrics.registerFontFamily('BriefSans', normal='BriefSans', bold='BriefSans-Bold', italic='BriefSans-Italic', boldItalic='BriefSans-BoldItalic')
+        break
+else:
+    raise RuntimeError('Install a Vietnamese-capable Arial or DejaVu Sans font family before creating the brief.')
+
 styles = getSampleStyleSheet()
 styles.add(ParagraphStyle(
-    name='BriefTitle', fontName='Helvetica-Bold', fontSize=23, leading=27,
+    name='BriefTitle', fontName='BriefSans-Bold', fontSize=23, leading=27,
     textColor=colors.black, spaceAfter=12,
 ))
 styles.add(ParagraphStyle(
-    name='BriefHeading', fontName='Helvetica-Bold', fontSize=13, leading=16,
+    name='BriefHeading', fontName='BriefSans-Bold', fontSize=13, leading=16,
     textColor=colors.black, spaceBefore=10, spaceAfter=7, keepWithNext=True,
 ))
 styles.add(ParagraphStyle(
-    name='BriefBody', fontName='Helvetica', fontSize=10, leading=14,
+    name='BriefBody', fontName='BriefSans', fontSize=9.8, leading=13.5,
     textColor=colors.HexColor('#26362e'), spaceAfter=8,
 ))
 styles.add(ParagraphStyle(
@@ -43,11 +60,11 @@ styles.add(ParagraphStyle(
     firstLineIndent=-9, spaceAfter=5,
 ))
 styles.add(ParagraphStyle(
-    name='BriefCell', parent=styles['BriefBody'], fontSize=9.2, leading=12.3,
+    name='BriefCell', parent=styles['BriefBody'], fontSize=9.1, leading=12,
     spaceAfter=0, alignment=TA_LEFT,
 ))
 styles.add(ParagraphStyle(
-    name='BriefTableHeader', parent=styles['BriefCell'], fontName='Helvetica-Bold',
+    name='BriefTableHeader', parent=styles['BriefCell'], fontName='BriefSans-Bold',
     textColor=colors.white,
 ))
 
@@ -60,13 +77,13 @@ def inline(text):
         r'<a href="\2" color="#245849"><u>\1</u></a>', text,
     )
     text = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', text)
-    return re.sub(r'`([^`]+)`', r'<font name="Courier">\1</font>', text)
+    return re.sub(r'`([^`]+)`', r'<font name="BriefSans">\1</font>', text)
 
 
 def table(rows):
     count = len(rows[0])
-    fractions = {2: [0.32, 0.68], 3: [0.27, 0.15, 0.58],
-                 4: [0.28, 0.22, 0.20, 0.30], 5: [0.20] * 5}
+    fractions = {2: [0.32, 0.68], 3: [0.20, 0.36, 0.44],
+                 4: [0.14, 0.20, 0.28, 0.38], 5: [0.20] * 5}
     widths = [WIDTH * fraction for fraction in fractions.get(count, [1/count] * count)]
     data = [[Paragraph(inline(cell), styles['BriefTableHeader' if i == 0 else 'BriefCell'])
              for cell in row] for i, row in enumerate(rows)]
@@ -86,16 +103,16 @@ def table(rows):
 
 def footer(canvas, doc):
     canvas.saveState()
-    canvas.setFont('Helvetica', 8)
+    canvas.setFont('BriefSans', 8)
     canvas.setFillColor(colors.HexColor('#6e7c70'))
-    canvas.drawString(MARGIN, 26, 'Ha Noi guide  |  Billing brief  |  Verification dates in source')
-    canvas.drawRightString(PAGE_WIDTH - MARGIN, 26, f'Page {doc.page}')
+    canvas.drawString(MARGIN, 26, 'Hà Nội iMap  |  Chi phí vận hành  |  Nguồn và ngày kiểm chứng trong tài liệu')
+    canvas.drawRightString(PAGE_WIDTH - MARGIN, 26, f'Trang {doc.page}')
     canvas.restoreState()
 
 
 def build():
     story = []
-    lines = SOURCE.read_text().splitlines()
+    lines = SOURCE.read_text(encoding='utf-8-sig').splitlines()
     index = 0
     while index < len(lines):
         line = lines[index].strip()

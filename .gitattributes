@@ -1,0 +1,6 @@
+# Keep source contracts and snapshot hashes consistent on Windows and cloud hosts.
+* text=auto eol=lf
+*.pdf -text
+*.png -text
+*.jpg -text
+*.jpeg -text

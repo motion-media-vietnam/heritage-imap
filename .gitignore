@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Project-local tooling, review captures and deployment archives
+.tools/
+tmp/
+.sites-runtime/
+.sites-checkout/
+*.tar.gz
