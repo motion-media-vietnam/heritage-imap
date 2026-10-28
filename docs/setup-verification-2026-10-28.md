@@ -11,6 +11,7 @@ Scope: agent-owned delivery, Vietnamese onboarding, portable local setup and ini
 - Browser: installed Edge, desktop 1440×1000 and emulated mobile 390×844, reduced motion enabled. Homepage and `/heritage-mach-ban/` returned 200; no JavaScript page errors or horizontal overflow. Heritage drawer opens, accepts a query, renders local results and closes. Mobile menu opens and closes with Escape. Leaflet initializes and loaded 12/9 map tiles in the two contexts. Screenshots were inspected. This is browser emulation, not a real phone/Safari test, complete accessibility audit or autoplay/media-rights validation.
 - Billing: current provider sources opened on October 28; host/tile scenario arithmetic checked; canonical Vietnamese Markdown rendered through `scripts/build-billing-brief.py`, all PDF pages visually inspected. The old billing record was preserved separately without treating old prices as current.
 - Publication: use the native Sites save/deploy result and current Site state for the exact version and success; this report describes local verification, not proof of a live release. Public access was explicitly requested and confirmed through the access tool.
+- Windows archive tooling: the system bsdtar crashed during packaging. The native Sites packager succeeded with installed Git GNU tar 1.35 and `TAR_OPTIONS=--force-local`; recovery is documented in `docs/operations.md`. No paid tool or new service was added.
 
 ## Existing automated-test debt
 

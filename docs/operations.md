@@ -31,6 +31,8 @@ Use `node scripts/project.mjs dev` for `astro dev --background`. Manage via `dev
 
 The native Sites helpers call npm by name. If no system npm exists, add this checkout's `.tools/bin` to PATH after setup. Do not install tools globally merely for that purpose.
 
+Windows packaging recovery verified on this laptop: the system `tar.exe` (bsdtar 3.8.9) crashed with exit `-1073741819` while compressing this Site. Prepend the installed Git `usr/bin` directory to PATH (here `C:/Program Files/Git/usr/bin`) and set `TAR_OPTIONS=--force-local` for the Sites source/package helper. GNU tar then packages successfully; the option prevents Windows drive letters being interpreted as remote host names. Native runtime permission may be needed for MSYS initialization. Keep archives outside the checkout or in its ignored `outputs/` directory, as required by the helper; an arbitrary ignored `tmp/` path inside the checkout is not accepted. Do not change application code to repair this tool issue.
+
 ## Recovery and owner access
 
 Retain the previous stable Site version for rollback. On failure, repair or redeploy it through Sites while preserving public access. Do not promise instant or guaranteed publication. Free-tier limits may require waiting or reducing usage; notifications are not spending caps. No credit purchases, paid upgrades or new subscriptions without a business decision.
