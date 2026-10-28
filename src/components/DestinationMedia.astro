@@ -58,8 +58,9 @@ const first = images[0];
   </div>}
 <script>import '../scripts/destination-media';</script>
 <style is:global>
-  /* Media-only rules: the approved parent frame, desktop ordering and sheet stay intact. */
-  .imap-prototype .destination-gallery { aspect-ratio: auto; background: transparent; isolation: isolate; }
+  /* Gallery height includes its image layout AND navigation. Outrank the shared
+     video frame regardless of stylesheet order; keep video-only framing intact. */
+  .imap-prototype .destination-video.destination-gallery { aspect-ratio: auto; background: transparent; isolation: isolate; }
   .imap-prototype .gallery-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 6px; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px; }
   .imap-prototype .gallery-layout-single { grid-template-columns: minmax(0, 1fr); }
   .imap-prototype .destination-gallery button { border: 0; padding: 0; background: transparent; color: #203A5E; cursor: pointer; font: inherit; }

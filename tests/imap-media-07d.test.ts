@@ -34,11 +34,22 @@ test('explicit gallery wins over the retained legacy URL; unrelated videos keep 
   }
 });
 
-test('pilot maps exactly one existing client image without changing its identity, pin or content', () => {
+test('Dinh Le retains all six supplied gallery images without changing its identity, pin or content', () => {
   const media = resolveDestinationMedia(featuredPrototypeStories['pho-sach-dinh-le']);
   assert.equal(media.type, 'gallery');
   if (media.type !== 'gallery') assert.fail();
-  assert.equal(media.images.length, 1);
+  assert.deepEqual(media.images.map(image => image.src), [
+    '/images/pho%20sach%20Dinh%20Le.jpg',
+    '/images/pho%20sach%20dinh%20le%201.jpg',
+    '/images/pho%20sach%20dinh%20le%202.jpg',
+    '/images/pho-sach-dinh-le%203.jpg',
+    '/images/pho%20sach%20Dinh%20le%204.jpg',
+    '/images/pho%20sach%20dinh%20le%205.jpg',
+  ]);
+  for (const image of media.images) {
+    assert(image.width > 0 && image.height > 0 && image.alt.trim());
+    assert(existsSync(new URL(`../public${decodeURI(image.src)}`, import.meta.url)));
+  }
   const image = media.images[0]!;
   assert.equal(image.src, '/images/pho%20sach%20Dinh%20Le.jpg');
   assert.equal(image.width, 655); assert.equal(image.height, 874);
