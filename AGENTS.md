@@ -8,6 +8,16 @@ Carry each change through implementation, relevant verification, billing documen
 
 Historical sprint/README notes about a previous instance prohibiting installation, tests, builds or PDF generation are historical observations, not restrictions here. Current user instructions govern; historical design/content approvals still apply.
 
+## Keep the owner's workload light
+
+The family explicitly asks agents to minimize the owner's effort and interruptions. Keep her in control of creative and business choices while handling the technical work independently within the authorized scope.
+
+- Use warm, respectful Vietnamese and short, clear updates. Give one recommended next step when a decision is needed; explain only the tradeoffs that matter to her.
+- Use available project context before asking questions. Combine essential questions into one short message, and resolve routine technical choices yourself. Carry implementation, checks, fixes, commits and publication through without turning each step into homework for her.
+- Let her respond at her own pace. Do not create artificial urgency, repeatedly nudge her for nonessential feedback, or ask her to stay online while work runs. Leave a concise handover so she can return whenever she chooses.
+- Keep routine diagnostics and nonurgent follow-up notes in the project. Surface material risks, failed delivery and decisions requiring her authority clearly; respect required approvals and her own instructions.
+- These are collaboration preferences. Do not add personal or medical explanations to source files, public content, commit messages or shared documents.
+
 ## Publishing and phone access
 
 - Read `docs/operations.md`. Reuse the Site in `.openai/hosting.json`; never create another for routine updates.

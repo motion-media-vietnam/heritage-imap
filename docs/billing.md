@@ -72,6 +72,6 @@ Nguồn thương mại và vận hành: [Sites và giới hạn sử dụng](htt
 
 Đã bổ sung hướng dẫn tiếng Việt, trách nhiệm agent từ đầu đến cuối, công cụ cục bộ và cấu hình Site tĩnh. Không thêm dịch vụ trả phí hay thay đổi thiết kế. Công sức triển khai/bảo trì chưa báo giá và không được mặc định là miễn phí.
 
-Bảo trì đi kèm: cập nhật hai thư viện gián tiếp fast-uri và undici để xử lý cảnh báo bảo mật, giữ nội dung/thiết kế ứng dụng; chuẩn hóa xuống dòng để dùng trên Windows và đám mây; tạo PDF hỗ trợ tiếng Việt bằng phông hệ thống. Không thêm API, dịch vụ hoặc phí bản quyền phông mới. Kiểm tra tự động cũ còn lỗi được ghi trong tài liệu xác minh, không được mô tả là đã đạt toàn bộ.
+Bảo trì đi kèm: vá fast-uri/undici, chuẩn hóa xuống dòng Windows/đám mây và tạo PDF tiếng Việt bằng phông hệ thống; không thêm dịch vụ trả phí. Lỗi kiểm tra cũ được ghi trong tài liệu xác minh. Quy tắc phối hợp mới giảm câu hỏi/thao tác cho chủ dự án: chỉ đổi tài liệu hướng dẫn agent, chi phí nhà cung cấp phát sinh **0 USD/tháng** ở cả ba kịch bản, giả định giữ nguyên gói, lưu lượng và dịch vụ; công sức vẫn chưa báo giá.
 
 Mỗi thay đổi/phát hành phải cập nhật dự toán, kiểm tra nguồn/số học và tạo lại PDF bằng `scripts/build-billing-brief.py`, rồi xem tất cả trang. Kết quả triển khai hiện tại phải lấy từ công cụ triển khai, không từ ghi chú lịch sử.
