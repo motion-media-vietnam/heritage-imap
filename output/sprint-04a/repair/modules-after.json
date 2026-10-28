@@ -1,0 +1,14 @@
+{
+  "route": "http://localhost:4321/imap-prototype/?presentation=1",
+  "pageStatus": 200,
+  "entry": "http://localhost:4321/_astro/imap-prototype.astro_astro_type_script_index_0_lang.hExdezwp.js",
+  "entryStatus": 200,
+  "controllerUpdated": true,
+  "leaflet": "http://localhost:4321/_astro/leaflet-src.D_JFGpWf.js",
+  "leafletStatus": 200,
+  "leafletMime": "text/javascript",
+  "outdatedOptimizeDep": false,
+  "defaultCount": "2 địa điểm",
+  "defaultRadius1km": true,
+  "browserVerified": false
+}

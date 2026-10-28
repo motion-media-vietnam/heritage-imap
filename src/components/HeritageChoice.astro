@@ -1,0 +1,88 @@
+---
+import Icon from './Icon.astro';
+import HeritageVideo from './HeritageVideo.astro';
+import { currentHeritageChoice as current, pastHeritageChoices } from '../data/heritage';
+const formatDate = (date: string) => new Intl.DateTimeFormat('vi-VN', {
+  day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC',
+}).format(new Date(`${date}T00:00:00Z`));
+---
+<div class="heritage-editorial">
+<section class="heritage-choice shell" aria-labelledby="heritage-heading">
+  <header class="heritage-heading">
+    <p class="eyebrow">NHỮNG CÂU CHUYỆN ĐƯỢC TUYỂN CHỌN</p>
+    <h2 id="heritage-heading" lang="en">Heritage Guide's Choice</h2>
+  </header>
+  <div class="heritage-columns">
+    <article class="current-choice" aria-labelledby="current-choice-heading">
+      <HeritageVideo video={current} featured />
+      <p class="story-date">{current.publicationDate ? <>Đăng ngày <time datetime={current.publicationDate}>{formatDate(current.publicationDate)}</time></> : 'Chưa xác minh ngày đăng'}</p>
+      <h3 id="current-choice-heading"><a href={current.url} data-video-trigger data-video-id={current.videoId} aria-haspopup="dialog" aria-controls={`heritage-video-${current.videoId}`}>{current.title}</a></h3>
+      {current.excerpt && <p class="choice-description">{current.excerpt}</p>}
+      <a class="heritage-read-more" href={current.url} data-video-trigger data-video-id={current.videoId} aria-haspopup="dialog" aria-controls={`heritage-video-${current.videoId}`} aria-label={`Khám phá câu chuyện: ${current.title}`}>Khám phá câu chuyện <Icon name="arrow" size={18} /></a>
+    </article>
+    <section class="past-choices" aria-labelledby="past-choices-heading">
+      <h3 id="past-choices-heading" class="sr-only">Các kỳ trước</h3>
+      <ol class="past-choice-list">
+        {pastHeritageChoices.map(choice => (
+          <li>
+            <article class="past-choice">
+              <HeritageVideo video={choice} />
+              <p class="story-date">{choice.publicationDate ? <>Đăng ngày <time datetime={choice.publicationDate}>{formatDate(choice.publicationDate)}</time></> : 'Chưa xác minh ngày đăng'}</p>
+              <h4><a href={choice.url} data-video-trigger data-video-id={choice.videoId} aria-haspopup="dialog" aria-controls={`heritage-video-${choice.videoId}`}>{choice.title}</a></h4>
+              {choice.excerpt && <p class="choice-description">{choice.excerpt}</p>}
+              <a class="heritage-read-more" href={choice.url} data-video-trigger data-video-id={choice.videoId} aria-haspopup="dialog" aria-controls={`heritage-video-${choice.videoId}`} aria-label={`Khám phá câu chuyện: ${choice.title}`}>Khám phá câu chuyện <Icon name="arrow" size={18} /></a>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </div>
+
+</section>
+</div>
+
+<style>
+  /* Shift only the existing bottom padding toward iMap's white canvas.
+     No overlay on photographs, extra spacer, or change to section geometry. */
+  .heritage-editorial {
+    background-color: #F8F7F3;
+    background-image: linear-gradient(to bottom, #F8F7F3, color-mix(in srgb, var(--rice-paper) 20%, #fff) 50%, color-mix(in srgb, var(--moss) 1%, #fff) 80%, #fff);
+    background-size: 100% var(--editorial-space);
+    background-position: bottom;
+    background-repeat: no-repeat;
+  }
+  .heritage-choice { width: calc(100% - var(--editorial-gutter) * 2); max-width: var(--editorial-width); padding: var(--editorial-space) 0; color: var(--deep-ink); font-family: var(--editorial-body); }
+  .heritage-heading { margin-bottom: 48px; }
+  .heritage-choice .eyebrow { color: #535c52; font-size: 11px; font-weight: 500; letter-spacing: .16em; margin-bottom: 16px; }
+  .heritage-heading h2 { font-family: var(--editorial-display); font-size: var(--editorial-type-section); font-weight: 400; line-height: 1.2; letter-spacing: -.04em; }
+  .heritage-columns { display: grid; grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); gap: clamp(32px, 4vw, 60px); align-items: start; }
+  .current-choice, .past-choices { min-width: 0; }
+  /* Shallower supporting frames balance the column without matching heights.
+     These variables are inherited only by this section's supporting covers. */
+  .past-choices { --heritage-cover-ratio: 11 / 5; --heritage-cover-min-height: 0px; }
+  .story-date { margin-top: 20px; color: #535c52; font-size: 12px; font-weight: 500; line-height: 1.7; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+  .current-choice h3 { max-width: 25ch; margin-top: 12px; font-family: var(--editorial-display); font-weight: 400; font-size: var(--editorial-type-feature); line-height: 1.35; letter-spacing: -.025em; }
+  .choice-description { margin-top: 18px; color: #535c52; font-size: 16px; line-height: 1.85; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+  .heritage-read-more { display: inline-flex; align-items: center; gap: 18px; min-height: 44px; margin-top: 16px; color: var(--deep-ink); font-size: 12px; font-weight: 500; text-decoration: underline; text-decoration-color: var(--old-gold); text-underline-offset: 7px; }
+  .heritage-read-more:hover, .current-choice h3 a:hover, .past-choice h4 a:hover { color: var(--vermilion); }
+  .heritage-choice :focus-visible { outline-color: var(--vermilion); }
+  .past-choice-list { display: grid; gap: 32px; list-style: none; margin: 0; padding: 0; }
+  .past-choice h4 { max-width: 34ch; margin: 8px 0 0; font-family: var(--editorial-display); font-size: var(--editorial-type-support); font-weight: 400; line-height: 1.4; letter-spacing: -.02em; }
+  .past-choice .story-date { margin-top: 12px; }
+  .past-choice .choice-description { margin-top: 8px; line-height: 1.6; -webkit-line-clamp: 2; }
+  .past-choice .heritage-read-more { margin-top: 0; font-size: 11px; }
+  @media (max-width: 700px) {
+    .heritage-choice { padding-block: 72px; }
+    .heritage-heading { margin-bottom: 32px; }
+    .heritage-choice .eyebrow { font-size: 9px; letter-spacing: .12em; }
+    .heritage-heading h2 { font-size: clamp(36px, 9.5vw, 48px); }
+    .heritage-columns { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+    .past-choice-list { gap: 40px; }
+    .past-choice .story-date { margin-top: 16px; }
+    .past-choice h4 { margin-top: 10px; }
+    .past-choice .heritage-read-more { margin-top: 4px; }
+    .current-choice h3 { font-size: 30px; }
+    .choice-description { font-size: 16px; }
+    .past-choice h4 { font-size: 24px; }
+  }
+</style>

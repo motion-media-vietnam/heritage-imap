@@ -1,0 +1,191 @@
+---
+import Icon from './Icon.astro';
+import EditorialEyebrow from './EditorialEyebrow.astro';
+import { places } from '../data/places';
+type EditorialCard = { title: string; category: string; description: string; href?: string; };
+type CardImage = { src: string; alt: string; width: number; height: number; position: string; note?: string; };
+// Homepage-only image mapping; destination records and other sections are untouched.
+const vanMieuImage: CardImage = { src: '/images/văn%20miếu%20quốc%20tử%20giám%20ht.jpg', alt: 'Khuê Văn Các giữa sân vườn Văn Miếu – Quốc Tử Giám', width: 1000, height: 667, position: '50% 50%' };
+const hoanKiemImage: CardImage = { src: '/images/Ho%20Hoan%20kiem.jpg', alt: 'Tháp Rùa bên hồ Hoàn Kiếm dưới những tán cây', width: 1200, height: 1031, position: '42% 65%' };
+const cardImages: Partial<Record<string, CardImage>> = {
+  'Đêm Hà Nội': { src: '/images/Dem%20Ha%20noi.jpg', alt: 'Phố Hà Nội đông người ngồi ăn uống dưới ánh đèn buổi tối', width: 547, height: 365, position: '50% 50%' },
+  'Làng cổ Đường Lâm': { src: '/images/Lang%20co%20duong%20Lam.jpg', alt: 'Cổng làng cổ Đường Lâm dưới tán cây, với hai người đi xe đạp', width: 800, height: 533, position: '50% 65%' },
+  'Khám phá làng nghề Bát Tràng': { src: '/images/kham%20pa%20lang%20nghe%20Bat%20trang%20(1).jpg', alt: 'Đôi tay người thợ tạo hình bát gốm trên bàn xoay ở Bát Tràng', width: 574, height: 584, position: '50% 60%' },
+  'Chuyện trà sen': { src: '/images/tra%20sen.jpg', alt: 'Ấm trà và hai chén trà trên lá sen, bên hoa sen hồng', width: 694, height: 448, position: '60% 45%' },
+  'Trekking rừng quốc gia Ba Vì': { src: '/images/trekking%20ba%20vi.jpg', alt: 'Những triền rừng xanh Ba Vì dưới mây và sương núi', width: 739, height: 415, position: '50% 60%' },
+  'Tour đêm Hỏa Lò': { src: '/images/tour%20dem%20hoa%20lo.jpg', alt: 'Hình giới thiệu chương trình Đêm thiêng liêng tại Hỏa Lò với hoạt cảnh và khán giả', width: 800, height: 600, position: '50% 50%' },
+  'Phở – Di sản ẩm thực': { src: '/images/Pho%20Ha%20Noi.jpg', alt: 'Bát phở bò Hà Nội với hành và rau thơm', width: 1800, height: 1172, position: '55% 50%' },
+  'Hương cốm mùa thu': { src: '/images/heritage-temporary-com.jpg', alt: 'Mâm cốm, hoa quả và bánh bày trên lá sen', width: 1882, height: 1150, position: '50% 60%' },
+  'Văn Miếu': vanMieuImage,
+  'Hồ Hoàn Kiếm': hoanKiemImage,
+  'Lăng Chủ tịch Hồ Chí Minh': { src: '/images/lang-chu-tich-ho-chi-minh-8.jpg', alt: 'Lăng Chủ tịch Hồ Chí Minh và cột cờ nhìn từ Quảng trường Ba Đình', width: 1693, height: 1130, position: '50% 83%' },
+  'Concert BIGBANG tại Hà Nội': { src: '/images/Bigbang%20hanoi%202026.jpg', alt: 'Ảnh BIGBANG biểu diễn do khách hàng cung cấp, chưa xác nhận sự kiện Hà Nội', width: 399, height: 467, position: '50% 50%' },
+  'Festival Thu Hà Nội 2026': { src: '/images/festival%20Thu%20Hafnoi%202026.jpg', alt: 'Minh họa Festival Thu Hà Nội 2026 với Hồ Gươm và lá mùa thu', width: 526, height: 526, position: '50% 50%' },
+  'Liên hoan Phim Quốc tế Hà Nội lần thứ VIII (HANIFF VIII)': { src: '/images/Haniff2026.jpg', alt: 'Poster Heritage in Motion của HANIFF VII năm 2024, được khách hàng chọn làm ảnh minh họa', width: 554, height: 554, position: '50% 50%', note: 'Ảnh minh họa do khách hàng chọn: poster HANIFF VII (2024), không xác nhận HANIFF VIII.' },
+};
+const experiences: EditorialCard[] = [
+  { title: 'Trekking rừng quốc gia Ba Vì', category: 'Thiên nhiên', description: 'Một khoảng xanh để chậm lại. Nội dung trải nghiệm đang được chuẩn bị.' },
+  { title: 'Khám phá làng nghề Bát Tràng', category: 'Văn hóa', description: 'Gặp gỡ những câu chuyện bên bàn xoay và đất gốm.' },
+  { title: 'Tour đêm Hỏa Lò', category: 'Về đêm', description: 'Một góc nhìn lịch sử khi thành phố lên đèn.' },
+  { title: 'Làng cổ Đường Lâm', category: 'Văn hóa', description: 'Những nếp nhà, con ngõ và ký ức làng quê.' },
+  { title: 'Đêm Hà Nội', category: 'Về đêm', description: 'Dành một buổi tối cho nhịp sống của thành phố.' },
+];
+const attractions: EditorialCard[] = [
+  ...['van-mieu', 'ho-hoan-kiem'].flatMap(slug => {
+    const place = places.find(place => place.slug === slug);
+    return place ? [{ title: place.name, category: 'Điểm đến', description: place.description, href: `/places/${place.slug}/` }] : [];
+  }),
+  // No matching destination route exists; this card intentionally has no href.
+  { title: 'Lăng Chủ tịch Hồ Chí Minh', category: 'Điểm đến', description: 'Một điểm đến lịch sử bên Quảng trường Ba Đình.' },
+];
+const sections = [
+  { id: 'unmissable-experiences', headingId: 'experiences-heading', title: 'Những trải nghiệm không thể bỏ lỡ', intro: 'Ra ngoài một chút. Mang về một câu chuyện.', kind: 'experiences', cards: experiences },
+  { id: 'food', headingId: 'food-heading', title: 'Ẩm thực', intro: 'Hương vị thân quen, những cuộc hẹn mới.', kind: 'food', cards: [
+    { title: 'Phở – Di sản ẩm thực', category: 'Hương vị Hà Nội', description: 'Một bát phở, bao lớp hương vị và ký ức.' },
+    { title: 'Hương cốm mùa thu', category: 'Quà Hà Nội', description: 'Một thức quà nhỏ, một mùa để nhớ.' },
+    { title: 'Chuyện trà sen', category: 'Nếp thưởng thức', description: 'Chậm lại bên một chén trà thơm.' },
+  ] as EditorialCard[] },
+  { id: 'attractions', headingId: 'results-heading', title: 'Các điểm tham quan hấp dẫn', intro: 'Bắt đầu từ những nơi làm nên ký ức Hà Nội.', kind: 'attractions', cards: attractions },
+  { id: 'homepage-events', headingId: 'events-heading', title: 'Sự kiện', intro: 'Đề xuất biên tập do khách hàng cung cấp · Chờ xác minh thông tin và xác nhận sự kiện.', kind: 'tips', cards: [
+    { title: 'Concert BIGBANG tại Hà Nội', category: 'Sự kiện · Chờ xác minh', description: '' },
+    { title: 'Festival Thu Hà Nội 2026', category: 'Sự kiện · Chờ xác minh', description: '' },
+    { title: 'Liên hoan Phim Quốc tế Hà Nội lần thứ VIII (HANIFF VIII)', category: 'Sự kiện · Chờ xác minh', description: '' },
+  ] as EditorialCard[] },
+];
+---
+<div class="lower-homepage" data-lower-homepage>
+  {sections.map(section => <section id={section.id} class:list={['lower-section', `section-${section.kind}`]} aria-labelledby={section.headingId} data-editorial-section={section.kind}>
+    <div class="lower-shell">
+      <header class="lower-section-heading">
+        <div>{section.kind === 'experiences' ? <EditorialEyebrow /> : <p class="lower-kicker">{section.kind === 'food' ? 'NẾM MỘT CHÚT HÀ NỘI' : section.kind === 'tips' ? 'SỰ KIỆN HÀ NỘI' : 'HÀ NỘI, THEO CÁCH CỦA BẠN'}</p>}<h2 id={section.headingId}>{section.title}</h2><p class="lower-intro">{section.intro}</p></div>
+        {section.kind === 'food' && <a class="lower-text-link" href="#food-collection">Khám phá tất cả <Icon name="arrow" size={18} /></a>}
+      </header>
+      {section.kind === 'experiences' && <div class="experience-filters" role="group" aria-label="Lọc trải nghiệm" hidden data-editorial-filters>
+        {['Tất cả', 'Thiên nhiên', 'Văn hóa', 'Về đêm', 'Mua sắm', 'Làm đẹp', 'Luxury'].map((category, index) => <button type="button" data-editorial-filter={category} aria-pressed={index === 0} aria-controls="experience-collection">{category}</button>)}
+      </div>}
+      <div id={section.kind === 'experiences' ? 'experience-collection' : section.kind === 'food' ? 'food-collection' : undefined} class:list={['editorial-composition', `composition-${section.kind}`]}>
+        {section.cards.map((card, index) => {
+          const image = cardImages[card.title];
+          return <article class="lower-card" data-editorial-card data-category={card.category} data-rank={index} data-window-hidden={section.kind === 'experiences' && index >= 3 ? '' : undefined}>
+          <div class="lower-image-slot" role={image ? undefined : 'img'} aria-label={image ? undefined : `Ảnh đang chờ: ${card.title}`}>
+            {image && <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: image.position }} />}
+            <span class="slot-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            {!image && <span class="slot-caption" aria-hidden="true">Ảnh do khách hàng cung cấp<br /><span>Đang chờ hình ảnh chính thức</span></span>}
+          </div>
+          <div class="lower-card-copy"><p class="lower-card-category">{card.category}</p><h3>{card.href ? <a href={card.href}>{card.title}</a> : card.title}</h3>{card.description && <p>{card.description}</p>}
+            {!card.href && <span class="content-pending">{image?.note ?? (section.kind === 'experiences' && index === 0 ? 'Video sắp ra mắt · Ảnh tĩnh' : 'Nội dung đang được chuẩn bị')}</span>}
+          </div>
+        </article>;
+        })}
+      </div>
+      {section.kind === 'experiences' && <p class="experience-empty" role="status" aria-live="polite" hidden data-editorial-empty>Chưa có trải nghiệm trong danh mục này.</p>}
+      {section.kind === 'experiences' && <div class="lower-carousel-controls" hidden data-editorial-controls>
+        <p role="status" aria-live="polite" data-editorial-status>1–3 / 5 trải nghiệm</p>
+        <div><button type="button" data-editorial-prev aria-label="Nhóm trải nghiệm trước" aria-controls="experience-collection" disabled><span class="lower-prev"><Icon name="arrow" size={20} /></span></button><button type="button" data-editorial-next aria-label="Nhóm trải nghiệm tiếp theo" aria-controls="experience-collection"><Icon name="arrow" size={20} /></button></div>
+      </div>}
+    </div>
+  </section>)}
+  <section id="events" class="lower-magazine" aria-labelledby="magazine-heading">
+    <img class="magazine-photo" src="/images/Pho%20Ha%20Noi.jpg" alt="Bát phở Hà Nội — ảnh tạm cho bố cục E-magazine" width="1800" height="1172" loading="lazy" decoding="async" />
+    <div class="magazine-inner lower-shell">
+      <div class="magazine-panel"><p class="lower-kicker">E-MAGAZINE</p><h2 id="magazine-heading">Những nhà hàng lâu năm của Hà Nội</h2><p>Qua nhiều thế hệ, những công thức gia đình vẫn được nâng niu. Cùng chờ những câu chuyện về con người, nếp bếp và hương vị đã trở thành một phần ký ức Hà Nội.</p><span class="magazine-cta">Đọc E-magazine <span aria-hidden="true">↗</span></span><p class="magazine-pending">Sắp ra mắt · Bài viết và ảnh chính thức đang được chuẩn bị</p></div>
+    </div>
+    <span class="magazine-photo-note">Ảnh bố cục tạm thời · Chờ bộ ảnh chính thức</span>
+  </section>
+</div>
+<script>import '../scripts/lower-homepage';</script>
+<style>
+  .lower-homepage { background: #fff; color: var(--deep-ink); font-family: var(--editorial-body); overflow: clip; }
+  .lower-shell { width: calc(100% - 2 * var(--editorial-gutter)); max-width: var(--editorial-width); margin-inline: auto; }
+  .lower-section { padding-block: clamp(56px, 6vw, 88px); scroll-margin-top: 24px; }
+  #unmissable-experiences { scroll-margin-top: calc(var(--header-height) + 24px); }
+  .section-food, .section-tips { background: #faf9f5; }
+  .lower-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
+  .lower-kicker { margin-bottom: 14px; color: var(--vermilion); font-size: 10px; line-height: 1.6; letter-spacing: .14em; font-weight: 600; }
+  .lower-homepage h2 { font: 400 clamp(28px, 3vw, 40px)/1.25 var(--editorial-display); letter-spacing: -.025em; max-width: 26ch; }
+  .lower-intro { margin-top: 14px; color: #62675f; font-size: 14px; line-height: 1.8; }
+  .lower-text-link { display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0; min-height: 44px; font-size: 12px; text-decoration: underline; text-underline-offset: 6px; }
+  .experience-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .experience-filters button { min-height: 44px; padding: 10px 20px; border-radius: 30px; background: #fff; border: 1px solid #e7e4dd; box-shadow: 0 3px 10px #28251b09; color: #5d6259; font-size: 12px; transition: box-shadow .2s, border-color .2s; }
+  .experience-filters button[aria-pressed=true] { background: #fcf2ef; color: var(--vermilion); border-color: #c3776f; }
+  .experience-empty { padding-block: 24px; color: #62675f; font-size: 14px; line-height: 1.8; }
+  .experience-filters button:hover { border-color: #bd877e; box-shadow: 0 4px 12px #28251b12; }
+  .editorial-composition { display: grid; gap: 24px; align-items: stretch; }
+  .lower-card { display: flex; flex-direction: column; position: relative; min-width: 0; overflow: hidden; background: #fff; border: 1px solid #eceae3; border-radius: 12px; box-shadow: 0 5px 20px #29251908; transition: transform .2s, box-shadow .2s; }
+  .lower-card:has(a):hover { transform: translateY(-3px); box-shadow: 0 9px 24px #29251910; }
+  .lower-image-slot { position: relative; min-height: 156px; background: #eaece4; overflow: hidden; }
+  .lower-card:nth-child(3n+2) .lower-image-slot { background: #f1e9de; }
+  .lower-card:nth-child(3n) .lower-image-slot { background: #e5eceb; }
+  .slot-number { position: absolute; top: 20px; left: 22px; color: #74796f; font-size: 11px; letter-spacing: .12em; }
+  .slot-caption { position: absolute; left: 22px; right: 22px; bottom: 22px; color: #596253; font: 400 clamp(18px, 1.6vw, 24px)/1.4 var(--editorial-display); }
+  .slot-caption span { display: inline-block; margin-top: 7px; font: 400 10px/1.6 var(--editorial-body); color: #646b60; }
+  .lower-card-copy { padding: 22px 24px 24px; }
+  .lower-card-category { margin-bottom: 9px; color: var(--vermilion); font-size: 10px; letter-spacing: .06em; }
+  .lower-card h3 { font: 400 clamp(19px, 1.9vw, 26px)/1.35 var(--editorial-display); letter-spacing: -.02em; }
+  .lower-card h3 a::after { content: ''; position: absolute; inset: 0; }
+  .lower-card h3 a:focus-visible { outline: none; }
+  .lower-card:focus-within { outline: 2px solid var(--vermilion); outline-offset: 3px; }
+  .lower-card-copy > p:last-of-type { margin-top: 10px; color: #62675f; font-size: 13px; line-height: 1.8; }
+  .content-pending { display: block; margin-top: 14px; font-size: 10px; color: #73766e; line-height: 1.6; }
+  .lower-carousel-controls { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 24px; }
+  .lower-carousel-controls p { font-size: 11px; color: #666b61; }
+  .lower-carousel-controls > div { display: flex; gap: 10px; }
+  .lower-carousel-controls button { width: 44px; height: 44px; border: 1px solid #dedfd6; border-radius: 50%; background: #fff; color: var(--deep-ink); display: grid; place-items: center; }
+  .lower-carousel-controls button:disabled { opacity: .35; cursor: default; }
+  .lower-prev { display: flex; transform: rotate(180deg); }
+  .lower-homepage :focus-visible { outline: 2px solid var(--vermilion); outline-offset: 4px; }
+  .lower-magazine { position: relative; min-height: 600px; display: flex; align-items: center; background: #eee8db; }
+  .magazine-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; }
+  .magazine-inner { position: relative; padding-block: 64px; }
+  .magazine-panel { width: min(520px, 50%); padding: clamp(28px, 4vw, 56px); border-radius: 12px; background: #fffaf2f5; box-shadow: 0 8px 32px #4b352012; }
+  .magazine-panel > p:not(.lower-kicker) { margin-top: 20px; font-size: 13px; line-height: 1.9; color: #626359; }
+  .magazine-cta { display: inline-flex; align-items: center; gap: 22px; margin-top: 28px; padding-bottom: 8px; border-bottom: 1px solid #b36a61; font-size: 13px; }
+  .magazine-panel .magazine-pending { font-size: 10px !important; }
+  .magazine-photo-note { position: absolute; right: 20px; bottom: 16px; background: #fffaf2ed; padding: 6px 10px; border-radius: 4px; color: #636359; font-size: 9px; }
+  @media (min-width: 761px) {
+    .composition-experiences { grid-template-columns: 55fr 45fr; }
+    .composition-experiences [data-window-hidden] { display: none; }
+    .composition-experiences .lower-card[data-rank='0'] { grid-column: 1; grid-row: 1 / span 2; }
+    .composition-experiences .lower-card[data-rank='0'] .lower-image-slot { flex: 1; min-height: 340px; }
+    .composition-experiences .lower-card:not([data-rank='0']) { display: grid; grid-template-columns: 45fr 55fr; }
+    .composition-experiences .lower-card:not([data-rank='0']) .lower-image-slot { height: 100%; min-height: 220px; }
+    .composition-experiences .lower-card[data-window-hidden] { display: none; }
+    .composition-food { grid-template-columns: 43fr 57fr; }
+    .composition-food .lower-card:first-child { grid-column: 2; grid-row: 1 / span 2; }
+    .composition-food .lower-card:first-child .lower-image-slot { flex: 1; min-height: 330px; }
+    .composition-food .lower-card:not(:first-child) { display: grid; grid-template-columns: 43fr 57fr; }
+    .composition-food .lower-card:not(:first-child) .lower-image-slot { height: 100%; min-height: 210px; }
+    .composition-attractions { grid-template-columns: 45fr 55fr; }
+    .composition-attractions .lower-card:first-child { grid-row: 1 / span 2; }
+    .composition-attractions .lower-card:first-child .lower-image-slot { flex: 1; min-height: 400px; }
+    .composition-attractions .lower-card:not(:first-child) .lower-image-slot { height: 180px; }
+    .composition-tips { grid-template-columns: 1.35fr 1fr 1fr; align-items: start; }
+    .composition-tips .lower-card:first-child .lower-image-slot { height: 330px; }
+    .composition-tips .lower-card:nth-child(2) { margin-top: 50px; }
+    .composition-tips .lower-card:nth-child(2) .lower-image-slot { height: 220px; }
+    .composition-tips .lower-card:nth-child(3) { margin-top: 100px; }
+    .composition-tips .lower-card:nth-child(3) .lower-image-slot { height: 200px; }
+  }
+  @media (min-width: 761px) and (max-width: 1050px) {
+    .composition-experiences .lower-card:not([data-rank='0']), .composition-food .lower-card:not(:first-child) { display: block; }
+    .composition-experiences .lower-card:not([data-rank='0']) .lower-image-slot, .composition-food .lower-card:not(:first-child) .lower-image-slot { height: 160px; min-height: 160px; }
+    .composition-experiences .lower-card[data-window-hidden] { display: none; }
+    .composition-tips { gap: 16px; }
+    .lower-card-copy { padding: 18px; }
+    .magazine-panel { width: 60%; }
+  }
+  @media (max-width: 760px) {
+    .lower-section-heading { display: block; }
+    .lower-text-link { margin-top: 14px; }
+    .editorial-composition { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .lower-image-slot { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
+    .lower-card:first-child .lower-image-slot { aspect-ratio: 1 / 1; }
+    .lower-carousel-controls { display: none; }
+    .lower-magazine { display: block; min-height: 0; padding-top: 220px; }
+    .magazine-photo { height: 300px; }
+    .magazine-inner { padding-block: 0 56px; }
+    .magazine-panel { width: 100%; padding: 28px; }
+    .magazine-photo-note { bottom: 12px; left: var(--editorial-gutter); right: auto; max-width: calc(100% - 2 * var(--editorial-gutter)); }
+  }
+  @media (prefers-reduced-motion: reduce) { .lower-card, .experience-filters button { transition: none; } .lower-card:has(a):hover { transform: none; } }
+</style>

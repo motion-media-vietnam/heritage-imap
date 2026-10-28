@@ -1,0 +1,18 @@
+{
+  "leafletVersion": "1.9.4",
+  "browserVerified": false,
+  "errors": [
+    "TypeError: Cannot read properties of undefined (reading 'layerPointToLatLng')\n    at NewClass.getBounds (evalmachine.<anonymous>:8402:16)\n    at focusDiscovery (evalmachine.<anonymous>:10:48)\n    at connect (evalmachine.<anonymous>:32:21)\n    at async file:///Projects/mm-guide/output/sprint-04a/repair/probe-initialization.mjs:60:1"
+  ],
+  "tileLayerAdds": 0,
+  "markerCandidates": [],
+  "fitCalls": 0,
+  "viewCalls": 0,
+  "container": {
+    "x": 960,
+    "y": 640
+  },
+  "status": "Không tải được bản đồ. Chọn địa điểm trong danh sách để tiếp tục.",
+  "retryOffered": true,
+  "initializationCompleted": false
+}

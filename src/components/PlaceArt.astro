@@ -1,0 +1,56 @@
+---
+import type { Place } from '../data/places';
+interface Props { place: Place; large?: boolean }
+const { place, large = false } = Astro.props;
+---
+<div class:list={['place-art', `art-${place.art}`, { 'art-large': large }]}>
+  <svg class="hanoi-art" viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice" role="img" aria-label={`Hình minh họa ${place.name}, không phải ảnh chụp thực tế`}>
+    <rect width="480" height="320" fill="#e8ebda" />
+    <circle cx="370" cy="68" r="32" fill="#e5c58b" />
+    <path d="M0 181Q100 140 210 174T480 155V320H0Z" fill="#a8bc9d" />
+    {place.art === 'lake' && <>
+      <path d="M0 210Q100 170 240 202T480 192V320H0Z" fill="#8eb9b4" />
+      <g stroke="#c5dcd1" stroke-width="3" fill="none"><path d="M20 245H140M295 240H440M100 285H250M320 278H470" /></g>
+      {place.slug === 'ho-hoan-kiem' ? <g fill="#ded6b9" stroke="#75856d" stroke-width="2">
+        <path d="M201 230H285L276 200H210Z" fill="#bcc5a2" />
+        <path d="M217 198V173H269V198ZM225 171V149H260V171ZM234 148V134H251V148Z" />
+        <path d="M209 173H277L269 164H217ZM217 149H268L259 140H226ZM228 134H257L243 123Z" fill="#6b7f6b" />
+        <path d="M236 198V182Q243 171 250 182V198" fill="#8ba49a" />
+      </g> : <g fill="#d4b597" stroke="#7c8167" stroke-width="2">
+        <path d="M165 224H285L273 210H178Z" fill="#a8b48e" />
+        <path d="M211 210V185H246V210ZM216 184V159H241V184ZM220 158V134H237V158ZM224 133V113H233V133Z" />
+        <path d="M200 185H257L246 177H212ZM206 159H250L241 151H215ZM211 134H246L236 126H221ZM218 113H239L229 100Z" fill="#916c55" />
+      </g>}
+    </>}
+    {place.art === 'town' && <>
+      <path d="M150 320 222 175H274L370 320Z" fill="#d3c7ac" />
+      <g stroke="#7c8068" stroke-width="2">
+        <path d="M0 130H98V304H0Z" fill="#d8bc85" /><path d="M104 156H180V277H104Z" fill="#d4b29a" /><path d="M299 142H376V285H299Z" fill="#e5d3ab" /><path d="M383 110H480V312H383Z" fill="#c6b395" />
+        <path d="M0 130 45 105 98 130M104 156 142 135 180 156M299 142 337 121 376 142M383 110 431 83 480 110" fill="#8e7763" />
+      </g>
+      <g fill="#607e70"><path d="M19 156H40V193H19ZM57 156H78V193H57ZM123 178H144V209H123ZM319 166H341V204H319ZM401 139H425V179H401ZM440 139H464V179H440Z" /><path d="M30 238H71V304H30ZM124 233H160V282H124ZM318 237H355V289H318ZM410 242H453V312H410Z" /></g>
+      <path d="M0 221H98M383 211H480" stroke="#f3ebd3" stroke-width="8" />
+    </>}
+    {(place.art === 'temple' || place.art === 'citadel') && <>
+      <path d="M100 320 194 233H285L390 320Z" fill="#d8cbb0" />
+      <path d="M110 241H370V185H110Z" fill="#d6bb91" />
+      <path d="M164 240V151H316V240Z" fill={place.art === 'temple' ? '#b67e63' : '#c8ad7e'} />
+      <path d="M146 155Q189 143 199 125H281Q297 144 334 155Z" fill="#667a65" />
+      <path d="M184 124V108H296V124Z" fill="#d6bb91" />
+      <path d="M167 108Q199 100 210 82H270Q281 100 313 108Z" fill="#6a7d68" />
+      {place.art === 'temple' ? <circle cx="240" cy="183" r="16" fill="#ece4c9" /> : <path d="M223 128H257V151H223Z" fill="#f1e4c6" />}
+      <path d="M220 241V218Q240 190 260 218V241Z" fill="#697e6e" />
+      <path d="M128 206H148V241H128ZM333 206H353V241H333Z" fill="#7e8b71" />
+    </>}
+    {place.art === 'bridge' && <>
+      <path d="M0 221Q120 198 240 223T480 212V320H0Z" fill="#a9b7a3" />
+      <path d="M75 205V270H98V205M279 205V277H302V205" fill="#aea387" />
+      <g fill="none" stroke="#7f6d58" stroke-width="5" stroke-linejoin="round">
+        <path d="M-30 205H510M-30 185H510M-20 185 84 100 188 185 292 100 396 185 500 100" />
+        <path d="M84 100V205M188 185V205M292 100V205M396 185V205M0 167V205M45 132V205M125 134V205M249 135V205M335 135V205M453 139V205" />
+      </g>
+      <path d="M0 292H104M185 261H255M320 300H465" stroke="#d5dcc7" stroke-width="3" />
+    </>}
+    <g fill="#698567"><path d="M0 320V229Q30 203 62 231L90 320Z" /><path d="M390 320 421 230Q452 200 480 224V320Z" /></g>
+  </svg>
+</div>

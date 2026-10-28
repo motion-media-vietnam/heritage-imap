@@ -1,0 +1,7 @@
+Stopping own TypeScript workers: 63585 63598 63597 63615
+Usage after cleanup: 2018193408
+Before QA, stopping own TS workers: 64139 64151 64150 64183
+Before QA usage: 1971916800
+Full check headroom: 658690048 bytes; heap cap 384MB
+Final QA: stopping own TS workers: 64736 64748 64747 64761
+Final QA check headroom: 807464960

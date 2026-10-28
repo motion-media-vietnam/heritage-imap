@@ -1,0 +1,646 @@
+diff --git a/docs/billing.md b/docs/billing.md
+index e50e77d..a4eb3ec 100644
+--- a/docs/billing.md
++++ b/docs/billing.md
+@@ -1,9 +1,75 @@
+ # Ha Noi guide billing and service options
+ 
+-Prepared for management decisions. Content scope updated October 15, 2026. Paid-plan prices below retain their October 14, 2026 verification date; they were not rechecked for this no-new-service content change and are not a new supplier quote. Reverify before any paid commitment or release. All amounts are USD per month unless stated otherwise, before applicable taxes and currency conversion.
++Prepared for management decisions. Content scope updated October 19, 2026. Paid-plan prices below retain their October 14, 2026 verification date; they were not rechecked for the video editorial update and are not a new supplier quote. Reverify before any paid commitment or release. All amounts are USD per month unless stated otherwise, before applicable taxes and currency conversion.
+ 
+ **PDF status:** `output/pdf/ha-long-billing-brief.pdf` is the previous Ha Long brief, not this revision. Regeneration and visual inspection are pending because this instance prohibits running code and document generators. The filename is retained for compatibility; use this Markdown as the canonical record until the PDF is regenerated.
+ 
++## Sprint 02B: isolated iMap visual-approval prototype
++
++October 17, 2026: `/imap-prototype/` adds a separate desktop directory/map/story-panel layout and a mobile map-first layout with a draggable, keyboard-expandable bottom sheet. It reuses Leaflet, public OSM tiles and the explicit `strict-origin-when-cross-origin` tile fix. The homepage, production iMap and approved Heritage section are not changed by this sprint. Marker/directory selection shares one state; closing details retains selection and camera. Nearby buttons use existing approximate coordinates and straight-line distances. Directions open OSM externally, not an in-app routing API.
++
++**Recommendation and decision:** approve the visual prototype before production integration. Incremental configured recurring vendor subtotal is **USD $0/month before applicable tax**, assuming the existing static hosting setup. No subscriptions, API keys, database, compute service, storage product, payments or transaction charges are added. All six destination-video areas are explicitly illustrative placeholders without a verified duration: no dedicated, rights-cleared videos have been verified, and there are **zero video-player/API requests** on this route. No unrelated city overview is reused. Video commissioning/licensing and monthly editorial maintenance are unquoted labor/content costs, not included in the vendor subtotal. Future real video delivery needs a revised estimate.
++
++The [primary OSM tile policy](https://operations.osmfoundation.org/policies/tiles/) was reviewed October 17, 2026: normal interactive browsing requires attribution, browser caching and referrer identification; no numeric guaranteed allowance, uptime commitment or automatic paid overage is supplied. Commercial access can be withdrawn or blocked without notice. The prototype retains attribution, normal caching and the explicit tile referrer policy, without prefetch or offline download. The following **unmeasured route-only scenarios** use the earlier conservative tile assumptions; wider/narrower viewports, panning and zoom can change actual demand. A map opening means one initialization; each tile request downloads a small part of the map.
++
++| Scenario | Prototype openings/month | Calculation | Tile requests/month | Configured map vendor fee/month |
++| --- | ---: | --- | ---: | ---: |
++| Low | 1,000 | 1,000 × 24 | 24,000 | $0 |
++| Expected | 10,000 | 10,000 × 24 | 240,000 | $0 |
++| Heavy | 100,000 | 100,000 × 60 | 6,000,000 | $0, access may be blocked |
++
++These are not quotas or guaranteed bills; heavy public-OSM traffic is not recommended. If prototype and production are both visited, their demand is additive. The host serves static HTML/CSS/JS; OSM serves tile bytes. Hosting storage/bandwidth and host overage/suspension behavior remain unknown until a host is selected. Domains, taxes, currency conversion, implementation and ongoing maintenance are excluded/unquoted; $0 is not a full operating budget. No new provider rate is asserted. Monitor tile failures and transfer in a pilot; the directory/story content remains usable without tiles, though this isolated route does not include the production illustrated-map fallback. Configure supported provider controls before paid deployment; alerts are not hard spending caps.
++
++A simpler option is the existing homepage iMap or a static directory (less implementation/transfer, but not the requested three-pane interaction, which is still awaiting visual approval). A paid tile supplier remains a proposed reliability alternative requiring refreshed price, eligibility, Vietnam coverage and quota/overage verification; none is committed by this sprint. No new paid decision is required for visual review.
++
++**Verified content:** [Văn Miếu's official visitor page](https://vanmieu.gov.vn/en) was checked October 17, 2026 for daytime hours (08:00–17:00 daily). Evening visits have separate arrangements; prices are deliberately not copied into the prototype. Other practical hours/prices/entrances remain labeled unverified. Existing coordinates are explicitly approximate. No new coordinate or video link was invented. Source changes and real-world access must be rechecked before release.
++
++**Validation:** owner-authorized build, Astro check and regression tests are run for this sprint; results are recorded in `output/sprint-02b/README.md`. Browser/touch/video-playback verification has not been performed. PDF regeneration and visual inspection remain deferred under the instance document-generation policy (the owner authorized builds/tests, not document generation); the PDF status above still applies. Stop at visual approval: no homepage integration or deployment commitment.
++
++## Sprint 02B UX correction — isolated route, awaiting another visual review
++
++October 19, 2026: only `/imap-prototype/` has been corrected. Mobile uses the map as the main viewport below compact search/category/district controls, with an overlaid discovery/story sheet snapping to collapsed, half and expanded states. Desktop uses a 22% directory / 45% map / 33% story layout while selected, expanding the map to 78% when the story is closed. District options include only populated areas by default; original place/district records are unchanged. Placeholders explicitly say that dedicated destination videos are unavailable; no shared overview, player, play symbol or unverified duration is presented. No homepage integration or visual approval is implied.
++
++The prototype-only typography now requests the existing project's Lora and Be Vietnam Pro families via Google Fonts; system fallbacks remain. Their primary [Lora OFL](https://raw.githubusercontent.com/google/fonts/main/ofl/lora/OFL.txt) and [Be Vietnam Pro OFL](https://raw.githubusercontent.com/google/fonts/main/ofl/bevietnampro/OFL.txt) were checked October 19, 2026 and permit embedding/use under the license conditions, with no recurring font-license fee. This is not a geographic delivery/SLA guarantee. Fonts are not self-hosted; file requests and bytes depend on browser, language and caching. If unavailable, fallbacks remain readable. Existing homepage font loading is unchanged.
++
++**Incremental configured recurring subscription/API subtotal: USD $0/month before applicable taxes**, assuming the same static hosting and standard interactive OSM delivery. No dependency, database, backend, paid image/video service, video delivery, storage product, payment or transaction fee is added. Existing low/expected/heavy tile forecasts above remain provisional: 1,000 × 24 = 24,000; 10,000 × 24 = 240,000; 100,000 × 60 = 6,000,000 requests/month, with configured vendor fees of $0 in each case, not guaranteed service volumes. Map-first sizing and responsive resizing can change actual demand. Additional font transfer is visits × B ÷ 1,000,000,000 decimal GB, where B is font bytes delivered per uncached visit and is not yet measured. These demand assumptions are not hosting bills or provider allowances. Hosting/transfer/storage, domains, taxes, currency conversion, engineering, curation and maintenance remain excluded/unquoted; video production/rights clearance remains future unquoted work. The 02A referrer fix, attribution and caching are unchanged, with no proxy, spoofing, prefetch or automated retry.
++
++The simpler alternative is retaining the prior prototype, with less correction effort but the reported mobile hierarchy and desktop imbalance. No paid decision is required for another visual review. Monitor actual tile/font failures and host transfer; OSM blocking/removal and host-specific overage/suspension remain possible rather than a guaranteed free allowance. Alerts are not hard spending caps. Confirm a suitable provider/traffic estimate before release or paid commitment. The canonical estimate is updated; the existing PDF remains stale, and generation/visual inspection remain deferred under the instance policy.
++
++Build and regression results and remaining browser/touch/crop/attribution checks are recorded in `output/sprint-02b/ux-correction/README.md`. Homepage, Heritage, production map, destination data and existing production regression files are checksum-protected and unchanged. This prototype remains **not visually approved**; stop for owner review, without homepage integration.
++
++## Sprint 02B map restoration — stale local Leaflet module
++
++October 19, 2026: investigation reproduced a local preview failure before any map/tile initialization: the served Leaflet browser dependency returned HTTP 504 `Outdated Optimize Dep`. Both prototype and homepage referenced the stale optimized URL. Stopping the dev server, running the requested production build and restarting the preview regenerated a valid dependency URL returning HTTP 200. No application, layout, data, video placeholder, provider or security-policy code was changed. A new regression verifies the actual served Leaflet module rather than accepting only a successful HTML shell; it failed before the restart and passes afterward. Final build: 8 pages; tests: 23 passed, none skipped. Application and protected Heritage/homepage checksums match. Geographic tiles and interactions still require user desktop/mobile browser verification; no visual resolution is claimed from the build/module checks alone.
++
++Incremental configured vendor fees remain **USD $0/month before tax**, assuming unchanged traffic/hosting. The added test fetches only local HTML/JavaScript and makes zero OSM/video requests. Low/expected/heavy operating assumptions and transfer estimates above remain unchanged; no new subscriptions, APIs, compute, storage service or transaction charges are introduced. Repair/maintenance labor, public hosting/storage/bandwidth, domains, taxes and currency conversion remain excluded/unquoted. Restarting the stale local preview is simpler than changing a working map/provider/configuration and addresses the demonstrated failure without purchasing services. No new price claim or paid decision is involved. Existing provider limits/fallbacks/usage monitoring remain relevant; alerts are not hard caps. This unchanged estimate does not update the stale PDF; generation/visual inspection remain pending under instance policy. Evidence and the safe stop/build/start workflow are in `output/sprint-02b/map-investigation/README.md`.
++
++## Sprint 02B clarification — original inflight landscape video
++
++October 19, 2026: `/imap-prototype/` now places each destination title above a fixed 16:9 video/placeholder frame on desktop and mobile. Original horizontal files are displayed with `object-fit: contain`, not cropped or stretched. A native controls/inline/fullscreen-ready file player is conditionally rendered only when an approved destination source is supplied; no source is currently configured. Mobile selection measures title/frame space and chooses the larger existing sheet state when half-height is insufficient, without shrinking the video or changing the map camera. Practical information remains scrollable below. Autoplay is absent, and native fullscreen Escape is not intercepted to close the sheet. Original assets, homepage, Heritage and OSM setup are unchanged. The user's Vietnam Airlines inflight-production context is recorded; no new asset rights or unverified source URLs are inferred from it.
++
++**Recommendation / decision:** retain honest placeholders until original approved destination files are supplied, then verify codec/browser/fullscreen support and refresh delivery costs before enabling them. Incremental configured subscription/API/video-delivery fees are **USD $0/month before tax** under the current empty source list and unchanged hosting/traffic. Low/expected/heavy scenarios of 1,000/10,000/100,000 route visits each create zero actual video loads and add $0 in configured video-service fees. No new assets, derivatives, paid API, player library, subscription, compute, database, storage service or transaction fee is added. Existing map/font demand estimates and limit/fallback guidance remain applicable. This is not a full operating budget: hosting/transfer/storage, domains, taxes, currency conversion, implementation/maintenance and video delivery/licensing work remain excluded/unquoted. When real HD sources are supplied, file size, bitrate, completed viewing time, hosting eligibility and bandwidth limits/overages must be measured/quoted; do not treat the current $0 as a free HD-delivery allowance.
++
++The simpler alternative is retaining the existing placeholder-only treatment without player readiness, but it would not establish the requested original-format display contract. No paid service is selected. Monitor existing map/font usage and future video failures/transfer; budget alerts are not hard caps. Third-party provider-specific embedding is not added without verified sources; current conditional playback uses original directly playable files and the browser's native controls. Landscape fullscreen/orientation behavior is browser-dependent, not a guaranteed forced rotation. No browser playback/fullscreen verification or PDF regeneration has been performed; native playback is pending original files and browser review. Test/build results and the remaining review steps are recorded in `output/sprint-02b/landscape-video/README.md`; the existing PDF remains stale.
++
++## Sprint 02B final micro-polish — presentation mode
++
++October 19, 2026: the owner approved the desktop layout and mobile map-first architecture. Those are preserved. Only the isolated route's mobile duplicate sticky title is visually hidden (the accessible label remains), its close control is moved into the sheet-handle area, and the existing large serif title/16:9 frame remain. The collapsed-state control is labeled “Bản đồ”; selection/camera handling is unchanged. Attribution moves with the existing sheet-height transition, with direct tracking during drag and reduced-motion support. `?presentation=1` hides three explicitly marked development labels/notices plus the local Astro dev toolbar, and removes the prototype browser-title suffix; factual placeholder/verification/coordinate notices and legally required OSM attribution remain. No homepage integration, video source, destination-data or map-config change is made.
++
++Incremental configured recurring vendor fees are **USD $0/month before tax**, assuming unchanged traffic, hosting and the same map/font/media delivery. Low/expected/heavy scenarios of 1,000/10,000/100,000 route visits each add zero paid requests/services × $0 = $0/month. No subscription, API, dependency, asset, compute, database, storage service or transaction fee is added. Presentation mode is local HTML/CSS/JavaScript, not another service; existing bandwidth/limit/fallback assumptions remain, including zero configured destination-video delivery. Implementation/maintenance labor, hosting/transfer/storage, domains, taxes and currency conversion remain excluded/unquoted: this is not a full business operating bill. Retaining development chrome is simpler but does not meet the presentation request; no paid decision is required. Existing monitoring remains appropriate; alerts are not hard caps. No new supplier-price claim is asserted, and the unchanged estimate does not make the stale PDF current.
++
++Build/test results and remaining browser-motion checks are recorded in `output/sprint-02b/micro-polish/README.md`. The application's selection/camera script, existing 16:9/player logic, homepage and frozen Heritage dependencies are checksum-verified unchanged. No browser visual/gesture/fullscreen QA or PDF generation is claimed by this note.
++
++## Sprint 02B approval freeze and proposed homepage integration
++
++October 19, 2026: the owner approved and locked the current desktop/mobile prototype design and UX. `docs/imap-sprint-02b-freeze.md` documents the exact visual/state/video contract, recoverable checkpoint, pending acceptance checks and a short integration plan. No prototype or homepage implementation was changed to record approval; Heritage remains frozen. Browser touch gestures and real-video playback/fullscreen remain **pending acceptance**, not completed tests. The last preceding build passed 8 pages and 27 regressions; no new code/test execution is required for this documentation-only record.
++
++The freeze/checkpoint adds **USD $0/month in configured recurring vendor fees before applicable taxes**, assuming unchanged hosting/traffic; recovery artifacts are local, not published runtime assets. Homepage integration is **proposed only**, with a conditional incremental subscription/API subtotal of **USD $0/month before tax** if it reuses existing Leaflet/OSM/fonts, replaces rather than duplicates the current map, and adds no real media/backend. Low/expected/heavy demand assumptions remain 1,000 × 24 = 24,000; 10,000 × 24 = 240,000; 100,000 × 60 = 6,000,000 tile requests/month. Those are unmeasured forecasts, not OSM allowances, guaranteed availability or full business bills. Recalculate viewport/interaction-driven requests and hosting transfer after integration; do not add both maps or silently discard existing location/radius/filter behavior.
++
++Dependencies and labor: scoped extraction, legacy controller/state reconciliation, homepage header/viewport adaptation, unchanged Heritage rendering, original-video sourcing and browser acceptance all require implementation/maintenance effort, unquoted here. Domains, public hosting/storage/bandwidth, taxes, currency conversion and future HD video delivery/licensing remain excluded/unquoted. No new provider price, commercial SLA, geographic guarantee or paid service is asserted. Reverify current primary-provider terms/eligibility/limits and paid rates if any paid alternative, production release or original-video delivery is later selected. Service interruption/blocking remains possible; retain honest failure states, monitor usage/errors and supported host budget controls. Alerts are not hard caps.
++
++Keeping the approved isolated route and current homepage is the simpler, no-integration alternative. Replacing only the homepage map avoids duplicate provider loads but requires regression/visual acceptance; a paid provider or video service is neither selected nor authorized by this plan. The decision now is to preserve the checkpoint and later authorize integration separately, not to purchase services. Existing stale-PDF status remains: this approval note does not regenerate or visually verify that deliverable.
++
+ ## Delivered change: Ha Noi and Vietnamese interface
+ 
+ October 15, 2026: the application source now uses six selected Ha Noi destinations (Ho Hoan Kiem, Old Quarter, Temple of Literature, Imperial Citadel of Thang Long, West Lake, and Long Bien Bridge), a Hoan Kiem sample starting point, Vietnamese interface text, and bundled SVG illustrations instead of the bay photograph. Runtime and visual validation are pending. This is a static-content replacement, not a new maps integration or deployment.
+@@ -80,6 +146,186 @@ A download means one complete JPEG transfer. With one uncached download per page
+ 
+ These are gross JPEG estimates, not measured traffic, incremental transfer versus the old SVG, or a free hosting allowance. Caching can reduce traffic; other assets, headers, fonts and map tiles are excluded. Public hosting/storage/transfer costs and their quota/overage behavior remain unknown until a host is selected; no old provider rate is newly verified here. Monitor bytes served, image-load failures and host usage before launch; configure supported budget alerts (not hard caps). The retained SVG is a manual rollback option. Returning to it is cheaper in transfer but does not meet the photographic brief; creating compressed responsive variants is a proposed optimization, not implemented. Domain, taxes, currency conversion, photo licensing, one-time design work and maintenance remain excluded/unquoted. Existing font and map integrations are unchanged.
+ 
++## Delivered follow-up: Heritage Guide Choice monthly spotlight
++
++The section immediately below the hero now presents **Heritage Guide Choice**, featuring Hoàng thành Thăng Long as the manually curated destination of the month, a bundled illustration, and a link to its existing detail page. All previous welcome-section text and links were replaced. The banner stacks on smaller screens. This is static editorial content, not an automated monthly rotation, paid award, CMS, or third-party recommendation service.
++
++**Recommendation and decision:** retain the existing local illustration and destination page. Incremental recurring vendor subtotal is **USD $0/month before applicable tax**, assuming unchanged traffic and hosting. For low/expected/heavy scenarios of 1,000/10,000/100,000 page loads per month, added paid API calls are zero and added service fees are 0 × $0 = **$0/month** in each case. The inline illustration increases page HTML bytes but adds no separate image request, external license purchase, subscription, compute, database, storage service, map instance, or transaction fee. Actual hosting transfer depends on compression and caching and remains unmeasured; existing map/font dependencies and usage assumptions are unchanged.
++
++Keeping the old text-only welcome is the simpler, slightly smaller alternative, but does not meet the spotlight request. A CMS or automated rotation is not implemented or costed. Manual monthly selection and design maintenance require unquoted staff time. Domain, deployment storage/bandwidth, tax and currency conversion remain excluded; this subtotal is not the full operating budget. No new paid provider or pricing claim is introduced, so no new provider rate is asserted. Existing host limits and fallback conditions still apply; monitor delivered page bytes and hosting usage before release. Budget alerts are not hard spending caps.
++
++Source review only: application checks, browser/layout verification, and billing PDF regeneration remain pending under the instance policy against executing validation code and document generators. The PDF status at the top remains applicable.
++
++## Delivered follow-up: transparent hero header and scroll transition
++
++The homepage hero now extends behind the entire header. Navigation text and controls are white over the image; after scrolling more than 24 pixels, the sticky header transitions to a white background with dark text. Returning to the top restores the overlay. The mobile dropdown stays dark-on-white for readability, reduced-motion preferences disable the transition, and destination pages retain their solid header. This uses existing assets, CSS and a local browser scroll listener, not a new service or dependency.
++
++**Billing impact and recommendation:** retain the current static setup. Incremental recurring vendor subtotal is **USD $0/month before applicable tax**, assuming unchanged traffic, hosting and image delivery. Low/expected/heavy scenarios of 1,000/10,000/100,000 monthly page loads each add zero paid requests × $0 = **$0/month**. The same JPEG is reused without a second download; its earlier image-transfer forecast remains applicable. Only small HTML/CSS/JavaScript changes are delivered. No subscription, API, compute, database, image service or transaction fee was added. Actual hosting storage/transfer remains unquoted and should be monitored before release; map/font usage and existing limit/fallback conditions are unchanged. Alerts are not hard spending caps.
++
++Keeping the solid header is simpler but does not meet the requested visual behavior; no paid alternative is needed. No purchase decision or new provider-price claim is involved. Implementation and maintenance labor, hosting, domains, taxes and currency conversion remain excluded/unquoted, so this is not a full business operating budget. Source review only: runtime/browser checks and PDF regeneration/visual inspection remain pending under the instance execution policy; the PDF status above still applies.
++
++## Delivered follow-up: Heritage Guide's Choice video editorial
++
++October 16, 2026: the former illustrated spotlight is replaced by **Heritage Guide's Choice**, with two equal desktop columns. The left contains the current editorial pick, one lazy-loaded YouTube privacy-enhanced embed, a title, description, source credit and fallback viewing link. The right contains two sample previous-month entries, each with a YouTube thumbnail, title, summary and read-more link. Columns stack on narrow screens. The current example is Vietnam Tourism's My Ha Noi video; the archive examples are Huế and Văn Miếu. The archive is visibly labeled illustrative: these are not verified historical monthly selections. Content is manually maintained in `src/data/heritage.ts`; no automatic rotation, CMS, uploads or video hosting is implemented. This supersedes the earlier illustration-only spotlight scope.
++
++**Recommendation and decision:** use the standard third-party player for the prototype, subject to editorial approval of the example videos and commercial/privacy review before release. Expected incremental recurring video-service subtotal: **USD $0/month before applicable tax**, with no paid account, Data API requests, API key, subscription or video transfer purchased by this implementation. This is a configuration-based estimate, not a verified metered unit-price offer or guaranteed free hosting allowance. The primary [YouTube embedding guide](https://support.google.com/youtube/answer/171780?hl=en) and [terms](https://www.youtube.com/static?template=terms) were reviewed October 16, 2026: they permit the supplied embeddable player, explain privacy-enhanced mode and allow owner-disabled embeds. The reviewed documents do not quote an embed-view price, paid overage schedule or numeric embed-view allowance. Do not interpret that as unlimited guaranteed service.
++
++**Latest content/layout follow-up:** each of the three entries now has a lazy-loaded video above its title and a single read-more link. The left-column description is retained; descriptions remain removed only from the right-column entries. Source-credit text and extra standalone viewing links remain removed; the shared sample-content notice remains. Explicit issue labels are October 2026, September 2026 and August 2026, not claimed video publication dates. These dates are maintained with the editorial content, not advanced automatically without a new edition. The 2:1 desktop ratio, gold month labels and mobile stacking remain. This supersedes the original thumbnail-only archive and previous per-entry content above.
++
++**Owner-supplied video replacement:** October now embeds [2CxNZtrFedo](https://www.youtube.com/watch?v=2CxNZtrFedo), September [Sige0y8XxeU](https://www.youtube.com/watch?v=Sige0y8XxeU), and August [-jVXCHcCoiw](https://www.youtube.com/watch?v=-jVXCHcCoiw). These replace the earlier example sources above. The existing titles, read-more destinations and restored left-column copy were retained; their match to the new footage, rights, geographic access and embed availability must be confirmed before release. No new paid provider or pricing claim is introduced. Incremental recurring vendor fees for this content replacement are **USD $0/month before applicable tax**, assuming unchanged traffic and the same three standard players. No API calls, services, storage products or transaction charges are added. The scenarios, exclusions, alternative outbound-link approach and monitoring/fallback recommendations below remain applicable; video length and quality can change visitor transfer, which remains unmeasured. Editorial review/maintenance effort is unquoted. Runtime playback checks and PDF regeneration remain deferred under instance policy.
++
++A player load means loading one iframe, not watching an entire video. Updated planning assumptions are unmeasured, assume every visitor reaches all three lazy-loaded players, and exclude repeat loads, caching, player scripts, player-generated previews, ads and media segments. Player loads = page loads × 3. The site no longer requests separate archive thumbnail images; previews inside YouTube's players still generate third-party traffic. Actual requests and bytes are higher and variable.
++
++| Scenario | Page loads/month | Player loads/month | Separate site-requested thumbnails/month | Added configured video-service fees/month |
++| --- | ---: | ---: | ---: | ---: |
++| Low | 1,000 | 1,000 × 3 = 3,000 | 0 | $0 |
++| Expected | 10,000 | 10,000 × 3 = 30,000 | 0 | $0 |
++| Heavy | 100,000 | 100,000 × 3 = 300,000 | 0 | $0, availability not guaranteed |
++
++The incremental recurring vendor subtotal for this follow-up remains **USD $0/month before applicable tax**, assuming the existing standard-player setup and unchanged hosting. Two additional players can increase visitor transfer and browser work; YouTube, not our host, serves that media. No Data API, paid account, subscription, compute, storage product or transaction charge is added. Keeping archive previews with outbound links would be simpler and lighter but would not meet the new in-page video request. Existing commercial eligibility, geographic/owner restrictions and removal risks remain; no new unit-price offer or allowance is claimed. Monitor playback failures and actual site transfer in the pilot; read-more links and the player's own YouTube controls are the remaining fallback, with no promise that blocked content will play externally. Existing labor, hosting/domain, tax and currency-conversion exclusions still apply; no new paid commitment is required.
++
++YouTube serves video and preview bytes directly; our site adds only text, markup and CSS. No new compute, database, storage product, transaction charges or paid image service is configured. Site bandwidth/storage remains dependent on the unselected host. Domain, taxes, currency conversion, implementation, monthly curation, licensing clearance and maintenance remain excluded/unquoted. This is not the full operating budget; existing map/font forecasts remain applicable.
++
++**Commercial eligibility and limits:** embedding is not ownership of footage or permission to rehost it. The reviewed terms restrict selling advertising around YouTube content where it is the primary basis for sales; no sponsorship or advertising placement was added. Confirm purchaser jurisdiction, video rights and target audience before commercial launch. No Vietnam availability guarantee is inferred. Owners can remove videos or disable embedding; geographic/age restrictions, network blocking or missing referrer information can prevent playback rather than trigger paid automatic overage. The iframe preserves an origin referrer to avoid YouTube error 153. Privacy-enhanced mode does not mean no third-party connections or no ads; thumbnails also contact YouTube. Review consent/privacy notice requirements before release.
++
++The cheaper/simpler alternative is the former text/illustration feature or outbound video links only: no embedded player requests and fewer privacy/availability dependencies, but no in-page viewing. Self-hosting rights-cleared video could offer more control, but requires licensing, storage, delivery bandwidth and maintenance estimates and is not implemented. Monitor playback failures and host transfer during a pilot; after the latest simplification, read-more links and the player's own YouTube controls remain the fallback when embedding fails. Remove unavailable picks manually. Hosting budget alerts are not hard caps. No new paid vendor commitment is required for the prototype.
++
++**Layout follow-up:** the desktop columns now use a 2:1 ratio (current feature twice the archive width), with a 1,440-pixel section maximum and gold editorial sublines. This supersedes the equal-width layout above; mobile stacking remains unchanged. This CSS-only adjustment adds no assets, services, subscriptions, API calls, storage products or transaction fees. Incremental recurring vendor subtotal is **USD $0/month before applicable tax**, assuming the same traffic and hosting; vendor-fee estimates remain zero in the updated low/expected/heavy scenarios above. A larger player may cause YouTube to choose a higher-quality stream, so visitor transfer can vary, but no video bytes are served by our host. Retaining equal columns is the simpler rollback option but does not meet the updated design request. Existing commercial/availability conditions, monitoring and fallbacks still apply; no new price claim or paid decision is involved. Implementation/maintenance labor, hosting, domains, taxes and currency conversion remain excluded/unquoted.
++
++Validation and PDF regeneration/visual inspection remain deferred under the instance execution policy. On a capable development machine, run `npm run check`, `npm run build`, and `uv run --with reportlab python scripts/build-billing-brief.py`; visually inspect the regenerated PDF and desktop/mobile layout, and test actual video playback in the release environment. The PDF status at the top remains applicable until then.
++
++## Delivered follow-up: district directory and map story panel
++
++The discovery map now uses a **1:2 desktop layout**: district directory on the left, existing Leaflet map on the right. Selecting a curated place from a map pin or district entry replaces the directory with a video, place title, description and detail-page link. Back restores the directory and stops the video; selecting another place replaces the previous player. Search/category/distance filters apply to directory links as well as pins; an excluded selection closes. The layout stacks on smaller screens. The illustrated fallback also opens the story panel, while destination links remain available without JavaScript.
++
++**Content scope:** the directory contains 30 former district-level areas (12 urban districts, 17 rural districts and Sơn Tây), explicitly labeled historical rather than current administrative units. [Hanoi's official account of the July 2025 administrative change](https://hanoi.gov.vn/videos/ha-noi-cong-bo-nghi-quyet-sap-xep-don-vi-hanh-chinh-van-hanh-chinh-quyen-hai-cap-tu-1-7-2025-425063022371804.htm) and the [former 30-area arrangement](https://quydautuphattrien.hanoi.gov.vn/ban-tin/phuong-an-chi-tiet-sap-xep-30-quan-huyen-thi-xa-cua-ha-noi-380.html) were consulted October 16, 2026. Only the existing six destinations are mapped; empty districts are marked as having no curated content. This is an editorial directory, not district-boundary mapping or a complete places database. Each story uses the existing [Vietnam Tourism My Ha Noi overview](https://vietnam.travel/things-to-do/my-hanoi), labeled as a city overview, not destination-specific footage. Destination-specific video production/selection remains unquoted future content work.
++
++**Recommendation and decision:** retain the prototype's Leaflet/public OSM tiles and standard YouTube player; no Mapbox account, paid geocoding, boundary API, routing API, CMS or new dependency was introduced. Incremental configured recurring vendor subtotal is **USD $0/month before applicable tax**, assuming the same static hosting and standard embedding setup. No new subscription, Data API calls, backend compute, database, video-storage product, image service or transaction fees are configured. The HTML adds six inert story templates: video requests begin only when a story is selected, with at most one map-story player attached at a time. This is in addition to the separate three editorial players, whose earlier forecasts remain applicable.
++
++The [primary OSM tile policy](https://operations.osmfoundation.org/policies/tiles/) and [YouTube embedding guide](https://support.google.com/youtube/answer/171780?hl=en) were rechecked October 16, 2026. OSM offers no published numeric tile allowance or commercial availability guarantee; access can be blocked without notice rather than trigger a paid automatic upgrade. Browser caching, visible attribution, HTTPS and referrer headers remain; no offline download/prefetch was added. The guide supports the standard/privacy-enhanced player and warns of owner-disabled embeds, age restrictions and required referrer headers. Neither source supplies a new metered unit-price quote for this setup; $0 is our configured vendor-fee estimate, not a guaranteed unlimited allowance. Existing YouTube commercial/privacy conditions above remain applicable; commercial rights, audience/jurisdiction and Vietnam playback availability need release review.
++
++**Updated map-interaction forecasts (unmeasured):** a map opening is one initialization, not a unique user. A tile request fetches one small map image. A story selection creates one video player; repeated selections count again even if media is cached. The narrower but taller viewport and pin-centering can alter tile demand. Conservatively retain 24 requests/opening for low/expected scenarios and 60 for heavy exploration, including assumed interaction; measure rather than treat these as quotas.
++
++| Scenario | Map openings/month | Tile requests/month | Assumed story selections/opening | Additional story-player loads/month | Configured map/video vendor subtotal/month |
++| --- | ---: | ---: | ---: | ---: | ---: |
++| Low | 1,000 | 1,000 × 24 = 24,000 | 0.25 | 1,000 × 0.25 = 250 | $0 |
++| Expected | 10,000 | 10,000 × 24 = 240,000 | 0.5 | 10,000 × 0.5 = 5,000 | $0 |
++| Heavy | 100,000 | 100,000 × 60 = 6,000,000 | 2 | 100,000 × 2 = 200,000 | $0, service can be blocked |
++
++These are demand assumptions, not measured bills or suitable guaranteed public-OSM production volumes. Player scripts, previews, ads and media segments add variable third-party requests/bytes. OSM and YouTube serve those assets; our host serves only the expanded static HTML/CSS/JavaScript. Public hosting/storage/bandwidth pricing and limit/overage behavior remain unknown until a host is selected. Domains, tax, currency conversion, implementation, video rights/production, content curation and maintenance labor remain excluded/unquoted. This subtotal is not the full business cost.
++
++The simpler alternative is the old full-width map linking to existing detail pages: less inline content/player demand, but not the requested browsing experience. A static directory/illustrated map avoids tile dependence but lacks live geographic detail. A paid map supplier is still a proposed reliability alternative requiring refreshed eligibility, Vietnam coverage and traffic-based pricing before commitment; no paid option is silently selected. Monitor actual tile counts, map/video errors and host transfer in a pilot. Keep the illustrated fallback, retry button, video viewing/source link and place-page link. Configure supported hosting/provider budget controls before paid deployment; alerts are not hard spending caps. No additional paid commitment is required for this prototype change.
++
++Source review and district-data tests were authored, but tests, application checks, browser interactions/playback, and PDF generation/visual inspection were not executed under the instance resource policy. On a capable development machine run `npm run test`, `npm run check`, `npm run build`, and `uv run --with reportlab python scripts/build-billing-brief.py`. Check live and fallback pin selection, keyboard activation/Back, filter changes, video teardown, empty districts, mobile stacking, preserved map attribution and the regenerated PDF. The PDF status above remains applicable.
++
++## Proposed: Contemporary Travel Editorial redesign — awaiting approval
++
++October 17, 2026: Phase A source/asset review proposes a lighter treatment of the existing incense photograph, Newsreader display typography with Be Vietnam Pro supporting text, an ivory/ink editorial system, rights-cleared video covers linking to the unchanged YouTube videos, and a restyled functional Leaflet discovery interface. No application code has been changed for this proposal. Browser inspection, screenshots and reproduction of the reported tile failure are unavailable in this session; this is not a visually verified implementation or confirmed map fix.
++
++**Recommendation and decision:** approve the visual direction before implementation; retain the static architecture and existing integrations. Do not purchase a tile plan or imagery on the strength of this estimate. Three story-specific editorial covers are missing; their acquisition/production and commercial rights are unquoted. No unrelated photographs should be substituted. Retain existing content, routes, data, filtering, geolocation, video URLs and map interactions.
++
++**Expected incremental recurring subscription/API subtotal: USD $0/month before applicable tax**, conditional on no new paid supplier, unchanged hosting contract and rights-cleared local assets. This is not the full business cost or a guarantee of unchanged hosting charges. One-time design/engineering, content licensing/production, maintenance, domains, hosting storage/transfer, taxes and currency conversion are excluded/unquoted. No backend compute, database, transactions or self-hosted video is proposed. Outbound video covers would remove the three editorial iframe loads; the map-story player remains unless separately approved. YouTube availability and third-party commercial terms still apply.
++
++| Unmeasured scenario | Monthly page loads | Added configured subscription/API fee | Additional local cover/font transfer |
++| --- | ---: | ---: | --- |
++| Low | 1,000 | $0 | 1,000 × B ÷ 1,000,000,000 GB |
++| Expected | 10,000 | $0 | 10,000 × B ÷ 1,000,000,000 GB |
++| Heavy | 100,000 | $0 | 100,000 × B ÷ 1,000,000,000 GB |
++
++B means the total additional cover/font bytes downloaded per uncached visit; final files are not selected, so no numeric bandwidth forecast is defensible yet. Caching and responsive image selection change actual transfer. Local fonts trade external font connections for our host's storage/transfer; they do not eliminate bandwidth. Existing map demand assumptions remain provisional: openings × 24 tiles for low/expected and × 60 for heavy exploration; changed viewport dimensions must be measured. These are not public OSM quotas.
++
++Primary sources checked October 17, 2026: Google Fonts' [Newsreader metadata](https://raw.githubusercontent.com/google/fonts/main/ofl/newsreader/METADATA.pb) identifies Vietnamese coverage and OFL licensing; [Be Vietnam Pro metadata](https://raw.githubusercontent.com/google/fonts/main/ofl/bevietnampro/METADATA.pb) identifies its OFL licensing. The [Newsreader license](https://raw.githubusercontent.com/google/fonts/main/ofl/newsreader/OFL.txt) and [Be Vietnam Pro license](https://raw.githubusercontent.com/google/fonts/main/ofl/bevietnampro/OFL.txt) permit embedding/redistribution subject to retaining notices and license conditions, rather than a recurring font fee. Confirm the selected files' Vietnamese glyphs visually before release. No geographic delivery guarantee is inferred from a font license.
++
++The [OSM tile policy](https://operations.osmfoundation.org/policies/tiles/) was rechecked October 17, 2026: the configured HTTPS endpoint is correct; web requests need an accurate Referer, browser identification, ordinary caching and visible attribution. Public tiles offer no SLA or guaranteed numeric allowance; access can be blocked without notice, not automatically upgraded for a fee. A provider change requires a verified production failure/eligibility assessment and a refreshed quote; earlier paid prices in this document are not newly verified by this proposal. Inspect deployment headers, CSP and actual failed requests before choosing a remedy. Do not hide errors or use the illustrated fallback as the claimed fix.
++
++**Alternatives and controls:** keeping the current design avoids new asset work but retains its editorial weaknesses. Restyling with the current fonts and owner-supplied covers is simpler and avoids font acquisition; the proposed licensed fonts better support the original identity. A paid tile service can improve contractual reliability but adds supplier dependence and needs current commercial/Vietnam eligibility, quotas and overage checks before selection. Monitor tile failures/request counts and delivered asset bytes; configure supported host/provider budget alerts and spending controls if available. Alerts are not hard caps. Preserve destination links and honest retry/error messaging during outages; the live map remains required.
++
++Only this cost record is updated at the approval stage. PDF regeneration/layout inspection remain pending under the instance resource policy; the existing PDF is already stale and must not be shared as this proposal. On a capable machine run `uv run --with reportlab python scripts/build-billing-brief.py`, then `pdftoppm -scale-to 1400 -png output/pdf/ha-long-billing-brief.pdf /tmp/ha-noi-billing` and visually inspect every page. Recalculate transfer and refresh supplier pricing before release or a paid commitment.
++
++## Sprint 01 implemented source: hero and Heritage editorial (browser acceptance pending)
++
++October 17, 2026: the owner authorized implementation of **Nordic Editorial Structure × Vietnamese Cultural Luxury**, limited to shared tokens, header, hero and Heritage video presentation. This supersedes the earlier proposal for these sections only; no discovery-map redesign is included. Lora and Be Vietnam Pro support the scoped editorial system; legacy fonts remain for untouched sections. The original local incense photograph is retained, with a mild shadow-lifting tone curve, a lighter text-only gradient, and independent mobile composition. Heritage uses an asymmetrical layout and native video dialogs with players created only after activation, not three initial embedded players. Existing titles, issue dates, summaries, video IDs and read-more destinations are unchanged.
++
++**Recommendation / decision:** retain the current static setup; no paid vendor commitment is needed. Source implementation is not browser acceptance. Three approved, high-resolution, text-free story covers are still missing; the live cards honestly label temporary typographic covers, not unrelated photographs. The inspected original video thumbnails contain text/collages and suggest mismatches with the existing titles (especially September and August). Editorial approval of associations and still-image rights is required before public release; no replacement content or licensing price has been invented.
++
++**Incremental configured subscription/API subtotal: USD $0/month before applicable taxes**, assuming unchanged traffic, hosting arrangement and standard YouTube embedding. No paid APIs, transactions, backend compute, database, image service or self-hosted video were added. This is not the full business cost: public hosting/storage/bandwidth and limits remain unselected/unquoted; domains, taxes, currency conversion, one-time engineering, photo clearance/production and ongoing curation/maintenance labor are excluded. The unchanged hero remains 1,221,811 bytes; current fallback covers add markup/CSS, not image downloads. New font-file transfer is browser/language/cache dependent and unmeasured.
++
++A player opening below means creating one editorial iframe after a click, not a complete video view or a billable API request. These forecasts replace the previous three-players-per-page assumptions for Heritage only; map-story players and map demand remain unchanged.
++
++| Unmeasured scenario | Page loads/month | Assumed proportion opening video | Openings per engaged visit | Editorial player openings/month | Added configured subscription/API fee/month |
++| --- | ---: | ---: | ---: | ---: | ---: |
++| Low | 1,000 | 10% | 1 | 1,000 × 0.10 × 1 = 100 | $0 |
++| Expected | 10,000 | 10% | 1 | 10,000 × 0.10 × 1 = 1,000 | $0 |
++| Heavy | 100,000 | 50% | 2 | 100,000 × 0.50 × 2 = 100,000 | $0, availability not guaranteed |
++
++YouTube serves player/media bytes. Site-host transfer for eventual local covers is `page loads × B ÷ 1,000,000,000` decimal GB, where B is the combined delivered cover bytes per uncached visit; B is currently zero because approved photographs are absent. Re-estimate when assets are supplied. Font traffic and HTML/CSS/JavaScript are additional; this is not a numeric hosting bill or free hosting quota.
++
++Primary sources rechecked October 17, 2026: [Lora metadata](https://raw.githubusercontent.com/google/fonts/main/ofl/lora/METADATA.pb) explicitly lists Vietnamese; [Be Vietnam Pro metadata](https://raw.githubusercontent.com/google/fonts/main/ofl/bevietnampro/METADATA.pb), [Lora OFL](https://raw.githubusercontent.com/google/fonts/main/ofl/lora/OFL.txt) and [Be Vietnam Pro OFL](https://raw.githubusercontent.com/google/fonts/main/ofl/bevietnampro/OFL.txt) identify open font licensing permitting use/embedding subject to license conditions, with no recurring font license fee. This does not guarantee Google-hosted font availability in Vietnam. System fallbacks remain; Vietnamese glyphs still require visual inspection. No new paid provider price is asserted.
++
++The [YouTube embedding guide](https://support.google.com/youtube/answer/171780?hl=en), rechecked October 17, 2026, documents privacy-enhanced players, owner-disabled embeds, restrictions and required referrers. It does not supply a metered embed-view allowance, paid overage schedule or commercial/geographic availability guarantee. Existing commercial/privacy review remains necessary; a standard player is not a license to extract or rehost stills. Blocking, removal and owner restrictions can interrupt viewing, not automatically incur paid upgrades. Each dialog retains an original YouTube link as a fallback, without promising external playback if the source itself is restricted.
++
++**Alternatives and controls:** outbound-only links are simpler and avoid iframe requests but lose in-page viewing. Retaining the former three players is a rollback option but restores initial third-party loading and black-player presentation. Self-hosted video is not selected and would require rights and a delivery quote. Monitor actual font/image failures, video failures, delivered asset bytes and eventual host usage; apply supported spending controls before paid deployment. Alerts are not hard spending caps. No paid service is approved by this sprint.
++
++The owner authorized the dev server and browser QA; the local Astro preview responds, but this session has no browser or screenshot tooling. Desktop/mobile visual acceptance, playback/focus testing, before/after screenshots and PDF regeneration/visual inspection remain pending. This implementation is **not release-ready** until those checks and asset/content issues are resolved. PDF generation remains deferred under the instance resource policy; the stale PDF notice at the top still applies. See `output/sprint-01/QA.md` for the checkpoint, preview, limitations and acceptance steps.
++
++## Delivered follow-up: temporary Heritage photographs
++
++October 17, 2026: the three owner-attached JPEGs replace the Heritage section's grey typographic covers only. Autumn foliage is assigned to the featured entry, the cốm/fruit tray to September and the overhead tea/lotus-seed setting to August. Existing story titles, video IDs, links, layout and modal behavior are retained. Every cover visibly states that it is temporary pending approval of original editorial stills. This supersedes the missing-cover/zero-image-bytes statements above, not the unresolved editorial associations. Production-video ownership is confirmed by the owner; no video downloads, frame extraction, generated images or paid asset purchases were needed.
++
++**Recommendation / decision:** use these local temporary assets for review, then replace them with approved editorial originals. Incremental configured subscription/API subtotal remains **USD $0/month before applicable taxes**, assuming unchanged hosting and traffic. No API, image service, compute, database, subscription or transaction fee was added; no new provider rate is asserted. Public hosting/storage/transfer remains unselected and unquoted. Domains, taxes, currency conversion, implementation, rights/approval review and maintenance labor remain excluded: this is not a full business operating cost.
++
++The three unchanged attached JPEGs add **1,292,139 bytes** of published storage (649,269 + 245,951 + 396,919). Assuming every visit scrolls to and downloads all three lazy-loaded covers once, without caching:
++
++| Unmeasured scenario | Visits/month | Additional image requests/month | Image-only transfer calculation | Transfer/month |
++| --- | ---: | ---: | --- | ---: |
++| Low | 1,000 | 1,000 × 3 = 3,000 | 1,292,139 × 1,000 ÷ 1,000,000,000 | 1.29 GB |
++| Expected | 10,000 | 10,000 × 3 = 30,000 | 1,292,139 × 10,000 ÷ 1,000,000,000 | 12.92 GB |
++| Heavy | 100,000 | 100,000 × 3 = 300,000 | 1,292,139 × 100,000 ÷ 1,000,000,000 | 129.21 GB |
++
++These are demand forecasts, not guaranteed bills or a free bandwidth allowance. Caching and lazy loading can reduce transfer; headers, hero, fonts, HTML, map requests and YouTube media are excluded. The simpler/lighter alternative is retaining the labeled grey fallback; compressed responsive derivatives are a future optimization, not implemented. Monitor bytes served and image failures, retain the existing image-error fallback, and confirm hosting quotas/overage or suspension behavior before public release. No paid limit is newly configured; budget alerts are not hard caps. Recalculate after original stills or hosting are selected.
++
++Browser decoding/crop/interaction verification and PDF regeneration remain pending under the instance resource policy. For local review use `http://localhost:4321/`; on a browser-capable machine verify all three images at desktop/mobile sizes and preserved modal behavior. A lightweight HTTP check can use `curl -I http://localhost:4321/images/heritage-temporary-autumn.jpg` (repeat for `heritage-temporary-com.jpg` and `heritage-temporary-tea.jpg`). PDF commands remain `uv run --with reportlab python scripts/build-billing-brief.py` followed by `pdftoppm -scale-to 1400 -png output/pdf/ha-long-billing-brief.pdf /tmp/ha-noi-billing` and visual inspection; neither was executed here. The stale-PDF notice still applies.
++
++## Delivered follow-up: verified Heritage metadata and focused polish
++
++October 17, 2026: one static record per video now supplies its exact Vietnamese YouTube title, verified full description, description-derived excerpt, actual displayed publication date, thumbnail metadata, existing supplied cover and original video link. This supersedes the sample issue dates, incorrect titles/descriptions and unrelated read-more destinations above. The three publication dates are 11 September 2026, 25 August 2026 and 14 June 2026 respectively. Approval status for the same temporary covers is retained internally, not publicly labeled. Only Heritage play-control consistency, date legibility, headline measure and supporting-story spacing were polished; other sections and cover/image ratios are unchanged.
++
++No YouTube Data API credentials were available. Official YouTube oEmbed and public watch-page metadata were retrieved once during implementation, not at build time or per visitor. The [first video](https://www.youtube.com/watch?v=2CxNZtrFedo&hl=vi), [second video](https://www.youtube.com/watch?v=Sige0y8XxeU&hl=vi), [third video](https://www.youtube.com/watch?v=-jVXCHcCoiw&hl=vi) and their official oEmbed responses were checked October 17, 2026. Full evidence and limitations are in `output/sprint-01/metadata/`. Exact publication/upload timestamps remain unavailable; only day-level publication dates are asserted. The verified YouTube thumbnails are 480 × 360 metadata entries, not new public image requests or substitutes for the supplied covers. Video ownership is confirmed by the owner; approval of original editorial stills remains pending.
++
++**Recommendation / decision:** keep the curated static records and existing video integration; no paid service or purchase decision is needed. Incremental configured recurring subscription/API subtotal is **USD $0/month before applicable tax**, assuming unchanged traffic, hosting and assets. Low/expected/heavy scenarios of 1,000/10,000/100,000 visits each add **0 runtime metadata API requests × $0 = $0/month**. This is a configuration-based zero-fee conclusion, not a quoted Data API unit price or guaranteed supplier allowance. Earlier image-transfer forecasts remain 1.29/12.92/129.21 GB for those scenarios, assuming every visitor downloads the same three covers uncached. No new compute, storage product, database, transaction fee, font service or paid image/video service was added. Static text/markup bytes change slightly; whole-site transfer remains unmeasured.
++
++The simpler alternative is keeping the prior static text but it would retain known factual errors; automated API refresh is not implemented and would need a separate eligibility/quota/terms and maintenance review before commitment. Manual verification requires unquoted curation time. Public hosting/storage/bandwidth, domains, taxes, currency conversion, implementation, still-image rights/approval and maintenance labor remain excluded/unquoted; this subtotal is not the full business cost. Provider blocking/removal and host-limit behavior remain unchanged. Preserve original-video and image-error fallbacks, monitor playback/image failures and delivered bytes, and refresh records when the owner changes videos. Alerts are not hard spending caps. No new paid pricing claim is made.
++
++Source review only: no browser visual/playback QA, application checks/build/tests or PDF generation were run under the instance resource policy. On a capable machine use `npm run check`, then `npm run dev -- --background` for desktop/mobile inspection and interaction testing. Regenerate/visually inspect the billing PDF with the commands in the preceding entry before sharing it as current. Its stale notice still applies.
++
++## Runtime repair: separate map and editorial video contracts
++
++October 17, 2026: fixed the preview crash caused by the map's six inert story templates still passing `videoId`/`title` to the newly record-based `HeritageVideo`. The map now uses an isolated `MapStoryVideo` with the original iframe markup/styles; the three editorial records, metadata, covers, design and modal behavior are unchanged. This repairs the shared-component contract, not a new map feature or service. Incremental recurring vendor cost is **USD $0/month before tax**, assuming the same traffic/hosting/player behavior. No assets, dependencies, paid API requests, storage service, compute, database or transactions were added. Existing low/expected/heavy forecasts, supplier limits and fallbacks remain applicable; hosting/domains, taxes, currency conversion and repair/maintenance labor remain excluded/unquoted. No new price claim or paid decision is involved. Keeping incompatible props is not a viable alternative; isolating the original player avoids inventing missing editorial records for unrelated map content.
++
++The owner explicitly authorized build/runtime testing for this repair. `mise exec -- npm run build` passed (7 pages); `HERITAGE_PREVIEW_URL=http://localhost:4321/ mise exec -- npm run test` passed (11 tests, none skipped), including complete live/built homepage output, the three correct editorial IDs/links/covers and six inert map players. Browser visual/playback QA and PDF regeneration remain pending; these tests do not verify visual appearance or YouTube playback. This note does not change the billing estimate or make the existing PDF current.
++
++## Delivered follow-up: Heritage column balance and local warm-white background
++
++October 17, 2026: the Heritage wrapper previously inherited `--rice-paper` (#F4F1EB); its component-local background is now #FAF9F6 without changing global colors. Supporting covers use shallower 11:5 desktop frames with `object-fit: cover`, tighter text/story spacing and shorter description-derived editorial excerpts. Mobile retains generous 3:2 frames. The asymmetric grid, photography, verified YouTube titles/full descriptions/dates/thumbnail metadata/URLs and play behavior remain unchanged. No other section is redesigned.
++
++Incremental configured recurring vendor fees are **USD $0/month before tax**, assuming unchanged hosting, traffic and the same delivered assets/player behavior. Low/expected/heavy scenarios of 1,000/10,000/100,000 visits each add zero paid API requests/services × $0 = $0/month. Existing cover-transfer forecasts (1.29/12.92/129.21 GB) and limits/fallbacks still apply; CSS cropping does not reduce downloaded JPEG bytes. No new subscriptions, assets, compute, storage product, database or transaction fee is introduced, and no new supplier price is asserted. Hosting/storage/bandwidth, domains, taxes, currency conversion and implementation/maintenance labor remain excluded/unquoted. Retaining the prior spacing/background is a no-service-cost alternative but leaves the reported imbalance; no paid decision is needed. Monitor existing host usage and media failures; alerts are not hard spending caps. The unchanged estimate does not make the stale PDF current; regeneration/visual inspection remain pending under instance policy.
++
++The owner authorized the build and regression tests for this polish. Browser visual acceptance remains unavailable: automated rendering/link/image checks do not measure actual column balance, crops or typography at desktop/mobile viewports.
++
++## Delivered follow-up: homepage background palette
++
++October 17, 2026: the homepage header (including top/scrolled/mobile states and menu) and Heritage wrapper now use local #F8F7F3 surfaces. The header uses dark text for contrast on its solid background, replacing its transparent top state without changing geometry or typography. The homepage Explorer wrapper changes from inherited `--paper` to #FFFFFF; map tile/panel/control/card fills remain untouched. Global white page background and existing paper tokens are unchanged. #EAE5DA is reserved for later cultural storytelling, not applied globally or to another section now. Heritage layout, verified metadata, photography, interactions and map functionality are unchanged.
++
++Incremental configured recurring vendor fees are **USD $0/month before tax**, assuming unchanged assets, traffic, hosting and request behavior. Low/expected/heavy scenarios of 1,000/10,000/100,000 visits each add zero paid requests/services × $0 = $0/month. No assets, subscriptions, APIs, compute, database, storage product or transaction fees are introduced; no new provider price is claimed. Existing transfer estimates, limits and fallbacks remain applicable. Hosting/bandwidth/storage, domains, taxes, currency conversion and design/maintenance labor remain excluded/unquoted. Retaining the prior colors is an equally service-cost-free alternative but not the requested palette; no paid decision is required. Existing monitoring and host controls remain appropriate; alerts are not hard caps. This small CSS-only change does not alter the estimate or make the stale PDF current; regeneration/visual inspection remain pending under instance policy.
++
++Authorized checks passed: `mise exec -- npm run build` generated 7 pages; `HERITAGE_PREVIEW_URL=http://localhost:4321/ mise exec -- npm run test` passed all 11 tests, none skipped, including live/built homepage rendering and video/image associations. No browser/computed-color or visual QA was performed; automated tests do not prove the rendered palette or contrast.
++
++## Sprint 02A: approved tile-only referrer correction
++
++October 17, 2026: added only `referrerPolicy: 'strict-origin-when-cross-origin'` to the existing Leaflet tile layer. OSM endpoint, attribution, caching, retry behavior, data, layouts and global security policies are unchanged. No proxy, spoofed identity or new service is introduced. Incremental configured recurring vendor fees are **USD $0/month before tax**, assuming unchanged traffic/hosting; low/expected/heavy scenarios each add zero paid services/API requests × $0 = $0/month. Actual successful tile delivery could differ from denied-image delivery, so existing demand assumptions still need measurement, not a guaranteed bill. Hosting/transfer/storage, domains, tax, currency conversion and implementation/maintenance labor remain excluded/unquoted. Existing provider limits, fallback and monitoring guidance remain; alerts are not spending caps. Keeping inherited policy is simpler but retains the reported missing-Referer risk. No paid commitment or new supplier-price claim is involved; this unchanged estimate does not make the stale PDF current.
++
++**Finalized October 17, 2026 — desktop preview issue user-verified resolved.** The owner confirms that the Windows desktop preview displays real geographic tiles and Chrome Network shows the actual preview origin in the outgoing Referer header. This is user-supplied browser verification, not an assistant browser test, cross-device result or production-domain certification. The working map implementation remains byte-for-byte unchanged during finalization. A new source-AST regression check verifies the single existing OSM layer and its exact referrer policy without making tile requests; all previous tests remain intact. The authorized production build passed (7 pages) and the full suite passed (12 tests, none skipped). Frozen Heritage dependency/asset/test checksums match. No additional tile requests, proxy, spoofing, caching changes or automatic retries were introduced. Finalization adds only development-test/documentation/checkpoint work, with USD $0/month incremental configured vendor fees under the assumptions/exclusions above. Stable checkpoint: `output/sprint-02a/verified-checkpoint.tar.gz`. PDF regeneration remains pending; the existing PDF is not newly current.
++
+ ## Recommended decision
+ 
+ Keep the current free setup for private proof-of-concept reviews. For a public commercial launch, shortlist Stadia Maps Starter for maps, or MapTiler Flex as an alternative. If directions must work inside our site, budget a routing-capable service separately; this brief models Stadia Standard. Check Vietnam map quality, route quality, provider eligibility, and support requirements before selecting a supplier.
+diff --git a/src/layouts/Layout.astro b/src/layouts/Layout.astro
+index 4b5b429..c1c6118 100644
+--- a/src/layouts/Layout.astro
++++ b/src/layouts/Layout.astro
+@@ -1,11 +1,13 @@
+ ---
+ import Icon from '../components/Icon.astro';
+ import '../styles/global.css';
+-interface Props { title?: string; description?: string; wide?: boolean }
++import '../styles/editorial.css';
++interface Props { title?: string; description?: string; wide?: boolean; overlayHeader?: boolean }
+ const {
+   title = 'My Hanoi — khám phá theo cách của bạn',
+   description = 'Khám phá Hồ Hoàn Kiếm, Phố Cổ, Văn Miếu, Hoàng thành Thăng Long, Hồ Tây và Cầu Long Biên qua bản đồ Hà Nội.',
+   wide = false,
++  overlayHeader = false,
+ } = Astro.props;
+ const navigation = [
+   { href: '/#results-heading', label: 'Điểm đến' },
+@@ -24,12 +26,12 @@ const navigation = [
+     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+     <link rel="preconnect" href="https://fonts.googleapis.com" />
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet" />
++    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=Oswald:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet" />
+     <title>{title}</title>
+   </head>
+   <body>
+     <a class="skip-link" href="#main">Đến nội dung chính</a>
+-    <header class="site-header">
++    <header class:list={['site-header', { 'header-overlay': overlayHeader }]}>
+       <div class="header-inner shell">
+         <a class="brand" href="/" aria-label="My Hanoi — trang chủ">
+           <span class="brand-kicker">My</span><strong>Hanoi</strong>
+@@ -64,6 +66,19 @@ const navigation = [
+   </body>
+ </html>
+ <script>
++  const header = document.querySelector<HTMLElement>('.header-overlay');
++  if (header) {
++    const hero = document.querySelector<HTMLElement>('.hero');
++    const updateHeader = () => {
++      const boundary = hero ? hero.offsetTop + hero.offsetHeight - header.offsetHeight : 24;
++      header.classList.toggle('is-scrolled', window.scrollY >= boundary);
++    };
++    updateHeader();
++    window.addEventListener('scroll', updateHeader, { passive: true });
++    window.addEventListener('resize', updateHeader, { passive: true });
++    window.addEventListener('pageshow', updateHeader);
++  }
++
+   const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+   if (menu) {
+     menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { menu.open = false; }));
+diff --git a/src/pages/index.astro b/src/pages/index.astro
+index 16ed620..c4c63a2 100644
+--- a/src/pages/index.astro
++++ b/src/pages/index.astro
+@@ -1,35 +1,42 @@
+ ---
+ import Layout from '../layouts/Layout.astro';
+ import Icon from '../components/Icon.astro';
+-import DemoMap from '../components/DemoMap.astro';
++import MapExplorer from '../components/MapExplorer.astro';
+ import PlaceArt from '../components/PlaceArt.astro';
++import HeritageChoice from '../components/HeritageChoice.astro';
+ import { places, demoLocation } from '../data/places';
+ import { distanceKm, findPlaces, formatDistance } from '../lib/explore';
+ import 'leaflet/dist/leaflet.css';
+ const initialPlaces = findPlaces(places, '', 'All', demoLocation);
+ const categories = [{ name: 'All', icon: 'compass', label: 'Tất cả' }, { name: 'Hồ & cảnh quan', icon: 'compass' }, { name: 'Phố & cầu', icon: 'pin' }, { name: 'Di sản', icon: 'culture' }];
+ ---
+-<Layout wide>
++<Layout wide overlayHeader>
+   <section class="hero" aria-labelledby="hero-heading">
++    <svg class="hero-tone-map" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
++      <defs>
++        <filter id="hero-shadow-detail" color-interpolation-filters="sRGB">
++          <feComponentTransfer>
++            <feFuncR type="gamma" amplitude="1" exponent="0.86" offset="0" />
++            <feFuncG type="gamma" amplitude="1" exponent="0.86" offset="0" />
++            <feFuncB type="gamma" amplitude="1" exponent="0.86" offset="0" />
++          </feComponentTransfer>
++        </filter>
++      </defs>
++    </svg>
+     <img class="hero-image" src="/images/mev9zaoqveug1.jpeg" alt="Người đội nón lá giữa những bó hương đỏ và vàng xếp thành vòng" width="3000" height="2000" fetchpriority="high" loading="eager" />
+     <div class="hero-shade"></div>
+     <div class="hero-content shell">
+       <div class="hero-copy">
+-      <p class="eyebrow">Văn hiến. Sáng tạo. Trải nghiệm</p>
+-      <h1 id="hero-heading"><span>Khám phá</span><strong>Hà Nội</strong><span>của riêng bạn</span></h1>
+-      <p class="hero-description">Từ mặt hồ bình yên đến những con phố đầy câu chuyện.</p>
++      <p class="eyebrow">KHÁM PHÁ THEO CÁCH CỦA BẠN</p>
++      <h1 id="hero-heading"><span>Hà Nội</span><span>của riêng bạn.</span></h1>
++      <p class="hero-description">Từ những góc phố quen đến những câu chuyện chưa kể. Khám phá một Hà Nội mang dấu ấn của riêng bạn.</p>
+       <a class="button hero-button" href="#explore">Khám phá Hà Nội <Icon name="arrow" size={21} /></a>
+       </div>
+     </div>
+     <div class="hero-bottom shell"><span>Sắc hương · Nét đẹp làng nghề</span><a href="#explore" aria-label="Cuộn đến phần khám phá">Khám phá thêm <span aria-hidden="true">↓</span></a></div>
+   </section>
+ 
+-  <section class="welcome shell" aria-labelledby="welcome-heading">
+-    <p class="eyebrow">HÀ NỘI, VIỆT NAM</p>
+-    <h2 id="welcome-heading">Một ngày dạo bước.<br />Một miền ký ức.</h2>
+-    <p>Chọn một nơi. Đi thật chậm. Khám phá Hà Nội theo cách của bạn.</p>
+-    <div class="welcome-links"><a href="#results-heading">6 địa điểm để bắt đầu <Icon name="arrow" size={20} /></a><a href="#map-heading">Dạo một vòng Hà Nội <Icon name="pin" size={20} /></a></div>
+-  </section>
++  <HeritageChoice />
+ 
+   <div id="explore" class="explore-section">
+     <div class="shell">
+@@ -43,16 +50,7 @@ const categories = [{ name: 'All', icon: 'compass', label: 'Tất cả' }, { nam
+         <nav id="experiences" class="category-bar" aria-label="Lọc theo trải nghiệm">{categories.map(category => <button type="button" class:list={['category', { active: category.name === 'All' }]} data-category={category.name} aria-pressed={category.name === 'All'}><Icon name={category.icon} /><span>{category.label || category.name}</span></button>)}</nav>
+       </section>
+ 
+-      <section class="map-section" aria-labelledby="map-heading">
+-        <div class="section-heading">
+-          <div><p class="eyebrow">BẢN ĐỒ KHÁM PHÁ</p><h2 id="map-heading">Dạo một vòng Hà Nội</h2><p id="location-label"><span class="status-dot"></span>Bắt đầu tại Hồ Hoàn Kiếm · vị trí mẫu</p></div>
+-          <button id="locate" class="button secondary" type="button"><Icon name="locate" size={20} /><span>Dùng vị trí của tôi</span></button>
+-        </div>
+-        <div class="map-frame"><DemoMap /><div id="live-map" class="live-map" hidden aria-label="Bản đồ tương tác các địa điểm Hà Nội"></div><span id="live-map-label" class="live-map-label" hidden>Chọn một ghim để khám phá</span></div>
+-        <div class="map-footnote"><span><span class="legend-dot"></span>Địa điểm khám phá <span class="legend-dot blue"></span>Điểm xuất phát</span><span id="map-status" role="status">Đang tải bản đồ… Bạn có thể chọn ghim trên sơ đồ minh họa.</span></div>
+-        <button id="retry-map" class="reset-location" type="button" hidden>Thử tải lại bản đồ tương tác</button>
+-        <p id="location-message" class="location-message" role="status"></p>
+-      </section>
++      <MapExplorer />
+ 
+       <section class="results-section" aria-labelledby="results-heading">
+         <div class="section-heading results-heading">
+@@ -87,3 +85,7 @@ const categories = [{ name: 'All', icon: 'compass', label: 'Tất cả' }, { nam
+   </aside>
+ </Layout>
+ <script>import '../scripts/explore';</script>
++<style>
++  /* Local Explorer canvas; do not recolor map tiles, panels or cards. */
++  #explore { background: #FFFFFF; }
++</style>
+diff --git a/src/scripts/explore.ts b/src/scripts/explore.ts
+index 54fb14f..574d183 100644
+--- a/src/scripts/explore.ts
++++ b/src/scripts/explore.ts
+@@ -15,6 +15,15 @@ const retryMap = document.querySelector<HTMLButtonElement>('#retry-map')!;
+ const cards = new Map(Array.from(document.querySelectorAll<HTMLElement>('[data-card]')).map(card => [card.dataset.card!, card]));
+ const pins = Array.from(document.querySelectorAll<HTMLElement>('[data-pin]'));
+ const categories = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-category]'));
++const mapSidebar = document.querySelector<HTMLElement>('#map-sidebar')!;
++const districtList = document.querySelector<HTMLElement>('#map-districts')!;
++const placeDetail = document.querySelector<HTMLElement>('#map-place-detail')!;
++const detailContent = document.querySelector<HTMLElement>('#map-detail-content')!;
++const districtLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-map-place]'));
++const detailTemplates = new Map(Array.from(document.querySelectorAll<HTMLTemplateElement>('[data-map-detail]')).map(template => [template.dataset.mapDetail!, template]));
++let selectedSlug: string | undefined;
++let selectionTrigger: HTMLElement | undefined;
++let districtScrollTop = 0;
+ let category: Category | 'All' = 'All';
+ let origin: Coordinates = { ...demoLocation };
+ let usingLocation = false;
+@@ -24,6 +33,61 @@ let connecting = false;
+ let tileTimeout: number | undefined;
+ const markers = new Map<string, Leaflet.Marker>();
+ 
++function updateMapSelection() {
++  for (const pin of pins) {
++    if (pin.dataset.pin === selectedSlug) pin.setAttribute('aria-current', 'true');
++    else pin.removeAttribute('aria-current');
++  }
++  for (const [slug, marker] of markers) {
++    const element = marker.getElement();
++    element?.classList.toggle('is-selected', slug === selectedSlug);
++    element?.setAttribute('aria-pressed', String(slug === selectedSlug));
++    marker.setZIndexOffset(slug === selectedSlug ? 500 : 0);
++  }
++}
++
++function showMapPlace(slug: string, trigger?: HTMLElement) {
++  const template = detailTemplates.get(slug);
++  const place = places.find(candidate => candidate.slug === slug);
++  if (!template || !place) return;
++  if (!districtList.hidden) districtScrollTop = mapSidebar.scrollTop;
++  selectedSlug = slug;
++  selectionTrigger = trigger;
++  // Removing the previous iframe stops playback; template videos stay inert until selected.
++  detailContent.replaceChildren(template.content.cloneNode(true));
++  districtList.hidden = true;
++  placeDetail.hidden = false;
++  mapSidebar.scrollTop = 0;
++  updateMapSelection();
++  map?.panTo([place.coordinates.lat, place.coordinates.lng], { animate: false });
++  detailContent.querySelector<HTMLElement>('h3')?.focus({ preventScroll: true });
++  if (window.matchMedia('(max-width: 900px)').matches) mapSidebar.scrollIntoView({ block: 'nearest' });
++}
++
++function closeMapPlace(restoreFocus = true) {
++  placeDetail.hidden = true;
++  detailContent.replaceChildren();
++  districtList.hidden = false;
++  selectedSlug = undefined;
++  mapSidebar.scrollTop = districtScrollTop;
++  updateMapSelection();
++  if (restoreFocus) {
++    const triggerVisible = selectionTrigger?.isConnected && !selectionTrigger.closest('[hidden]');
++    const target = triggerVisible ? selectionTrigger : document.querySelector<HTMLElement>('#districts-heading');
++    target?.focus({ preventScroll: true });
++  }
++  selectionTrigger = undefined;
++}
++
++document.querySelector('#map-detail-back')!.addEventListener('click', () => closeMapPlace());
++for (const link of [...pins, ...districtLinks]) link.addEventListener('click', event => {
++  if (!(event instanceof MouseEvent) || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
++  const slug = link.dataset.pin ?? link.dataset.mapPlace;
++  if (!slug || !detailTemplates.has(slug)) return;
++  event.preventDefault();
++  showMapPlace(slug, link);
++});
++
+ function render() {
+   const filtered = findPlaces(places, search.value, category, origin, nearby.checked);
+   const visible = new Set(filtered.map(place => place.slug));
+@@ -34,6 +98,14 @@ function render() {
+     results.append(card);
+   }
+   for (const pin of pins) pin.hidden = !visible.has(pin.dataset.pin!);
++  for (const link of districtLinks) link.closest('li')!.hidden = !visible.has(link.dataset.mapPlace!);
++  for (const district of document.querySelectorAll<HTMLElement>('.district-entry')) {
++    const links = Array.from(district.querySelectorAll<HTMLElement>('[data-map-place]'));
++    const count = links.filter(link => visible.has(link.dataset.mapPlace!)).length;
++    district.querySelector<HTMLElement>('[data-district-count]')!.textContent = String(count);
++    district.querySelector<HTMLElement>('[data-district-empty]')!.hidden = count > 0;
++  }
++  if (selectedSlug && !visible.has(selectedSlug)) closeMapPlace(false);
+   if (map) for (const [slug, marker] of markers) {
+     if (visible.has(slug) && !map.hasLayer(marker)) marker.addTo(map);
+     else if (!visible.has(slug) && map.hasLayer(marker)) marker.remove();
+@@ -132,6 +204,7 @@ async function connectMap() {
+     let failedTiles = 0;
+     // Standard browser image caching and referrer headers are retained.
+     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
++      referrerPolicy: 'strict-origin-when-cross-origin',
+       maxZoom: 19,
+       attribution: '&copy; Những người đóng góp cho <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+     });
+@@ -159,8 +232,11 @@ async function connectMap() {
+         title: `Khám phá ${place.name}`,
+         icon: L.divIcon({ className: 'place-map-icon', html: pin, iconSize: [36, 36], iconAnchor: [18, 36], tooltipAnchor: [0, -36] }),
+       }).bindTooltip(label, { direction: 'top' });
+-      marker.on('add', () => { marker.getElement()?.setAttribute('aria-label', `Khám phá ${place.name}`); });
+-      marker.on('click', () => { window.location.assign(`/places/${place.slug}/`); });
++      marker.on('add', () => {
++        marker.getElement()?.setAttribute('aria-label', `Xem câu chuyện ${place.name}`);
++        updateMapSelection();
++      });
++      marker.on('click', () => { showMapPlace(place.slug, marker.getElement()); });
+       markers.set(place.slug, marker);
+     }
+     const dot = document.createElement('span'); dot.className = 'location-map-dot';
+diff --git a/src/styles/global.css b/src/styles/global.css
+index 1e58381..632252f 100644
+--- a/src/styles/global.css
++++ b/src/styles/global.css
+@@ -1,5 +1,22 @@
+ /* Editorial headlines use Oswald; supporting text uses Source Sans Pro. */
+ :root {
++  /* Sprint 01 tokens: scoped to navigation, hero and Heritage Choice. */
++  --editorial-display: 'Lora', 'Noto Serif', Georgia, serif;
++  --editorial-body: 'Be Vietnam Pro', Arial, sans-serif;
++  --rice-paper: #F4F1EB;
++  --deep-ink: #242724;
++  --vermilion: #A63832;
++  --moss: #687367;
++  --old-gold: #B59670;
++  --editorial-width: 1320px;
++  --editorial-gutter: clamp(24px, 4.17vw, 64px);
++  --editorial-space: clamp(112px, 9vw, 144px);
++  --editorial-image-ratio: 3 / 2;
++  --editorial-type-hero: clamp(68px, 6vw, 92px);
++  --editorial-type-section: clamp(38px, 3.8vw, 56px);
++  --editorial-type-feature: clamp(30px, 2.6vw, 38px);
++  --editorial-type-support: clamp(20px, 1.8vw, 26px);
++  --editorial-type-body: 16px;
+   --font-headline: 'Oswald', 'Arial Narrow', sans-serif;
+   --font-body: 'Source Sans Pro', Arial, sans-serif;
+   font-family: var(--font-body);
+@@ -60,12 +77,25 @@ h2 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.12; letter-spacing: -1.
+ .mobile-menu { display: none; }
+ .site-main { min-height: 50vh; }
+ 
+-/* Edge-to-edge local photograph; the opening fills the viewport below navigation. */
+-.hero { position: relative; isolation: isolate; width: 100%; min-height: max(640px, calc(100svh - var(--header-height))); color: #fff; background: #25140f; display: flex; align-items: center; text-align: left; }
++/* Homepage header overlays the hero without changing the sticky layout on other pages. */
++.header-overlay { margin-bottom: calc(-1 * var(--header-height)); color: var(--ink); transition: background-color .25s ease, color .25s ease, border-color .25s ease; }
++.header-overlay .desktop-nav a, .header-overlay .header-search, .header-overlay .site-language, .header-overlay .mobile-menu summary { color: inherit; transition: color .25s ease, border-color .25s ease; }
++.header-overlay:not(.is-scrolled) { background: transparent; border-bottom-color: transparent; color: #fff; }
++.header-overlay:not(.is-scrolled) .site-language { border-right-color: #ffffff66; }
++.header-overlay:not(.is-scrolled) .desktop-nav a:hover { border-bottom-color: #fff; }
++.header-overlay:not(.is-scrolled) :focus-visible { outline-color: #fff; }
++.header-overlay .mobile-menu nav { color: var(--ink); }
++.header-overlay .mobile-menu nav :focus-visible { outline-color: #245bd6; }
++@media (prefers-reduced-motion: reduce) {
++  .header-overlay, .header-overlay .desktop-nav a, .header-overlay .header-search, .header-overlay .site-language, .header-overlay .mobile-menu summary { transition: none; }
++}
++
++/* Edge-to-edge local photograph fills the viewport, including behind navigation. */
++.hero { position: relative; isolation: isolate; width: 100%; min-height: max(640px, 100svh); color: #fff; background: #25140f; display: flex; align-items: center; text-align: left; }
+ .hero-image, .hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+ .hero-image { object-fit: cover; object-position: 65% 45%; }
+-.hero-shade { background: linear-gradient(90deg, #160b08b3, #160b0859 42%, transparent 75%), linear-gradient(0deg, #160b08b3, transparent 35%); }
+-.hero-content { padding-block: 90px 120px; }
++.hero-shade { background: linear-gradient(180deg, #160b08b3, transparent 180px), linear-gradient(90deg, #160b08b3, #160b0859 42%, transparent 75%), linear-gradient(0deg, #160b08b3, transparent 35%); }
++.hero-content { padding-block: calc(var(--header-height) + 90px) 120px; }
+ .hero-copy { max-width: 540px; }
+ .hero .eyebrow { font-size: 11px; letter-spacing: 3px; margin-bottom: 26px; }
+ .hero h1 { text-transform: uppercase; text-shadow: 0 2px 32px #102e3c55; }
+@@ -79,14 +109,6 @@ h2 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.12; letter-spacing: -1.
+ .hero-bottom a span { font-size: 26px; }
+ .hero :focus-visible { outline-color: #fff; }
+ 
+-.welcome { text-align: center; padding-block: 86px 82px; }
+-.welcome .eyebrow { color: var(--red); }
+-.welcome h2 { font-size: clamp(34px, 4.2vw, 58px); }
+-.welcome > p:not(.eyebrow) { max-width: 620px; margin: 22px auto 0; font-size: 18px; line-height: 1.7; color: var(--muted); }
+-.welcome-links { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 40px; row-gap: 16px; margin-top: 30px; }
+-.welcome-links a { display: inline-flex; align-items: center; gap: 14px; padding-block: 10px; font-size: 14px; font-weight: 700; border-bottom: 2px solid var(--red); }
+-.welcome-links a:hover { color: var(--red); }
+-
+ /* Discovery stays functional while adopting the reference's editorial card rhythm. */
+ .explore-section { padding-block: 60px 70px; background: var(--paper); }
+ .search-bar { display: flex; align-items: center; gap: 20px; padding: 9px 9px 9px 24px; border: 1px solid #b9b9b7; background: #fff; }
+@@ -133,7 +155,7 @@ h2 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.12; letter-spacing: -1.
+ .map-landscape { position: absolute; width: 100%; height: 100%; }
+ .demo-pin { position: absolute; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 7px; min-height: 44px; padding: 7px 12px 7px 7px; color: #222; background: #fff; box-shadow: 0 3px 10px #203b3520; font-size: 12px; font-weight: 700; white-space: nowrap; z-index: 2; }
+ .demo-pin > span:first-child { width: 28px; height: 28px; display: grid; place-items: center; background: var(--red); color: #fff; font-size: 18px; }
+-.demo-pin:hover, .demo-pin:focus-visible { background: #222; color: #fff; z-index: 5; }
++.demo-pin:hover, .demo-pin:focus-visible, .demo-pin[aria-current="true"] { background: #222; color: #fff; z-index: 5; }
+ .demo-origin { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 9px; font-size: 11px; color: #25495e; }
+ .demo-origin > span, .location-map-dot { display: block; width: 18px; height: 18px; background: #2477bc; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 7px #2477bc25; }
+ .demo-origin small { font-size: 10px; }
+@@ -151,7 +173,7 @@ h2 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.12; letter-spacing: -1.
+ .place-map-icon, .location-map-icon { background: none; border: 0; }
+ .place-map-pin { display: grid; place-items: center; width: 36px; height: 36px; background: var(--red); border: 3px solid #fff; border-radius: 50% 50% 50% 5px; transform: rotate(-45deg); box-shadow: 0 3px 10px #20202040; color: #fff; }
+ .place-map-pin > span { transform: rotate(45deg); font-size: 19px; }
+-.place-map-icon:hover .place-map-pin, .place-map-icon:focus-visible .place-map-pin { background: var(--ink); }
++.place-map-icon:hover .place-map-pin, .place-map-icon:focus-visible .place-map-pin, .place-map-icon.is-selected .place-map-pin { background: var(--ink); }
+ .live-map .leaflet-tooltip { font: 12px var(--font-body); color: var(--ink); border-radius: 0; }
+ .live-map .leaflet-control-attribution { font-size: 10px; }
+ .location-map-icon .location-map-dot { width: 19px; height: 19px; }
+@@ -244,9 +266,8 @@ h2 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.12; letter-spacing: -1.
+   .hero h1 strong { font-size: clamp(86px, 13vw, 130px); }
+   .hero h1 span { font-size: clamp(28px, 4vw, 38px); }
+   .hero-image { object-position: 68% 35%; }
+-  .hero-shade { background: linear-gradient(0deg, #160b08ed, #160b0899 35%, transparent 75%); }
++  .hero-shade { background: linear-gradient(180deg, #160b08b3, transparent 160px), linear-gradient(0deg, #160b08ed, #160b0899 35%, transparent 75%); }
+   .hero .eyebrow { max-width: 420px; line-height: 1.8; }
+-  .welcome { padding-block: 65px; }
+   .results-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+   .card-body h3 { font-size: 27px; }
+   .card-distance { width: auto; margin-left: auto; }
+@@ -267,7 +288,7 @@ h2 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.12; letter-spacing: -1.
+   .mobile-menu nav { padding: 20px; }
+   .mobile-menu summary span { display: none; }
+   .mobile-menu summary { min-width: 44px; }
+-  .hero { min-height: max(650px, calc(100svh - var(--header-height))); }
++  .hero { min-height: max(650px, 100svh); }
+   .hero-content { padding-block: 220px 100px; }
+   .hero .eyebrow { max-width: 280px; font-size: 10px; letter-spacing: 1.8px; margin-bottom: 22px; }
+   .hero h1 span { font-size: clamp(25px, 7vw, 37px); letter-spacing: -1px; }
+@@ -277,10 +298,6 @@ h2 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.12; letter-spacing: -1.
+   .hero-bottom { bottom: 15px; gap: 20px; }
+   .hero-bottom > span { font-size: 9px; max-width: 150px; }
+   .hero-bottom a { font-size: 10px; gap: 10px; }
+-  .welcome { padding-block: 52px; }
+-  .welcome h2 { font-size: 34px; letter-spacing: -1.2px; }
+-  .welcome > p:not(.eyebrow) { font-size: 16px; }
+-  .welcome-links { flex-direction: column; align-items: center; gap: 12px; }
+   .explore-section { padding-block: 36px 45px; }
+   .search-bar { gap: 10px; padding: 7px 7px 7px 14px; }
+   .search-bar > svg { width: 20px; }

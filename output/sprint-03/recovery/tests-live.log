@@ -1,0 +1,12 @@
+✔ running homepage completes rendering and preserves all video associations (240.703274ms)
+✔ live homepage and full route serve the active map controller and real Leaflet module (305.661242ms)
+✔ isolated prototype preview renders without integrating into the homepage (187.654844ms)
+✔ prototype Leaflet browser module loads, not just its HTML shell (58.57171ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2294.806057

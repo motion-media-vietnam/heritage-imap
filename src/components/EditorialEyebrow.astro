@@ -1,0 +1,8 @@
+---
+interface Props { text?: string }
+const { text = 'Khám phá Hà Nội theo cách của bạn' } = Astro.props;
+---
+<span class="editorial-eyebrow">{text}</span>
+<style>
+  .editorial-eyebrow { display: block; margin-bottom: 14px; color: var(--vermilion); font-family: var(--editorial-body); font-size: 10px; font-weight: 600; line-height: 1.6; letter-spacing: .08em; overflow-wrap: anywhere; }
+</style>

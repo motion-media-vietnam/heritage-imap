@@ -1,0 +1,18 @@
+---
+import { collectionDestinations, imapHref, type EditorialCollection } from '../data/concierge';
+interface Props { collection: EditorialCollection; index: number }
+const { collection, index } = Astro.props;
+---
+<article class:list={['collection-card', { 'collection-featured': index === 0 }]}>
+  <img src={collection.image} alt={collection.alt} loading="lazy" decoding="async" />
+  <div class="collection-copy">
+    <p class="concierge-kicker">{collection.category}</p>
+    <h3>{collection.title}</h3>
+    <p>{collection.description}</p>
+    <details>
+      <summary>Khám phá bộ sưu tập <span aria-hidden="true">↗</span></summary>
+      {collection.pending && <p class="concierge-note">{collection.pending}</p>}
+      {collectionDestinations(collection.slugs).map(place => <a class="destination-link" href={imapHref(place.slug)}>{place.name}<span aria-hidden="true"> ↗</span></a>)}
+    </details>
+  </div>
+</article>

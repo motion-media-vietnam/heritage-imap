@@ -1,0 +1,5 @@
+e90a61bb7ce7558a3ddbaa20a1da70649db2528153f5eea9d3efa0f439e6c6b0  src/pages/imap-prototype.astro
+64b8a5ce323c9b4ce10952a8a680719ba6688e0881c8d65e08cc046e7975d8d6  src/styles/imap-prototype.css
+08e186c207f75567f8029719d098ef90a019cbcdb9f9887a87f3d197cab54d51  src/scripts/imap-prototype.ts
+edd55559444b8ce79cf2f7a2daeb0ec2bde0bad66ac75bf394e5f7692ab087e7  src/lib/imap-prototype.ts
+f8562c177ff707a69a1c257ed47bed7e305a55b27d522ac02f1c1c94d9ccb4cb  tests/imap-prototype.test.ts

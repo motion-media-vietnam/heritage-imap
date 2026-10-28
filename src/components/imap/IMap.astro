@@ -1,0 +1,83 @@
+---
+import { places } from '../../data/places';
+import { imapCategories } from '../../lib/imap-categories';
+import { populatedDistricts } from '../../lib/imap-prototype';
+import IMapStory from './IMapStory.astro';
+import type { ContentMode } from '../../lib/imap-content';
+import 'leaflet/dist/leaflet.css';
+import '../../styles/imap.css';
+interface Props {
+  idPrefix: string;
+  searchId?: string;
+  filtersId?: string;
+  headerSelector: string;
+  showFullLink?: boolean;
+  resultsId?: string;
+  nearbyId?: string;
+  resultCountId?: string;
+  emptyStateId?: string;
+  resetFiltersId?: string;
+  contentMode?: ContentMode;
+}
+const { idPrefix, searchId = `${idPrefix}-search`, filtersId = `${idPrefix}-filters`, headerSelector,
+  showFullLink = false, resultsId, nearbyId, resultCountId, emptyStateId, resetFiltersId, contentMode = 'published' } = Astro.props;
+const categories = imapCategories;
+const id = (suffix: string) => `${idPrefix}-${suffix}`;
+---
+<hanoi-imap class="imap-root" id={idPrefix} role="region" aria-labelledby={id('heading')} data-imap-instance={idPrefix}
+  data-mobile-discovery="true" data-content-mode={contentMode}
+  data-header-selector={headerSelector} data-results-id={resultsId} data-nearby-id={nearbyId}
+  data-result-count-id={resultCountId} data-empty-state-id={emptyStateId} data-reset-filters-id={resetFiltersId}>
+  <header class="imap-heading" data-imap="heading">
+    <div><p class="imap-kicker">iMAP EXPLORER</p><h2 id={id('heading')}>Khám phá Hà Nội</h2></div>
+    {showFullLink && <a href="/imap/" class="imap-full-link">Mở iMap đầy đủ <span aria-hidden="true">↗</span></a>}
+  </header>
+  <a class="imap-skip" href={`#${id('directory')}`} data-imap="skip">Đến danh sách địa điểm</a>
+  <form class="imap-tools" data-imap="tools" role="search" aria-label="Tìm và lọc địa điểm">
+    <label class="imap-search-label"><span class="imap-sr-only">Tìm trong Hà Nội</span><input id={searchId} data-imap="search" type="search" placeholder="Tìm Hồ Gươm, Văn Miếu, Phố Cổ…" autocomplete="off" /></label>
+    <div class="imap-filters" id={filtersId}>
+      <label class="imap-filter-label"><span>Danh mục</span><select data-imap="category"><option value="All">Tất cả danh mục</option>{categories.map(category => <option value={category.id}>{category.label}</option>)}</select></label>
+      <label class="imap-filter-label"><span>Khu vực</span><select data-imap="district" title="Nhóm theo tên quận cũ trước 01/07/2025"><option value="All">Mọi khu vực</option>{populatedDistricts.map(district => <option value={district.name} data-imap-district-option>{district.name} · {district.count}</option>)}</select></label>
+    </div>
+    <p data-imap="count" class="imap-count" role="status">6 địa điểm</p>
+    <div class="imap-options">
+      {!nearbyId && <label class="imap-radius"><input type="checkbox" data-imap="nearby" /> Trong bán kính 10 km</label>}
+      <button data-imap="locate" type="button">Dùng vị trí của tôi</button>
+      <button data-imap="reset-location" type="button" hidden>Về vị trí mẫu</button>
+      <span data-imap="origin-label">Điểm xuất phát mẫu: Hồ Hoàn Kiếm</span>
+    </div>
+    <p class="imap-location-message" data-imap="location-message" role="status"></p>
+  </form>
+  <section class="imap-explorer" data-imap="explorer" aria-label="Khám phá Hà Nội">
+    <div class="imap-sheet" data-imap="sheet" data-sheet-state="collapsed">
+      <div class="imap-handle" data-imap="handle">
+        <span class="imap-drag-grip" aria-hidden="true"></span>
+        <button class="imap-discovery" data-imap="discovery" type="button" aria-expanded="false" aria-controls={id('directory')}>Khám phá {places.length} địa điểm</button>
+        <div class="imap-sheet-states" role="group" aria-label="Kích thước bảng khám phá">
+          <button type="button" data-imap-sheet-state="collapsed" aria-pressed="true" aria-controls={`${id('directory')} ${id('story')}`} aria-label="Thu gọn để xem bản đồ, giữ địa điểm đang chọn">Bản đồ</button>
+          <button type="button" data-imap-sheet-state="half" aria-pressed="false" aria-controls={`${id('directory')} ${id('story')}`}>Một nửa</button>
+          <button type="button" data-imap-sheet-state="expanded" aria-pressed="false" aria-controls={`${id('directory')} ${id('story')}`}>Mở rộng</button>
+        </div>
+      </div>
+      <aside id={id('directory')} class="imap-directory" data-imap="directory" aria-labelledby={id('directory-heading')} tabindex="-1">
+        <button class="imap-directory-close" data-imap="directory-close" type="button" aria-label="Đóng danh sách địa điểm" hidden>×</button>
+        <p class="imap-kicker">BỘ SƯU TẬP HÀ NỘI</p><h2 id={id('directory-heading')}>Chọn câu chuyện</h2>
+        <ol>{places.map((place, index) => <li data-imap-item={place.slug}><button type="button" data-imap-place={place.slug} aria-pressed="false" aria-controls={id('story')}><span class="imap-number">{String(index + 1).padStart(2, '0')}</span><span><strong>{place.name}</strong><small>{place.area}</small></span><span aria-hidden="true">↗</span></button></li>)}</ol>
+        <p data-imap="empty" class="imap-empty" hidden>Không có điểm phù hợp. Hãy đổi từ khóa hoặc khu vực.</p>
+        <p class="imap-data-note">Khu vực dùng tên quận cũ trước 01/07/2025. Chỉ hiện nơi có điểm tuyển chọn. Tọa độ gần đúng, không phải cổng vào đã xác minh.</p>
+      </aside>
+      <aside id={id('story')} class="imap-story" data-imap="story" aria-labelledby={id('story-label')} hidden>
+        <div class="imap-story-toolbar"><span id={id('story-label')} data-imap="story-label">Câu chuyện điểm đến</span><button data-imap="close" type="button" aria-label="Đóng câu chuyện">×</button></div>
+        <div class="imap-story-content" data-imap="content"></div>
+      </aside>
+    </div>
+    <div class="imap-map-column">
+      <div data-imap="map" class="imap-map" aria-label="Bản đồ Leaflet Hà Nội"></div>
+      <div class="imap-map-toolbar"><button data-imap="reset-view" type="button">⌖ Toàn cảnh</button><button data-imap="reopen" type="button" hidden>Mở lại câu chuyện</button><button data-imap="retry" type="button" hidden>Thử tải lại bản đồ</button></div>
+      <p data-imap="status" class="imap-map-status" role="status">Đang tải bản đồ… Danh sách vẫn dùng được nếu bản đồ lỗi.</p>
+    </div>
+  </section>
+  <noscript><p class="imap-data-note">Bản đồ cần JavaScript. <a href={resultsId ? '#results-heading' : '/#results-heading'}>Xem các trang địa điểm</a>.</p></noscript>
+  {places.map(place => <template data-imap-story={place.slug}><IMapStory place={place} contentMode={contentMode} /></template>)}
+</hanoi-imap>
+<script>import '../../scripts/imap';</script>

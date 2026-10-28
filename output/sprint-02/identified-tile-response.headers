@@ -1,0 +1,22 @@
+HTTP/2 200 
+server: Apache
+content-type: image/png
+x-tilerender: ysera.openstreetmap.org
+access-control-allow-origin: *
+access-control-allow-headers: X-Requested-With
+cache-control: max-age=89530, stale-while-revalidate=604800, stale-if-error=604800
+access-control-allow-methods: GET, HEAD, OPTIONS
+etag: "6837863254fa4878a7bc656b5eb3671b"
+expires: Tue, 13 Oct 2026 12:42:07 GMT
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+accept-ranges: bytes
+age: 457678
+date: Sat, 17 Oct 2026 18:57:54 GMT
+via: 1.1 varnish
+x-served-by: cache-bma-essb1270076-BMA, cache-bma-essb1270069-BMA
+x-cache: MISS, HIT
+x-cache-hits: 0, 0
+x-timer: S1792263475.985534,VS0,VE2
+alt-svc: h3=":443";ma=86400,h3-29=":443";ma=86400,h3-27=":443";ma=86400
+content-length: 43384
+

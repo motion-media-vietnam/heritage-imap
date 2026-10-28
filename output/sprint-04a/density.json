@@ -1,0 +1,74 @@
+{
+  "center": {
+    "lat": 21.0286,
+    "lng": 105.8525
+  },
+  "destinations": [
+    {
+      "id": "ho-hoan-kiem",
+      "name": "Hồ Hoàn Kiếm",
+      "distanceMeters": 0
+    },
+    {
+      "id": "pho-co",
+      "name": "Phố Cổ",
+      "distanceMeters": 830
+    },
+    {
+      "id": "van-mieu",
+      "name": "Văn Miếu",
+      "distanceMeters": 1770
+    },
+    {
+      "id": "hoang-thanh-thang-long",
+      "name": "Hoàng thành Thăng Long",
+      "distanceMeters": 1464
+    },
+    {
+      "id": "ho-tay",
+      "name": "Hồ Tây",
+      "distanceMeters": 2688
+    },
+    {
+      "id": "cau-long-bien",
+      "name": "Cầu Long Biên",
+      "distanceMeters": 1788
+    }
+  ],
+  "radii": [
+    {
+      "radius": 500,
+      "ids": [
+        "ho-hoan-kiem"
+      ]
+    },
+    {
+      "radius": 1000,
+      "ids": [
+        "ho-hoan-kiem",
+        "pho-co"
+      ]
+    },
+    {
+      "radius": 2000,
+      "ids": [
+        "ho-hoan-kiem",
+        "pho-co",
+        "hoang-thanh-thang-long",
+        "van-mieu",
+        "cau-long-bien"
+      ]
+    },
+    {
+      "radius": "All",
+      "ids": [
+        "ho-hoan-kiem",
+        "pho-co",
+        "hoang-thanh-thang-long",
+        "van-mieu",
+        "cau-long-bien",
+        "ho-tay"
+      ]
+    }
+  ]
+}

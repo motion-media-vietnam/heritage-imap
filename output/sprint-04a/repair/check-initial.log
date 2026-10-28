@@ -1,0 +1,12 @@
+16:55:03 [types] Generated 265ms
+16:55:03 [check] Getting diagnostics for Astro files in /Projects/mm-guide...
+[96mtests/imap-prototype-init.test.ts[0m:[93m16[0m:[93m44[0m - [91merror[0m[90m ts(2339): [0mProperty 'includes' does not exist on type 'never'.
+
+[7m16[0m   assert(result.errors.some(error => error.includes('layerPointToLatLng')));
+[7m  [0m [91m                                           ~~~~~~~~[0m
+
+Result (43 files): 
+- 1 error
+- 0 warnings
+- 0 hints
+

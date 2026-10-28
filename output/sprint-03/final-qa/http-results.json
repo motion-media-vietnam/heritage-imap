@@ -1,0 +1,22 @@
+{
+  "results": [
+    {
+      "route": "/",
+      "completeHtml": true,
+      "instances": 1,
+      "destinationTemplates": 6,
+      "leafletModuleDelivered": true,
+      "compactMobileDiscoveryEnabled": true
+    },
+    {
+      "route": "/imap/",
+      "completeHtml": true,
+      "instances": 1,
+      "destinationTemplates": 6,
+      "leafletModuleDelivered": true,
+      "compactMobileDiscoveryEnabled": false
+    }
+  ],
+  "browserVerified": false,
+  "externalRequests": 0
+}

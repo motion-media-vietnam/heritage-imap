@@ -1,0 +1,59 @@
+---
+import type { Place } from '../../data/places';
+import type { MediaState, PublicationStatus, Verified } from '../../lib/destination-content';
+import { publishableVideo, publishableCover, publishablePractical, storyMediaState, type ContentMode, type StoryVideo, type StoryCover } from '../../lib/imap-content';
+import { practicalInformation, nearbyDestinations } from '../../lib/imap-prototype';
+import { places } from '../../data/places';
+import { formatDistance } from '../../lib/explore';
+import PlaceArt from '../PlaceArt.astro';
+interface Props {
+  place: Place;
+  contentMode?: ContentMode;
+  publicationStatus?: PublicationStatus;
+  cityId?: string;
+  videoContent?: MediaState<StoryVideo>;
+  coverContent?: MediaState<StoryCover>;
+  practicalContent?: Verified<string>;
+}
+const { place, contentMode = 'published', publicationStatus = 'draft', cityId = 'hanoi',
+  videoContent, coverContent, practicalContent } = Astro.props;
+const prototype = contentMode === 'prototype';
+// Only supplementary content is gated here; existing place records are not migrated.
+const video = publishableVideo(videoContent, publicationStatus, place.slug, cityId);
+const image = publishableCover(video?.poster, publicationStatus, place.slug, cityId)
+  ?? publishableCover(coverContent, publicationStatus, place.slug, cityId);
+const practical = publishablePractical(practicalContent, publicationStatus);
+const legacyPractical = prototype ? practicalInformation[place.slug] : undefined;
+const practicalText = practical?.value ?? legacyPractical?.text;
+const checkedOn = practical?.verification.checkedOn ?? legacyPractical?.checked;
+const officialSource = practical?.verification.sources.find(source => source.kind === 'official-url');
+const practicalSource = officialSource?.kind === 'official-url' ? officialSource.url : legacyPractical?.source;
+const mediaState = storyMediaState(videoContent, publicationStatus, place.slug, cityId);
+---
+<article data-publication-status={publicationStatus} data-media-state={mediaState}>
+  <p class="imap-kicker">{place.category} / HÀ NỘI</p>
+  <h2 tabindex="-1">{place.name}</h2>
+  <div class:list={['imap-video', { 'imap-video-placeholder': !video && !image }]} data-destination-video
+    role={!video ? 'img' : undefined} aria-label={!video ? image?.alt ?? `Minh họa ${place.name}` : undefined}>
+    {video ? <video src={video.source.src} poster={image?.src} width={video.width} height={video.height} controls playsinline preload="none" aria-label={`Video ${place.name}`}>
+      Trình duyệt chưa hỗ trợ video này. <a href={video.source.src}>Mở tệp video gốc</a>
+    </video> : image ? <img class="imap-approved-cover" src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
+      : <><PlaceArt place={place} />{prototype && <div><strong>VIDEO ĐIỂM ĐẾN · {mediaState === 'draft' ? 'BẢN NHÁP' : 'CHƯA CÓ'}</strong><p>Chưa có video riêng đã xác minh cho {place.name}.</p><small>Hình minh họa · Không phải video có thể phát</small></div>}</>}
+  </div>
+  {image && <p class="imap-image-credit">{image.credit.url ? <a href={image.credit.url} target="_blank" rel="noopener noreferrer">{image.credit.text}</a> : image.credit.text}</p>}
+  <p class="imap-editorial">{place.story}</p>
+  <section class="imap-practical">
+    {(practicalText || prototype) && <h3>Trước khi bạn đến</h3>}
+    {practicalText ? <><p class="imap-verification">Nguồn chính thức · kiểm tra {checkedOn}</p><p>{practicalText}</p></>
+      : prototype && <><p class="imap-verification">Chưa xác minh thông tin thực tế</p><p>Chưa có giờ mở cửa, giá vé và cổng vào được xác minh. Không dùng ghim này như một lối vào chính thức.</p></>}
+    {practicalSource && <a href={practicalSource} target="_blank" rel="noopener noreferrer">Kiểm tra tại nguồn chính thức ↗</a>}
+    {prototype && <p class="imap-tip">Gợi ý biên tập: {place.tip}</p>}
+    <a class="imap-directions" href={`https://www.openstreetmap.org/directions?to=${place.coordinates.lat}%2C${place.coordinates.lng}`} target="_blank" rel="noopener noreferrer">Mở chỉ đường trên OpenStreetMap ↗</a>
+    <small>Liên kết ngoài · vị trí gần đúng · kiểm tra tuyến đường, biển báo và lối vào trước khi đi.</small>
+  </section>
+  <section class="imap-nearby"><h3>Tiếp tục ở gần đây</h3><p>Khoảng cách đường chim bay, không phải quãng đường đi bộ.</p>{nearbyDestinations(place, places).map(nearby => <button type="button" data-imap-nearby={nearby.place.slug}><strong>{nearby.place.name}</strong><span>{formatDistance(nearby.km)} ↗</span></button>)}</section>
+</article>
+<style>
+  .imap-approved-cover { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .imap-image-credit { font-size: 11px; line-height: 1.6; }
+</style>

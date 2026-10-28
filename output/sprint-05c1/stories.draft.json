@@ -1,0 +1,274 @@
+{
+  "draftVersion": "sprint-05c1.editorial.v1",
+  "checkedOn": "2026-10-20",
+  "language": "vi",
+  "reviewStatus": "draft-awaiting-client-review",
+  "applicationIntegration": false,
+  "scope": "Seven currently displayed core destinations only. Original IDs, coordinates and categories are copied for identity matching, not changed or newly surveyed.",
+  "voice": "Nordic editorial restraint × Vietnamese cultural depth",
+  "openingLength": {
+    "minimum": 80,
+    "maximum": 120,
+    "convention": "Whitespace-separated Vietnamese tokens; punctuation attached to a token does not add a word. This is editorial counting, not linguistic word segmentation.",
+    "measuredCounts": { "ho-hoan-kiem": 107, "pho-co": 114, "den-ngoc-son": 106, "nha-tho-lon-ha-noi": 102, "pho-sach-dinh-le": 98, "sofitel-legend-metropole-hanoi": 112, "nha-hat-mua-roi-thang-long-hoan-kiem": 109 },
+    "checkStatus": "All seven openings satisfy 80-120 under this convention; lightweight document word count only, not application execution."
+  },
+  "narrativePolicy": "Headlines/openings are newly written creative interpretation, not eyewitness reports, historical testimony, a promised visitor experience or an access recommendation. Factual anchors are separately listed in discoveryHighlights and source IDs. Figurative language is not presented as a verified physical observation.",
+  "practicalPolicy": "Addresses/areas are documentary-source-confirmed, not field-verified entrances or administrative-boundary surveys. Current hours, prices, access rules, availability, accessibility and media permissions are not assumed from a general guide. No new route, travel time, best-time recommendation or booking advice is asserted.",
+  "mediaPolicy": { "imagesAttached": false, "videosAttached": false, "assetUrls": [], "rightsStatus": "No media supplied or approved by this draft; source-page media are not adopted." },
+  "applicationLock": {
+    "approvedAuditCommit": "94690029a30a28c6185baf68bdefbfe9e7d6325c",
+    "categoryModel": "src/lib/imap-categories.ts",
+    "currentCatalog": "src/data/imap-prototype.ts",
+    "sourceHashesBeforeWork": {
+      "src/data/places.ts": "d9fd2e9f75e6a6fa9ee2f58fcd429f06d4e1460b54df124fdd0bc7d2303229de",
+      "src/data/imap-prototype.ts": "39f1562e51a82575f9c5a3449cf7446ca5b9eb0ace4f0f78201e0b8780f88676",
+      "src/pages/imap-prototype.astro": "0fe0473432b335d1d318ea1b05f490d9fd77dee83387e455baf31ac7e3a06696",
+      "src/scripts/imap-prototype.ts": "50fb2928ba3ceb845d110c0446db843b924b00197fad7343568ce5c5f6f8bc92",
+      "src/styles/imap-prototype.css": "b0d7bdd1ba1776e038c956e84a3b3151825755c8b3d0a7ebfe6717c26c0ad844",
+      "output/sprint-05a/candidates.draft.json": "e0f8875a6c1f191c84ad7f27c8753b50b64e466a8e395399012ef444d8c0d359"
+    },
+    "constraints": ["05B.1 application/UI/preview locked and untouched", "No Giang or retired ice-cream profile/marker added", "La Terrasse and pedestrian experience remain linked stories only", "Nha sach Mao remains a Dinh Le highlight, not another ID/marker", "No production publication, build, preview refresh, GitHub push or 05C.2"]
+  },
+  "sources": [
+    {
+      "id": "S01",
+      "url": "https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi",
+      "publisher": "Vietnam Tourism, national tourism guide",
+      "type": "official-tourism-guide",
+      "checkedOn": "2026-10-20",
+      "accessStatus": "page-fetched",
+      "acceptedEvidence": "Old Quarter north of Hoan Kiem; street names/trades and silver/bamboo/silk examples; everyday exercise by the lake; Ngoc Son islet and The Huc bridge; Van Xuong and Tran Hung Dao; cathedral name/Neo-Gothic inspiration/address; water-puppet stagecraft and rural scenes.",
+      "excludedEvidence": "No hours, admission rates, precise Old Quarter boundary/street count or uncorroborated legend/date attribution adopted. This page is not treated as blanket proof of all its historical or operational claims."
+    },
+    {
+      "id": "S02",
+      "url": "https://library.hust.edu.vn/vi/node/938",
+      "publisher": "Hanoi University of Science and Technology Library",
+      "type": "institutional-reading-culture-guide",
+      "checkedOn": "2026-10-20",
+      "accessStatus": "page-fetched",
+      "acceptedEvidence": "Dinh Le bookshop street in Hoan Kiem; new and used books, several book categories; Nha sach Mao at 5 Dinh Le; separate section for Hanoi Book Street on 19/12 Street.",
+      "excludedEvidence": "Generalized opening hours, bus routes, discounts, current stock, event availability and 19/12 opening-date claims are not adopted. Older ward wording is not a current legal-boundary verification."
+    },
+    {
+      "id": "S03",
+      "url": "https://www.sofitel-legend-metropole-hanoi.com/",
+      "publisher": "Sofitel Legend Metropole Hanoi",
+      "type": "operator-self-description",
+      "checkedOn": "2026-10-20",
+      "accessStatus": "page-fetched",
+      "acceptedEvidence": "Operator describes hotel history since 1901 and gives 15 Ngo Quyen Street, Hoan Kiem Ward, Hanoi.",
+      "excludedEvidence": "Prestige/superlative/celebrity marketing not repeated. Historical date is explicitly attributed to the operator, not independently certified archival history. No guest/non-guest access, room price or tour promise adopted."
+    },
+    {
+      "id": "S04",
+      "url": "https://www.sofitel-legend-metropole-hanoi.com/dining/la-terrasse/",
+      "publisher": "Sofitel Legend Metropole Hanoi",
+      "type": "operator-venue-description",
+      "checkedOn": "2026-10-20",
+      "accessStatus": "page-fetched",
+      "acceptedEvidence": "La Terrasse is a cafe/dining venue on the hotel's patio, with French/Vietnamese food-and-drink context.",
+      "excludedEvidence": "No current menu items, prices, hours, reservation requirements or non-guest access rights are promised. No additional marker."
+    },
+    {
+      "id": "S05",
+      "url": "https://nhahatmuaroithanglong.vn/en/nghe-thuat-mua-roi/",
+      "publisher": "Thang Long Water Puppet Theatre",
+      "type": "operator-art-form-description",
+      "checkedOn": "2026-10-20",
+      "accessStatus": "page-fetched",
+      "acceptedEvidence": "Water puppetry described in connection with agricultural/rural life and the relationship between nature, people and a water stage.",
+      "excludedEvidence": "Descriptions of dry puppetry are not automatically applied to water puppetry; no performance counts, repertoire, live music, schedule or current program promised."
+    },
+    {
+      "id": "S06",
+      "url": "https://nhahatmuaroithanglong.vn/en/lien-he/",
+      "publisher": "Thang Long Water Puppet Theatre",
+      "type": "operator-contact",
+      "checkedOn": "2026-10-20",
+      "accessStatus": "page-fetched",
+      "acceptedEvidence": "57B Dinh Tien Hoang, Hoan Kiem, Hanoi; contact page belongs to the intended Hoan Kiem venue.",
+      "excludedEvidence": "No current show availability, admission, duration, filming rules or accessible entrance confirmation. Not the Citadel venue."
+    },
+    {
+      "id": "S07",
+      "url": "https://www.lonelyplanet.com/points-of-interest/st-joseph-cathedral/1141867",
+      "publisher": "Lonely Planet",
+      "type": "secondary-travel-guide",
+      "checkedOn": "2026-10-20",
+      "accessStatus": "page-fetched",
+      "acceptedEvidence": "Neo-Gothic cathedral; twin bell towers and stained-glass windows.",
+      "excludedEvidence": "Entry-door instructions, Mass access, suggested cafes and inauguration date are not adopted into these profiles; operational details need current parish confirmation."
+    },
+    {
+      "id": "S08",
+      "url": "https://vietnam.travel/things-to-do/festival-event/get-ha-noi-2024",
+      "publisher": "Vietnam Tourism",
+      "type": "historical-official-event-listing",
+      "checkedOn": "2026-10-20",
+      "accessStatus": "page-fetched",
+      "acceptedEvidence": "A February 2024 program referred to pedestrian spaces around Hoan Kiem Lake.",
+      "excludedEvidence": "Historical context only: no ordinary/current pedestrianization schedule, boundary or road-closure promise."
+    }
+  ],
+  "sourceCheckGaps": [
+    { "url": "https://csdl.vietnamtourism.gov.vn/dest/?item=26", "checkedOn": "2026-10-20", "result": "Fresh request aborted; not marked freshly verified. Current Ngoc Son profile relies on successfully fetched S01, not unverified renovation dates or new practical facts." },
+    { "topic": "Cathedral operational confirmation", "result": "No current parish confirmation obtained. Secondary architectural description is labeled as such; current entry/worship/photography rules and hours remain unknown." }
+  ],
+  "profiles": [
+    {
+      "id": "ho-hoan-kiem",
+      "name": "Hồ Hoàn Kiếm",
+      "categoryId": "stamp-worthy-spot",
+      "coordinates": { "lat": 21.0286, "lng": 105.8525 },
+      "coordinateStatus": "existing-approved-approximate-reference-unchanged",
+      "headline": "Một khoảng trời giữa phố",
+      "openingStory": "Giữa những con phố, Hồ Hoàn Kiếm để lại một khoảng trống cho ánh sáng và mặt nước. Ở đây, câu chuyện Hà Nội không chỉ nằm trong một công trình riêng lẻ, mà còn ở cách thành phố sống quanh hồ. Phía bắc là Phố Cổ; trên một đảo nhỏ là đền Ngọc Sơn, nối với bờ bằng cầu Thê Húc. Những địa danh ấy tạo nên nhiều lớp nhìn, từ sinh hoạt thường ngày đến không gian thờ tự. Mặt hồ không cần kể hết mọi chuyện. Nó giữ chúng gần nhau, vừa đủ để một người mới đến bắt đầu nhận ra thành phố.",
+      "openingFactIds": ["lake-daily-life", "lake-temple", "lake-old-quarter"],
+      "discoveryHighlights": [
+        { "id": "lake-daily-life", "text": "Hướng dẫn du lịch quốc gia ghi nhận hoạt động tập thể dục, trong đó có thái cực quyền, bên hồ; đây không phải một chương trình cố định được hứa cho khách.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "documentary-guide-supported; no event guarantee" },
+        { "id": "lake-temple", "text": "Đền Ngọc Sơn nằm trên một đảo nhỏ ở phía bắc hồ, nối với bờ bằng cầu Thê Húc.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "documentary-source-supported" },
+        { "id": "lake-old-quarter", "text": "Phố Cổ nằm ở phía bắc Hồ Hoàn Kiếm: cùng một khu vực khám phá, nhưng không phải cùng một điểm đến.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "documentary-geographic-context" }
+      ],
+      "beforeYouGo": {
+        "addressOrArea": { "value": "Hồ Hoàn Kiếm, Hà Nội", "kind": "area-not-single-entrance", "verification": "documentary-area-confirmed", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"] },
+        "visitorConsiderations": ["Ghim hiện có đại diện cho hồ, không xác nhận cổng vào hay một tuyến đi bộ cụ thể.", "Trải nghiệm không gian đi bộ là câu chuyện liên kết; lịch hoạt động và phạm vi hiện hành chưa được xác nhận."],
+        "unknowns": ["Điều chỉnh tiếp cận hoặc đường đóng hiện hành", "Lối tiếp cận phù hợp nhu cầu di chuyển cụ thể", "Điều kiện của các dịch vụ hoặc hoạt động quanh hồ"],
+        "openingHours": null, "prices": null, "accessRules": null
+      },
+      "relatedExperience": { "id": "khong-gian-di-bo-hoan-kiem", "kind": "approved-linked-story", "title": "Không gian đi bộ hồ Hoàn Kiếm và phụ cận", "rationale": "Một cách kể tiếp về đời sống cộng đồng quanh cùng mặt hồ; không thêm marker và không hứa lịch hoạt động.", "relationshipStatus": "existing-approved-link; current-arrangements-unverified", "sourceIds": ["S08"], "sourceUrls": ["https://vietnam.travel/things-to-do/festival-event/get-ha-noi-2024"] }
+    },
+    {
+      "id": "pho-co",
+      "name": "Phố Cổ",
+      "categoryId": "stamp-worthy-spot",
+      "coordinates": { "lat": 21.0358, "lng": 105.8504 },
+      "coordinateStatus": "existing-approved-representative-area-pin-unchanged",
+      "headline": "Đi qua những tên nghề",
+      "openingStory": "Ở Phố Cổ, một tên phố có thể mở ra câu chuyện về một nghề, một vật liệu, một cách trao đổi đã góp phần hình thành khu vực. Bạc, tre, lụa xuất hiện trong lời giới thiệu về những tuyến phố buôn bán, như những đầu mối để đọc đời sống đô thị. Nhưng khu phố không nên bị thu nhỏ thành một tấm bưu ảnh của quá khứ. Phía bắc Hồ Hoàn Kiếm, những tên gọi cũ vẫn đặt câu hỏi cho người nhìn hôm nay: điều gì được giữ lại, điều gì đổi khác? Câu chuyện ở đây nằm trong khoảng cách giữa một cái tên và đời sống quanh nó.",
+      "openingFactIds": ["quarter-trades", "quarter-materials", "quarter-location"],
+      "discoveryHighlights": [
+        { "id": "quarter-trades", "text": "Nguồn du lịch quốc gia mô tả tên các phố gắn với hoạt động của thợ thủ công và mặt hàng từng được buôn bán.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "documentary-historical-trade-context; not a claim every trade survives unchanged" },
+        { "id": "quarter-materials", "text": "Bạc, tre và lụa là những ví dụ nguồn giới thiệu dùng để gợi các tuyến phố nghề; không coi đây là danh mục hàng hóa hiện có của từng cửa hàng.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "source-examples-only; current-stock-unverified" },
+        { "id": "quarter-location", "text": "Phố Cổ được giới thiệu là khu vực phía bắc Hồ Hoàn Kiếm, không phải một công trình có cổng vào duy nhất.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "documentary-area-context" }
+      ],
+      "beforeYouGo": {
+        "addressOrArea": { "value": "Khu vực phía bắc Hồ Hoàn Kiếm, Hà Nội", "kind": "area-not-single-street-address", "verification": "documentary-area-confirmed", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"] },
+        "visitorConsiderations": ["Một ghim đại diện không bao quát toàn bộ khu phố và không xác nhận lộ trình tham quan.", "Không suy ra mọi tuyến phố đều dành cho người đi bộ hoặc các cửa hàng có cùng điều kiện tiếp cận."],
+        "unknowns": ["Tổ chức giao thông và công trình trên từng tuyến tại ngày đến", "Giờ, hàng hóa và quyền tiếp cận từng cửa hàng", "Lộ trình và khả năng tiếp cận phù hợp nhu cầu riêng"],
+        "openingHours": null, "prices": null, "accessRules": null
+      },
+      "relatedExperience": { "id": "nha-hat-mua-roi-thang-long-hoan-kiem", "kind": "existing-approved-core-destination", "title": "Nhà hát Múa rối Thăng Long – Đinh Tiên Hoàng", "rationale": "Từ câu chuyện trao đổi trên phố sang một hình thức kể chuyện sân khấu ở khu vực hồ; không xác nhận tuyến đi bộ, giờ diễn hay thời gian di chuyển.", "relationshipStatus": "editorial-pairing-based-on-locked-nearby-reference-pins", "sourceIds": ["S01", "S06"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi", "https://nhahatmuaroithanglong.vn/en/lien-he/"] }
+    },
+    {
+      "id": "den-ngoc-son",
+      "name": "Đền Ngọc Sơn",
+      "categoryId": "stamp-worthy-spot",
+      "coordinates": { "lat": 21.030735, "lng": 105.8523984 },
+      "coordinateStatus": "approved-feature-reference-unchanged; entrance-unverified",
+      "headline": "Qua cầu, gặp một lớp chữ",
+      "openingStory": "Đền Ngọc Sơn bắt đầu bằng một khoảng nước ngăn với phố và một cây cầu nối lại. Cầu Thê Húc dẫn từ bờ hồ tới đảo nhỏ, đưa câu chuyện từ cảnh quan sang không gian thờ tự. Nơi đây gắn với Văn Xương, biểu tượng của văn chương, cùng Trần Hưng Đạo, nhân vật lịch sử được tưởng nhớ trong đền. Không cần hiểu hết mọi lớp nghĩa để cảm nhận sự hiện diện của chữ và ký ức. Giữa hồ, hòn đảo nhỏ mở ra một Hà Nội nơi tri thức, niềm tin và cảnh vật cùng được đặt trong một khuôn nhìn.",
+      "openingFactIds": ["temple-islet-bridge", "temple-figures"],
+      "discoveryHighlights": [
+        { "id": "temple-islet-bridge", "text": "Đền nằm trên đảo nhỏ ở phía bắc Hồ Hoàn Kiếm; cầu Thê Húc nối đảo với bờ.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "documentary-source-supported" },
+        { "id": "temple-figures", "text": "Nguồn du lịch giới thiệu Văn Xương và Trần Hưng Đạo trong nội dung thờ tự của đền. Cách đặt văn chương bên ký ức lịch sử trong mở truyện là diễn giải biên tập, không phải mô tả đầy đủ hệ thống tín ngưỡng.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "documentary-figures; interpretation-explicitly-separated" }
+      ],
+      "beforeYouGo": {
+        "addressOrArea": { "value": "Đảo Ngọc Sơn, Hồ Hoàn Kiếm, Hà Nội", "kind": "site-area-not-verified-door", "verification": "documentary-site-location-confirmed", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"] },
+        "visitorConsiderations": ["Đây là không gian thờ tự trong một quần thể cảnh quan, không chỉ một điểm nhìn ra hồ.", "Tọa độ giữ nguyên là điểm tham khảo của công trình, không xác nhận cổng kiểm soát, đường lên cầu hay lối tiếp cận phù hợp."],
+        "unknowns": ["Giờ và giá vé hiện hành", "Quy định tham quan, chụp ảnh hoặc hoạt động thờ tự tại ngày đến", "Điều kiện tiếp cận và khu vực có thể tạm hạn chế"],
+        "openingHours": null, "prices": null, "accessRules": null
+      },
+      "relatedExperience": { "id": "ho-hoan-kiem", "kind": "existing-approved-core-destination", "title": "Hồ Hoàn Kiếm", "rationale": "Đặt ngôi đền trở lại trong cảnh quan hồ, để đọc quan hệ giữa đảo nhỏ và không gian thành phố quanh bờ.", "relationshipStatus": "source-confirmed-shared-lake-ensemble", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"] }
+    },
+    {
+      "id": "nha-tho-lon-ha-noi",
+      "name": "Nhà thờ Lớn Hà Nội",
+      "categoryId": "stamp-worthy-spot",
+      "coordinates": { "lat": 21.02861, "lng": 105.84889 },
+      "coordinateStatus": "provisional-secondary-reference-unchanged; not-verified-entrance",
+      "headline": "Khoảng lặng giữa hai tháp",
+      "openingStory": "Ở Nhà thờ Lớn, cách nhìn thành phố có thể bắt đầu từ chiều cao. Hai tháp chuông, những ô kính màu và ngôn ngữ kiến trúc Tân Gothic tạo một bố cục khác với mặt nước và các tuyến phố quanh Hồ Hoàn Kiếm. Nhưng đây không chỉ là một mặt đứng để ngắm. Câu chuyện của một nơi thờ tự còn nằm ở ý nghĩa mà cộng đồng đặt vào đó. Nhìn từ phố, nhà thờ gợi một khoảng lặng không tách khỏi đời sống Hà Nội, mà khiến nhịp sống xung quanh được cảm nhận theo một cách khác.",
+      "openingFactIds": ["cathedral-gothic", "cathedral-towers-glass"],
+      "discoveryHighlights": [
+        { "id": "cathedral-gothic", "text": "Nguồn du lịch quốc gia liên hệ kiến trúc nhà thờ với cảm hứng Tân Gothic của Notre-Dame de Paris. Đây là quan hệ về cảm hứng kiến trúc, không khẳng định hai công trình giống hệt nhau.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "documentary-guide-supported" },
+        { "id": "cathedral-towers-glass", "text": "Lonely Planet mô tả hai tháp chuông và cửa kính màu là những đặc điểm kiến trúc đáng chú ý. Nguồn thứ cấp này không xác nhận quyền vào tham quan bên trong hiện nay.", "sourceIds": ["S07"], "sourceUrls": ["https://www.lonelyplanet.com/points-of-interest/st-joseph-cathedral/1141867"], "verification": "secondary-source-supported; current-interior-access-unverified" }
+      ],
+      "beforeYouGo": {
+        "addressOrArea": { "value": "40 Nhà Chung, Hà Nội", "kind": "documentary-street-address-not-verified-entrance", "verification": "tourism-guide-confirmed; current-parish-entry-unverified", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"] },
+        "visitorConsiderations": ["Nhà thờ là không gian thờ tự; mô tả kiến trúc không đồng nghĩa với quyền vào mọi khu vực.", "Ghim được duyệt ở mức tham khảo tạm thời, không phải lối vào đã xác minh. Không chuyển hướng dẫn cửa phụ trong nguồn thứ cấp thành chỉ dẫn hiện hành."],
+        "unknowns": ["Lịch phụng vụ, giờ tham quan và cửa vào hiện hành", "Quy định ghi hình và tiếp cận bên trong", "Lối tiếp cận phù hợp nhu cầu di chuyển cụ thể"],
+        "openingHours": null, "prices": null, "accessRules": null
+      },
+      "relatedExperience": { "id": "pho-sach-dinh-le", "kind": "existing-approved-core-destination", "title": "Phố sách Đinh Lễ", "rationale": "Một chuyển cảnh biên tập từ ngôn ngữ kiến trúc sang văn hóa đọc trong cùng khu vực trung tâm; không hứa tuyến đi bộ hay giờ mở cửa.", "relationshipStatus": "editorial-pairing-based-on-locked-nearby-reference-pins", "sourceIds": ["S01", "S02"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi", "https://library.hust.edu.vn/vi/node/938"] }
+    },
+    {
+      "id": "pho-sach-dinh-le",
+      "name": "Phố sách Đinh Lễ",
+      "categoryId": "experience",
+      "coordinates": { "lat": 21.0256720, "lng": 105.8545573 },
+      "coordinateStatus": "approved-representative-street-node-unchanged; not-a-shop-door",
+      "headline": "Nơi Hà Nội cất giữ những trang sách cũ.",
+      "approvedAngle": "Nơi Hà Nội cất giữ những trang sách cũ.",
+      "openingStory": "Đinh Lễ không chỉ gợi một nơi tìm sách, mà còn là một cách ở lại với những trang đã đọc và những trang chưa mở. Sách mới và sách cũ cùng xuất hiện trong câu chuyện của con phố, bên những hiệu sách mang tên riêng. Nhà sách Mão, tại số 5, là một điểm nhấn có thể kể trong câu chuyện chung của con phố. Giữa những tên sách, ký ức đọc không cần thuộc về cùng một thế hệ. Nó nối người tìm một cuốn quen với người đang bắt đầu một cuộc đọc khác.",
+      "openingFactIds": ["books-variety", "books-mao"],
+      "discoveryHighlights": [
+        { "id": "books-variety", "text": "HUST ghi nhận cả sách mới và sách cũ trên phố Đinh Lễ, với những nhóm sách như văn học, giáo khoa và tham khảo; không bảo đảm đầu sách hay tồn kho cụ thể.", "sourceIds": ["S02"], "sourceUrls": ["https://library.hust.edu.vn/vi/node/938"], "verification": "institutional-guide-supported; current-stock-unverified" },
+        { "id": "books-mao", "text": "Nhà sách Mão được nguồn HUST nêu tại số 5 Đinh Lễ. Đây là điểm nhấn có thể kể trong một điểm đến cấp con phố, không phải marker hoặc hồ sơ điểm đến riêng.", "sourceIds": ["S02"], "sourceUrls": ["https://library.hust.edu.vn/vi/node/938"], "verification": "institutional-address-reference; current-shop-access-unverified" },
+        { "id": "books-not-1912", "text": "Phố sách Đinh Lễ và Phố sách Hà Nội trên đường 19/12 được HUST giới thiệu thành hai mục riêng: không dùng lẫn tên, địa chỉ hoặc giờ hoạt động.", "sourceIds": ["S02"], "sourceUrls": ["https://library.hust.edu.vn/vi/node/938"], "verification": "documentary-identity-distinction" }
+      ],
+      "beforeYouGo": {
+        "addressOrArea": { "value": "Phố Đinh Lễ, Hoàn Kiếm, Hà Nội", "kind": "street-destination-not-single-shop-address", "verification": "institutional-location-confirmed; current-ward-wording-not-audited", "sourceIds": ["S02"], "sourceUrls": ["https://library.hust.edu.vn/vi/node/938"] },
+        "visitorConsiderations": ["Đây là phố có nhiều hiệu sách, không phải một đơn vị vận hành với giờ và quyền tiếp cận chung.", "Nhà sách Mão là gợi ý nội dung trong câu chuyện con phố; chưa xác nhận hoạt động tại ngày đến, tồn kho hay lối tiếp cận của cửa hàng."],
+        "unknowns": ["Giờ và tình trạng hoạt động hiện tại của từng hiệu sách", "Tồn kho, giá sách và chương trình sự kiện", "Lối tiếp cận hoặc điều kiện riêng của Nhà sách Mão"],
+        "openingHours": null, "prices": null, "accessRules": null
+      },
+      "relatedExperience": { "id": "nha-tho-lon-ha-noi", "kind": "existing-approved-core-destination", "title": "Nhà thờ Lớn Hà Nội", "rationale": "Một cách nối văn hóa đọc với ngôn ngữ kiến trúc ở khu vực gần hồ; ghim nhà thờ vẫn chỉ là tham khảo tạm thời, không phải chỉ dẫn cửa vào.", "relationshipStatus": "editorial-pairing-based-on-locked-nearby-reference-pins", "sourceIds": ["S01", "S02"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi", "https://library.hust.edu.vn/vi/node/938"] }
+    },
+    {
+      "id": "sofitel-legend-metropole-hanoi",
+      "name": "Sofitel Legend Metropole Hanoi",
+      "categoryId": "stay",
+      "coordinates": { "lat": 21.0254649, "lng": 105.8560628 },
+      "coordinateStatus": "approved-property-reference-unchanged; non-guest-entry-unverified",
+      "headline": "Thành phố qua một địa chỉ",
+      "openingStory": "Metropole là một địa chỉ để đọc Hà Nội qua mối quan hệ giữa lưu trú và ký ức đô thị. Theo giới thiệu của khách sạn, câu chuyện nơi này bắt đầu từ năm 1901. Một mốc thời gian không tự kể hết lịch sử, nhưng mở ra câu hỏi về những gì một địa chỉ có thể chứng kiến khi thành phố thay đổi. Trên hiên khách sạn, La Terrasse đem góc nhìn ấy gần hơn với đời sống ngoài phố. Ở đây, sự sang trọng không cần là lời hứa trong câu chữ; điều đáng chú ý là cách một nơi chốn giữ lại và kể về chính mình.",
+      "openingFactIds": ["hotel-1901", "hotel-terrasse"],
+      "discoveryHighlights": [
+        { "id": "hotel-1901", "text": "Khách sạn tự giới thiệu lịch sử của mình từ năm 1901. Mốc này được trình bày như thông tin của đơn vị vận hành, không phải kết quả nghiên cứu lưu trữ độc lập trong bản thảo.", "sourceIds": ["S03"], "sourceUrls": ["https://www.sofitel-legend-metropole-hanoi.com/"], "verification": "operator-self-reported-historical-date" },
+        { "id": "hotel-terrasse", "text": "La Terrasse được khách sạn mô tả là không gian cà phê và ẩm thực trên hiên, với bối cảnh món ăn và đồ uống Pháp–Việt; giữ dưới dạng câu chuyện liên kết của cùng địa chỉ.", "sourceIds": ["S04"], "sourceUrls": ["https://www.sofitel-legend-metropole-hanoi.com/dining/la-terrasse/"], "verification": "operator-relationship-and-setting-confirmed; current-offerings-unadopted" }
+      ],
+      "beforeYouGo": {
+        "addressOrArea": { "value": "15 Ngô Quyền, Hà Nội", "kind": "operator-property-address", "verification": "operator-address-confirmed; public-entry-unverified", "sourceIds": ["S03"], "sourceUrls": ["https://www.sofitel-legend-metropole-hanoi.com/"] },
+        "visitorConsiderations": ["Đây là địa chỉ lưu trú đang được giới thiệu bởi đơn vị vận hành; không mặc định toàn bộ không gian là điểm tham quan công cộng.", "La Terrasse chỉ là câu chuyện liên kết. Bản thảo không xác nhận khách không lưu trú được vào khu vực nào, có cần đặt chỗ hay có dịch vụ tham quan hay không."],
+        "unknowns": ["Quyền tiếp cận của khách không lưu trú và từng khu vực", "Giờ, đặt chỗ, giá và điều kiện sử dụng dịch vụ", "Quy định chụp ảnh, ghi hình hoặc tham quan di sản của khách sạn"],
+        "openingHours": null, "prices": null, "accessRules": null
+      },
+      "relatedExperience": { "id": "la-terrasse-metropole", "kind": "approved-linked-story", "title": "La Terrasse", "rationale": "Cùng khuôn viên khách sạn, chuyển trọng tâm từ lịch sử địa chỉ sang góc nhìn hiên phố; không thêm marker hay hứa quyền vào dùng dịch vụ.", "relationshipStatus": "operator-confirmed-parent-venue-link; access-unverified", "sourceIds": ["S04"], "sourceUrls": ["https://www.sofitel-legend-metropole-hanoi.com/dining/la-terrasse/"] }
+    },
+    {
+      "id": "nha-hat-mua-roi-thang-long-hoan-kiem",
+      "name": "Nhà hát Múa rối Thăng Long – Đinh Tiên Hoàng",
+      "categoryId": "experience",
+      "coordinates": { "lat": 21.0317043, "lng": 105.8534550 },
+      "coordinateStatus": "approved-mapped-building-reference-unchanged; entrance-unverified",
+      "headline": "Những câu chuyện nổi trên nước",
+      "openingStory": "Mặt nước ở nhà hát không chỉ là phông cảnh. Nó trở thành sân khấu, nơi những con rối gỗ được điều khiển từ phía sau màn để kể lại những hình ảnh của đời sống làng quê. Ở địa chỉ Đinh Tiên Hoàng, câu chuyện ấy đặt một hình thức nghệ thuật truyền thống vào nhịp gặp gỡ của thành phố. Điều hấp dẫn không nằm ở lời hứa phải hiểu mọi tích trò, mà ở khoảng cách giữa chuyển động nhìn thấy và bàn tay được che đi. Một thế giới nhỏ hiện ra trên nước, để trí tưởng tượng có chỗ tiếp tục phần còn lại.",
+      "openingFactIds": ["puppet-rural-context", "puppet-stagecraft"],
+      "discoveryHighlights": [
+        { "id": "puppet-rural-context", "text": "Trang giới thiệu nghệ thuật của nhà hát gắn múa rối nước với điều kiện tự nhiên, công việc và tâm tư của người làm nông; không áp các mô tả rối cạn sang rối nước.", "sourceIds": ["S05"], "sourceUrls": ["https://nhahatmuaroithanglong.vn/en/nghe-thuat-mua-roi/"], "verification": "operator-art-form-context" },
+        { "id": "puppet-stagecraft", "text": "Hướng dẫn du lịch quốc gia mô tả nhân vật gỗ sơn, người điều khiển đứng sau màn và dùng sào tre để tái hiện cảnh sinh hoạt nông thôn. Đây là mô tả loại hình, không phải cam kết về tiết mục của một suất cụ thể.", "sourceIds": ["S01"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi"], "verification": "documentary-general-stagecraft; specific-program-unverified" }
+      ],
+      "beforeYouGo": {
+        "addressOrArea": { "value": "57B Đinh Tiên Hoàng, Hoàn Kiếm, Hà Nội", "kind": "operator-venue-address", "verification": "operator-contact-confirmed; accessible-door-unverified", "sourceIds": ["S06"], "sourceUrls": ["https://nhahatmuaroithanglong.vn/en/lien-he/"] },
+        "visitorConsiderations": ["Đúng địa điểm Đinh Tiên Hoàng; không dùng thông tin của sân khấu ở Hoàng thành để thay thế.", "Địa chỉ được xác nhận không đồng nghĩa có suất diễn hoặc chỗ ngồi vào thời điểm mong muốn."],
+        "unknowns": ["Lịch diễn, tiết mục và tình trạng chỗ ngồi hiện hành", "Giá vé, thời lượng, quy định ghi hình và điều kiện đặt chỗ", "Lối tiếp cận, hỗ trợ ngôn ngữ hoặc hỗ trợ nhu cầu riêng"],
+        "openingHours": null, "prices": null, "accessRules": null
+      },
+      "relatedExperience": { "id": "ho-hoan-kiem", "kind": "existing-approved-core-destination", "title": "Hồ Hoàn Kiếm", "rationale": "Đặt mặt nước sân khấu cạnh mặt nước của đời sống đô thị trong cùng khu vực; đây là liên hệ biên tập, không phải chỉ dẫn tuyến hoặc lịch tham quan.", "relationshipStatus": "editorial-pairing-based-on-locked-nearby-reference-pins", "sourceIds": ["S01", "S06"], "sourceUrls": ["https://vietnam.travel/things-to-do/11-must-see-attractions-ha-noi", "https://nhahatmuaroithanglong.vn/en/lien-he/"] }
+    }
+  ],
+  "billingImpact": "Draft-only local text/source research; no application integration or new runtime requests/assets/subscription. Existing Sprint 05B.1 USD 0/month incremental configured application-service subtotal remains unchanged under its hosting/traffic assumptions; research/editorial labor and future media/rights work remain excluded/unquoted. No new vendor price or free-quota claim.",
+  "approvalGates": ["Client review of all seven headlines/openings and factual anchors", "Current practical/access confirmation before adopting operational claims", "No media attachment without separate rights/approval", "No changes to locked 05B.1 application/IDs/pins/categories or linked-only treatment", "No 05C.2 or integration until separately approved"]
+}

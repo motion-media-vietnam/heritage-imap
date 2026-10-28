@@ -1,0 +1,17 @@
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Generated 1ms","label":"types","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Re-optimizing dependencies because vite config has changed","label":"vite","level":"info"}
+{"message":" astro  v7.3.8 ready in 583 ms\n┃ Local    http://localhost:4321/\n┃ Network  http://172.18.0.5:4321/","label":"SKIP_FORMAT","level":"info"}
+{"message":"watching for file changes...","label":null,"level":"info"}
+{"message":"[200] / 17290ms","label":null,"level":"info"}
+{"message":"[200] HEAD / 55ms","label":null,"level":"info"}
+{"message":"[200] / 20ms","label":null,"level":"info"}
+{"message":"[200] /imap/ 38ms","label":null,"level":"info"}
+{"message":"[200] /imap-prototype/ 38ms","label":null,"level":"info"}
+{"message":"[200] / 70ms","label":null,"level":"info"}
+{"message":"[200] /imap-prototype/ 28ms","label":null,"level":"info"}
+{"message":"[200] / 23ms","label":null,"level":"info"}
+{"message":"[200] /imap-prototype/ 10ms","label":null,"level":"info"}
+{"message":"[200] / 28ms","label":null,"level":"info"}
+{"message":"[200] / 13ms","label":null,"level":"info"}

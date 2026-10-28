@@ -1,0 +1,58 @@
+✔ the historical district directory contains 30 distinct areas (2.290466ms)
+✔ each curated place belongs to exactly one known directory area (0.456408ms)
+✔ Hanoi guide contains exactly the six selected destinations (3.977218ms)
+✔ search accepts Vietnamese accents, plain spelling and alternative names (1.887702ms)
+✔ search and category filters combine and can return no matches (3.118072ms)
+✔ nearby results change with the visitor location (0.867951ms)
+✔ distance uses geographic coordinates and results are nearest first (0.722141ms)
+✔ distances use Vietnamese number formatting (43.130059ms)
+✔ Heritage video metadata, other covers and playback script are byte-preserved (2.072811ms)
+✔ all mobile covers explicitly override desktop sizing with uncropped 16:9 frames (7.004231ms)
+✔ paper transition is scoped to the existing Heritage background, with no geometry changes (2.754534ms)
+✔ only the lotus story uses the optimized supplied image, with real intrinsic dimensions (11.220245ms)
+✔ Heritage records retain the three verified IDs and matching URLs (3.266952ms)
+✔ built homepage renders unchanged Heritage cards and gated destination media (4.061212ms)
+﹣ running homepage completes rendering and preserves all video associations (0.242088ms) # SKIP
+✔ only approved destination media is eligible; missing/draft/unverified candidates never become playable (2.382974ms)
+✔ media gates reject city/destination mismatch, non-HD formats, unsafe sources and missing rights (0.644513ms)
+✔ poster/cover approval and credits are independent of the video approval (0.619972ms)
+✔ optional practical copy needs current, non-empty evidence and explicit publication approval (0.376378ms)
+✔ published templates keep the approved landscape frame but gate prototype copy and player sources (0.590545ms)
+✔ the actual custom-element lifecycle mounts once and cleans up before reconnecting (85.393698ms)
+✔ one guarded Leaflet construction and one layer are shared by selection and directory events (7.112513ms)
+✔ actual tile status callbacks do not announce successful map loading after tile failures (7.458662ms)
+✔ all six identities/coordinates remain fixed and repeated filtered selections agree (3.321124ms)
+✔ frozen Hero and sections outside the explorer are byte-identical (2.421005ms)
+✔ every shared explorer CSS selector is scoped, with approved ratios and media framing (21.570835ms)
+✔ each explorer has independent origin, filters, selection and sheet state (2.785612ms)
+✔ instance disposal aborts only its own listeners and releases every owned resource once (0.895814ms)
+✔ the active shared Leaflet layer retains the approved endpoint, referrer policy and attribution (77.990998ms)
+✔ built homepage and full iMap each render one shared explorer without legacy embeds (3.106833ms)
+﹣ live homepage and full route serve the active map controller and real Leaflet module (0.240543ms) # SKIP
+✔ mobile discovery is 52px plus the actual safe area at every normal viewport height (1.645578ms)
+✔ initial story fits measured title/video when possible, without exceeding available sheet space (0.515579ms)
+✔ shared route discovery provides native keyboard control and filtered-count updates (1.647628ms)
+✔ selection is synchronized through one slug and rejects filtered destinations (1.555445ms)
+✔ nearby destinations exclude self and sort straight-line distances (0.592016ms)
+✔ sheet drag clamps expanded and collapsed heights (0.20541ms)
+✔ unverified videos are absent and practical facts carry primary source and verification date (0.352124ms)
+✔ isolated route does not import approved Heritage or production map and preserves OSM fix (0.71952ms)
+✔ district discovery contains only populated areas and filters combine (2.06168ms)
+✔ mobile sheet has three distinct snap states inside the map viewport (0.970221ms)
+✔ route keeps discovery in an overlay sheet and uses the three-area desktop grid (0.688567ms)
+✔ built prototype retains all destinations and honest per-place video placeholders (1.268919ms)
+﹣ isolated prototype preview renders without integrating into the homepage (0.445025ms) # SKIP
+﹣ prototype Leaflet browser module loads, not just its HTML shell (0.266195ms) # SKIP
+✔ destination video preserves the original landscape frame and native user controls (1.129094ms)
+✔ mobile selection opens enough of an existing sheet state for title and landscape video (0.201775ms)
+✔ presentation mode hides only marked development chrome without altering map attribution (4.171581ms)
+✔ mobile header is compact and map-return states preserve destination and camera (1.21774ms)
+✔ the existing OSM tile layer explicitly preserves the approved referrer policy (58.48893ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 46
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 4
+ℹ todo 0
+ℹ duration_ms 4146.102643

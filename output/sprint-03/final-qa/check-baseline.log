@@ -1,0 +1,26 @@
+
+> mm-guide@0.0.1 check
+> astro check
+
+14:56:43 [vite] Re-optimizing dependencies because vite config has changed
+14:56:43 [types] Generated 499ms
+14:56:43 [check] Getting diagnostics for Astro files in /Projects/mm-guide...
+
+<--- Last few GCs --->
+
+[60651:0x4266a000]    46242 ms: Mark-Compact 253.7 (259.1) -> 251.7 (258.1) MB, pooled: 1.8 MB, 328.17 / 0.00 ms (average mu = 0.146, current mu = 0.053) allocation failure; scavenge might not succeed
+[60651:0x4266a000]    46688 ms: Incremental Mark-Compact (reduce) 253.8 (259.4) -> 251.9 (256.4) MB, pooled: 0.0 MB, 319.86 / 0.00 ms (+ 4.5 ms in 2 steps since start of marking, biggest step 3.1 ms, walltime since start of marking 363 ms) (average mu = 0
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 0x82153b node::OOMErrorHandler(char const*, v8::OOMDetails const&) [node]
+ 2: 0xc771eb  [node]
+ 3: 0xee8135  [node]
+ 4: 0xee633c  [node]
+ 5: 0xed93d4  [node]
+ 6: 0xed91fc  [node]
+ 7: 0xed8b8f  [node]
+ 8: 0xeb4d1d  [node]
+ 9: 0x1373391  [node]
+10: 0x1a89a76  [node]
+Aborted

@@ -1,0 +1,121 @@
+---
+import { prototypeCollection as places, prototypePlaces as mappedPlaces, filterPrototypeCollection, isMappedPrototypePlace, populatedPrototypeDistricts as populatedDistricts,
+  prototypeReferences, prototypeLinkedStories } from '../../data/imap-prototype';
+import { practicalInformation, nearbyDestinations, dedicatedVideos } from '../../lib/imap-prototype';
+import { featuredPrototypeStories, featuredAffiliateUrl } from '../../data/imap-featured';
+import { resolveDestinationMedia } from '../../lib/destination-media';
+import DestinationMedia from '../DestinationMedia.astro';
+import { formatDistance } from '../../lib/explore';
+import { googleWalkingDirections } from '../../lib/imap-directions';
+import { createNeighborhoodState, discoveryCategories, markerCategory } from '../../lib/imap-neighborhood';
+import DestinationPortrait from '../DestinationPortrait.astro';
+import 'leaflet/dist/leaflet.css';
+import '../../styles/imap-prototype.css';
+interface Props { embedded?: boolean }
+const { embedded = false } = Astro.props;
+const Slogan = embedded ? 'h2' : 'h1';
+const initialPlaces = filterPrototypeCollection(createNeighborhoodState());
+const initiallyVisible = new Set(initialPlaces.map(place => place.slug));
+---
+<section class="imap-prototype" data-embedded={embedded ? 'true' : undefined} id={embedded ? 'experiences' : undefined} aria-label="iMap · Khám phá Hà Nội">
+    <a class="skip" href="#prototype-directory">Đến danh sách địa điểm</a>
+    {!embedded && <header class="prototype-header"><a href="/">My Hanoi <strong>iMap</strong></a><span>HÀ NỘI / NHỮNG CÂU CHUYỆN GẦN BẠN</span><b class="development-only">04A · PROTOTYPE</b></header>}
+    <div class="prototype-main">
+      <div class="intro"><p class="kicker">MỘT THÀNH PHỐ. NHIỀU CÂU CHUYỆN.</p><Slogan class="prototype-slogan">Chạm để khám phá</Slogan><p class="development-only">Bản mẫu khu vực đi bộ · Mục tiêu 8–12 điểm khi có dữ liệu đã duyệt · Chưa tích hợp trang chủ.</p></div>
+      <section class="tools" id={embedded ? 'search' : undefined} aria-label="Tìm và lọc địa điểm">
+        <label class="search-label"><span class="sr-only">Tìm trong Hà Nội</span><input id="prototype-search" type="search" placeholder="Tìm Hồ Gươm, Văn Miếu, Phố Cổ…" autocomplete="off" /></label>
+        <label class="filter-label"><span>Danh mục</span><select id="prototype-category" aria-label="Lọc theo danh mục"><option value="All">Mọi danh mục</option>{discoveryCategories.map(category => <option value={category.id} data-category-option>{category.label}</option>)}</select></label>
+        <label class="filter-label"><span>Bán kính</span><select id="prototype-radius" aria-label="Bán kính khám phá" aria-describedby="prototype-distance-note"><option value="500">500 m</option><option value="1000" selected>1 km</option><option value="2000">2 km</option><option value="All">Tất cả</option></select></label>
+        <label class="filter-label"><span>Khu vực</span><select id="prototype-district" aria-label="Khám phá theo khu vực"><option value="All">Mọi khu vực</option>{populatedDistricts.map(district => <option value={district.name} data-district-option>{district.name} · {district.count}</option>)}</select></label>
+        <p id="prototype-count" role="status">{initialPlaces.length} địa điểm</p>
+        <p id="prototype-filter-feedback" class="sr-only" role="status" aria-atomic="true"></p>
+        <div class="discovery-options"><button id="prototype-locate" type="button" aria-describedby="prototype-location-note">Dùng vị trí của tôi</button><span id="prototype-center-label">Trung tâm: Hồ Hoàn Kiếm</span><span class="development-only">Vị trí chỉ dùng trong phiên; OSM tải nền bản đồ khu vực đang xem.</span></div>
+        <p id="prototype-location-note" class="sr-only">Chỉ dùng vị trí khi bạn cho phép; vị trí không được lưu sau phiên. Bạn vẫn có thể khám phá mà không bật định vị.</p>
+        <p id="prototype-distance-note" class="sr-only">Bán kính tham khảo, không phải chỉ đường đi bộ.</p>
+        <p id="prototype-location-message" class="location-message" role="status"></p>
+      </section>
+      <section id="prototype-explorer" class="explorer" aria-label="Khám phá Hà Nội">
+        <div id="prototype-sheet" class="prototype-sheet" data-sheet-state="collapsed">
+          <div id="sheet-handle" class="sheet-handle">
+            <span class="drag-grip" aria-hidden="true"></span>
+            <button id="prototype-discovery" class="discovery-bar" type="button" aria-expanded="false" aria-controls="prototype-directory">Khám phá {initialPlaces.length} địa điểm</button>
+            <div class="sheet-states" role="group" aria-label="Kích thước bảng khám phá">
+              <button type="button" data-sheet-state="collapsed" aria-pressed="true" aria-controls="prototype-directory prototype-story" aria-label="Thu gọn để xem bản đồ, giữ địa điểm đang chọn">Bản đồ</button>
+              <button type="button" data-sheet-state="half" aria-pressed="false" aria-controls="prototype-directory prototype-story">Một nửa</button>
+              <button type="button" data-sheet-state="expanded" aria-pressed="false" aria-controls="prototype-directory prototype-story">Mở rộng</button>
+            </div>
+          </div>
+          <aside id="prototype-directory" class="directory" aria-labelledby="directory-heading" tabindex="-1">
+            <p class="kicker">BỘ SƯU TẬP HÀ NỘI</p><h2 id="directory-heading">Chọn một địa điểm</h2>
+            <button id="prototype-directory-all" type="button" hidden>← Tất cả địa điểm trong bộ lọc</button>
+            <ol>{places.map((place, index) => {
+              const category = isMappedPrototypePlace(place) ? markerCategory(place) : undefined;
+              return <li data-directory-item={place.slug} hidden={!initiallyVisible.has(place.slug)}>
+                <button type="button" class="directory-row" data-select-place={place.slug} data-marker-number={String(index + 1).padStart(2, '0')} aria-pressed="false" aria-controls="prototype-story">
+                  <DestinationPortrait src={place.portraitImage} />
+                  <span class="directory-copy"><small class="directory-category-label">{category ? discoveryCategories.find(item => item.id === category)!.label : 'Nội dung đang được cập nhật'}</small><strong>{place.name}</strong><small class="directory-area" title={place.area}>{place.area.replace(/^Khu vực /, '')}</small></span>
+                </button>
+              </li>;
+            })}</ol>
+            <div id="prototype-empty" hidden={initialPlaces.length > 0}><p id="prototype-empty-message">Chưa có địa điểm phù hợp. Bạn thử đổi khu vực hoặc mở rộng bán kính nhé.</p></div>
+            <button id="prototype-clear-filters" type="button" aria-controls="prototype-search prototype-category prototype-radius prototype-district prototype-directory prototype-map" hidden>Xóa bộ lọc</button>
+            <p class="data-note" hidden>Khu vực dùng tên quận cũ trước 01/07/2025. Bán kính dùng khoảng cách địa lý, không phải quãng đường đi bộ hay ranh giới quận. Giữ hồ sơ hiện có và các điểm tham khảo đã duyệt; không thêm ghim khi tọa độ còn chưa xác định. Tọa độ gần đúng, không phải cổng vào đã xác minh.</p>
+          </aside>
+          <aside id="prototype-story" class="story" aria-labelledby="prototype-story-label" tabindex="-1" hidden>
+            <div class="story-toolbar"><span id="prototype-story-label">Câu chuyện điểm đến</span><button id="prototype-close" type="button" aria-label="Quay lại bản đồ"><span class="back-map-label">← Quay lại bản đồ</span><span class="close-story-icon" aria-hidden="true">×</span></button></div>
+            <div id="prototype-story-content" class="story-content"></div>
+          </aside>
+        </div>
+        <div class="map-column">
+          <div id="prototype-map" aria-label="Bản đồ khám phá Hà Nội" aria-describedby="prototype-map-note"></div>
+          <p id="prototype-map-note" class="sr-only">Vị trí trên bản đồ mang tính tham khảo. Kiểm tra lối vào trước khi đi.</p>
+          <div class="map-toolbar"><button id="prototype-reset" type="button">⌖ Về Hồ Hoàn Kiếm</button><button id="prototype-explore-area" type="button" hidden>Khám phá khu vực này</button><button id="prototype-reopen" type="button" hidden>Mở lại câu chuyện</button><button id="prototype-retry" type="button" hidden>Thử tải lại bản đồ</button></div>
+          <p id="prototype-map-status" class="map-status" role="status">Đang mở bản đồ…</p>
+        </div>
+      </section>
+      <noscript><p class="notice">Bật JavaScript để dùng bản đồ tương tác. Bạn vẫn có thể xem các trang địa điểm từ trang chủ.</p></noscript>
+      <p class="notice prototype-note development-only">06A · Bản mẫu trình diễn với ba video và mô tả do khách hàng cung cấp. Hoàn Kiếm là trung tâm minh họa tạm thời, không phải phạm vi sản phẩm cuối cùng. Các điểm khác giữ khung chờ nội dung.</p>
+    </div>
+    {places.map(place => {
+      const mappedPlace = isMappedPrototypePlace(place) ? place : undefined;
+      const practical = practicalInformation[place.slug];
+      const featured = featuredPrototypeStories[place.slug];
+      const media = resolveDestinationMedia(featured, dedicatedVideos[place.slug]);
+      const affiliateUrl = featured && featuredAffiliateUrl(featured);
+      const reference = prototypeReferences[place.slug];
+      const linkedStories = prototypeLinkedStories[place.slug] ?? [];
+      const directionsUrl = mappedPlace && googleWalkingDirections(mappedPlace.coordinates);
+      const visitorNote = featured
+        ? `${featured.practicalNote} Ghim gần đúng; kiểm tra lối vào trước khi đi.`
+        : place.slug === 'nha-tho-lon-ha-noi'
+          ? 'Ghim tham khảo tạm thời · Không phải lối vào đã xác minh.'
+          : mappedPlace ? 'Ghim gần đúng; kiểm tra lối vào trước khi đi.' : 'Vị trí chưa được xác minh; chưa có ghim hoặc chỉ đường.';
+      return <template data-prototype-story={place.slug}>
+        <article class:list={['destination-story', { 'featured-story': !!featured }]}>
+          <p class="kicker">{mappedPlace ? discoveryCategories.find(category => category.id === markerCategory(mappedPlace))!.label : 'Nội dung đang được cập nhật'} / HÀ NỘI</p>
+          <h2 tabindex="-1">{place.name}</h2>
+          <DestinationMedia media={media} title={place.name} />
+          <p class="editorial">{featured?.description ?? mappedPlace?.story ?? 'Nội dung đang được cập nhật.'}</p>
+          <section class="practical"><h3>Thông tin tham khảo</h3>
+            <dl class="practical-facts">
+              {featured ? featured.practical.map(item => <div class:list={{ 'fact-wide': item.wide }}><dt>{item.label}</dt><dd>{item.value}{item.sourceUrl && <> <a class="practical-source" href={item.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label={`Nguồn cho ${item.label}`}>Nguồn ↗</a></>}</dd></div>)
+                : <div class="fact-wide"><dt>Giờ &amp; giá vé</dt><dd>{practical?.text ?? 'Chưa xác minh giờ mở cửa và giá vé.'}</dd></div>}
+              <div class="fact-address"><dt>{featured?.address || reference ? 'Địa chỉ' : 'Khu vực'}</dt><dd>{featured?.address ?? reference?.address ?? place.area}</dd></div>
+            </dl>
+            <p class="practical-caveat">{visitorNote}</p>
+            {!featured && practical && <a class="practical-source" href={practical.source} target="_blank" rel="noopener noreferrer">Kiểm tra thông tin tại nguồn ↗</a>}
+            {featured?.referenceLinks?.map(link => <a class="practical-source" href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}
+            {affiliateUrl && <a class="affiliate-booking" href={affiliateUrl} target="_blank" rel="sponsored noopener noreferrer">{featured?.affiliateLabel ?? 'Đặt phòng'} ↗</a>}
+            {directionsUrl && <a class="directions" href={directionsUrl} target="_blank" rel="noopener noreferrer" aria-label={`Chỉ đường đến đây: ${place.name} trên Google Maps (mở tab hoặc ứng dụng mới)`}><span class="directions-label"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 18-7-7 18-3-8-8-3Z" /></svg><span>Chỉ đường đến đây</span></span><span aria-hidden="true">↗</span></a>}
+          </section>
+          {linkedStories.length > 0 && <section class="related-stories" data-linked-stories><h3>Trải nghiệm cùng nơi</h3>{linkedStories.map(linked => <div data-linked-story={linked.id}><h4>{linked.name}</h4><p>{linked.description}</p><a href={linked.sourceUrl} target="_blank" rel="noopener noreferrer">Kiểm tra điều kiện trải nghiệm ↗</a></div>)}</section>}
+          <section class="nearby"><h3>Địa điểm gần đây</h3><p>Khoảng cách đường chim bay.</p>{!mappedPlace && <p>Chưa có vị trí được xác minh để gợi ý địa điểm gần đây.</p>}{(mappedPlace ? nearbyDestinations(mappedPlace, mappedPlaces) : []).map(nearby => <button type="button" data-nearby-place={nearby.place.slug}><DestinationPortrait src={nearby.place.portraitImage} /><strong class="nearby-name">{nearby.place.name}</strong><span class="nearby-distance">{formatDistance(nearby.km)} ↗</span></button>)}</section>
+        </article>
+      </template>;
+    })}
+    <script>
+      import '../../scripts/imap-prototype';
+      // Install delegation before a story is cloned from its inert template.
+      import '../../scripts/destination-media';
+    </script>
+</section>

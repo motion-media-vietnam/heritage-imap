@@ -1,0 +1,18 @@
+HTTP/2 200 
+server: Varnish
+retry-after: 0
+cache-control: no-cache
+content-type: image/png
+access-control-allow-origin: *
+access-control-allow-methods: GET, HEAD, OPTIONS
+x-blocked: Access denied. See https://operations.osmfoundation.org/policies/tiles/
+accept-ranges: bytes
+date: Sat, 17 Oct 2026 18:52:52 GMT
+via: 1.1 varnish
+x-served-by: cache-bma-essb1270056-BMA
+x-cache: HIT
+x-cache-hits: 0
+x-timer: S1792263173.557555,VS0,VE0
+alt-svc: h3=":443";ma=86400,h3-29=":443";ma=86400,h3-27=":443";ma=86400
+content-length: 6987
+

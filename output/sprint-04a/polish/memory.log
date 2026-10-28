@@ -1,0 +1,5 @@
+Stopping own idle TS workers: 67523 67538 67539 67573
+After cleanup: 2000867328
+Before checks, stopping own TS workers: 67830 67841 67842 67871
+Full QA, stopping own TS workers: 68092 68103 68104 68117
+Full check headroom: 711393280

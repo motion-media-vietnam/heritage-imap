@@ -1,0 +1,12 @@
+{
+  "url": "https://tile.openstreetmap.org/15/26018/14425.png",
+  "status": 200,
+  "mime": "image/png",
+  "bytes": 36316,
+  "pngSignature": true,
+  "width": 256,
+  "height": 256,
+  "cacheControl": "max-age=11982, stale-while-revalidate=604800, stale-if-error=604800",
+  "requests": 1,
+  "browserVerified": false
+}

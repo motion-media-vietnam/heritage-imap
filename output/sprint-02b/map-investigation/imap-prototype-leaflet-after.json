@@ -1,0 +1,17 @@
+{
+  "script": "imap-prototype",
+  "importUrl": "/node_modules/.vite/deps/leaflet.js?v=9c516a5d",
+  "status": 200,
+  "statusText": "OK",
+  "headers": {
+    "cache-control": "max-age=31536000,immutable",
+    "connection": "keep-alive",
+    "content-length": "1127125",
+    "content-type": "text/javascript",
+    "date": "Mon, 19 Oct 2026 11:09:03 GMT",
+    "etag": "W/\"3b322-Arw0t0yZV3aiCQ4Laek+t/EICt0\"",
+    "keep-alive": "timeout=5",
+    "vary": "Origin"
+  },
+  "bytes": 1127125
+}

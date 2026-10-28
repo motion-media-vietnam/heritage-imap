@@ -1,0 +1,12 @@
+{
+  "route": "http://localhost:4321/imap-prototype/?presentation=1",
+  "pageStatus": 200,
+  "entry": "http://localhost:4321/_astro/imap-prototype.astro_astro_type_script_index_0_lang.BBl6LLri.js",
+  "entryStatus": 200,
+  "leaflet": "http://localhost:4321/_astro/leaflet-src.D_JFGpWf.js",
+  "leafletStatus": 200,
+  "leafletMime": "text/javascript",
+  "leafletBytes": 148620,
+  "outdatedOptimizeDep": false,
+  "preview": "static production"
+}

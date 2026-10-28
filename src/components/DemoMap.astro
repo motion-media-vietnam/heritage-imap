@@ -1,0 +1,25 @@
+---
+import { places } from '../data/places';
+// Sơ đồ dự phòng, không dùng để chỉ đường. Vị trí tương đối theo hướng bắc ở trên.
+const positions: Record<string, [number, number]> = {
+  'ho-hoan-kiem': [63, 74], 'pho-co': [59, 48], 'van-mieu': [20, 80],
+  'hoang-thanh-thang-long': [33, 47], 'ho-tay': [25, 17], 'cau-long-bien': [79, 28],
+};
+const symbols = { 'Hồ & cảnh quan': '≈', 'Phố & cầu': '↗', 'Di sản': '▥' };
+---
+<div id="demo-map" class="demo-map" aria-label="Sơ đồ minh họa Hà Nội với các địa điểm có thể chọn">
+  <svg class="map-landscape" viewBox="0 0 1100 440" preserveAspectRatio="none" aria-hidden="true">
+    <rect width="1100" height="440" fill="#edf0df" />
+    <g fill="#dce5cc"><path d="M0 50H130V200H0ZM380 25H620V130H380ZM340 245H500V420H340ZM700 300H820V440H700Z" /></g>
+    <path d="M820-30Q890 80 920 165T1100 390" fill="none" stroke="#aacdca" stroke-width="100" />
+    <path d="M70-10Q200-20 260 65T170 180Q30 205 20 100Z" fill="#aacdca" stroke="#96bdb3" stroke-width="2" />
+    <ellipse cx="696" cy="330" rx="25" ry="46" fill="#aacdca" stroke="#96bdb3" stroke-width="2" />
+    <g fill="none" stroke="#fffdf8" stroke-width="12"><path d="M290 0 330 440M550 0 570 440M0 220 820 210M0 350 640 365M740 0 705 250M130 120 710 120M580 180 910 80" /></g>
+    <g fill="none" stroke="#d7cfb7" stroke-width="2"><path d="M290 0 330 440M550 0 570 440M0 220 820 210M0 350 640 365M740 0 705 250M130 120 710 120M580 180 910 80" /></g>
+    <path d="M830 130 977 56" stroke="#8c8269" stroke-width="9" /><path d="M830 130 977 56" stroke="#fff7df" stroke-width="2" stroke-dasharray="5 5" />
+    <g fill="#748a7a" font-family="Arial,sans-serif" font-size="13" letter-spacing="2"><text x="75" y="75">HỒ TÂY</text><text x="350" y="80">BA ĐÌNH</text><text x="625" y="190">PHỐ CỔ</text><text x="900" y="260" transform="rotate(45 900 260)">SÔNG HỒNG</text></g>
+  </svg>
+  <div class="demo-origin" style="left:63%;top:87%" title="Vị trí mẫu ở Hồ Hoàn Kiếm"><span></span><small>Điểm xuất phát mẫu</small></div>
+  {places.map(place => <a class="demo-pin" data-pin={place.slug} href={`/places/${place.slug}/`} style={`left:${positions[place.slug][0]}%;top:${positions[place.slug][1]}%`} aria-label={`Khám phá ${place.name}`}><span>{symbols[place.category]}</span><span class="pin-label">{place.name}</span></a>)}
+  <span class="map-north" title="Hướng bắc">B ↑</span><span class="map-disclaimer">Sơ đồ minh họa · không theo tỷ lệ</span>
+</div>

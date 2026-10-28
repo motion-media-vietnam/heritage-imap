@@ -1,0 +1,14 @@
+{
+  "script": "imap-prototype",
+  "importUrl": "/node_modules/.vite/deps/leaflet.js?v=ed338213",
+  "status": 504,
+  "statusText": "Outdated Optimize Dep",
+  "headers": {
+    "connection": "keep-alive",
+    "content-length": "0",
+    "date": "Mon, 19 Oct 2026 11:06:41 GMT",
+    "keep-alive": "timeout=5",
+    "vary": "Origin"
+  },
+  "body": ""
+}

@@ -1,0 +1,187 @@
+/* Scoped extraction of the owner-approved Sprint 02B presentation. */
+.imap-root {
+  --imap-paper: #F8F7F3;
+  --imap-ink: #242724;
+  --imap-moss: #687367;
+  --imap-red: #A63832;
+  --imap-gold: #B59670;
+  --imap-line: #24272424;
+  --imap-display: 'Lora', Georgia, serif;
+  --imap-body: 'Be Vietnam Pro', Arial, sans-serif;
+  font-family: var(--imap-body);
+  color: var(--imap-ink);
+  background: #fff;
+  font-synthesis: none;
+}
+.imap-root * { box-sizing: border-box; }
+.imap-root button, .imap-root input, .imap-root select { font: inherit; color: inherit; }
+.imap-root button, .imap-root a, .imap-root select { touch-action: manipulation; }
+.imap-root button { cursor: pointer; }
+.imap-root a { color: inherit; text-underline-offset: 4px; }
+.imap-root button:focus-visible, .imap-root a:focus-visible, .imap-root input:focus-visible, .imap-root select:focus-visible, .imap-root [tabindex]:focus-visible { outline: 2px solid var(--imap-red); outline-offset: 3px; }
+.imap-root [hidden] { display: none !important; }
+.imap-root .imap-sr-only, .imap-root .imap-skip:not(:focus) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.imap-root .imap-skip:focus { position: absolute; top: 10px; z-index: 3000; background: #fff; padding: 12px; }
+.imap-root .imap-kicker { font-size: 9px; letter-spacing: .12em; font-weight: 500; color: var(--imap-moss); margin: 0 0 12px; }
+.imap-root .imap-tools { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(160px, .45fr) minmax(160px, .45fr) auto; align-items: center; gap: 20px; padding: 0 0 20px; }
+.imap-root .imap-search-label { min-width: 0; }
+.imap-root .imap-search-label input { width: 100%; min-height: 48px; border: 0; border-bottom: 1px solid var(--imap-gold); background: transparent; font-size: 14px; border-radius: 0; padding: 10px 0; }
+.imap-root .imap-filter-label { display: grid; gap: 4px; font-size: 10px; color: var(--imap-moss); min-width: 0; }
+.imap-root .imap-filter-label select { min-width: 0; width: 100%; min-height: 44px; border: 0; border-bottom: 1px solid var(--imap-line); background: transparent; border-radius: 0; padding: 8px 22px 8px 0; font-size: 12px; color: var(--imap-ink); }
+.imap-root .imap-count { margin: 0; font-size: 11px; color: var(--imap-moss); white-space: nowrap; }
+.imap-root .imap-explorer { display: grid; grid-template-areas: 'directory map'; grid-template-columns: minmax(0, 22fr) minmax(0, 78fr); height: clamp(640px, 74svh, 860px); position: relative; background: #fff; border-block: 1px solid var(--imap-line); }
+.imap-root .imap-explorer.has-story { grid-template-areas: 'directory map story'; grid-template-columns: minmax(0, 22fr) minmax(0, 45fr) minmax(0, 33fr); }
+.imap-root .imap-sheet { display: contents; }
+.imap-root .imap-directory { grid-area: directory; min-width: 0; overflow-y: auto; background: var(--imap-paper); padding: 24px 18px; scrollbar-gutter: stable; }
+.imap-root .imap-directory h2 { font: 400 24px/1.3 var(--imap-display); letter-spacing: -.025em; margin: 0 0 20px; }
+.imap-root .imap-directory ol { list-style: none; padding: 0; margin: 0; }
+.imap-root .imap-directory li + li { border-top: 1px solid var(--imap-line); }
+.imap-root .imap-directory button { width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; background: transparent; border: 0; padding: 16px 2px; color: var(--imap-ink); }
+.imap-root .imap-directory button > span:last-child { margin-left: auto; }
+.imap-root .imap-directory strong { display: block; font-size: 13px; line-height: 1.6; font-weight: 500; }
+.imap-root .imap-directory small { display: block; font-size: 10px; line-height: 1.6; margin-top: 4px; color: var(--imap-moss); }
+.imap-root .imap-number { color: var(--imap-moss); font-size: 10px; }
+.imap-root .imap-directory button[aria-pressed=true] { color: var(--imap-red); }
+.imap-root .imap-directory button[aria-pressed=true] .imap-number { color: var(--imap-red); }
+.imap-root .imap-data-note, .imap-root .imap-empty { font-size: 11px; line-height: 1.8; margin-top: 24px; color: var(--imap-moss); }
+.imap-root .imap-map-column { grid-area: map; min-width: 0; min-height: 0; position: relative; isolation: isolate; }
+.imap-root .imap-map { height: 100%; width: 100%; background: #e3e7e0; }
+.imap-root .imap-map-toolbar { position: absolute; z-index: 800; top: 16px; left: 16px; display: flex; gap: 8px; flex-wrap: wrap; max-width: calc(100% - 70px); }
+.imap-root .imap-map-toolbar button { border: 1px solid var(--imap-line); background: #fff; padding: 10px 12px; font-size: 11px; min-height: 44px; }
+.imap-root .imap-map-status { position: absolute; z-index: 800; bottom: 28px; left: 12px; right: 12px; pointer-events: none; background: #ffffffeb; padding: 7px 10px; font-size: 10px; line-height: 1.7; margin: 0; }
+.imap-root .imap-curated-icon, .imap-root .imap-origin-icon { background: none; border: 0; }
+.imap-root .imap-origin-icon { pointer-events: none; }
+.imap-root .imap-origin-dot { display: block; width: 19px; height: 19px; border: 3px solid #fff; border-radius: 50%; background: #2477bc; box-shadow: 0 0 0 7px #2477bc25; }
+.imap-root .imap-curated-pin { display: grid; place-items: center; width: 42px; height: 42px; border: 2px solid #fff; border-radius: 50%; background: var(--imap-ink); color: #fff; font-size: 13px; font-weight: 500; }
+.imap-root .imap-curated-icon.is-selected .imap-curated-pin { background: var(--imap-red); outline: 3px solid #ffffffb0; outline-offset: 2px; }
+.imap-root .imap-story { grid-area: story; min-width: 0; min-height: 0; background: #fff; overflow: hidden; display: flex; flex-direction: column; border-left: 1px solid var(--imap-line); }
+.imap-root .imap-story-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px 20px; border-bottom: 1px solid var(--imap-line); font-size: 11px; font-weight: 500; flex-shrink: 0; }
+.imap-root .imap-story-toolbar button { background: transparent; border: 0; min-width: 44px; min-height: 44px; font-size: 25px; }
+.imap-root .imap-story-content { padding: 24px; overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+.imap-root .imap-story h2 { font: 400 clamp(26px, 2.2vw, 34px)/1.3 var(--imap-display); letter-spacing: -.03em; margin: 12px 0 18px; }
+.imap-root .imap-story h3 { font: 400 21px/1.4 var(--imap-display); margin: 24px 0 12px; }
+.imap-root .imap-story p { line-height: 1.8; }
+.imap-root .imap-editorial { font-size: 15px; color: #535c52; }
+.imap-root .imap-video { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; margin-bottom: 24px; }
+.imap-root .imap-video video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.imap-root .imap-video video:fullscreen { width: 100%; height: 100%; object-fit: contain; background: #000; }
+.imap-root .imap-video video:-webkit-full-screen { width: 100%; height: 100%; object-fit: contain; background: #000; }
+.imap-root .imap-video-placeholder { background: #e4e6de; }
+.imap-root .imap-video-placeholder .place-art { position: absolute; inset: 0; opacity: .15; }
+.imap-root .imap-video-placeholder svg { width: 100%; height: 100%; }
+.imap-root .imap-video-placeholder > div:last-child { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 20px; color: var(--imap-ink); }
+.imap-root .imap-video-placeholder strong { font-size: 10px; letter-spacing: .08em; font-weight: 500; }
+.imap-root .imap-video-placeholder p { font-size: 13px; margin: 12px 0; line-height: 1.6; }
+.imap-root .imap-video-placeholder small { font-size: 10px; color: #535c52; }
+.imap-root .imap-verification { color: #535c52; font-weight: 500; font-size: 11px; }
+.imap-root .imap-practical { border-block: 1px solid var(--imap-line); margin-top: 24px; padding-bottom: 22px; }
+.imap-root .imap-practical p, .imap-root .imap-practical a { font-size: 13px; line-height: 1.8; }
+.imap-root .imap-practical small { display: block; font-size: 10px; line-height: 1.8; color: var(--imap-moss); margin-top: 12px; }
+.imap-root .imap-directions { display: block; background: var(--imap-ink); color: #fff; padding: 13px 15px; text-decoration: none; margin-top: 18px; }
+.imap-root .imap-tip { color: #535c52; }
+.imap-root .imap-nearby > p { font-size: 11px; color: var(--imap-moss); }
+.imap-root .imap-nearby button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; text-align: left; min-height: 48px; padding: 14px 0; background: none; border: 0; border-top: 1px solid var(--imap-line); font-size: 12px; }
+.imap-root .imap-nearby button:disabled { opacity: .45; cursor: not-allowed; }
+.imap-root .imap-nearby button strong { font-weight: 500; }
+.imap-root .imap-nearby button span { white-space: nowrap; font-size: 10px; }
+.imap-root .imap-handle { display: none; }
+.imap-root .imap-discovery, .imap-root .imap-directory-close { display: none; }
+.imap-root .imap-map-column .leaflet-control-attribution { font-size: 10px; max-width: 100%; }
+.imap-root .imap-map-column .leaflet-tooltip { font-family: var(--imap-body); }
+.imap-root .imap-map-column .leaflet-top.leaflet-right { top: 12px; }
+@media (max-width: 1150px) and (min-width: 961px) {
+  .imap-root .imap-directory { padding-inline: 12px; }
+  .imap-root .imap-story-content { padding: 18px; }
+  .imap-root .imap-tools { gap: 12px; }
+}
+@media (max-width: 960px) {
+  .imap-root .imap-tools { flex-shrink: 0; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px 16px; padding: 8px 20px 10px; }
+  .imap-root .imap-search-label { grid-column: 1 / -1; }
+  .imap-root .imap-search-label input { min-height: 44px; font-size: 13px; }
+  .imap-root .imap-filter-label > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .imap-root .imap-filter-label select { min-height: 44px; font-size: 11px; }
+  .imap-root .imap-count { grid-column: 1 / -1; font-size: 10px; }
+  .imap-root .imap-explorer, .imap-root .imap-explorer.has-story { display: block; flex: 1; min-height: 280px; height: auto; border: 0; }
+  .imap-root .imap-map-column { height: 100%; }
+  .imap-root .imap-sheet { position: absolute; z-index: 1200; inset: auto 0 0; display: flex; flex-direction: column; height: var(--sheet-height, 112px); max-height: 90%; background: var(--imap-paper); border: 1px solid var(--imap-line); border-bottom: 0; border-radius: 16px 16px 0 0; overflow: hidden; padding-bottom: env(safe-area-inset-bottom); transition: height .18s ease; }
+  .imap-root .imap-sheet.is-dragging { transition: none; }
+  .imap-root .imap-handle { display: flex; flex-direction: column; align-items: center; touch-action: none; cursor: ns-resize; padding: 8px 16px 0; flex-shrink: 0; }
+  .imap-root .imap-drag-grip { width: 36px; height: 3px; border-radius: 3px; background: var(--imap-moss); }
+  .imap-root .imap-sheet-states { display: flex; gap: 12px; }
+  .imap-root .imap-sheet-states button { min-width: 64px; min-height: 44px; font-size: 10px; border: 0; background: transparent; }
+  .imap-root .imap-sheet-states button[aria-pressed=true] { color: var(--imap-red); text-decoration: underline; text-underline-offset: 5px; }
+  .imap-root .imap-directory { flex: 1; min-height: 0; padding: 10px 22px 24px; }
+  .imap-root .imap-directory .imap-kicker { display: none; }
+  .imap-root .imap-directory h2 { font-size: 22px; margin-bottom: 14px; }
+  .imap-root .imap-explorer.has-story .imap-directory { display: none; }
+  .imap-root .imap-story { flex: 1; border: 0; background: var(--imap-paper); }
+  .imap-root .imap-story-toolbar { display: contents; }
+  .imap-root .imap-story-toolbar [data-imap="story-label"] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .imap-root .imap-story-toolbar button { position: absolute; top: 10px; right: 12px; z-index: 2; }
+  .imap-root .imap-explorer.has-story .imap-sheet-states { margin-right: 44px; }
+  .imap-root .imap-story-content { padding: 20px 22px; }
+  .imap-root .imap-story h2 { font-size: 30px; }
+  .imap-root .imap-sheet[data-sheet-state=collapsed]:not(.is-dragging) .imap-directory { padding-bottom: 0; overflow: hidden; }
+  .imap-root .imap-sheet[data-sheet-state=collapsed]:not(.is-dragging) .imap-directory ol,
+  .imap-root .imap-sheet[data-sheet-state=collapsed]:not(.is-dragging) .imap-directory .imap-data-note,
+  .imap-root .imap-sheet[data-sheet-state=collapsed]:not(.is-dragging) .imap-empty { display: none; }
+  .imap-root .imap-sheet[data-sheet-state=collapsed]:not(.is-dragging) .imap-story-content { visibility: hidden; }
+  .imap-root .imap-map-toolbar { top: 12px; left: 12px; }
+  .imap-root .imap-map-column .leaflet-bottom { bottom: calc(var(--sheet-overlay-height, 112px) + 4px); }
+  .imap-root .imap-map-column .leaflet-bottom.leaflet-right { right: auto; left: 0; max-width: calc(100% - 60px); }
+  .imap-root .imap-map-status { bottom: calc(var(--sheet-overlay-height, 112px) + 28px); font-size: 9px; }
+  .imap-root .imap-map-column .leaflet-bottom, .imap-root .imap-map-status { transition: bottom .18s ease; }
+  .imap-root .imap-sheet.is-dragging ~ .imap-map-column .leaflet-bottom,
+  .imap-root .imap-sheet.is-dragging ~ .imap-map-column .imap-map-status { transition: none; }
+  .imap-root .imap-explorer[data-sheet-state=expanded] .imap-map-toolbar,
+  .imap-root .imap-explorer[data-sheet-state=expanded] .imap-map-status { visibility: hidden; }
+}
+/* Sprint 03 correction is limited to the homepage mobile integration. */
+@media (max-width: 960px) {
+  .imap-root[data-mobile-discovery] .imap-explorer,
+  .imap-root[data-mobile-discovery] .imap-explorer.has-story { height: var(--imap-mobile-available, max(280px, calc(100dvh - var(--imap-chrome-height, 260px)))); }
+  .imap-root[data-mobile-discovery] .imap-sheet { height: var(--sheet-height, calc(52px + env(safe-area-inset-bottom))); max-height: 100%; }
+  .imap-root[data-mobile-discovery] .imap-handle { padding-top: 5px; }
+  .imap-root[data-mobile-discovery] .imap-discovery { width: 100%; min-height: 44px; align-items: center; justify-content: center; border: 0; background: transparent; font-size: 13px; touch-action: none; }
+  .imap-root[data-mobile-discovery] .imap-sheet[data-sheet-state=collapsed] .imap-discovery { display: flex; }
+  .imap-root[data-mobile-discovery] .imap-sheet[data-sheet-state=collapsed] :is(.imap-sheet-states, .imap-directory, .imap-story) { display: none; }
+  .imap-root[data-mobile-discovery] .imap-directory { position: relative; overscroll-behavior: contain; }
+  .imap-root[data-mobile-discovery] .imap-directory-close { display: block; position: absolute; right: 10px; top: 0; width: 44px; height: 44px; border: 0; background: transparent; font-size: 25px; }
+  .imap-root[data-mobile-discovery] .imap-directory h2 { padding-right: 36px; }
+  .imap-root[data-mobile-discovery] .imap-story-content { padding: 8px 18px 20px; }
+  .imap-root[data-mobile-discovery] .imap-story-content > article > .imap-kicker { display: none; }
+  .imap-root[data-mobile-discovery] .imap-story h2 { font-size: 25px; margin: 0 0 12px; }
+  .imap-root[data-mobile-discovery] .imap-sheet-states { margin-right: 44px; gap: 4px; }
+  .imap-root[data-mobile-discovery] .imap-map-status { pointer-events: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .imap-root .imap-sheet, .imap-root .imap-map-column .leaflet-bottom, .imap-root .imap-map-status { transition: none; }
+}
+
+.imap-root { display: block; width: 100%; max-width: 1600px; margin-inline: auto; line-height: normal; text-align: left; }
+.imap-root p { margin: 1em 0; }
+.imap-root .imap-kicker { margin: 0 0 12px; }
+.imap-root :is(h1,h2,h3,h4,h5,h6) { text-wrap: wrap; }
+.imap-root .imap-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.imap-root .imap-heading h2 { margin: 0; font: 400 36px/1.3 var(--imap-display); letter-spacing: -.035em; }
+.imap-root .imap-full-link { flex-shrink: 0; font-size: 12px; padding-block: 12px; text-decoration-color: var(--imap-gold); }
+.imap-root .imap-full-link span { margin-left: 12px; }
+.imap-root .imap-tools { grid-template-columns: minmax(220px, 1fr) minmax(320px, .9fr) auto; margin: 0; }
+.imap-root .imap-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.imap-root .imap-count { margin: 0; }
+.imap-root .imap-options { grid-column: 1 / -1; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 20px; font-size: 11px; }
+.imap-root .imap-options button { min-height: 44px; border: 0; background: transparent; padding: 8px 0; text-decoration: underline; text-decoration-color: var(--imap-gold); text-underline-offset: 5px; }
+.imap-root .imap-options span { color: var(--imap-moss); }
+.imap-root .imap-radius { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.imap-root .imap-location-message { grid-column: 1 / -1; font-size: 12px; line-height: 1.7; margin: 0; }
+.imap-root .imap-location-message:empty { display: none; }
+.imap-root .imap-options button:disabled { cursor: wait; opacity: .6; }
+@media (max-width: 960px) {
+  .imap-root .imap-heading { gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+  .imap-root .imap-heading h2 { font-size: 30px; }
+  .imap-root .imap-full-link { font-size: 11px; }
+  .imap-root .imap-tools { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); padding: 8px 0 10px; gap: 6px 16px; }
+  .imap-root .imap-filters { grid-column: 1 / -1; gap: 16px; }
+  .imap-root .imap-options { gap: 4px 16px; font-size: 10px; }
+  .imap-root .imap-explorer, .imap-root .imap-explorer.has-story { height: max(280px, calc(100svh - var(--imap-chrome-height, 260px))); flex: none; }
+}

@@ -1,0 +1,29 @@
+{
+  "leafletVersion": "1.9.4",
+  "browserVerified": false,
+  "errors": [],
+  "tileLayerAdds": 1,
+  "markerCandidates": [
+    "ho-hoan-kiem",
+    "pho-co"
+  ],
+  "fitCalls": 1,
+  "viewCalls": 1,
+  "container": {
+    "x": 960,
+    "y": 640
+  },
+  "fittedBounds": [
+    {
+      "lat": 21.019606783940812,
+      "lng": 105.84286511426897
+    },
+    {
+      "lat": 21.037593216059175,
+      "lng": 105.862134885731
+    }
+  ],
+  "status": "Đang tải bản đồ…",
+  "retryOffered": false,
+  "initializationCompleted": true
+}

@@ -1,0 +1,37 @@
+✔ Heritage video metadata, other covers and playback script are byte-preserved (2.681065ms)
+✔ all mobile covers explicitly override desktop sizing with uncropped 16:9 frames (6.568974ms)
+✔ paper transition is scoped to the existing Heritage background, with no geometry changes (2.451563ms)
+✔ only the lotus story uses the optimized supplied image, with real intrinsic dimensions (14.766292ms)
+✔ Heritage records retain the three verified IDs and matching URLs (2.381704ms)
+✔ built homepage renders unchanged Heritage cards and destination-specific iMap placeholders (3.406083ms)
+✔ running homepage completes rendering and preserves all video associations (801.776555ms)
+✔ frozen Hero and sections outside the explorer are byte-identical (8.920821ms)
+✔ every shared explorer CSS selector is scoped, with approved ratios and media framing (40.437734ms)
+✔ each explorer has independent origin, filters, selection and sheet state (5.19626ms)
+✔ instance disposal aborts only its own listeners and releases every owned resource once (1.578353ms)
+✔ the active shared Leaflet layer retains the approved endpoint, referrer policy and attribution (74.077639ms)
+✔ built homepage and full iMap each render one shared explorer without legacy embeds (2.515221ms)
+✔ live homepage and full route serve the active map controller and real Leaflet module (1006.355181ms)
+✔ selection is synchronized through one slug and rejects filtered destinations (1.589873ms)
+✔ nearby destinations exclude self and sort straight-line distances (0.62063ms)
+✔ sheet drag clamps expanded and collapsed heights (0.222642ms)
+✔ unverified videos are absent and practical facts carry primary source and verification date (0.342818ms)
+✔ isolated route does not import approved Heritage or production map and preserves OSM fix (2.704645ms)
+✔ district discovery contains only populated areas and filters combine (7.604064ms)
+✔ mobile sheet has three distinct snap states inside the map viewport (0.489877ms)
+✔ route keeps discovery in an overlay sheet and uses the three-area desktop grid (1.020625ms)
+✔ built prototype retains all destinations and honest per-place video placeholders (1.414597ms)
+✔ isolated prototype preview renders without integrating into the homepage (310.800364ms)
+✔ prototype Leaflet browser module loads, not just its HTML shell (128.799655ms)
+✔ destination video preserves the original landscape frame and native user controls (3.318932ms)
+✔ mobile selection opens enough of an existing sheet state for title and landscape video (0.237133ms)
+✔ presentation mode hides only marked development chrome without altering map attribution (15.415169ms)
+✔ mobile header is compact and map-return states preserve destination and camera (3.623054ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4582.34722

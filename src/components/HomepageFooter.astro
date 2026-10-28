@@ -1,0 +1,27 @@
+---
+// Homepage only. No external/contact/social/legal URL has been approved here.
+// Keep names as honest, noninteractive text until verified destinations exist.
+---
+<footer class="homepage-footer">
+  <div class="homepage-footer-inner">
+    <div class="homepage-footer-columns">
+      <section aria-labelledby="related-sites-heading"><h2 id="related-sites-heading">Các trang web liên quan</h2><ul><li>Sở Văn hóa, Thể thao và Du lịch Hà Nội</li><li>Trung tâm Heritage – Tổng công ty Hàng không Việt Nam</li></ul><p class="footer-pending">Liên kết đang được xác nhận.</p></section>
+      <section aria-labelledby="footer-help-heading"><h2 id="footer-help-heading">Bạn cần trợ giúp?</h2><p>Liên hệ với chúng tôi</p><p class="footer-pending">Thông tin liên hệ sẽ được cập nhật.</p></section>
+      <section aria-labelledby="footer-social-heading"><h2 id="footer-social-heading">Kết nối với chúng tôi</h2><p class="footer-pending">Các kênh chính thức sẽ được cập nhật sau khi xác nhận.</p></section>
+    </div>
+    <div class="homepage-footer-legal"><span>Copyright © Motion Media.</span><a href="#main">Về đầu trang ↑</a></div>
+  </div>
+</footer>
+<style>
+  .homepage-footer { background: #fffdf8; color: var(--deep-ink); font-family: var(--editorial-body); border-top: 1px solid #e8e6de; }
+  .homepage-footer-inner { width: calc(100% - 2 * var(--editorial-gutter)); max-width: var(--editorial-width); margin-inline: auto; padding-top: 64px; }
+  .homepage-footer-columns { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: clamp(28px, 5vw, 80px); padding-bottom: 56px; }
+  .homepage-footer h2 { font: 500 15px/1.6 var(--editorial-body); letter-spacing: 0; margin-bottom: 22px; }
+  .homepage-footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+  .homepage-footer li, .homepage-footer p { font-size: 12px; line-height: 1.9; color: #565e53; }
+  .homepage-footer .footer-pending { margin-top: 14px; font-size: 11px; color: #74796f; }
+  .homepage-footer-legal { border-top: 1px solid #e5e4dc; padding-block: 24px; display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 11px; color: #656b60; }
+  .homepage-footer-legal a { min-height: 44px; display: inline-flex; align-items: center; }
+  .homepage-footer a:focus-visible { outline-color: var(--vermilion); }
+  @media (max-width: 760px) { .homepage-footer-inner { padding-top: 44px; } .homepage-footer-columns { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-bottom: 36px; } .homepage-footer h2 { margin-bottom: 12px; } .homepage-footer-legal { flex-wrap: wrap; gap: 12px; } }
+</style>

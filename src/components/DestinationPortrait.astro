@@ -1,0 +1,49 @@
+---
+interface Props {
+  src?: string;
+}
+const { src } = Astro.props;
+---
+<!-- Decorative: the adjacent row text supplies the destination's accessible name. -->
+<span class="destination-portrait" aria-hidden="true">
+  {src && <img data-portrait-image src={src} width="300" height="400" alt="" loading="lazy" decoding="async" />}
+</span>
+
+<style>
+  .destination-portrait {
+    display: block;
+    flex: 0 0 var(--portrait-width, 72px);
+    width: var(--portrait-width, 72px);
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #EEF0EE;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+  }
+  img[data-ready] { opacity: 1; }
+</style>
+
+<script>
+  // Capture also covers nearby images inserted later from inert story templates.
+  // Images stay invisible until decoded successfully, so failures never flash an icon.
+  function syncPortrait(image: HTMLImageElement) {
+    if (!image.complete) return;
+    if (image.naturalWidth > 0) image.dataset.ready = 'true';
+    else { delete image.dataset.ready; image.hidden = true; }
+  }
+  const handlePortrait = (event: Event) => {
+    if (event.target instanceof HTMLImageElement && event.target.matches('[data-portrait-image]')) {
+      syncPortrait(event.target);
+    }
+  };
+  document.addEventListener('load', handlePortrait, true);
+  document.addEventListener('error', handlePortrait, true);
+  document.querySelectorAll<HTMLImageElement>('[data-portrait-image]').forEach(syncPortrait);
+</script>

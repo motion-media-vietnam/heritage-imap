@@ -1,0 +1,30 @@
+
+> mm-guide@0.0.1 build
+> astro build
+
+15:00:38 [types] Generated 201ms
+15:00:38 [build] output: "static"
+15:00:38 [build] mode: "static"
+15:00:38 [build] directory: /Projects/mm-guide/dist/
+15:00:38 [build] Collecting build info...
+15:00:38 [build] ✓ Completed in 240ms.
+15:00:38 [build] Building static entrypoints...
+15:00:39 [vite] ✓ built in 699ms
+15:00:39 [vite] ✓ built in 249ms
+15:00:39 [build] Rearranging server assets...
+
+ generating static routes 
+15:00:39   ├─ /imap/index.html (+119ms) 
+15:00:39   ├─ /imap-prototype/index.html (+9ms) 
+15:00:39   ├─ /places/ho-hoan-kiem/index.html (+7ms) 
+15:00:39   ├─ /places/pho-co/index.html (+4ms) 
+15:00:39   ├─ /places/van-mieu/index.html (+5ms) 
+15:00:39   ├─ /places/hoang-thanh-thang-long/index.html (+6ms) 
+15:00:39   ├─ /places/ho-tay/index.html (+6ms) 
+15:00:39   ├─ /places/cau-long-bien/index.html (+4ms) 
+15:00:39   ├─ /index.html (+31ms) 
+15:00:39 ✓ Completed in 239ms.
+
+15:00:39 [build] ✓ Completed in 1.26s.
+15:00:39 [build] 9 page(s) built in 1.51s
+15:00:39 [build] Complete!

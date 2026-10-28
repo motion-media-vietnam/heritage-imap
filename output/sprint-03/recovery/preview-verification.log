@@ -1,0 +1,5 @@
+/: complete HTML (220968 chars), correct instance/templates; Leaflet HTTP 200, JavaScript (1127125 chars)
+Homepage: 3 correct Heritage associations and all 3 local cover JPEGs verified
+/imap/: complete HTML (98772 chars), correct instance/templates; Leaflet HTTP 200, JavaScript (1127125 chars)
+/imap-prototype/: complete HTML (92244 chars), correct instance/templates; Leaflet HTTP 200, JavaScript (1127125 chars)
+HTTP checks passed; no OSM tile or video requests made. Browser/touch/geographic-tile acceptance remains pending.

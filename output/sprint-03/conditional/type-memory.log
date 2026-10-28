@@ -1,0 +1,4 @@
+Stopping session-owned TypeScript workers: 61539 61550 61551 61565
+cgroup usage=1901350912 max=2684354560 available=783003648
+Final validation: stopping owned TS tree: 62704 62716 62715 62744
+Final check cgroup usage=1883340800 available=801013760

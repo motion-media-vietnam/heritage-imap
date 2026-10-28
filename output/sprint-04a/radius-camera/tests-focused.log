@@ -1,0 +1,36 @@
+✔ default Hoan Kiem discovery uses actual geographic distances with 500m/1km/2km/All (5.379755ms)
+✔ radius and administrative filters stay separate; empty category results are honest (1.446006ms)
+✔ actual denied-geolocation callback preserves discovery and leaves manual filtering available (9.677389ms)
+✔ actual map move callback only offers a new area; accepting it does not move the camera (7.62473ms)
+✔ pixel clustering resolves overlapping tap targets transitively without a twelve-record cap (1.923756ms)
+✔ real-coordinate marker projections have no cross-cluster overlap at simulated mobile widths (1.92349ms)
+✔ actual marker click routes single destinations to stories and clusters to a scoped directory (4.132978ms)
+✔ prototype retains accessible category targets, selected names and compact video-first sheets (0.638434ms)
+✔ padding reserves the target mobile sheet, attribution, toolbar and clipped browser viewport (6.135179ms)
+✔ real Leaflet fit planning keeps each radius and All bounds inside padded mobile space (52.676981ms)
+✔ All frames only currently eligible destinations; zero results never fit invalid/world bounds (38.487944ms)
+✔ actual radius handler collapses exploration before fitting, without changing other filters (16.087574ms)
+✔ selection pans minimally only when obscured; manual camera movement cancels correction (69.681616ms)
+✔ accept-area and layout changes preserve the manual camera instead of snapping to discovery (13.230221ms)
+✔ story height includes the complete frame, scroller padding, border and safe-area space (0.419647ms)
+✔ actual marker-open and close functions preserve selection and restore compact sheet state (22.521061ms)
+✔ geographic radii have strictly monotonic zoom, 80% occupancy and centered search focus (110.396917ms)
+ℹ 1050x640: zoom(500/1000/2000)=15.853284 / 14.853284 / 13.853284
+ℹ 560x640: zoom(500/1000/2000)=15.853284 / 14.853284 / 13.853284
+ℹ 360x500: zoom(500/1000/2000)=15.001868 / 14.001868 / 13.001868
+ℹ 390x500: zoom(500/1000/2000)=15.001868 / 14.001868 / 13.001868
+ℹ 430x500: zoom(500/1000/2000)=15.001868 / 14.001868 / 13.001868
+✔ real Leaflet RAF: latest radius wins; layout and repeated initialization cannot overwrite final zoom (12.586934ms)
+✔ real Leaflet RAF: manual input cancels old flight and prevents delayed camera restoration (4.726487ms)
+✔ selection/close/resize controller paths never set a captured or marker-derived zoom (17.237937ms)
+✔ geographic startup initializes the view before circle projection, without a fixed seed zoom (8.545088ms)
+✔ initial view makes real circle projection/bounds ready before tiles and default filtering (9.973762ms)
+✔ repaired initialization preserves every discovery-radius result without duplicate tile layers (13.256843ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2210.541849

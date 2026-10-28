@@ -1,0 +1,5 @@
+
+> mm-guide@0.0.1 dev
+> astro dev stop
+
+{"message":"Stopped dev server (pid 59965).","label":"SKIP_FORMAT","level":"info"}

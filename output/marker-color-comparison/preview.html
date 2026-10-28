@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>iMap A/B — desktop and mobile color proofs</title>
+<style>
+*{box-sizing:border-box}body{margin:24px;background:#fff;color:#242724;font:14px/1.6 system-ui,sans-serif}h1{font-size:24px}h2{font-size:18px}p{max-width:760px}.proofs{display:flex;flex-wrap:wrap;gap:24px;align-items:start}.proof{max-width:100%;padding:18px;background:#f8f7f3;border:1px solid #ddd}.desktop{width:620px}.mobile{width:360px}.samples{display:flex;justify-content:space-around;gap:12px;padding:20px 0}.sample{text-align:center}.sample small{display:block;margin-top:12px}.pin{position:relative;display:grid;place-items:center;width:48px;height:48px;border:2px solid white;border-radius:50%;background:#203a5e;color:white;margin:auto}.pin svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.red .pin{background:#ff6666;border-color:#203a5e}.red .pin svg{filter:drop-shadow(1px 0 0 #203a5e) drop-shadow(-1px 0 0 #203a5e) drop-shadow(0 1px 0 #203a5e) drop-shadow(0 -1px 0 #203a5e)}.selected{box-shadow:0 0 0 3px #fff,0 0 0 6px #242724}.count{position:absolute;top:-4px;right:-5px;display:grid;place-items:center;min-width:20px;height:20px;padding-inline:3px;border:1px solid #203a5e;border-radius:50%;background:#f8f7f3;color:#242724;font-size:10px}.symbols{position:absolute;width:0;height:0;overflow:hidden}a{color:#203a5e}
+</style>
+<h1>iMap marker color comparison — not approved</h1>
+<p><strong>Standalone color proofs, not rendered iMap screenshots.</strong> Desktop (620px study panel) and mobile (360px study panel) use the same 48px circles and 20px icons. No destination records, geographic coordinates, map tiles or invented locations are used. Counts below are illustrative UI samples only. These panels do not verify actual map layout, browser gestures or camera behavior.</p>
+<p>A: Navy <strong>#203A5E</strong>, white-icon contrast ≈11.5:1. B: Light Red <strong>#FF6666</strong>, white-icon contrast ≈2.86:1: below the 3:1 graphical threshold without mitigation. B adds a navy icon halo and border; white/navy ≈11.5:1 and navy/red ≈4.0:1. Rasterized thin-stroke readability still needs browser/client review. Both use a white/dark double selection ring and a neutral grid/count for clusters.</p>
+<svg class="symbols" aria-hidden="true"><defs><symbol id="landmark" viewBox="0 0 24 24"><path d="M3 10h18L12 3 3 10Zm2 2v7m5-7v7m4-7v7m5-7v7M3 21h18"/></symbol><symbol id="cluster" viewBox="0 0 24 24"><path d="M3 3h6v6H3V3Zm12 0h6v6h-6V3ZM3 15h6v6H3v-6Zm12 0h6v6h-6v-6"/></symbol></defs></svg>
+<div class="proofs"></div>
+<template id="samples"><div class="samples"><div class="sample"><span class="pin"><svg aria-hidden="true"><use href="#landmark"/></svg></span><small>Single</small></div><div class="sample"><span class="pin selected"><svg aria-hidden="true"><use href="#landmark"/></svg></span><small>Selected</small></div><div class="sample"><span class="pin"><svg aria-hidden="true"><use href="#cluster"/></svg><span class="count">2</span></span><small>Cluster</small></div></div><p>Selected clusters use the same double ring; grid/count stay category-neutral.</p></template>
+<script>
+for (const size of ['desktop','mobile']) for (const variant of ['navy','red']) {
+  const section = document.createElement('section'); section.className = `proof ${size} ${variant}`;
+  const heading = document.createElement('h2'); heading.textContent = `${size === 'desktop' ? 'Desktop' : 'Mobile'} · ${variant === 'navy' ? 'A — Navy #203A5E' : 'B — Light Red #FF6666'}`;
+  section.append(heading, document.getElementById('samples').content.cloneNode(true)); document.querySelector('.proofs').append(section);
+}
+</script>
+<p>After an authorized application rebuild and preview restart, compare the real responsive prototype at <a href="http://localhost:4321/imap-prototype/?presentation=1&amp;markerColor=navy">A — Navy</a> and <a href="http://localhost:4321/imap-prototype/?presentation=1&amp;markerColor=red">B — Light Red</a>. Use desktop and 390 × 844 mobile viewports. Select “Màu hiện tại” to restore the existing colors; there is no persistent preference.</p>
+</html>

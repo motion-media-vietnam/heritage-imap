@@ -1,0 +1,27 @@
+✔ default Hoan Kiem discovery uses actual geographic distances with 500m/1km/2km/All (5.446247ms)
+✔ radius and administrative filters stay separate; empty category results are honest (1.495361ms)
+✔ actual denied-geolocation callback preserves discovery and leaves manual filtering available (7.515028ms)
+✔ actual map move callback only offers a new area; accepting it does not move the camera (20.752474ms)
+✔ pixel clustering resolves overlapping tap targets transitively without a twelve-record cap (1.876529ms)
+✔ real-coordinate marker projections have no cross-cluster overlap at simulated mobile widths (1.435565ms)
+✔ actual marker click routes single destinations to stories and clusters to a scoped directory (4.050634ms)
+✔ prototype retains accessible category targets, selected names and compact video-first sheets (0.516627ms)
+✔ padding reserves the target mobile sheet, attribution, toolbar and clipped browser viewport (2.540366ms)
+✔ real Leaflet fit planning keeps each radius and All bounds inside padded mobile space (61.044763ms)
+✔ All frames only currently eligible destinations; zero results never fit invalid/world bounds (19.616877ms)
+✔ actual radius handler collapses exploration before fitting, without changing other filters (24.174024ms)
+✔ selection pans minimally only when obscured; manual camera movement cancels correction (61.380719ms)
+✔ accept-area and layout changes preserve the manual camera instead of snapping to discovery (24.850213ms)
+✔ story height includes the complete frame, scroller padding, border and safe-area space (0.44173ms)
+✔ actual marker-open and close functions preserve selection and restore compact sheet state (30.787978ms)
+✔ real Leaflet circle readiness reproduces the pre-repair initialization failure (11.505588ms)
+✔ initial view makes real circle projection/bounds ready before tiles and default filtering (12.338952ms)
+✔ repaired initialization preserves every discovery-radius result without duplicate tile layers (9.645967ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2154.433183

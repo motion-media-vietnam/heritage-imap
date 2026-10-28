@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import PlaceArt from '../../components/PlaceArt.astro';
+import { places } from '../../data/places';
+export function getStaticPaths() { return places.map(place => ({ params: { slug: place.slug }, props: { place } })); }
+const { place } = Astro.props;
+const mapLink = `https://www.openstreetmap.org/?mlat=${place.coordinates.lat}&mlon=${place.coordinates.lng}#map=16/${place.coordinates.lat}/${place.coordinates.lng}`;
+---
+<Layout title={`${place.name} — My Hanoi`} description={place.description}>
+  <a class="back-link" href="/"><Icon name="back" size={18} />Về danh sách khám phá</a>
+  <section class="detail-header"><p class="eyebrow">{place.category} · {place.area}</p><h1>{place.name}</h1><p class="vietnamese-name">{place.vietnamese}</p><p class="detail-subtitle">{place.description}</p></section>
+  <div class="detail-art"><PlaceArt place={place} large /><span>Hình minh họa gợi không khí Hà Nội · không phải ảnh chụp thực tế</span></div>
+  <div class="detail-grid"><section class="detail-story"><p class="eyebrow">CÂU CHUYỆN ĐỊA ĐIỂM</p><h2>Cùng khám phá nhé.</h2><p>{place.story}</p><div class="tip-box"><Icon name="compass" size={25} /><div><h3>Một lời nhắn nhỏ</h3><p>{place.tip}</p></div></div></section><aside class="visit-panel"><h2>Chuẩn bị cho chuyến đi</h2><div><Icon name="pin" /><span><small>KHU VỰC</small>{place.area}</span></div><div><Icon name="compass" /><span><small>ĐIỀU CẦN BIẾT</small>{place.access}</span></div><div><Icon name="compass" /><span><small>GỢI Ý TRẢI NGHIỆM</small>{place.visit}</span></div><a class="button primary" href={mapLink} target="_blank" rel="noopener noreferrer">Mở trên OpenStreetMap<Icon name="arrow" size={18} /></a><p>Vị trí gần đúng, không phải chỉ dẫn đến cổng vào. Hãy kiểm tra lối đi, giờ mở cửa, vé và quy định hiện hành trước khi đến.</p></aside></div>
+  <p class="sample-note">Nội dung bản mẫu · chưa có thông tin chỗ trống, đặt vé hoặc tọa độ cổng vào được xác minh.</p>
+</Layout>

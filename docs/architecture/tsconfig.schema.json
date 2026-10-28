@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "allowImportingTsExtensions": true,
+    "lib": ["ES2022"],
+    "types": []
+  },
+  "files": [
+    "destination-content.schema.ts",
+    "../../tests/fixtures/destination-content.contract.ts"
+  ]
+}

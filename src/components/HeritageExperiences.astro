@@ -1,0 +1,92 @@
+---
+import Icon from './Icon.astro';
+import EditorialEyebrow from './EditorialEyebrow.astro';
+import { heritageExperiences as experiences } from '../data/heritage-experiences';
+---
+<section class="heritage-experiences" aria-labelledby="experience-heading" data-heritage-experiences>
+  <div class="experience-composition">
+    <header class="experience-editorial">
+      <span class="experience-rule" aria-hidden="true"></span>
+      <EditorialEyebrow text="Kho báu của Hà Nội" />
+      <h2 id="experience-heading">Chạm vào Di sản</h2>
+      <p>Di sản Hà Nội không chỉ nằm trong những công trình cổ kính, mà còn hiện diện trong từng góc phố, nếp sống và những trải nghiệm được gìn giữ qua nhiều thế hệ.</p>
+      <p class="experience-status">Những câu chuyện video đang được chuẩn bị.</p>
+    </header>
+    <div class="experience-gallery">
+      <div class="experience-track" id="heritage-experience-track" tabindex="0" aria-label="Trải nghiệm di sản Hà Nội — cuộn ngang để khám phá">
+        {experiences.map((experience, index) => <article class:list={['experience-card', index === 0 ? 'experience-film' : 'experience-photo']} data-experience-card aria-labelledby={`heritage-experience-${index}`}>
+          <div class:list={['experience-visual', { 'experience-pending': !experience.image }]}>
+            {experience.image ? <img
+              src={experience.image.src}
+              alt={experience.image.alt}
+              width={experience.image.width}
+              height={experience.image.height}
+              loading="lazy"
+              decoding="async"
+              style={{ objectPosition: experience.image.position }}
+            /> : <>
+              <span class="pending-kicker">ẢNH BÌA CHƯA ĐƯỢC XÁC ĐỊNH</span>
+              <span class="pending-title">Câu chuyện<br />sắp mở.</span>
+            </>}
+          </div>
+          <p class="experience-kind">{String(index + 1).padStart(2, '0')} / PHIM DI SẢN · SẮP RA MẮT</p>
+          <h3 id={`heritage-experience-${index}`}>{experience.title}</h3>
+        </article>)}
+      </div>
+      <div class="experience-controls">
+        <div class="experience-arrows">
+          <button type="button" data-experience-prev aria-label="Trải nghiệm trước" aria-controls="heritage-experience-track" disabled><span class="previous-arrow"><Icon name="arrow" size={20} /></span></button>
+          <button type="button" data-experience-next aria-label="Trải nghiệm tiếp theo" aria-controls="heritage-experience-track"><Icon name="arrow" size={20} /></button>
+        </div>
+        <p class="experience-count" aria-live="polite" aria-atomic="true"><span data-experience-count>01</span><span aria-hidden="true"> / </span><span>{String(experiences.length).padStart(2, '0')}</span></p>
+      </div>
+    </div>
+  </div>
+
+</section>
+<script>
+  import '../scripts/heritage-experiences';
+</script>
+<style>
+  .heritage-experiences { padding-block: clamp(64px, 7vw, 112px); overflow: clip; background: #fff; color: var(--deep-ink); font-family: var(--editorial-body); }
+  .experience-composition { display: grid; grid-template-columns: minmax(0, 38fr) minmax(0, 62fr); margin-left: max(var(--editorial-gutter), calc((100% - var(--editorial-width)) / 2)); }
+  .experience-editorial { padding: 36px clamp(30px, 5vw, 88px) 0 0; }
+  .experience-rule { display: block; width: 44px; height: 2px; margin-bottom: 30px; background: var(--vermilion); }
+  .experience-editorial h2 { max-width: 9ch; margin: 0; font: 400 clamp(40px, 4.2vw, 68px)/1.15 var(--editorial-display); letter-spacing: -.04em; }
+  .experience-editorial p { max-width: 36ch; margin-top: 28px; font-size: 15px; line-height: 1.95; color: #596057; }
+  .experience-editorial .experience-status { margin-top: 30px; font-size: 12px; line-height: 1.7; }
+  .experience-gallery { min-width: 0; }
+  .experience-track { display: flex; align-items: start; gap: clamp(18px, 2vw, 32px); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: #c5c5bd transparent; padding-bottom: 16px; scroll-padding-inline: 0; }
+  .experience-card { flex: 0 0 auto; min-width: 0; scroll-snap-align: start; }
+  .experience-film { width: 74%; }
+  .experience-photo { width: 48%; }
+  .experience-card:last-child { margin-right: 8%; }
+  .experience-visual { display: block; position: relative; overflow: hidden; aspect-ratio: 1 / 1; background: #eeeee8; }
+  .experience-visual img { display: block; width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; }
+  .experience-kind { margin: 20px 0 10px; color: #6b7068; font-size: 10px; letter-spacing: .14em; }
+  .experience-card h3 { max-width: 30ch; margin: 0; padding-right: 12px; font: 400 clamp(21px, 2vw, 28px)/1.4 var(--editorial-display); letter-spacing: -.02em; }
+  .experience-pending { background: #efeee7; }
+  .pending-kicker { position: absolute; top: 12%; left: 10%; right: 10%; font-size: 9px; line-height: 1.6; letter-spacing: .12em; color: #62685e; }
+  .pending-title { position: absolute; top: 38%; left: 10%; right: 10%; font: 400 clamp(24px, 3.2vw, 48px)/1.18 var(--editorial-display); letter-spacing: -.04em; }
+  .experience-controls { display: flex; justify-content: space-between; align-items: center; padding-right: max(24px, var(--editorial-gutter)); margin-top: 22px; }
+  .experience-arrows { display: flex; gap: 12px; }
+  .experience-arrows button { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid #bfc2b8; background: white; color: inherit; cursor: pointer; }
+  .experience-arrows button:hover:not(:disabled) { color: var(--vermilion); border-color: var(--vermilion); }
+  .experience-arrows button:disabled { opacity: .35; cursor: default; }
+  .previous-arrow { display: flex; transform: rotate(180deg); }
+  .experience-count { font-size: 11px; letter-spacing: .16em; color: #6b7068; }
+  .heritage-experiences :focus-visible { outline: 2px solid var(--vermilion); outline-offset: -3px; }
+  @media (max-width: 760px) {
+    .experience-composition { grid-template-columns: minmax(0, 1fr); margin-left: 24px; }
+    .experience-editorial { padding: 0 24px 32px 0; }
+    .experience-rule { margin-bottom: 22px; }
+    .experience-editorial h2 { max-width: none; font-size: clamp(36px, 9vw, 48px); }
+    .experience-editorial p { max-width: 48ch; margin-top: 20px; font-size: 14px; line-height: 1.85; }
+    .experience-editorial .experience-status { margin-top: 14px; }
+    .experience-film { width: 82%; }
+    .experience-photo { width: 62%; }
+    .pending-title { font-size: clamp(24px, 7vw, 40px); }
+    .experience-controls { margin-top: 16px; padding-right: 24px; }
+    .experience-kind { margin-top: 16px; }
+  }
+</style>

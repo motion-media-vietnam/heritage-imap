@@ -1,0 +1,135 @@
+---
+import Icon from '../components/Icon.astro';
+import HeritageLauncher from '../components/HeritageLauncher.astro';
+import HeritageSparkle from '../components/HeritageSparkle.astro';
+import '../styles/global.css';
+import '../styles/editorial.css';
+interface Props { title?: string; description?: string; wide?: boolean; overlayHeader?: boolean }
+const {
+  title = 'My Hanoi — khám phá theo cách của bạn',
+  description = 'Khám phá Hồ Hoàn Kiếm, Phố Cổ, Văn Miếu, Hoàng thành Thăng Long, Hồ Tây và Cầu Long Biên qua bản đồ Hà Nội.',
+  wide = false,
+  overlayHeader = false,
+} = Astro.props;
+const navigation = [
+  { href: '/#results-heading', label: 'Điểm đến' },
+  { href: '/#experiences', label: 'Trải nghiệm' },
+  { href: '/#food', label: 'Ẩm thực' },
+  { href: '/#events', label: 'Sự kiện' },
+  { href: '/heritage-mach-ban/', label: 'Heritage mách bạn' },
+];
+// Experience wording is header-only; destination categories remain untouched.
+const headerNavigation = navigation.map(item => item.href === '/#experiences'
+  ? { ...item, href: '/#unmissable-experiences', label: 'Khám phá' }
+  : item.href === '/#events' ? { ...item, href: '/#homepage-events' } : item);
+---
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=Oswald:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Đến nội dung chính</a>
+    <header class:list={['site-header', { 'header-overlay': overlayHeader }]}>
+      <div class="header-inner shell">
+        <a class="brand" href="/" aria-label="Hanoi iMap — trang chủ">
+          <strong>Hanoi <span>iMap</span></strong>
+        </a>
+        <nav class="desktop-nav" aria-label="Điều hướng chính">
+          {headerNavigation.map(item => <a href={item.href} class:list={{ 'heritage-nav-cta': item.href === '/heritage-mach-ban/' }}>{item.href === '/heritage-mach-ban/' && <HeritageSparkle />}{item.label}</a>)}
+        </nav>
+        <div class="header-actions">
+          <span class="site-language">Tiếng Việt</span>
+          <a class="header-search" href="/#search" aria-label="Tìm địa điểm ở Hà Nội"><Icon name="search" size={23} /><span>Tìm kiếm</span></a>
+          <details class="mobile-menu">
+            <summary><Icon name="menu" size={24} /><span>Menu</span></summary>
+            <nav aria-label="Điều hướng trên điện thoại">
+              {headerNavigation.map(item => <a href={item.href} class:list={{ 'heritage-nav-cta': item.href === '/heritage-mach-ban/' }}>{item.href === '/heritage-mach-ban/' && <HeritageSparkle />}{item.label}<Icon name="arrow" size={18} /></a>)}
+              <span class="menu-location">Hà Nội, Việt Nam · Tiếng Việt</span>
+            </nav>
+          </details>
+        </div>
+      </div>
+    </header>
+    <main id="main" class:list={['site-main', { shell: !wide }]} tabindex="-1"><slot /></main>
+    <slot name="footer"><footer class="site-footer">
+      <div class="shell">
+        <div class="footer-top">
+          <div><p class="eyebrow">KHÁM PHÁ NHỮNG ĐIỀU GẦN GŨI</p><h2>Một chút khám phá.<br />Một ngày đáng nhớ.</h2></div>
+          <nav aria-label="Điều hướng cuối trang">{navigation.map(item => <a href={item.href}>{item.label}<Icon name="arrow" size={20} /></a>)}</nav>
+        </div>
+        <a class="footer-wordmark" href="/" aria-label="My Hanoi — trang chủ">My Hanoi<span>↗</span></a>
+        <div class="footer-bottom"><span>Dạo bước Hà Nội · Bản mẫu</span><span><Icon name="pin" size={15} /> Hà Nội, Việt Nam</span><a href="#main">Về đầu trang ↑</a></div>
+      </div>
+    </footer></slot>
+    <HeritageLauncher />
+  </body>
+</html>
+<style>
+  .site-header .desktop-nav a.heritage-nav-cta,
+  .site-header .mobile-menu nav a.heritage-nav-cta { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: auto; min-height: 44px; padding: 9px 12px; border: 1px solid #a58c61; border-radius: 999px; background: transparent; color: #242724; box-shadow: none; transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
+  .site-header .desktop-nav a.heritage-nav-cta:hover,
+  .site-header .mobile-menu nav a.heritage-nav-cta:hover { background: #f3eee4; color: #242724; border-color: #8b7449; }
+  .site-header.header-overlay:not(.is-scrolled) .desktop-nav a.heritage-nav-cta { --heritage-sparkle-color: #d8c6a2; background: #24272414; border-color: #d8c6a2; color: #fffaf0; }
+  .site-header.header-overlay:not(.is-scrolled) .desktop-nav a.heritage-nav-cta:hover { background: #fffaf014; border-color: #e4d6bc; color: #fffaf0; }
+  .site-header a.heritage-nav-cta:focus-visible { outline: 2px solid #242724; outline-offset: 3px; }
+  .site-header.header-overlay:not(.is-scrolled) .desktop-nav a.heritage-nav-cta:focus-visible { outline-color: #fffaf0; }
+  @media (prefers-reduced-motion: reduce) {
+    .site-header .desktop-nav a.heritage-nav-cta,
+    .site-header .mobile-menu nav a.heritage-nav-cta { transition: none; }
+  }
+</style>
+<script>
+  const scrollToExperiences = () => {
+    const section = document.getElementById('unmissable-experiences');
+    if (!section) return;
+    const heading = section.querySelector<HTMLElement>('h2');
+    heading?.setAttribute('tabindex', '-1');
+    heading?.focus({ preventScroll: true });
+    section.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  };
+  document.querySelectorAll<HTMLAnchorElement>('.site-header a[href="/#unmissable-experiences"]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (location.pathname !== '/' || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      event.preventDefault();
+      history.pushState(null, '', link.href);
+      scrollToExperiences();
+    });
+  });
+  if (location.hash === '#unmissable-experiences') {
+    if (document.readyState === 'complete') scrollToExperiences();
+    else window.addEventListener('load', scrollToExperiences, { once: true });
+  }
+  const header = document.querySelector<HTMLElement>('.header-overlay');
+  if (header) {
+    // Only the homepage opts into this fixed overlay; state changes never resize it.
+    const updateHeader = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 24);
+    };
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    window.addEventListener('resize', updateHeader, { passive: true });
+    window.addEventListener('pageshow', updateHeader);
+  }
+
+  const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+  if (menu) {
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { menu.open = false; }));
+  }
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && menu?.open) {
+      menu.open = false;
+      menu.querySelector('summary')?.focus();
+    }
+  });
+  document.addEventListener('click', event => {
+    if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
+  });
+</script>

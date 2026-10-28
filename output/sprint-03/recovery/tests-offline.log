@@ -1,0 +1,42 @@
+✔ the historical district directory contains 30 distinct areas (2.880777ms)
+✔ each curated place belongs to exactly one known directory area (0.51899ms)
+✔ Hanoi guide contains exactly the six selected destinations (3.048535ms)
+✔ search accepts Vietnamese accents, plain spelling and alternative names (3.533572ms)
+✔ search and category filters combine and can return no matches (0.710348ms)
+✔ nearby results change with the visitor location (0.469734ms)
+✔ distance uses geographic coordinates and results are nearest first (0.461871ms)
+✔ distances use Vietnamese number formatting (24.160952ms)
+✔ Heritage records retain the three verified IDs and matching URLs (2.422385ms)
+✔ built homepage renders unchanged Heritage cards and destination-specific iMap placeholders (3.678262ms)
+﹣ running homepage completes rendering and preserves all video associations (0.152487ms) # SKIP
+✔ frozen Hero and sections outside the explorer are byte-identical (2.787949ms)
+✔ every shared explorer CSS selector is scoped, with approved ratios and media framing (20.785845ms)
+✔ each explorer has independent origin, filters, selection and sheet state (3.196466ms)
+✔ instance disposal aborts only its own listeners and releases every owned resource once (1.008195ms)
+✔ the active shared Leaflet layer retains the approved endpoint, referrer policy and attribution (75.264175ms)
+✔ built homepage and full iMap each render one shared explorer without legacy embeds (2.663127ms)
+﹣ live homepage and full route serve the active map controller and real Leaflet module (0.39219ms) # SKIP
+✔ selection is synchronized through one slug and rejects filtered destinations (2.046986ms)
+✔ nearby destinations exclude self and sort straight-line distances (0.678936ms)
+✔ sheet drag clamps expanded and collapsed heights (0.315249ms)
+✔ unverified videos are absent and practical facts carry primary source and verification date (0.437871ms)
+✔ isolated route does not import approved Heritage or production map and preserves OSM fix (1.026653ms)
+✔ district discovery contains only populated areas and filters combine (2.198975ms)
+✔ mobile sheet has three distinct snap states inside the map viewport (0.540073ms)
+✔ route keeps discovery in an overlay sheet and uses the three-area desktop grid (0.781549ms)
+✔ built prototype retains all destinations and honest per-place video placeholders (1.248129ms)
+﹣ isolated prototype preview renders without integrating into the homepage (0.355976ms) # SKIP
+﹣ prototype Leaflet browser module loads, not just its HTML shell (0.23807ms) # SKIP
+✔ destination video preserves the original landscape frame and native user controls (1.218863ms)
+✔ mobile selection opens enough of an existing sheet state for title and landscape video (0.284976ms)
+✔ presentation mode hides only marked development chrome without altering map attribution (5.862547ms)
+✔ mobile header is compact and map-return states preserve destination and camera (1.132339ms)
+✔ the existing OSM tile layer explicitly preserves the approved referrer policy (59.672538ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 4
+ℹ todo 0
+ℹ duration_ms 2419.588459

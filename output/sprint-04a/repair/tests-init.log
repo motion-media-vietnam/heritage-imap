@@ -1,0 +1,11 @@
+✔ real Leaflet circle readiness reproduces the pre-repair initialization failure (7.047997ms)
+✔ initial view makes real circle projection/bounds ready before tiles and default filtering (9.906657ms)
+✔ repaired initialization preserves every discovery-radius result without duplicate tile layers (17.498056ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 258.294221

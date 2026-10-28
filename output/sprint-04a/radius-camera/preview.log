@@ -1,0 +1,1 @@
+{"message":"Preview server running at http://localhost:4321 (pid 85771)\n  Network:\n    http://172.18.0.5:4321/\n  Stop:   astro preview stop\n  Status: astro preview status\n  Logs:   astro preview logs","label":"SKIP_FORMAT","level":"info"}

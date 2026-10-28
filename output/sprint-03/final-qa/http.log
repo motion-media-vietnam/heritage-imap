@@ -1,0 +1,4 @@
+/: complete HTML, one instance, six title/frame templates, valid controller/Leaflet module
+/imap/: complete HTML, one instance, six title/frame templates, valid controller/Leaflet module
+Approved lotus cover: HTTP 200, WebP MIME and exact local asset bytes
+KNOWN QA GAP: /imap/ does not enable the homepage compact mobile discovery architecture. No runtime fix made.

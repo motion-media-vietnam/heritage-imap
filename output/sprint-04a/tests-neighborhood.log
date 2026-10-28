@@ -1,0 +1,16 @@
+✔ default Hoan Kiem discovery uses actual geographic distances with 500m/1km/2km/All (6.010453ms)
+✔ radius and administrative filters stay separate; empty category results are honest (2.006477ms)
+✔ actual denied-geolocation callback preserves discovery and leaves manual filtering available (10.170319ms)
+✔ actual map move callback only offers a new area; accepting it does not move the camera (6.525022ms)
+✔ pixel clustering resolves overlapping tap targets transitively without a twelve-record cap (1.875108ms)
+✔ real-coordinate marker projections have no cross-cluster overlap at simulated mobile widths (6.565646ms)
+✔ actual marker click routes single destinations to stories and clusters to a scoped directory (5.013237ms)
+✔ prototype retains accessible category targets, selected names and compact video-first sheets (0.760216ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 956.446944

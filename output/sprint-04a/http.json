@@ -1,0 +1,35 @@
+{
+  "url": "http://localhost:4321/imap-prototype/",
+  "status": 200,
+  "complete": true,
+  "defaultRadiusMeters": 1000,
+  "initialCount": "2 địa điểm",
+  "directoryItems": [
+    {
+      "id": "ho-hoan-kiem",
+      "hidden": false
+    },
+    {
+      "id": "pho-co",
+      "hidden": false
+    },
+    {
+      "id": "van-mieu",
+      "hidden": true
+    },
+    {
+      "id": "hoang-thanh-thang-long",
+      "hidden": true
+    },
+    {
+      "id": "ho-tay",
+      "hidden": true
+    },
+    {
+      "id": "cau-long-bien",
+      "hidden": true
+    }
+  ],
+  "templates": 6,
+  "browserVerified": false
+}

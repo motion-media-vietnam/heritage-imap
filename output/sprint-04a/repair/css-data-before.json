@@ -1,0 +1,25 @@
+{
+  "stylesheets": [
+    {
+      "path": "/_astro/leaflet.BgX4OC_Y.css",
+      "status": 200,
+      "mime": "text/css"
+    },
+    {
+      "path": "/_astro/imap-prototype.DhCx5aJI.css",
+      "status": 200,
+      "mime": "text/css"
+    }
+  ],
+  "mapContainerPresent": true,
+  "leafletTilePaneRule": true,
+  "leafletMarkerPaneRule": true,
+  "mapHeightRule": true,
+  "explorerNonzeroHeightRule": true,
+  "defaultVisibleIds": [
+    "ho-hoan-kiem",
+    "pho-co"
+  ],
+  "computedBrowserDimensions": "unavailable; CSS audited, controlled runtime uses 960x640",
+  "browserVisibilityVerified": false
+}
