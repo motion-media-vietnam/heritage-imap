@@ -75,3 +75,48 @@ Nguồn thương mại và vận hành: [Sites và giới hạn sử dụng](htt
 Bảo trì đi kèm: vá fast-uri/undici, chuẩn hóa xuống dòng Windows/đám mây và tạo PDF tiếng Việt bằng phông hệ thống; không thêm dịch vụ trả phí. Lỗi kiểm tra cũ được ghi trong tài liệu xác minh. Quy tắc phối hợp mới giảm câu hỏi/thao tác cho chủ dự án: chỉ đổi tài liệu hướng dẫn agent, chi phí nhà cung cấp phát sinh **0 USD/tháng** ở cả ba kịch bản, giả định giữ nguyên gói, lưu lượng và dịch vụ; công sức vẫn chưa báo giá.
 
 Mỗi thay đổi/phát hành phải cập nhật dự toán, kiểm tra nguồn/số học và tạo lại PDF bằng `scripts/build-billing-brief.py`, rồi xem tất cả trang. Kết quả triển khai hiện tại phải lấy từ công cụ triển khai, không từ ghi chú lịch sử.
+
+<!-- pagebreak -->
+
+## Đề xuất: một mã nguồn, nhiều website thành phố
+
+**28/10/2026 - mới là đề xuất, chưa triển khai.** Dự kiến ba website riêng: Hà Nội, TP.HCM và Đà Nẵng, cùng giao diện/tính năng, mỗi nơi có dữ liệu riêng. Không có bộ chọn thành phố cho khách. Agent sửa giao diện chung một lần, rồi tạo bản dựng và xuất bản cho từng thành phố. Chưa tạo Site mới, mua dịch vụ hoặc cấu hình tự động xuất bản nhiều website trong lần đánh giá này.
+
+Khuyến nghị giữ Astro tĩnh và quy trình Sites hiện có, bổ sung gói dữ liệu thành phố và thao tác xuất bản tất cả do agent thực hiện. Mỗi Site có danh tính/phiên bản riêng; Sites không được giả định tự đồng bộ các bản sao. Giao diện chung đổi thì cần xuất bản mọi thành phố; chỉ đổi dữ liệu một thành phố thì thường chỉ xuất bản nơi đó. Phần phát triển này chưa được báo giá công sức và chưa được thực hiện.
+
+**Ngân sách phát sinh mục tiêu: 0 USD/tháng trước thuế**, chỉ khi tài khoản hiện có cho phép đủ ba Site và tổng sử dụng nằm trong quyền lợi được bao gồm. Giá Sites được xác minh lại từ [OpenAI Pricing](https://learn.chatgpt.com/docs/pricing) ngày 28/10/2026: nằm trong gói đủ điều kiện khi beta, tùy gói/khu vực/cấu hình. Nguồn đã đọc không cung cấp đủ hạn mức số Site, GB, lượt xem hay đơn giá vượt mức để bảo đảm ba website miễn phí. Việc Hà Nội đang hoạt động không chứng minh quyền tạo thêm hai Site. Kiểm tra điều kiện tài khoản trước khi mở rộng; không tự mua credits hay nâng gói.
+
+## Dự toán cho ba thành phố
+
+Giữ giả định 5 MB/lượt truy cập và nhu cầu thấp/dự kiến/cao của mỗi website như phần trước; không phải lưu lượng đo được. Mỗi lần đổi giao diện chung cần ba bản dựng/xuất bản. Nếu tổng lượng khách chỉ được chia lại giữa các thành phố, băng thông không tự tăng gấp ba; bảng này giả định mỗi thành phố có riêng lượng khách như website ban đầu.
+
+| Kịch bản/tháng | Lượt truy cập tổng: 3 × mỗi thành phố | Bản dựng / dữ liệu host | Phần phí phát sinh dự kiến |
+| --- | --- | --- | --- |
+| Thấp | 3 × 1.000 = 3.000 | 3 × 8 = 24 bản; 15 GB | 0 USD có điều kiện, chưa xác nhận hạn mức ba Site |
+| Dự kiến | 3 × 10.000 = 30.000 | 3 × 30 = 90 bản; 150 GB | 0 USD chỉ khi được bao gồm; theo dõi tổng sử dụng |
+| Cao | 3 × 100.000 = 300.000 | 3 × 120 = 360 bản; 1.500 GB | Chưa thể báo giá bảo đảm; cần xác nhận dung lượng/gói trước mở rộng |
+
+Cách tính: dữ liệu host `3 × lượt mỗi thành phố × 5.000.000 / 1e9` GB. Với N thành phố, U lần sửa chung và C lần sửa nội dung riêng: số bản dựng/xuất bản giả định là `N × U + C`; chưa gồm lần chạy lại, bản xem thử, kiểm thử và lỗi xuất bản. Chi phí/hạn mức chạy agent không có tỷ lệ cố định một build bằng một credit.
+
+Ô ảnh bản đồ, với giả định cũ 50% lượt mở bản đồ, 24 ô ảnh/lần và 30 KB/ô: tổng `3 × lượt mỗi thành phố × 0,5 × 24` = **36.000 / 360.000 / 3.600.000 yêu cầu**, tương ứng **1,08 / 10,8 / 108 GB**. Đây không phải hạn mức OSM được chấp thuận. Giữ ghi công/cache, không tải hàng loạt; lưu lượng cao cần xác nhận nhà cung cấp bản đồ phù hợp, chưa có báo giá trả phí được chọn.
+
+<!-- pagebreak -->
+
+## Các chi phí và giới hạn khi mở rộng
+
+Không cần thêm cơ sở dữ liệu, CMS, AI máy chủ hoặc thanh toán chỉ để chọn dữ liệu lúc dựng website. Tuy vậy, nhiều Site tăng số bản dựng, lượt gọi công cụ triển khai và bản lưu nguồn/tài nguyên. Dung lượng mỗi phiên bản là tổng kích thước gói của từng thành phố; giữ nhiều phiên bản để quay lại làm tăng lưu trữ. Nếu các gói có kích thước S như nhau, ba Site cần khoảng `3 × S` cho một bộ phiên bản, chưa gồm nguồn/lịch sử/bản sao. S và số phiên bản giữ lại chưa được đo cho các thành phố mới; không suy ra phí lưu trữ bằng 0 khi chưa biết hạn mức.
+
+Video YouTube, phông Google và ảnh bản đồ vẫn là lưu lượng ngoài host, không nằm trong giả định 5 MB. Chi phí tên miền/thuế/tỷ giá/công sức/quyền nội dung vẫn bị loại trừ như phần trên. Dùng đường dẫn do nền tảng cấp trước; tên miền riêng và gia hạn cho từng thành phố chưa được báo giá. Nội dung/ảnh cho TP.HCM và Đà Nẵng chưa có bộ được duyệt. Công sức tách dữ liệu, kiểm thử ba thành phố và bảo trì xuất bản phải được tính riêng với hóa đơn nhà cung cấp.
+
+| Phương án | Phí/giới hạn đã kiểm tra | Đánh đổi |
+| --- | --- | --- |
+| Giữ một Site Hà Nội hiện có | Không có thay đổi phí do đánh giá tài liệu này | Đơn giản nhất hiện tại, nhưng chưa đáp ứng nhiều thành phố |
+| Ba Site, chung mã nguồn, agent xuất bản | 0 USD phát sinh có điều kiện trong gói hiện có; hạn mức ba Site chưa được xác nhận | Giữ quy trình điện thoại; cần xây dựng đồng bộ nguồn và xuất bản từng Site |
+| Cloudflare Pages Free, cùng repo Git | 0 USD/tháng cho static trong điều kiện Free; tối đa 5 dự án/repo, 500 build/tháng, 1 build đồng thời | Có thể tự dựng/xuất bản các dự án khi push Git; cần thêm tài khoản/liên kết và chứng minh agent trên điện thoại có quyền sửa nguồn chung |
+| Sao chép website rồi sửa độc lập | Không chọn dịch vụ trả phí mới; công sức đồng bộ không được báo giá | Dễ khởi đầu nhưng dễ lệch thiết kế, không đáp ứng sửa giao diện một lần cho tất cả |
+
+Nguồn mở lại ngày 28/10/2026: [Pages cùng repo](https://developers.cloudflare.com/pages/configuration/monorepos/), [giới hạn Free](https://developers.cloudflare.com/pages/platform/limits/), [giá Pages](https://www.cloudflare.com/products/pages/). Ba dự án và 24/90/360 build nằm dưới các giới hạn công bố nêu trên, nhưng còn build nội dung riêng/lần thử lại và điều kiện tài khoản. Free có 20.000 tệp/site, tối đa 25 MiB/tệp; Functions/Workers/R2 không được chọn. Xác nhận điều khoản thương mại, quốc gia và tài khoản trước cam kết phương án dự phòng; chưa kết nối hoặc chuyển host.
+
+Nếu bị chặn hạn mức, giữ phiên bản ổn định, chờ reset/giảm tải hoặc trình quyết định gói; không tự mua thêm. Cảnh báo không phải trần chi tiêu. Theo dõi sử dụng chung của tài khoản, traffic từng thành phố, số build, dung lượng giữ lại và lỗi bản đồ. Sites xuất bản từng Site riêng: chưa có cam kết đổi đồng thời cả ba. Quy trình tương lai phải kiểm tra mọi bản dựng trước, ghi kết quả từng nơi và thử lại/khôi phục khi chỉ một phần thành công. Đó là yêu cầu cần triển khai, không phải khả năng đã được kiểm chứng.
+
+**Quyết định cần có trước triển khai:** xác nhận bắt đầu tách dữ liệu/xây quy trình chung, chốt thành phố và nguồn nội dung đã duyệt, kiểm tra hạn mức ba Site. Không cần mua dịch vụ chỉ để chuẩn bị kiến trúc. Đề xuất kỹ thuật ở `docs/architecture/multi-city-sites.md`; website hiện tại vẫn chỉ là Hà Nội.

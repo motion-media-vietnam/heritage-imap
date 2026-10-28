@@ -10,6 +10,8 @@ Read `AGENTS.md` first. The owner supplies design/product direction in Vietnames
 - GitHub `origin`: `https://github.com/motion-media-vietnam/heritage-imap.git`, a secondary copy. No GitHub-to-Sites deployment webhook is configured. Arbitrary GitHub pushes do not publish this Site.
 - No database, payment processor, server-side AI or application API key is required.
 
+Multi-city builds and shared releases are proposed in `docs/architecture/multi-city-sites.md`, with costs in `docs/billing.md`. They are not implemented: only Hanoi exists. Keep the current single-Site identity and workflow until a requested implementation adds isolated city targets and verifies shared releases.
+
 ## Complete each requested update
 
 1. Read the installed Sites skill and inspect uncommitted work. Get the existing Site/access and source credential. Open/synchronize its source with the skill's helper before editing: phone edits may be newer than this checkout. Keep credentials in session memory and pass through hidden stdin, never shell arguments or files. Reconcile history without force pushes or losing unrelated work.
