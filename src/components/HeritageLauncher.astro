@@ -1,71 +1,85 @@
 ---
-import HeritageSparkle from './HeritageSparkle.astro';
-const prompts = ['Gợi ý địa điểm tiếp khách đối tác', 'Một buổi hẹn hò thật đặc biệt', 'Khám phá Hà Nội trong 1 ngày'];
+// Shared independent assistant: no map imports or changes to the page layout.
 ---
 <div data-heritage-assistant>
-  <button class="heritage-tab" type="button" data-heritage-open aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false" hidden>
-    <HeritageSparkle /><span>Hỏi Heritage nhé</span>
+  <button class="heritage-tab" type="button" data-heritage-open aria-label="Hỏi Heritage nhé" aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false" hidden>
+    <span aria-hidden="true" class="heritage-monogram">H</span><span>HỎI HERITAGE</span>
   </button>
   <dialog id="heritage-drawer" class="heritage-drawer" aria-labelledby="heritage-drawer-title" aria-describedby="heritage-capability">
     <header class="heritage-drawer-header">
-      <h2 id="heritage-drawer-title"><HeritageSparkle />Hỏi Heritage nhé</h2>
-      <button type="button" class="heritage-close" data-heritage-close aria-label="Đóng Hỏi Heritage" autofocus>×</button>
+      <div class="heritage-heading-row">
+        <div><p class="heritage-kicker">HERITAGE GUIDE · HÀ NỘI</p><h2 id="heritage-drawer-title">Hỏi Heritage<span>.</span></h2><p class="heritage-description">Một người bạn có gu, dành riêng cho bạn.</p></div>
+        <button type="button" class="heritage-close" data-heritage-close aria-label="Đóng Hỏi Heritage" autofocus>×</button>
+      </div>
+      <p id="heritage-capability" class="heritage-disclosure">Chỉ khám phá Hà Nội · Gợi ý theo kịch bản, không phải dữ liệu thời gian thực</p>
     </header>
-    <div class="heritage-conversation" data-heritage-conversation tabindex="0" aria-label="Câu hỏi và kết quả gợi ý">
-      <h3>Bạn muốn khám phá một Hà Nội như thế nào?</h3>
-      <p>Heritage sẽ giúp bạn tìm những địa điểm và trải nghiệm phù hợp với sở thích của mình.</p>
-      <p id="heritage-capability" class="heritage-disclosure">AI hội thoại chưa được kết nối. Hiện chỉ có gợi ý theo dữ liệu từ 6 địa điểm có sẵn; không tra cứu trực tiếp hay trò chuyện bằng AI.</p>
-      <div class="heritage-prompts" role="group" aria-label="Thử một câu hỏi">
-        {prompts.map(prompt => <button type="button" data-heritage-prompt={prompt}>{prompt}</button>)}
+    <div class="heritage-conversation" data-heritage-conversation tabindex="0" aria-label="Câu hỏi và trả lời">
+      <p class="heritage-intro">BẮT ĐẦU MỘT CÂU CHUYỆN VỀ HÀ NỘI</p>
+      <div data-heritage-messages role="log" aria-label="Trao đổi với Heritage" aria-live="polite" aria-relevant="additions">
+        <div class="heritage-message bot"><span class="heritage-avatar" aria-hidden="true">H</span><div class="heritage-bubble"><div class="heritage-msg-label">HERITAGE</div><div>Chào bạn, mình là Heritage. 🌿<br /><br />Bạn đang tìm một góc Hà Nội để khám phá, một món ngon đúng gu hay một lịch trình đi chơi thật vừa vặn?<br /><br />Kể mình nghe bạn thích gì nhé.</div></div></div>
       </div>
-      <div data-heritage-messages role="log" aria-label="Trao đổi với Heritage" aria-live="polite" aria-relevant="additions"></div>
     </div>
+    <section class="heritage-suggestions" aria-label="Gợi ý câu hỏi"><p class="heritage-sugg-label">GỢI Ý ĐỂ BẮT ĐẦU</p><div class="heritage-prompts" data-heritage-prompts></div></section>
     <form class="heritage-input" data-heritage-form>
-      <p class="heritage-request-status" data-heritage-status role="status" aria-live="polite"></p>
-      <label for="heritage-question">Câu hỏi của bạn</label>
+      <p class="heritage-sr-only" data-heritage-status role="status" aria-live="polite"></p>
+      <label class="heritage-sr-only" for="heritage-question">Câu hỏi của bạn</label>
       <div class="heritage-input-row">
-        <textarea id="heritage-question" name="query" rows="2" maxlength="600" required aria-describedby="heritage-capability" placeholder="Bạn muốn hỏi gì về Hà Nội?"></textarea>
-        <button type="submit" data-heritage-send aria-label="Gửi câu hỏi để tìm gợi ý trong danh mục"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m5 12 7-7 7 7M12 5v15" /></svg></button>
+        <textarea id="heritage-question" name="query" rows="1" maxlength="600" required aria-describedby="heritage-capability" placeholder="Hỏi về Hà Nội…"></textarea>
+        <button type="submit" data-heritage-send aria-label="Gửi câu hỏi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m4 12 16-8-5 16-3-7-8-1zm8 1 8-9" /></svg></button>
       </div>
+      <p class="heritage-foot">DEMO MIỄN PHÍ · Không gọi AI/API · Không lưu hội thoại</p>
     </form>
   </dialog>
 </div>
 <script>import '../scripts/heritage-assistant';</script>
 <style>
-  .heritage-tab { box-sizing: border-box; position: fixed; z-index: 2100; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 10px; min-width: 44px; padding: 16px max(10px, env(safe-area-inset-right)) 16px 10px; writing-mode: vertical-rl; border: 1px solid #b8a788; border-right: 0; border-radius: 12px 0 0 12px; background: #faf7f0; color: #242724; box-shadow: -3px 2px 12px #24272412; font: 500 12px/1.5 var(--editorial-body, 'Be Vietnam Pro', Arial, sans-serif); cursor: pointer; }
+  .heritage-tab { box-sizing: border-box; position: fixed; z-index: 2100; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 12px; min-width: 44px; padding: 18px max(12px, env(safe-area-inset-right)) 18px 12px; writing-mode: vertical-rl; border: 1px solid #173d38; border-right: 0; border-radius: 12px 0 0 12px; background: #173d38; color: #fff; box-shadow: -3px 2px 12px #173d3820; font: 500 10px/1.5 var(--editorial-body, 'Be Vietnam Pro', Arial, sans-serif); letter-spacing: .14em; cursor: pointer; }
+  .heritage-monogram { font: italic 20px/1 Georgia, serif; }
   .heritage-tab[hidden] { display: none; }
-  .heritage-tab:hover { background: #f1eadf; }
-  .heritage-drawer { box-sizing: border-box; position: fixed; inset: var(--heritage-drawer-top, 0px) 0 0 auto; width: min(410px, 100vw); max-width: 100vw; height: calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px)); max-height: calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px)); margin: 0; padding: 0; overflow: hidden; overscroll-behavior: contain; border: 1px solid #c8baa0; border-right: 0; border-radius: 18px 0 0 18px; background: #faf7f0; color: #242724; box-shadow: -8px 0 32px #2427241a; font: 400 13px/1.65 var(--editorial-body, 'Be Vietnam Pro', Arial, sans-serif); }
+  .heritage-tab:hover { background: #254c46; }
+  .heritage-drawer { box-sizing: border-box; position: fixed; inset: auto 20px max(20px, env(safe-area-inset-bottom)) auto; width: min(416px, calc(100vw - 32px)); max-width: 100vw; height: min(704px, calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px) - 32px)); max-height: calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px) - 20px); margin: 0; padding: 0; overflow: hidden; overscroll-behavior: contain; border: 1px solid #d9e3dc; border-radius: 18px; background: #fafaf7; color: #344b45; box-shadow: 0 28px 90px #0c262231; font: 400 13px/1.65 var(--editorial-body, 'Be Vietnam Pro', Arial, sans-serif); }
   .heritage-drawer[open] { display: flex; flex-direction: column; animation: heritage-enter .2s ease-out; }
-  .heritage-drawer::backdrop { background: #24272426; }
-  .heritage-drawer-header { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px max(12px, env(safe-area-inset-right)) 12px 20px; border-bottom: 1px solid #ded5c5; }
-  .heritage-drawer-header h2 { display: flex; align-items: center; gap: 8px; margin: 0; font: 500 15px/1.4 var(--editorial-body, 'Be Vietnam Pro', Arial, sans-serif); }
-  .heritage-close { flex-shrink: 0; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: inherit; font: 400 26px/1 Arial, sans-serif; cursor: pointer; }
-  .heritage-close:hover { background: #f1eadf; }
-  .heritage-conversation { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 24px 20px; overflow-wrap: anywhere; }
-  .heritage-conversation h3 { margin: 0 0 12px; font: 400 23px/1.4 var(--editorial-display, 'Lora', Georgia, serif); }
-  .heritage-conversation p { margin: 0 0 14px; }
-  .heritage-disclosure { padding: 12px; border: 1px solid #ded5c5; border-radius: 8px; font-size: 11px; color: #53574f; }
-  .heritage-prompts { display: grid; gap: 8px; margin-block: 20px; }
-  .heritage-prompts button { min-height: 44px; padding: 10px 12px; border: 1px solid #c8baa0; border-radius: 10px; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
-  .heritage-prompts button:hover { background: #f1eadf; }
-  .heritage-input { flex-shrink: 0; margin: 0; padding: 12px max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) 16px; border-top: 1px solid #ded5c5; }
-  .heritage-input label { display: block; margin-bottom: 6px; font-size: 11px; }
-  .heritage-request-status { margin: 0 0 6px; font-size: 11px; }
+  .heritage-drawer::backdrop { background: #173d381a; }
+  .heritage-drawer-header { flex-shrink: 0; padding: 20px 20px 18px; background: #173d38; color: #fff; }
+  .heritage-heading-row { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+  .heritage-kicker { margin: 0 0 5px; font-size: 9px; letter-spacing: .2em; color: #d3c09b; }
+  .heritage-drawer-header h2 { margin: 0 0 4px; font: 400 28px/1.25 var(--editorial-display, 'Lora', Georgia, serif); letter-spacing: -.04em; }
+  .heritage-drawer-header h2 span { color: #c8b590; }
+  .heritage-description { margin: 0; font-size: 11px; color: #d3e3d9; }
+  .heritage-close { flex-shrink: 0; width: 44px; height: 44px; border: 1px solid #ffffff38; border-radius: 50%; background: transparent; color: inherit; font: 400 26px/1 Arial, sans-serif; cursor: pointer; }
+  .heritage-close:hover { background: #ffffff20; }
+  .heritage-disclosure { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid #ffffff30; font-size: 10px; line-height: 1.6; color: #d3e3d9; }
+  .heritage-conversation { min-height: 44px; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 22px 16px; overflow-wrap: anywhere; }
+  .heritage-intro { margin: 0 0 20px; text-align: center; color: #697c79; font-size: 9px; }
+  .heritage-drawer :global(.heritage-message) { display: flex; gap: 8px; align-items: start; margin-bottom: 17px; }
+  .heritage-drawer :global(.heritage-message.user) { justify-content: end; }
+  .heritage-drawer :global(.heritage-avatar) { display: grid; place-items: center; width: 27px; height: 27px; flex-shrink: 0; border-radius: 50%; background: #e7eee7; color: #173d38; font: italic 17px Georgia, serif; }
+  .heritage-drawer :global(.heritage-bubble) { box-sizing: border-box; max-width: calc(100% - 35px); border: 1px solid #e4e8e3; border-radius: 3px 12px 12px; background: #fff; padding: 13px 14px; font-size: 12px; line-height: 1.8; white-space: pre-line; overflow-wrap: anywhere; }
+  .heritage-drawer :global(.user .heritage-bubble) { background: #e9f0e9; border-radius: 12px 3px 12px 12px; color: #173d38; }
+  .heritage-drawer :global(.heritage-msg-label) { margin-bottom: 6px; color: #697c79; font-size: 9px; letter-spacing: .16em; }
+  .heritage-suggestions { flex-shrink: 0; margin: 0; padding: 12px 14px 9px; border-top: 1px solid #e4e8e3; background: #fff; }
+  .heritage-sugg-label { margin: 0 0 8px; font-size: 9px; letter-spacing: .14em; color: #806847; }
+  .heritage-prompts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .heritage-prompts :global(button) { min-height: 44px; padding: 7px 10px; border: 1px solid #dce5dd; border-radius: 24px; background: #fff; color: #35544c; font: inherit; font-size: 10px; cursor: pointer; }
+  .heritage-prompts :global(button:hover) { background: #eef4ed; }
+  .heritage-input { flex-shrink: 0; margin: 0; padding: 12px max(12px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) 12px; border-top: 1px solid #edf0eb; background: #fff; }
   .heritage-input-row { display: flex; align-items: end; gap: 8px; }
-  .heritage-input textarea { box-sizing: border-box; min-width: 0; flex: 1; max-height: 120px; padding: 10px 12px; resize: none; border: 1px solid #b8a788; border-radius: 10px; background: #fffdfa; color: inherit; font: inherit; }
-  .heritage-input-row button { display: grid; place-items: center; flex-shrink: 0; min-width: 44px; min-height: 44px; border: 1px solid #a58c61; border-radius: 10px; background: #f1eadf; color: #242724; cursor: pointer; }
+  .heritage-input textarea { box-sizing: border-box; min-width: 0; flex: 1; min-height: 44px; max-height: 107px; padding: 11px 12px; resize: none; border: 1px solid #91ab9b; border-radius: 11px; background: #fff; color: inherit; font: inherit; font-size: 12px; line-height: 1.6; }
+  .heritage-input-row button { display: grid; place-items: center; flex-shrink: 0; min-width: 44px; min-height: 44px; border: 0; border-radius: 11px; background: #173d38; color: #fff; cursor: pointer; }
+  .heritage-foot { margin: 8px 0 0; text-align: center; color: #697c79; font-size: 8px; }
   .heritage-drawer button:disabled { opacity: .55; cursor: wait; }
-  .heritage-tab:focus-visible, .heritage-drawer :focus-visible { outline: 2px solid #242724; outline-offset: -3px; }
-  .heritage-drawer :global(.heritage-turn) { margin-block: 18px; padding-top: 16px; border-top: 1px solid #ded5c5; }
-  .heritage-drawer :global(.heritage-turn h4) { margin: 0 0 12px; font: 600 13px/1.6 var(--editorial-body, 'Be Vietnam Pro', Arial, sans-serif); overflow-wrap: anywhere; }
-  .heritage-drawer :global(.heritage-turn ul) { padding-left: 20px; }
-  .heritage-drawer :global(.heritage-turn li) { margin-block: 10px; }
-  @keyframes heritage-enter { from { transform: translateX(100%); } to { transform: translateX(0); } }
-  @media (max-width: 960px) {
-    .heritage-tab { font-size: 11px; padding-block: 12px; }
-    .heritage-drawer { width: 100vw; border-radius: 12px 0 0 12px; }
+  .heritage-tab:focus-visible, .heritage-drawer :focus-visible { outline: 2px solid #a77e48; outline-offset: -3px; }
+  .heritage-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @keyframes heritage-enter { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+  @media (max-width: 720px) {
+    .heritage-tab { font-size: 10px; padding-block: 14px; }
+    .heritage-drawer { inset: auto 0 calc(100dvh - var(--heritage-viewport-height, 100dvh)) auto; width: 100vw; height: min(90dvh, calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px) - 8px)); max-height: calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px) - 8px); border-radius: 19px 19px 0 0; }
     .heritage-input textarea { font-size: 16px; }
+    .heritage-drawer-header { padding: 16px; }
+    .heritage-drawer-header h2 { font-size: 25px; }
+    .heritage-conversation { padding: 18px 14px; }
+    @keyframes heritage-enter { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
   }
+  @media (max-height: 600px) { .heritage-description, .heritage-intro, .heritage-sugg-label { display: none; } .heritage-suggestions { max-height: 66px; overflow-y: auto; } .heritage-drawer-header { padding-block: 8px; } .heritage-disclosure { margin-top: 4px; padding-top: 4px; } }
   @media (prefers-reduced-motion: reduce) { .heritage-drawer[open] { animation: none; } }
 </style>

@@ -120,3 +120,22 @@ Nguồn mở lại ngày 28/10/2026: [Pages cùng repo](https://developers.cloud
 Nếu bị chặn hạn mức, giữ phiên bản ổn định, chờ reset/giảm tải hoặc trình quyết định gói; không tự mua thêm. Cảnh báo không phải trần chi tiêu. Theo dõi sử dụng chung của tài khoản, traffic từng thành phố, số build, dung lượng giữ lại và lỗi bản đồ. Sites xuất bản từng Site riêng: chưa có cam kết đổi đồng thời cả ba. Quy trình tương lai phải kiểm tra mọi bản dựng trước, ghi kết quả từng nơi và thử lại/khôi phục khi chỉ một phần thành công. Đó là yêu cầu cần triển khai, không phải khả năng đã được kiểm chứng.
 
 **Quyết định cần có trước triển khai:** xác nhận bắt đầu tách dữ liệu/xây quy trình chung, chốt thành phố và nguồn nội dung đã duyệt, kiểm tra hạn mức ba Site. Không cần mua dịch vụ chỉ để chuẩn bị kiến trúc. Đề xuất kỹ thuật ở `docs/architecture/multi-city-sites.md`; website hiện tại vẫn chỉ là Hà Nội.
+
+
+<!-- pagebreak -->
+
+## HỎI HERITAGE: demo du lịch Hà Nội
+
+**29/10/2026 - triển khai bộ trả lời theo kịch bản có sẵn, không kết nối AI trả phí.** Chat chạy ngay trên trình duyệt; không gọi dịch vụ AI, không tạo backend, cơ sở dữ liệu, thuê bao mới hay yêu cầu định vị. Hội thoại chỉ ở bộ nhớ trong trang, không lưu lâu dài hoặc gửi tới máy chủ. Bản đồ và các dịch vụ hiện có giữ nguyên.
+
+**Phí API của tính năng chat: 0 USD/tháng trước thuế ở mọi kịch bản dưới đây.** Đây là kết quả không phát sinh lượt gọi API, không phải ưu đãi giá hoặc cam kết toàn bộ website miễn phí. Thuê bao ChatGPT, quyền lợi Sites, lưu trữ/băng thông website, công sức biên tập và bảo trì vẫn theo giả định/giới hạn ở các phần trước.
+
+| Kịch bản/tháng (giả định) | Câu hỏi chat | Lượt gọi AI/API | Phí API phát sinh |
+| --- | --- | --- | --- |
+| Thấp | 1.000 | 0 | 0 USD |
+| Dự kiến | 10.000 | 0 | 0 USD |
+| Cao | 100.000 | 0 | 0 USD |
+
+Cách tính: số câu hỏi x 0 lượt gọi/câu hỏi = 0 lượt gọi, nên không có hóa đơn API. Các tài nguyên chat tĩnh được tải cùng website; không có phí theo câu hỏi. Tăng lượng truy cập vẫn có thể chạm hạn mức host hiện có. Nguồn [Sites](https://learn.chatgpt.com/docs/sites) được mở lại ngày 29/10/2026 để đối chiếu; không suy ra hạn mức GB hay lượt xem chưa công bố. Nếu bị chặn hạn mức, giữ bản ổn định/chờ khôi phục hoặc trình quyết định, không tự mua thêm credits. Không có cam kết trả phí mới và không đổi phạm vi sử dụng thương mại/khu vực của host.
+
+Phương án hiện tại đơn giản, không cần khóa và không có chi phí API; hạn chế là chỉ hiểu các mẫu câu du lịch được hỗ trợ, có thể từ chối nhầm cách diễn đạt mới, không tra cứu dữ liệu thời gian thực hay tự hiểu GPS. Giữ bộ gợi ý địa điểm cũ đơn giản hơn nhưng không đáp ứng hội thoại mẫu. AI trả phí có thể linh hoạt hơn nhưng cần dịch vụ máy chủ, kiểm soát chủ đề và ngân sách riêng; chưa chọn nhà cung cấp, chưa báo giá và chưa kết nối. Không cần quyết định mua dịch vụ ở giai đoạn demo này.

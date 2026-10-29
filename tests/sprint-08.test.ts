@@ -60,7 +60,7 @@ test('08A.1 supersedes 08: shared accessible launcher opens an in-page drawer, n
   assert(launcher.includes('safe-area-inset-bottom'));
   assert(controller.includes('dialog[open]'));
   assert(controller.includes('drawer.showModal()'));
-  assert(controller.includes("import { recommend } from '../lib/concierge'"));
+  assert(controller.includes("import { answerHeritage, defaultChips } from '../lib/hoi-heritage'"));
   assert(!/<a\b|<iframe\b|fetch\(/.test(launcher));
   for (const path of ['src/layouts/Layout.astro', 'src/pages/imap.astro', 'src/pages/imap-prototype.astro']) assert(source(path).includes('<HeritageLauncher />'));
 });

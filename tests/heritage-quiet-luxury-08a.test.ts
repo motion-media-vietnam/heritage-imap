@@ -22,24 +22,24 @@ test('08A: header retains Heritage route/label with an outlined CTA and shared s
   assert(!/background:\s*#(?:a73128|86271f)/i.test(styles));
 });
 
-test('08A.1: ivory vertical edge button opens an accessible local drawer, not a link', () => {
-  for (const contract of ['Hỏi Heritage nhé', '<HeritageSparkle />', 'position: fixed', 'right: 0', 'top: 50%', 'writing-mode: vertical-rl', 'border-radius: 12px 0 0 12px', 'background: #faf7f0', 'color: #242724', 'min-height: 44px', 'focus-visible', 'prefers-reduced-motion: reduce', 'width: min(410px, 100vw)', 'heritage-enter', 'aria-controls="heritage-drawer"', 'aria-haspopup="dialog"', '<dialog', 'data-heritage-close', 'role="log"']) assert(launcher.includes(contract), contract);
+test('HỎI HERITAGE: pine vertical edge button opens an accessible local drawer, not a link', () => {
+  for (const contract of ['Hỏi Heritage nhé', 'HỎI HERITAGE', 'position: fixed', 'right: 0', 'top: 50%', 'writing-mode: vertical-rl', 'border-radius: 12px 0 0 12px', 'background: #173d38', 'color: #fff', 'min-height: 44px', 'focus-visible', 'prefers-reduced-motion: reduce', 'width: min(416px, calc(100vw - 32px))', 'heritage-enter', 'aria-controls="heritage-drawer"', 'aria-haspopup="dialog"', '<dialog', 'data-heritage-close', 'role="log"']) assert(launcher.includes(contract), contract);
   assert(!/<(?:a|img|iframe)\b|gradient\(/.test(launcher));
   assert(!/background:\s*#(?:a73128|86271f)/i.test(launcher));
   assert(sparkle.includes('aria-hidden="true"'));
   assert(sparkle.includes('focusable="false"'));
 });
 
-test('08A.1: drawer reuses the local matcher and discloses the missing AI backend', () => {
+test('08A.1: drawer uses the scoped free travel scripts and discloses its limits', () => {
   const controller = source('src/scripts/heritage-assistant.ts');
-  assert(controller.includes("import { recommend } from '../lib/concierge'"));
-  assert(controller.includes('const result = recommend('));
-  for (const contract of ["form.addEventListener('submit'", 'form.requestSubmit()', 'send.disabled = true', 'catch {', 'finally {', 'textContent', 'messages.append(turn)']) assert(controller.includes(contract), contract);
+  assert(controller.includes("import { answerHeritage, defaultChips } from '../lib/hoi-heritage'"));
+  assert(controller.includes('const result = answerHeritage('));
+  for (const contract of ["form.addEventListener('submit'", 'form.requestSubmit()', 'send.disabled = true', 'catch {', 'finally {', 'textContent', 'messages.append(row)']) assert(controller.includes(contract), contract);
   assert(!/fetch\(|innerHTML|setTimeout\(/.test(controller));
-  assert(launcher.includes('AI hội thoại chưa được kết nối'));
-  assert(launcher.includes('Gợi ý địa điểm tiếp khách đối tác'));
-  assert(launcher.includes('Một buổi hẹn hò thật đặc biệt'));
-  assert(launcher.includes('Khám phá Hà Nội trong 1 ngày'));
+  assert(launcher.includes('Không gọi AI/API'));
+  assert(launcher.includes('không phải dữ liệu thời gian thực'));
+  assert(launcher.includes('data-heritage-prompts'));
+  assert(launcher.includes('Không lưu hội thoại'));
   assert(source('src/pages/heritage-mach-ban.astro').includes('chưa sử dụng AI hội thoại'));
   assert(source('src/scripts/concierge.ts').includes('recommend(preferences)'));
 });

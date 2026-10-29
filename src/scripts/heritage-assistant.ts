@@ -1,4 +1,4 @@
-import { recommend } from '../lib/concierge';
+import { answerHeritage, defaultChips } from '../lib/hoi-heritage';
 
 const root = document.querySelector<HTMLElement>('[data-heritage-assistant]');
 if (root) {
@@ -11,7 +11,9 @@ if (root) {
   const status = root.querySelector<HTMLElement>('[data-heritage-status]')!;
   const messages = root.querySelector<HTMLElement>('[data-heritage-messages]')!;
   const conversation = root.querySelector<HTMLElement>('[data-heritage-conversation]')!;
-  const prompts = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-heritage-prompt]'));
+  const suggestions = root.querySelector<HTMLElement>('[data-heritage-prompts]')!;
+  const headerTriggers = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-heritage-header-open]'));
+  const setExpanded = (value: boolean) => { for (const trigger of [tab, ...headerTriggers]) trigger.setAttribute('aria-expanded', String(value)); };
   let saved: { x: number; y: number; overflow: string; gutter: string; focus: HTMLElement | null } | undefined;
   let busy = false;
   let frame = 0;
@@ -57,7 +59,7 @@ if (root) {
     // Reserve the existing scrollbar space: locking the page must not resize the map.
     if (window.innerWidth > document.documentElement.clientWidth) document.documentElement.style.scrollbarGutter = 'stable';
     document.documentElement.style.overflow = 'hidden';
-    tab.setAttribute('aria-expanded', 'true');
+    setExpanded(true);
     setTabHidden(true);
   }
   function restorePage() {
@@ -65,7 +67,7 @@ if (root) {
     const previous = saved; saved = undefined;
     document.documentElement.style.overflow = previous.overflow;
     document.documentElement.style.scrollbarGutter = previous.gutter;
-    tab.setAttribute('aria-expanded', 'false');
+    setExpanded(false);
     // No URL/history changes and no calls to map/sheet/story controllers.
     window.scrollTo({ left: previous.x, top: previous.y, behavior: 'instant' });
     placeTab();
@@ -74,6 +76,11 @@ if (root) {
   // Assistant interactions must not become outside-click actions for a map story.
   root.addEventListener('click', event => event.stopPropagation());
   tab.addEventListener('click', openDrawer);
+  for (const trigger of headerTriggers) trigger.addEventListener('click', () => {
+    const menu = trigger.closest<HTMLDetailsElement>('.mobile-menu');
+    if (menu) menu.open = false;
+    openDrawer();
+  });
   close.addEventListener('click', () => drawer.close());
   drawer.addEventListener('close', restorePage);
   drawer.addEventListener('cancel', event => { event.preventDefault(); drawer.close(); });
@@ -85,46 +92,56 @@ if (root) {
       drawer.close();
     }
   }, { capture: true });
-  drawer.addEventListener('click', event => { if (event.target === drawer && event.clientX < drawer.getBoundingClientRect().left) drawer.close(); });
+  drawer.addEventListener('click', event => { if (event.target === drawer && (event.clientX < drawer.getBoundingClientRect().left || event.clientY < drawer.getBoundingClientRect().top)) drawer.close(); });
 
+  function addMessage(kind: 'bot' | 'user', body: string) {
+    const row = document.createElement('div'); row.className = `heritage-message ${kind}`;
+    if (kind === 'bot') {
+      const avatar = document.createElement('span'); avatar.className = 'heritage-avatar';
+      avatar.textContent = 'H'; avatar.setAttribute('aria-hidden', 'true'); row.append(avatar);
+    }
+    const bubble = document.createElement('div'); bubble.className = 'heritage-bubble';
+    if (kind === 'bot') {
+      const label = document.createElement('div'); label.className = 'heritage-msg-label'; label.textContent = 'HERITAGE'; bubble.append(label);
+    }
+    const copy = document.createElement('div'); copy.textContent = body;
+    bubble.append(copy); row.append(bubble); messages.append(row);
+  }
+  function renderPrompts(items: string[]) {
+    suggestions.replaceChildren();
+    for (const text of items.slice(0, 4)) {
+      const button = document.createElement('button'); button.type = 'button'; button.textContent = text;
+      button.addEventListener('click', () => { input.value = text; form.requestSubmit(); });
+      suggestions.append(button);
+    }
+  }
   form.addEventListener('submit', event => {
     event.preventDefault();
     const query = input.value.trim();
-    if (busy || !query) { if (!query) input.focus(); return; }
-    busy = true; send.disabled = true; prompts.forEach(button => { button.disabled = true; });
-    messages.setAttribute('aria-busy', 'true');
-    status.textContent = 'Đang đối chiếu danh mục địa điểm có sẵn…';
+    if (busy || !query || query.length > input.maxLength) { input.focus({ preventScroll: true }); return; }
+    busy = true; send.disabled = true; messages.setAttribute('aria-busy', 'true');
     try {
-      // Exact same local engine as the existing Heritage page, not an AI response.
-      const result = recommend({ query, area: 'all', time: '', mobility: '', interests: [], requirements: [] });
-      const turn = document.createElement('section'); turn.className = 'heritage-turn';
-      const question = document.createElement('h4'); question.textContent = `Bạn hỏi: ${query}`; turn.append(question);
-      const label = document.createElement('p');
-      label.textContent = result.matches.length ? `Gợi ý từ danh mục hiện có: ${result.matches.length} địa điểm. Không phải phản hồi AI.` : 'Chưa có gợi ý phù hợp trong danh mục hiện có. AI hội thoại chưa được kết nối.';
-      turn.append(label);
-      if (result.matches.length) {
-        const list = document.createElement('ul');
-        for (const match of result.matches) {
-          const item = document.createElement('li');
-          const title = document.createElement('strong'); title.textContent = match.place.name;
-          const reason = document.createElement('p'); reason.textContent = match.reason;
-          item.append(title, reason); list.append(item);
-        }
-        turn.append(list);
-      }
-      for (const note of result.notes) { const paragraph = document.createElement('p'); paragraph.textContent = note; turn.append(paragraph); }
-      messages.append(turn);
-      input.value = '';
-      status.textContent = result.matches.length ? `Đã đối chiếu: ${result.matches.length} gợi ý từ dữ liệu có sẵn.` : 'Đã đối chiếu: chưa có gợi ý phù hợp.';
+      const result = answerHeritage(query);
+      addMessage('user', query); addMessage('bot', result.reply); renderPrompts(result.chips);
+      input.value = ''; input.style.height = '';
+      status.textContent = 'Đã trả lời bằng kịch bản demo.';
       conversation.scrollTop = conversation.scrollHeight;
     } catch {
-      status.textContent = 'Chưa thể đối chiếu danh mục. Câu hỏi được giữ lại; bạn hãy thử lại.';
+      status.textContent = 'Chưa thể trả lời. Câu hỏi được giữ lại; bạn hãy thử lại.';
     } finally {
-      busy = false; send.disabled = false; prompts.forEach(button => { button.disabled = false; });
-      messages.setAttribute('aria-busy', 'false');
+      busy = false; send.disabled = false; messages.setAttribute('aria-busy', 'false');
+      input.focus({ preventScroll: true });
     }
   });
-  for (const button of prompts) button.addEventListener('click', () => { input.value = button.dataset.heritagePrompt!; form.requestSubmit(); });
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
+      event.preventDefault(); form.requestSubmit();
+    }
+  });
+  input.addEventListener('input', () => {
+    input.style.height = 'auto'; input.style.height = `${Math.min(input.scrollHeight, 107)}px`;
+  });
+  renderPrompts(defaultChips);
   window.addEventListener('resize', schedulePosition);
   window.visualViewport?.addEventListener('resize', schedulePosition);
   window.visualViewport?.addEventListener('scroll', schedulePosition);
