@@ -33,17 +33,17 @@ export interface EditorialCollection {
   image: string; alt: string; slugs: readonly string[]; pending?: string;
 }
 export const collections: readonly EditorialCollection[] = [
-  { id: 'di-san', category: 'Văn hóa & ký ức', title: 'Dấu tích nghìn năm trong từng bước chân.',
-    description: 'Đi chậm qua những lớp sân, đọc một tấm bia, nghe câu chuyện kinh thành xưa.',
-    image: destinationPhotos['van-mieu']!, alt: 'Không gian Văn Miếu – Quốc Tử Giám',
-    slugs: ['van-mieu', 'hoang-thanh-thang-long'] },
+  { id: 'di-san', category: 'Chốn dừng chân', title: 'Fairmont- Sự kết hợp giữa lưu trú siêu sang và bản sắc Hà Nội',
+    description: 'Fairmont Hanoi sở hữu 241 phòng nghỉ được thiết kế tinh tế, bao gồm 38 phòng Fairmont Gold và 12 phòng suite rộng rãi, mỗi không gian là một chốn nghỉ ngơi tĩnh tại.',
+    image: '/images/fairmont-hanoi-lobby.jpg', alt: 'Không gian sảnh Fairmont Hanoi',
+    slugs: [], pending: 'Bài viết về Fairmont Hanoi đang được cập nhật.' },
   { id: 'am-thuc', category: 'Hương vị Hà Nội', title: 'Ăn một ngày, nhớ một đời.',
     description: 'Một lời hẹn với những hương vị quen mà luôn có điều để khám phá.',
     image: heritageExperiences[1]!.image!.src, alt: heritageExperiences[1]!.image!.alt,
     slugs: [], pending: 'Bộ sưu tập đang biên soạn. Chưa có địa chỉ ẩm thực trong danh mục iMap này.' },
-  { id: 'khoang-lang', category: 'Nhịp sống chậm', title: 'Những khoảng lặng rất Hà Nội.',
+  { id: 'khoang-lang', category: 'Nhịp sống chậm', title: '"Chill" cùng Hà Nội trên cao',
     description: 'Một khoảng trời bên hồ, một nhịp nghỉ giữa phố. Đôi khi, thế là đủ.',
-    image: destinationPhotos['ho-tay']!, alt: 'Không gian ven Hồ Tây', slugs: ['ho-tay', 'ho-hoan-kiem'] },
+    image: '/images/hanoi-rooftop-bar.jpg', alt: 'Không gian rooftop ngắm Hà Nội lúc hoàng hôn', slugs: ['ho-tay', 'ho-hoan-kiem'] },
   { id: 'con-nguoi', category: 'Con người & nếp sống', title: 'Gặp những con người làm nên Hà Nội.',
     description: 'Những câu chuyện về người giữ nghề, giữ ký ức và giữ một nét riêng của thành phố.',
     image: heritageExperiences[2]!.image!.src, alt: heritageExperiences[2]!.image!.alt,
