@@ -144,3 +144,8 @@ Phương án hiện tại đơn giản, không cần khóa và không có chi ph
 ## Cập nhật giao diện Heritage mách bạn - 03/11/2026
 
 Thay tiêu đề theo nội dung chủ dự án, đồng bộ typography hero, nút Heritage và nền trắng khu vực hỏi đáp. Dùng nguyên tệp ảnh JPEG Phố Bình Yên do chủ dự án cung cấp (254.116 byte, khoảng 0,254 MB) làm ảnh nền thay thế; không sinh ảnh hoặc thêm dịch vụ ảnh. Không thêm package, API, cơ sở dữ liệu, thuê bao hoặc dịch vụ trả phí; không thay gói, quyền truy cập hoặc cách tính phí hiện có. Phí API tăng thêm của thay đổi bằng 0 vì không thêm lời gọi API. Băng thông thực tế phụ thuộc cache và số lượt tải ảnh; chưa có đơn giá vượt hạn mức của tài khoản được xác nhận nên không suy ra tổng hóa đơn bằng 0. Các bảng giá lịch sử phía trên giữ ngày kiểm chứng cũ, không phải báo giá mới ngày 03/11. Công sức sửa và kiểm tra tách khỏi phí nhà cung cấp.
+
+
+## Heritage mách bạn V2 - 03/11/2026
+
+Tinh chỉnh trình bày bằng CSS, dùng lại ảnh đã có, component bản đồ Leaflet/OSM và footer trang chủ. Không thêm package, dịch vụ trả phí, AI/API chat, lưu trữ hoặc tài khoản thanh toán. Trang Heritage mách bạn nay có một bản đồ tương tác thật, vì bản trước chỉ có liên kết tới iMap; người mở trang có thể tải thêm ô bản đồ OSM. Không tải hàng loạt hoặc thêm prefetch/offline. Lượng tải phụ thuộc cache, viewport và thao tác; chưa có số đo traffic để dự báo chi phí hosting hoặc nhà cung cấp tile thương mại. Phí API chat tăng thêm vẫn là 0 vì không thêm lời gọi API, không có cam kết tổng vận hành miễn phí. Giữ điều kiện/hạn mức hiện có và không tự nâng gói.
