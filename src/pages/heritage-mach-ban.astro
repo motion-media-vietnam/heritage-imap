@@ -29,7 +29,7 @@ const areas = [...new Set(places.map(place => place.area))];
         <div class="concierge-prompts" role="group" aria-label="Thử một lời gợi ý">{examplePrompts.map(prompt => <button type="button" data-concierge-prompt={prompt}>{prompt}<span aria-hidden="true">↗</span></button>)}</div>
         <div class="concierge-query-card">
         <label class="concierge-input-label" for="concierge-request">Kể Heritage nghe điều bạn đang tìm</label>
-        <div class="concierge-search"><textarea id="concierge-request" name="query" rows="2" maxlength="600" placeholder="Một buổi dạo phố, một khoảng lặng, hay câu chuyện về Hà Nội…"></textarea><button class="concierge-button" type="submit">Tìm gợi ý <span aria-hidden="true">↗</span></button></div>
+        <div class="concierge-search"><textarea id="concierge-request" name="query" rows="1" maxlength="600" placeholder="Một buổi dạo phố, một khoảng lặng, hay câu chuyện về Hà Nội…"></textarea><button class="concierge-button" type="submit">Tìm gợi ý <span aria-hidden="true">↗</span></button></div>
         </div>
         <details class="concierge-preferences"><summary>Thêm một chút về bạn <span> Khu vực, thời gian & sở thích</span></summary>
           <div class="concierge-preference-grid">
