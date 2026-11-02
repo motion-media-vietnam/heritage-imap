@@ -13,19 +13,11 @@
 .site-header .header-inner { gap: 40px; }
 .site-header .brand {
   align-self: center;
-  width: 88px;
-  height: 64px;
-  padding: 8px 12px;
-  background: var(--vermilion);
+  width: 132px;
+  height: 72px;
+  padding: 0;
+  background: transparent;
 }
-.site-header .brand strong {
-  font-family: var(--editorial-display);
-  font-size: 23px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-.site-header .brand strong span { display: block; }
 .site-header .desktop-nav { gap: clamp(18px, 2.1vw, 30px); }
 .site-header .desktop-nav a, .site-header .header-search { font-size: 12px; font-weight: 500; }
 .site-header .site-language { font-size: 11px; }
@@ -125,6 +117,7 @@
   @keyframes editorial-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 }
 @media (max-width: 1100px) {
+  .site-header .brand { width: 116px; height: 64px; }
   .site-header .header-inner { gap: 24px; }
   .site-header .header-actions { gap: 12px; }
   .hero .hero-copy { max-width: 700px; }
@@ -132,10 +125,9 @@
 }
 @media (max-width: 700px) {
   :root { --editorial-gutter: 24px; --editorial-space: 72px; }
-  .site-header .brand { width: 80px; height: 56px; padding: 6px 10px; }
+  .site-header .brand { width: 108px; height: 56px; }
   .site-header.header-overlay:not(.is-scrolled) { color: #fff; background: transparent; }
   .site-header.header-overlay:not(.is-scrolled) :focus-visible { outline-color: #fff; }
-  .site-header .brand strong { font-size: 22px; }
   .site-header .mobile-menu nav { background: var(--homepage-header-surface, var(--rice-paper)); box-shadow: none; }
   .hero.hero { min-height: 100svh; align-items: center; padding-top: 0; }
   .hero .hero-image { object-position: 66% 35%; }

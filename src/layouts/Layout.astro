@@ -1,5 +1,6 @@
 ---
 import Icon from '../components/Icon.astro';
+import BrandLogo from '../components/BrandLogo.astro';
 import HeritageLauncher from '../components/HeritageLauncher.astro';
 import HeritageSparkle from '../components/HeritageSparkle.astro';
 import '../styles/global.css';
@@ -40,7 +41,7 @@ const headerNavigation = navigation.map(item => item.href === '/#experiences'
     <header class:list={['site-header', { 'header-overlay': overlayHeader }]}>
       <div class="header-inner shell">
         <a class="brand" href="/" aria-label="Hanoi iMap — trang chủ">
-          <strong>Hanoi <span>iMap</span></strong>
+          <BrandLogo />
         </a>
         <nav class="desktop-nav" aria-label="Điều hướng chính">
           {headerNavigation.map(item => <a href={item.href} class:list={{ 'heritage-nav-cta': item.href === '/heritage-mach-ban/' }}>{item.href === '/heritage-mach-ban/' && <HeritageSparkle />}{item.label}</a>)}
