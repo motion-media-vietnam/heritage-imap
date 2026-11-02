@@ -18,7 +18,7 @@ test('concierge and homepage render identical shared footer markup',()=>{
 test('editorial reflow retains every prompt, topic and itinerary',()=>{
  const html=built('heritage-mach-ban/index.html');
  for(const prompt of examplePrompts)assert(html.includes(prompt));
- const titles=[...html.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/g)].map(([,title])=>title!.replaceAll('&quot;','"'));
+ const titles=[...html.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/g)].map(([,title])=>title!.replaceAll('&quot;','"').replaceAll('&amp;','&'));
  for(const card of [...collections,...itineraries])assert(titles.includes(card.title));
  assert.equal((html.match(/data-concierge-prompt=/g)||[]).length,examplePrompts.length);
 });

@@ -53,9 +53,10 @@
 .heritage-concierge.concierge-v2 .collection-card:nth-child(3) { grid-column: 8 / -1; grid-row: 2; }
 .heritage-concierge.concierge-v2 .collection-card:nth-child(2) > img,
 .heritage-concierge.concierge-v2 .collection-card:nth-child(3) > img { aspect-ratio: 2.15 / 1; }
+.heritage-concierge.concierge-v2 .collection-card:nth-child(2) > img { object-position: center 85%; }
 .heritage-concierge.concierge-v2 .collection-card:nth-child(4) { grid-column: 1 / 6; grid-row: 3; margin-top: 40px; }
 .heritage-concierge.concierge-v2 .collection-card:nth-child(5) { grid-column: 6 / -1; grid-row: 3; margin-top: 40px; }
-.heritage-concierge.concierge-v2 .collection-card:nth-child(4) > img { aspect-ratio: 4 / 5; object-position: 65% center; }
+.heritage-concierge.concierge-v2 .collection-card:nth-child(4) > img { aspect-ratio: 4 / 5; object-position: 40% center; }
 .heritage-concierge.concierge-v2 .collection-card:nth-child(5) > img { aspect-ratio: 5 / 4; object-position: center 55%; }
 
 /* The existing three itineraries become a cinematic lead and a quieter pair. */
