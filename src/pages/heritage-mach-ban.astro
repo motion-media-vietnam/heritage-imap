@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import HeritageSparkle from '../components/HeritageSparkle.astro';
 import ConciergeCollection from '../components/ConciergeCollection.astro';
 import { places } from '../data/places';
 import { collections, itineraries, destinationPhotos, examplePrompts, interests, specialRequirements, collectionDestinations, imapHref } from '../data/concierge';
@@ -9,15 +10,16 @@ const areas = [...new Set(places.map(place => place.area))];
 <Layout title="Heritage mách bạn · Một Hà Nội dành cho bạn" description="Những góc nhìn được chọn lọc, những nhịp dạo chơi riêng. Cùng Heritage tìm một cách khám phá Hà Nội hợp với bạn." wide>
   <div class="heritage-concierge">
     <section class="concierge-hero" aria-labelledby="concierge-title">
-      <img class="concierge-hero-image" src={destinationPhotos['ho-hoan-kiem']} alt="Tháp Rùa bên mặt nước Hồ Gươm, dưới những tán cây" width="1200" height="1031" fetchpriority="high" />
+      <img class="concierge-hero-image" src="/images/peaceful-streets.jpg" alt="Tranh Phố Bình Yên — Peaceful Streets do khách hàng cung cấp" width="1109" height="737" fetchpriority="high" />
       <div class="concierge-hero-copy concierge-shell">
         <p class="concierge-kicker">Heritage mách bạn · Hà Nội</p>
-        <h1 id="concierge-title">Hà Nội có nhiều điều hay.<br /><em>Để Heritage mách bạn.</em></h1>
+        <h1 id="concierge-title">Theo chân &quot;thổ địa&quot; Heritage khám phá những nét riêng của Hà Nội nhé</h1>
         <p>Chỗ nào đáng ghé, món gì đáng thử, trải nghiệm nào hợp với bạn? Heritage giúp bạn khám phá Hà Nội qua những lựa chọn được tuyển chọn kỹ lưỡng, dành riêng cho sở thích và hành trình của bạn.</p>
-        <a class="concierge-button" href="#hoi-heritage" data-concierge-start>Hỏi Heritage <span aria-hidden="true">↓</span></a>
+        <a class="concierge-button concierge-heritage-button" href="#hoi-heritage" data-concierge-start><HeritageSparkle />Hỏi Heritage</a>
       </div>
     </section>
 
+    <div class="concierge-ask-surface">
     <section class="concierge-shell concierge-ask" id="hoi-heritage" aria-labelledby="ask-title">
       <div class="concierge-section-intro"><p class="concierge-kicker">Hỏi Heritage</p><h2 id="ask-title">Hôm nay bạn muốn khám phá một Hà Nội như thế nào?</h2><p>Một chút sở thích, một chút thời gian. Bắt đầu từ điều bạn muốn.</p></div>
       <form id="concierge-form">
@@ -38,6 +40,7 @@ const areas = [...new Set(places.map(place => place.area))];
       </form>
       <noscript><p>Bật JavaScript để dùng Hỏi Heritage. Các bộ sưu tập và liên kết iMap bên dưới vẫn dùng được.</p></noscript>
     </section>
+    </div>
 
     <section class="concierge-shell concierge-section" aria-labelledby="collections-title">
       <div class="concierge-section-intro"><p class="concierge-kicker">Heritage tuyển chọn</p><h2 id="collections-title">Những cách khám phá Hà Nội</h2><p>Không cần một danh sách thật dài. Chỉ cần một điều khiến bạn muốn bước ra phố.</p></div>
