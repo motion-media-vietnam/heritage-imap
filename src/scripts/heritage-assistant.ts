@@ -1,4 +1,5 @@
 import { answerHeritage, defaultChips } from '../lib/hoi-heritage';
+import { hasPassedOpeningHero } from '../lib/hero-visibility';
 
 const root = document.querySelector<HTMLElement>('[data-heritage-assistant]');
 if (root) {
@@ -13,6 +14,7 @@ if (root) {
   const conversation = root.querySelector<HTMLElement>('[data-heritage-conversation]')!;
   const suggestions = root.querySelector<HTMLElement>('[data-heritage-prompts]')!;
   const headerTriggers = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-heritage-header-open]'));
+  const openingHero = document.querySelector<HTMLElement>('[data-page-hero]');
   const setExpanded = (value: boolean) => { for (const trigger of [tab, ...headerTriggers]) trigger.setAttribute('aria-expanded', String(value)); };
   let saved: { x: number; y: number; overflow: string; gutter: string; focus: HTMLElement | null } | undefined;
   let busy = false;
@@ -32,6 +34,7 @@ if (root) {
     if (typeof drawer.showModal !== 'function') { setTabHidden(true); return; }
     if (drawer.open) { sizeDrawer(); setTabHidden(true); return; }
     if (document.querySelector('dialog[open], .mobile-menu[open]')) { setTabHidden(true); return; }
+    if (!hasPassedOpeningHero(openingHero?.getBoundingClientRect().bottom ?? null, headerBottom())) { setTabHidden(true); return; }
     // Move only this tab, never map controls, sheets, camera state or page sections.
     setTabHidden(false);
     const height = tab.offsetHeight || 170;

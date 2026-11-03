@@ -88,6 +88,7 @@ const headerNavigation = navigation.map(item => item.href === '/#experiences'
   }
 </style>
 <script>
+  import { hasPassedOpeningHero } from '../lib/hero-visibility';
   const scrollToExperiences = () => {
     const section = document.getElementById('unmissable-experiences');
     if (!section) return;
@@ -110,9 +111,10 @@ const headerNavigation = navigation.map(item => item.href === '/#experiences'
   }
   const header = document.querySelector<HTMLElement>('.header-overlay');
   if (header) {
-    // Only the homepage opts into this fixed overlay; state changes never resize it.
+    const openingHero = document.querySelector<HTMLElement>('[data-page-hero]');
+    // Keep the inverse logo over the hero until content reaches the header.
     const updateHeader = () => {
-      header.classList.toggle('is-scrolled', window.scrollY > 24);
+      header.classList.toggle('is-scrolled', hasPassedOpeningHero(openingHero?.getBoundingClientRect().bottom ?? null, header.getBoundingClientRect().bottom));
     };
     updateHeader();
     window.addEventListener('scroll', updateHeader, { passive: true });

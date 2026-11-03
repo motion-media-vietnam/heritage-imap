@@ -35,6 +35,7 @@
 .site-header.header-overlay .mobile-menu nav { background: var(--homepage-header-surface); color: var(--deep-ink); }
 .site-header.header-overlay.is-scrolled { color: var(--deep-ink); background: var(--homepage-header-surface); border-bottom-color: #24272414; box-shadow: 0 2px 14px #00000008; }
 .site-header.header-overlay:not(.is-scrolled) { color: #FFFFFF; background: transparent; border-bottom-color: transparent; box-shadow: none; }
+.site-header.header-overlay:not(.is-scrolled) .brand-logo { filter: brightness(0) invert(1); }
 .site-header.header-overlay:not(.is-scrolled) .site-language { border-right-color: #ffffff66; }
 .site-header.header-overlay:not(.is-scrolled) .desktop-nav a:hover { color: #fff; border-bottom-color: #ffffffb3; }
 .site-header.header-overlay:not(.is-scrolled) :focus-visible { outline-color: #fff; }

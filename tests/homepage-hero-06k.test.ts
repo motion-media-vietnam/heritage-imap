@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
+import { hasPassedOpeningHero } from '../src/lib/hero-visibility.ts';
 
 const read = (path: string) => readFileSync(new URL(path, import.meta.url), 'utf8');
 const main = read('../src/pages/index.astro');
@@ -44,19 +45,26 @@ test('overlay/header geometry and background cover rules do not depend on a scro
   assert(css.includes('.hero .hero-video { display: none; }'));
 });
 
-test('homepage header state changes at scroll without measuring/resizing hero or touching navigation', () => {
-  const body = layout.split('<script>')[1]!.split('</script>')[0]!;
+test('homepage header follows the hero boundary without resizing it or changing navigation', () => {
+  const body = layout.split('<script>')[1]!.split('</script>')[0]!.replace(/^\s*import \{ hasPassedOpeningHero \} from '[^']+';\s*/m, '');
   const source = ts.transpileModule(body, { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
   const events = new Map<string, () => void>();
   let solid = false;
-  const header = { classList: { toggle(name: string, value: boolean) { assert.equal(name, 'is-scrolled'); solid = value; } } };
+  let heroHeight = 740;
+  const header = { getBoundingClientRect: () => ({ bottom: 84 }), classList: { toggle(name: string, value: boolean) { assert.equal(name, 'is-scrolled'); solid = value; } } };
   const window = { scrollY: 0, addEventListener: (event: string, fn: () => void) => events.set(event, fn) };
-  runInNewContext(source, { window, document: {
-    querySelector: (selector: string) => selector === '.header-overlay' ? header : null,
+  const openingHero = { getBoundingClientRect: () => ({ bottom: heroHeight - window.scrollY }) };
+  runInNewContext(source, { window, location: { hash: '', pathname: '/' }, hasPassedOpeningHero, document: {
+    querySelectorAll: () => [],
+    querySelector: (selector: string) => selector === '.header-overlay' ? header : selector === '[data-page-hero]' ? openingHero : null,
     addEventListener() {},
   } }, { timeout: 1000 });
   assert.equal(solid, false);
-  window.scrollY = 25; events.get('scroll')!(); assert.equal(solid, true);
+  window.scrollY = 25; events.get('scroll')!(); assert.equal(solid, false);
+  window.scrollY = 656; events.get('scroll')!(); assert.equal(solid, true);
+  window.scrollY = 655; events.get('scroll')!(); assert.equal(solid, false);
+  heroHeight = 900; events.get('resize')!(); assert.equal(solid, false);
+  window.scrollY = 816; events.get('scroll')!(); assert.equal(solid, true);
   window.scrollY = 0; events.get('pageshow')!(); assert.equal(solid, false);
 });
 
