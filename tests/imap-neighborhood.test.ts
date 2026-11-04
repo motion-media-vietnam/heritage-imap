@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
-import { demoLocation, places } from '../src/data/places.ts';
+import { demoLocation, places } from '../src/data/destinations/hanoi/places.ts';
 import { distanceKm } from '../src/lib/explore.ts';
 import { selectDestination } from '../src/lib/imap-prototype.ts';
 import { imapCategories } from '../src/lib/imap-categories.ts';

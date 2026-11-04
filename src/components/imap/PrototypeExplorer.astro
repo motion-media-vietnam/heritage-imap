@@ -1,15 +1,16 @@
 ---
 import { prototypeCollection as places, prototypePlaces as mappedPlaces, filterPrototypeCollection, isMappedPrototypePlace, populatedPrototypeDistricts as populatedDistricts,
-  prototypeReferences, prototypeLinkedStories } from '../../data/imap-prototype';
+  prototypeReferences, prototypeLinkedStories } from '../../data/destinations/hanoi/imap-prototype';
 import { practicalInformation, nearbyDestinations, dedicatedVideos } from '../../lib/imap-prototype';
-import { featuredPrototypeStories, featuredAffiliateUrl } from '../../data/imap-featured';
+import { featuredPrototypeStories, featuredAffiliateUrl } from '../../data/destinations/hanoi/imap-featured';
 import { resolveDestinationMedia } from '../../lib/destination-media';
-import DestinationMedia from '../DestinationMedia.astro';
-import BrandLogo from '../BrandLogo.astro';
+import DestinationMedia from '../shared/DestinationMedia.astro';
+import BrandLogo from '../shared/BrandLogo.astro';
+import { hanoi } from '../../data/destinations/hanoi/config';
 import { formatDistance } from '../../lib/explore';
 import { googleWalkingDirections } from '../../lib/imap-directions';
 import { createNeighborhoodState, discoveryCategories, markerCategory } from '../../lib/imap-neighborhood';
-import DestinationPortrait from '../DestinationPortrait.astro';
+import DestinationPortrait from '../shared/DestinationPortrait.astro';
 import 'leaflet/dist/leaflet.css';
 import '../../styles/imap-prototype.css';
 interface Props { embedded?: boolean }
@@ -20,7 +21,7 @@ const initiallyVisible = new Set(initialPlaces.map(place => place.slug));
 ---
 <section class="imap-prototype" data-embedded={embedded ? 'true' : undefined} id={embedded ? 'experiences' : undefined} aria-label="iMap · Khám phá Hà Nội">
     <a class="skip" href="#prototype-directory">Đến danh sách địa điểm</a>
-    {!embedded && <header class="prototype-header"><a class="prototype-brand" href="/" aria-label="Hanoi iMap — trang chủ"><BrandLogo /></a><span>HÀ NỘI / NHỮNG CÂU CHUYỆN GẦN BẠN</span><b class="development-only">04A · PROTOTYPE</b></header>}
+    {!embedded && <header class="prototype-header"><a class="prototype-brand" href="/" aria-label="Hanoi iMap — trang chủ"><BrandLogo {...hanoi.brand.logo} /></a><span>HÀ NỘI / NHỮNG CÂU CHUYỆN GẦN BẠN</span><b class="development-only">04A · PROTOTYPE</b></header>}
     <div class="prototype-main">
       <div class="intro"><p class="kicker">MỘT THÀNH PHỐ. NHIỀU CÂU CHUYỆN.</p><Slogan class="prototype-slogan">Chạm để khám phá</Slogan><p class="development-only">Bản mẫu khu vực đi bộ · Mục tiêu 8–12 điểm khi có dữ liệu đã duyệt · Chưa tích hợp trang chủ.</p></div>
       <section class="tools" id={embedded ? 'search' : undefined} aria-label="Tìm và lọc địa điểm">

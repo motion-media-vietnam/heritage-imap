@@ -1,11 +1,12 @@
 /** 05B.1 conditional prototype integration only. Never imported by production pages.
  * Facts/pins come from the locally approved 05A.1 audit; this is not media approval.
  */
-import audit from '../../output/sprint-05a/candidates.draft.json' with { type: 'json' };
+import audit from '../../../../output/sprint-05a/candidates.draft.json' with { type: 'json' };
 import { places as originalPlaces } from './places.ts';
-import { migrateImapCategory } from '../lib/imap-categories.ts';
+import { hanoi } from './config.ts';
+import { migrateImapCategory } from '../../../lib/imap-categories.ts';
 import { districtPlaceSlugs } from './districts.ts';
-import { discoveryCategories, filterNeighborhoodPlaces, type NeighborhoodState, type DiscoveryCategory, type DiscoveryPlace } from '../lib/imap-neighborhood.ts';
+import { discoveryCategories, filterNeighborhoodPlaces, type NeighborhoodState, type DiscoveryCategory, type DiscoveryPlace } from '../../../lib/imap-neighborhood.ts';
 
 const { candidates } = audit;
 
@@ -94,11 +95,12 @@ const operaPlace: DiscoveryPlace = {
   // No video, photograph, hours, prices or invented editorial copy.
 };
 // One canonical record, inserted once; both collection and markers consume it.
-export const prototypePlaces: DiscoveryPlace[] = approvedPrototypePlaces.flatMap(place =>
-  place.slug === 'pho-co' ? [place, operaPlace] : [place]);
+export const prototypePlaces = approvedPrototypePlaces.flatMap(place =>
+  place.slug === 'pho-co' ? [place, operaPlace] : [place])
+  .map(place => ({ ...place, cityId: hanoi.id }));
 export type PrototypeCollectionEntry = DiscoveryPlace;
 export const prototypeCollection = prototypePlaces;
-export function isMappedPrototypePlace(place: PrototypeCollectionEntry): place is DiscoveryPlace {
+export function isMappedPrototypePlace(place: PrototypeCollectionEntry): place is PrototypeCollectionEntry {
   return place.coordinates !== undefined;
 }
 export function filterPrototypeCollection(state: NeighborhoodState): PrototypeCollectionEntry[] {

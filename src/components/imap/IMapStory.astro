@@ -1,11 +1,11 @@
 ---
-import type { Place } from '../../data/places';
+import type { Place } from '../../types/place';
 import type { MediaState, PublicationStatus, Verified } from '../../lib/destination-content';
 import { publishableVideo, publishableCover, publishablePractical, storyMediaState, type ContentMode, type StoryVideo, type StoryCover } from '../../lib/imap-content';
 import { practicalInformation, nearbyDestinations } from '../../lib/imap-prototype';
-import { places } from '../../data/places';
+import { places } from '../../data/destinations/hanoi/places';
 import { formatDistance } from '../../lib/explore';
-import PlaceArt from '../PlaceArt.astro';
+import PlaceArt from '../shared/PlaceArt.astro';
 interface Props {
   place: Place;
   contentMode?: ContentMode;

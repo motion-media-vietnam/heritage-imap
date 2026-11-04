@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
-import { prototypeCollection, prototypePlaces, filterPrototypeCollection, isMappedPrototypePlace, operaLocationEvidence } from '../src/data/imap-prototype.ts';
+import { prototypeCollection, prototypePlaces, filterPrototypeCollection, isMappedPrototypePlace, operaLocationEvidence } from '../src/data/destinations/hanoi/imap-prototype.ts';
 import { createNeighborhoodState, filterNeighborhoodPlaces, markerCategory, clusterProjectedPoints } from '../src/lib/imap-neighborhood.ts';
-import { demoLocation } from '../src/data/places.ts';
+import { demoLocation } from '../src/data/destinations/hanoi/places.ts';
 import { dedicatedVideos } from '../src/lib/imap-prototype.ts';
 import { selectDestination } from '../src/lib/imap-prototype.ts';
-import { featuredPrototypeStories, featuredYouTubeEmbedUrl } from '../src/data/imap-featured.ts';
+import { featuredPrototypeStories, featuredYouTubeEmbedUrl } from '../src/data/destinations/hanoi/imap-featured.ts';
 
 const source = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 const controller = source('src/scripts/imap-prototype.ts');
@@ -84,7 +84,7 @@ test('desktop hides only the map, keeps the collection, and enlarges the uncropp
   assert(css.includes('object-fit: contain'));
   assert(css.includes('.explorer, .explorer.has-story { display: block;'));
   assert(route.includes('Quay lại bản đồ'));
-  assert(source('src/components/DestinationMedia.astro').includes('Video đang được cập nhật'));
+  assert(source('src/components/shared/DestinationMedia.astro').includes('Video đang được cập nhật'));
   assert(route.includes('<DestinationMedia media={media} title={place.name} />'));
   assert(!route.includes('PlaceArt'));
   assert(route.includes('mappedPlace && googleWalkingDirections(mappedPlace.coordinates)'));

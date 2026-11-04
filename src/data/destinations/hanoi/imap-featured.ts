@@ -3,7 +3,7 @@
  * Route-only overlay: never changes the map catalog, identities, coordinates or categories.
  * Videos are embedded from the supplied URLs; no asset ownership/HD/transcript claim.
  */
-import type { DestinationMedia } from '../lib/destination-media.ts';
+import type { DestinationMedia } from '../../../lib/destination-media.ts';
 
 export interface FeaturedStory {
   /** Optional discriminated presentation; legacy YouTube mappings remain intact. */
@@ -184,7 +184,7 @@ export const featuredPrototypeStories: Readonly<Record<string, FeaturedStory | u
 };
 
 // Preserve the legacy import API without shipping story records to the gallery controller.
-export { featuredYouTubeEmbedUrl } from '../lib/destination-media.ts';
+export { featuredYouTubeEmbedUrl } from '../../../lib/destination-media.ts';
 
 /** No anchor at all unless explicitly enabled AND a valid absolute HTTPS URL exists. */
 export function featuredAffiliateUrl(story: FeaturedStory): string | undefined {

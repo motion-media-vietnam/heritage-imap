@@ -3,13 +3,13 @@ import assert from 'node:assert/strict';
 import { readFileSync, statSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
-import { prototypePlaces } from '../src/data/imap-prototype.ts';
+import { prototypePlaces } from '../src/data/destinations/hanoi/imap-prototype.ts';
 import { nearbyDestinations } from '../src/lib/imap-prototype.ts';
 
 const route = readFileSync(new URL('../src/components/imap/PrototypeExplorer.astro', import.meta.url), 'utf8');
 const controller = readFileSync(new URL('../src/scripts/imap-prototype.ts', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../src/styles/imap-prototype.css', import.meta.url), 'utf8');
-const component = readFileSync(new URL('../src/components/DestinationPortrait.astro', import.meta.url), 'utf8');
+const component = readFileSync(new URL('../src/components/shared/DestinationPortrait.astro', import.meta.url), 'utf8');
 const expected = {
   'ho-hoan-kiem': '/images/Ho%20Hoan%20kiem.jpg',
   'pho-co': '/images/Pho%20co.jpg',

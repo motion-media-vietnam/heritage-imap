@@ -1,6 +1,7 @@
 import { distanceKm, findPlaces } from './explore.ts';
-import { demoLocation, places, type Category, type Place } from '../data/places.ts';
-import { districtPlaceSlugs } from '../data/districts.ts';
+import { demoLocation, places } from '../data/destinations/hanoi/places.ts';
+import type { Category, Place } from '../types/place.ts';
+import { districtPlaceSlugs } from '../data/destinations/hanoi/districts.ts';
 
 export const populatedDistricts = Object.entries(districtPlaceSlugs)
   .map(([name, slugs]) => ({ name, count: places.filter(place => slugs.includes(place.slug)).length }))

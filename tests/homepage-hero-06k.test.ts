@@ -6,8 +6,8 @@ import ts from 'typescript';
 import { hasPassedOpeningHero } from '../src/lib/hero-visibility.ts';
 
 const read = (path: string) => readFileSync(new URL(path, import.meta.url), 'utf8');
-const main = read('../src/pages/index.astro');
-const layout = read('../src/layouts/Layout.astro');
+const main = read('../src/destinations/hanoi/Home.astro');
+const layout = read('../src/layouts/DestinationLayout.astro');
 const css = read('../src/styles/editorial.css');
 const script = read('../src/scripts/hero-background.ts');
 const hero = main.slice(main.indexOf('<section class="hero"'), main.indexOf('</section>') + 10);

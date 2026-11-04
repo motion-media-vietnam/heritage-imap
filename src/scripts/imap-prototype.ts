@@ -1,5 +1,5 @@
-import { demoLocation } from '../data/places';
-import { prototypePlaces as places, prototypeCollection, filterPrototypeCollection, prototypeDistrictPlaceSlugs as districtPlaceSlugs } from '../data/imap-prototype';
+import { demoLocation } from '../data/destinations/hanoi/places';
+import { prototypePlaces as places, prototypeCollection, filterPrototypeCollection, prototypeDistrictPlaceSlugs as districtPlaceSlugs } from '../data/destinations/hanoi/imap-prototype';
 import { createInstanceLifetime } from '../lib/imap';
 import { selectDestination, sheetStates, type SheetState } from '../lib/imap-prototype';
 import { mobileSheetHeight, nearestMobileSheetState, mobileStoryViewport } from '../lib/imap-mobile';

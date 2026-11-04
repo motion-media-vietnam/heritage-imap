@@ -4,14 +4,14 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
 import { featuredPrototypeStories as stories, featuredYouTubeEmbedUrl, featuredAffiliateUrl,
-  type FeaturedStory } from '../src/data/imap-featured.ts';
-import { prototypePlaces } from '../src/data/imap-prototype.ts';
+  type FeaturedStory } from '../src/data/destinations/hanoi/imap-featured.ts';
+import { prototypePlaces } from '../src/data/destinations/hanoi/imap-prototype.ts';
 import { googleWalkingDirections } from '../src/lib/imap-directions.ts';
 import { createNeighborhoodState, filterNeighborhoodPlaces, markerCategory } from '../src/lib/imap-neighborhood.ts';
-import { prototypeDistrictPlaceSlugs } from '../src/data/imap-prototype.ts';
+import { prototypeDistrictPlaceSlugs } from '../src/data/destinations/hanoi/imap-prototype.ts';
 
 const route = readFileSync(new URL('../src/components/imap/PrototypeExplorer.astro', import.meta.url), 'utf8');
-const media = readFileSync(new URL('../src/components/DestinationMedia.astro', import.meta.url), 'utf8');
+const media = readFileSync(new URL('../src/components/shared/DestinationMedia.astro', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../src/styles/imap-prototype.css', import.meta.url), 'utf8');
 const controller = readFileSync(new URL('../src/scripts/imap-prototype.ts', import.meta.url), 'utf8');
 const expected = [
@@ -114,7 +114,7 @@ test('templates use escaped text, 16:9 privacy-enhanced iframe and persistent or
   assert.match(css, /\.destination-video \{[^}]*aspect-ratio: 16 \/ 9/s);
   assert.match(css, /\.destination-video iframe \{[^}]*width: 100%; height: 100%; border: 0/s);
   assert(media.includes('Chưa có ảnh hoặc video được duyệt · Khung chờ nội dung'));
-  for (const path of ['../src/pages/index.astro', '../src/pages/imap.astro']) {
+  for (const path of ['../src/destinations/hanoi/Home.astro', '../src/destinations/hanoi/Map.astro']) {
     assert(!readFileSync(new URL(path, import.meta.url), 'utf8').includes('imap-featured'));
   }
   // The existing catalog and controller stay independent of the editorial overlay.

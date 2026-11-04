@@ -1,7 +1,9 @@
 ---
-import Icon from './Icon.astro';
+import Icon from './shared/Icon.astro';
 import EditorialEyebrow from './EditorialEyebrow.astro';
-import { places } from '../data/places';
+import { places } from '../data/destinations/hanoi/places';
+interface Props { homePath?: string }
+const { homePath = '/' } = Astro.props;
 type EditorialCard = { title: string; category: string; description: string; href?: string; };
 type CardImage = { src: string; alt: string; width: number; height: number; position: string; note?: string; };
 // Homepage-only image mapping; destination records and other sections are untouched.
@@ -72,7 +74,7 @@ const sections = [
             <span class="slot-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
             {!image && <span class="slot-caption" aria-hidden="true">Ảnh do khách hàng cung cấp<br /><span>Đang chờ hình ảnh chính thức</span></span>}
           </div>
-          <div class="lower-card-copy"><p class="lower-card-category">{card.category}</p><h3>{card.href ? <a href={card.href}>{card.title}</a> : card.title}</h3>{card.description && <p>{card.description}</p>}
+          <div class="lower-card-copy"><p class="lower-card-category">{card.category}</p><h3>{card.href ? <a href={card.href.startsWith("/places/") ? homePath + card.href.slice(1) : card.href}>{card.title}</a> : card.title}</h3>{card.description && <p>{card.description}</p>}
             {!card.href && <span class="content-pending">{image?.note ?? (section.kind === 'experiences' && index === 0 ? 'Video sắp ra mắt · Ảnh tĩnh' : 'Nội dung đang được chuẩn bị')}</span>}
           </div>
         </article>;

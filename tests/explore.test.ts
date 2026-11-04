@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { places, demoLocation } from '../src/data/places.ts';
+import { places, demoLocation } from '../src/data/destinations/hanoi/places.ts';
 import { distanceKm, findPlaces, formatDistance } from '../src/lib/explore.ts';
 
 test('Hanoi guide contains exactly the six selected destinations', () => {

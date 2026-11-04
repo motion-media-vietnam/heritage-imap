@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
-import { featuredPrototypeStories as stories, featuredYouTubeEmbedUrl } from '../src/data/imap-featured.ts';
-import { prototypePlaces } from '../src/data/imap-prototype.ts';
+import { featuredPrototypeStories as stories, featuredYouTubeEmbedUrl } from '../src/data/destinations/hanoi/imap-featured.ts';
+import { prototypePlaces } from '../src/data/destinations/hanoi/imap-prototype.ts';
 import { selectDestination } from '../src/lib/imap-prototype.ts';
 
 const route = readFileSync(new URL('../src/components/imap/PrototypeExplorer.astro', import.meta.url), 'utf8');

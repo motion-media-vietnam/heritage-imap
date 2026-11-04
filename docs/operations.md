@@ -10,7 +10,7 @@ Read `AGENTS.md` first. The owner supplies design/product direction in Vietnames
 - GitHub `origin`: `https://github.com/motion-media-vietnam/heritage-imap.git`, a secondary copy. No GitHub-to-Sites deployment webhook is configured. Arbitrary GitHub pushes do not publish this Site.
 - No database, payment processor, server-side AI or application API key is required.
 
-Multi-city builds and shared releases are proposed in `docs/architecture/multi-city-sites.md`, with costs in `docs/billing.md`. They are not implemented: only Hanoi exists. Keep the current single-Site identity and workflow until a requested implementation adds isolated city targets and verifies shared releases.
+Heritage iMap dùng một Site và một bản dựng cho nhiều địa phương. Bản dựng chuyển tiếp bổ sung tuyến `/hanoi/` cùng các tuyến tương thích. Ninh Bình đang chờ dữ liệu đã duyệt. Xem [kiến trúc nền tảng](architecture/NATIONAL-PLATFORM-ARCHITECTURE.md) và [chi phí](billing.md).
 
 ## Complete each requested update
 

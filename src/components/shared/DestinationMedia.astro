@@ -1,6 +1,6 @@
 ---
-import type { DestinationMedia } from '../lib/destination-media';
-import { gallerySupportIndices, featuredYouTubeEmbedUrl } from '../lib/destination-media';
+import type { DestinationMedia } from '../../lib/destination-media';
+import { gallerySupportIndices, featuredYouTubeEmbedUrl } from '../../lib/destination-media';
 interface Props { media: DestinationMedia; title: string }
 const { media, title } = Astro.props;
 const embedUrl = media.type === 'video' && media.source === 'youtube' ? featuredYouTubeEmbedUrl(media.videoUrl) : undefined;
@@ -56,7 +56,7 @@ const first = images[0];
 : <div class="destination-video video-placeholder" data-destination-video data-destination-media={media.type}>
     <div><strong>{media.type === 'gallery' ? 'Ảnh đang được cập nhật' : 'Video đang được cập nhật'}</strong><small>Chưa có ảnh hoặc video được duyệt · Khung chờ nội dung</small></div>
   </div>}
-<script>import '../scripts/destination-media';</script>
+<script>import '../../scripts/destination-media';</script>
 <style is:global>
   /* Gallery height includes its image layout AND navigation. Outrank the shared
      video frame regardless of stylesheet order; keep video-only framing intact. */

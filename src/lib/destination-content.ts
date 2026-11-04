@@ -1,7 +1,7 @@
 /** Shared content contract only. No sample catalog is migrated by these types.
  * Runtime publication guards remain separate from records and presentation.
  */
-import type { Category, Coordinates } from '../data/places.ts';
+import type { Category, Coordinates } from '../types/place.ts';
 
 /** Existing Hanoi IDs stay unchanged. Future catalogs supply their own ID union. */
 export type DestinationId =

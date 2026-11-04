@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync, existsSync } from 'node:fs';
 import postcss from 'postcss';
 import sharp from 'sharp';
-import { heritageVideos } from '../src/data/heritage.ts';
+import { heritageVideos } from '../src/data/destinations/hanoi/heritage.ts';
 
 const source = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 const hash = (value: string) => createHash('sha256').update(value).digest('hex');
@@ -68,7 +68,7 @@ test('paper transition is scoped to the existing Heritage background, with no ge
   assert(choice.includes('background-position: bottom'));
   assert(choice.includes('background-repeat: no-repeat'));
   assert(!choice.includes(':global(') && !choice.includes('::after'));
-  assert(source('src/pages/index.astro').includes('#explore { background: #FFFFFF; }'));
+  assert(source('src/destinations/hanoi/Home.astro').includes('#explore { background: #FFFFFF; }'));
 });
 
 test('only the lotus story uses the optimized supplied image, with real intrinsic dimensions', async () => {

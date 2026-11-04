@@ -1,31 +1,27 @@
 ---
-import Icon from '../components/Icon.astro';
-import BrandLogo from '../components/BrandLogo.astro';
-import HeritageLauncher from '../components/HeritageLauncher.astro';
-import HeritageSparkle from '../components/HeritageSparkle.astro';
+import Icon from '../components/shared/Icon.astro';
+import BrandLogo from '../components/shared/BrandLogo.astro';
+import type { DestinationHub } from '../data/destinations/types';
+import HeritageSparkle from '../components/shared/HeritageSparkle.astro';
 import '../styles/global.css';
 import '../styles/editorial.css';
-interface Props { title?: string; description?: string; wide?: boolean; overlayHeader?: boolean }
-const {
-  title = 'My Hanoi — khám phá theo cách của bạn',
-  description = 'Khám phá Hồ Hoàn Kiếm, Phố Cổ, Văn Miếu, Hoàng thành Thăng Long, Hồ Tây và Cầu Long Biên qua bản đồ Hà Nội.',
-  wide = false,
-  overlayHeader = false,
-} = Astro.props;
-const navigation = [
-  { href: '/#results-heading', label: 'Điểm đến' },
-  { href: '/#experiences', label: 'Trải nghiệm' },
-  { href: '/#food', label: 'Ẩm thực' },
-  { href: '/#events', label: 'Sự kiện' },
-  { href: '/heritage-mach-ban/', label: 'Heritage mách bạn' },
-];
-// Experience wording is header-only; destination categories remain untouched.
-const headerNavigation = navigation.map(item => item.href === '/#experiences'
-  ? { ...item, href: '/#unmissable-experiences', label: 'Khám phá' }
-  : item.href === '/#events' ? { ...item, href: '/#homepage-events' } : item);
+interface Props {
+  hub: DestinationHub;
+  homePath: string;
+  title?: string;
+  description?: string;
+  wide?: boolean;
+  overlayHeader?: boolean;
+}
+const { hub, homePath, title = hub.seo.title, description = hub.seo.description, wide = false, overlayHeader = false } = Astro.props;
+const headerNavigation = hub.navigation.map(item => ({
+  href: homePath + (item.header?.path ?? item.path),
+  label: item.header?.label ?? item.label,
+  highlight: item.highlight,
+}));
 ---
 <!doctype html>
-<html lang="vi">
+<html lang={hub.language} style={hub.brand.palette}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,20 +36,20 @@ const headerNavigation = navigation.map(item => item.href === '/#experiences'
     <a class="skip-link" href="#main">Đến nội dung chính</a>
     <header class:list={['site-header', { 'header-overlay': overlayHeader }]}>
       <div class="header-inner shell">
-        <a class="brand" href="/" aria-label="Hanoi iMap — trang chủ">
-          <BrandLogo />
+        <a class="brand" href={homePath} aria-label={hub.brand.name + " — trang chủ"}>
+          <BrandLogo {...hub.brand.logo} />
         </a>
         <nav class="desktop-nav" aria-label="Điều hướng chính">
-          {headerNavigation.map(item => <a href={item.href} class:list={{ 'heritage-nav-cta': item.href === '/heritage-mach-ban/' }}>{item.href === '/heritage-mach-ban/' && <HeritageSparkle />}{item.label}</a>)}
+          {headerNavigation.map(item => <a href={item.href} class:list={{ 'heritage-nav-cta': item.highlight }}>{item.highlight && <HeritageSparkle />}{item.label}</a>)}
         </nav>
         <div class="header-actions">
-          <span class="site-language">Tiếng Việt</span>
-          <a class="header-search" href="/#search" aria-label="Tìm địa điểm ở Hà Nội"><Icon name="search" size={23} /><span>Tìm kiếm</span></a>
+          <span class="site-language">{hub.languageLabel}</span>
+          <a class="header-search" href={homePath + hub.search.path} aria-label={hub.search.label}><Icon name="search" size={23} /><span>Tìm kiếm</span></a>
           <details class="mobile-menu">
             <summary><Icon name="menu" size={24} /><span>Menu</span></summary>
             <nav aria-label="Điều hướng trên điện thoại">
-              {headerNavigation.map(item => <a href={item.href} class:list={{ 'heritage-nav-cta': item.href === '/heritage-mach-ban/' }}>{item.href === '/heritage-mach-ban/' && <HeritageSparkle />}{item.label}<Icon name="arrow" size={18} /></a>)}
-              <span class="menu-location">Hà Nội, Việt Nam · Tiếng Việt</span>
+              {headerNavigation.map(item => <a href={item.href} class:list={{ 'heritage-nav-cta': item.highlight }}>{item.highlight && <HeritageSparkle />}{item.label}<Icon name="arrow" size={18} /></a>)}
+              <span class="menu-location">{hub.locationLabel} · {hub.languageLabel}</span>
             </nav>
           </details>
         </div>
@@ -63,14 +59,14 @@ const headerNavigation = navigation.map(item => item.href === '/#experiences'
     <slot name="footer"><footer class="site-footer">
       <div class="shell">
         <div class="footer-top">
-          <div><p class="eyebrow">KHÁM PHÁ NHỮNG ĐIỀU GẦN GŨI</p><h2>Một chút khám phá.<br />Một ngày đáng nhớ.</h2></div>
-          <nav aria-label="Điều hướng cuối trang">{navigation.map(item => <a href={item.href}>{item.label}<Icon name="arrow" size={20} /></a>)}</nav>
+          <div><p class="eyebrow">{hub.footer.eyebrow}</p><h2>{hub.footer.headline[0]}<br />{hub.footer.headline[1]}</h2></div>
+          <nav aria-label="Điều hướng cuối trang">{hub.navigation.map(item => <a href={homePath + item.path}>{item.label}<Icon name="arrow" size={20} /></a>)}</nav>
         </div>
-        <a class="footer-wordmark" href="/" aria-label="My Hanoi — trang chủ">My Hanoi<span>↗</span></a>
-        <div class="footer-bottom"><span>Dạo bước Hà Nội · Bản mẫu</span><span><Icon name="pin" size={15} /> Hà Nội, Việt Nam</span><a href="#main">Về đầu trang ↑</a></div>
+        <a class="footer-wordmark" href={homePath} aria-label={hub.brand.wordmark + " — trang chủ"}>{hub.brand.wordmark}<span>↗</span></a>
+        <div class="footer-bottom"><span>{hub.footer.byline}</span><span><Icon name="pin" size={15} /> {hub.locationLabel}</span><a href="#main">Về đầu trang ↑</a></div>
       </div>
     </footer></slot>
-    <HeritageLauncher />
+    <slot name="assistant" />
   </body>
 </html>
 <style>
@@ -97,9 +93,9 @@ const headerNavigation = navigation.map(item => item.href === '/#experiences'
     heading?.focus({ preventScroll: true });
     section.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   };
-  document.querySelectorAll<HTMLAnchorElement>('.site-header a[href="/#unmissable-experiences"]').forEach(link => {
+  document.querySelectorAll<HTMLAnchorElement>('.site-header a[href$="#unmissable-experiences"]').forEach(link => {
     link.addEventListener('click', event => {
-      if (location.pathname !== '/' || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      if (link.pathname.replace(/\/$/, '') !== location.pathname.replace(/\/$/, '') || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
       event.preventDefault();
       history.pushState(null, '', link.href);
       scrollToExperiences();

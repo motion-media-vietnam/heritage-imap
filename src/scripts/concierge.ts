@@ -1,6 +1,6 @@
 import { recommend, type ConciergePreferences } from '../lib/concierge';
-import type { Interest } from '../data/concierge';
-import type { Coordinates } from '../data/places';
+import type { Interest } from '../data/destinations/hanoi/concierge';
+import type { Coordinates } from '../types/place';
 
 const form = document.querySelector<HTMLFormElement>('#concierge-form');
 const panel = document.querySelector<HTMLElement>('#concierge-results');

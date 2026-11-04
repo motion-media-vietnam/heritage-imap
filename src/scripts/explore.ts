@@ -1,4 +1,5 @@
-import { demoLocation, places, type Category, type Coordinates } from '../data/places';
+import { demoLocation, places } from '../data/destinations/hanoi/places';
+import type { Category, Coordinates } from '../types/place';
 import { distanceKm, findPlaces, formatDistance } from '../lib/explore';
 import type * as Leaflet from 'leaflet';
 

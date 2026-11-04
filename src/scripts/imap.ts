@@ -1,7 +1,7 @@
-import { places, demoLocation } from '../data/places';
+import { places, demoLocation } from '../data/destinations/hanoi/places';
 import type { ImapCategoryId } from '../lib/imap-categories';
 import { categoryIconPath, markerCategory } from '../lib/imap-neighborhood';
-import { districtPlaceSlugs } from '../data/districts';
+import { districtPlaceSlugs } from '../data/destinations/hanoi/districts';
 import { distanceKm, formatDistance } from '../lib/explore';
 import { createExplorerState, filterExplorerPlaces, createInstanceLifetime } from '../lib/imap';
 import { linkedDestination } from '../lib/imap-destination-link';

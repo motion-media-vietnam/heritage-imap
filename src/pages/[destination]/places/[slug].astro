@@ -1,0 +1,9 @@
+---
+import PlaceDetail from '../../../components/destination/PlaceDetail.astro';
+import { destinationPlacePaths } from '../../../destinations/published';
+export const getStaticPaths = destinationPlacePaths;
+const { hub, homePath, place, Assistant } = Astro.props;
+---
+<PlaceDetail hub={hub} homePath={homePath} place={place}>
+  <Assistant slot="assistant" />
+</PlaceDetail>

@@ -161,3 +161,14 @@ Tinh chỉnh trình bày bằng CSS, dùng lại ảnh đã có, component bản
 **Logo Home dùng chung - 03/11/2026:** Dùng nguyên PNG nền trong suốt của chủ dự án, 553.723 byte (khoảng 0,554 MB), trên trang chủ và các trang con. Khung SVG chỉ căn vùng hiển thị, không sinh ảnh hay đổi tệp gốc. Mọi trang dùng cùng URL ảnh để trình duyệt có thể dùng cache; lưu lượng thực phụ thuộc cache và lượt tải. Không thêm thư viện, dịch vụ ảnh, API, tài khoản hoặc khoản phí mới. Lưu trữ/băng thông vẫn theo điều kiện tài khoản hiện có; không cam kết tổng vận hành miễn phí. Công sức triển khai và kiểm tra tính riêng; không xác nhận lại các mức giá lịch sử ở phần trên.
 
 **Trạng thái logo và nút Hỏi Heritage - 03/11/2026:** Thu hình logo còn 75%, hiển thị trắng khi header phủ hero và đỏ khi vào nội dung; nút cạnh phải xuất hiện sau vùng mở đầu. Chỉ dùng CSS và xử lý cuộn trong trình duyệt, tái sử dụng PNG hiện có; không thêm ảnh, thư viện, API, lưu trữ người dùng hoặc dịch vụ trả phí. Không phát sinh hạng mục phí nhà cung cấp mới; công sức triển khai/kiểm tra tính riêng. Giữ điều kiện hosting/băng thông hiện có và không xác nhận lại giá lịch sử.
+
+
+<!-- pagebreak -->
+
+## Nền tảng Heritage iMap toàn quốc, giai đoạn chuyển tuyến ngày 04/11/2026
+
+Một bản dựng tĩnh và một Site hiện hữu phục vụ cả tuyến cũ lẫn tuyến `/hanoi/`. Việc thêm đường dẫn tạo thêm HTML khi dựng, còn ảnh, video, phông chữ, thư viện bản đồ và cơ chế Hỏi Heritage vẫn dùng chung. Ninh Bình ở danh mục nháp nên chưa có lượt phục vụ công khai. Không thêm gói thuê bao, kho dữ liệu, máy chủ AI, API trả phí, Site hoặc tên miền.
+
+**Dự kiến phát sinh 0 USD/tháng ngoài gói hiện có** nếu dùng trong quyền lợi tài khoản, ở cùng mức truy cập. Với giả định thấp, dự kiến và cao ở trên, chi phí phát sinh do chuyển tuyến vẫn là 0 USD khi quyền lợi đủ dùng. Việc xuất bản lại dùng hạn mức của gói. Mức lưu lượng cao và lượt tải ô bản đồ do các địa phương mới tạo thêm cần đánh giá trước khi mở công khai. Dự toán ba website ở trên thuộc phương án lịch sử tách Site, không áp dụng cho kiến trúc một Site. Chưa gồm thuế, thời gian biên tập, phát triển hoặc chi phí nhà cung cấp bản đồ nếu phải đổi.
+
+Đối chiếu ngày 04/11/2026. Sites thuộc gói ChatGPT đủ điều kiện trong beta, tùy gói, khu vực và workspace. OpenStreetMap có thể giới hạn truy cập ô ảnh khi sử dụng gây ảnh hưởng tới dịch vụ. [Giá và quyền lợi ChatGPT](https://learn.chatgpt.com/docs/pricing), [Sites](https://learn.chatgpt.com/docs/sites), [Chính sách ô ảnh OpenStreetMap](https://operations.osmfoundation.org/policies/tiles/).

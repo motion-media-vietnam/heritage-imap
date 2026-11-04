@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { prototypePlaces } from '../src/data/imap-prototype.ts';
-import { featuredPrototypeStories as stories } from '../src/data/imap-featured.ts';
+import { prototypePlaces } from '../src/data/destinations/hanoi/imap-prototype.ts';
+import { featuredPrototypeStories as stories } from '../src/data/destinations/hanoi/imap-featured.ts';
 
 const route = readFileSync(new URL('../src/components/imap/PrototypeExplorer.astro', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../src/styles/imap-prototype.css', import.meta.url), 'utf8');

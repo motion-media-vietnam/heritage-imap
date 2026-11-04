@@ -1,11 +1,14 @@
 ---
-// Homepage only. No external/contact/social/legal URL has been approved here.
+import type { DestinationPartner } from '../data/destinations/types';
+interface Props { partners: readonly DestinationPartner[] }
+const { partners } = Astro.props;
+// No external/contact/social/legal URL has been approved here.
 // Keep names as honest, noninteractive text until verified destinations exist.
 ---
 <footer class="homepage-footer">
   <div class="homepage-footer-inner">
     <div class="homepage-footer-columns">
-      <section aria-labelledby="related-sites-heading"><h2 id="related-sites-heading">Các trang web liên quan</h2><ul><li>Sở Văn hóa, Thể thao và Du lịch Hà Nội</li><li>Trung tâm Heritage – Tổng công ty Hàng không Việt Nam</li></ul><p class="footer-pending">Liên kết đang được xác nhận.</p></section>
+      <section aria-labelledby="related-sites-heading"><h2 id="related-sites-heading">Các trang web liên quan</h2><ul>{partners.map(({ name, logo }) => <li>{logo ? <img {...logo} alt={name} loading="lazy" /> : name}</li>)}</ul><p class="footer-pending">Liên kết đang được xác nhận.</p></section>
       <section aria-labelledby="footer-help-heading"><h2 id="footer-help-heading">Bạn cần trợ giúp?</h2><p>Liên hệ với chúng tôi</p><p class="footer-pending">Thông tin liên hệ sẽ được cập nhật.</p></section>
       <section aria-labelledby="footer-social-heading"><h2 id="footer-social-heading">Kết nối với chúng tôi</h2><p class="footer-pending">Các kênh chính thức sẽ được cập nhật sau khi xác nhận.</p></section>
     </div>

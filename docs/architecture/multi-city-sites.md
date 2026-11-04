@@ -1,5 +1,7 @@
 # One shared application, separate city websites
 
+> Định hướng kiến trúc đã cập nhật ngày 04/11/2026. Phương án tách nhiều Site bên dưới là hồ sơ đề xuất lịch sử. Heritage iMap dùng một Site và các đường dẫn theo địa phương. Xem [kiến trúc hiện hành](NATIONAL-PLATFORM-ARCHITECTURE.md).
+
 **Feasibility proposal - October 28, 2026. Not implemented.** The request is for separate city websites with the same design/features and different data. There is no visitor city dropdown. This assessment does not create additional Sites, publish new city content, change the current Hanoi application or authorize a paid service.
 
 ## Recommendation

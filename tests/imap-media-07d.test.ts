@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
-import { featuredPrototypeStories, featuredYouTubeEmbedUrl } from '../src/data/imap-featured.ts';
-import { prototypePlaces } from '../src/data/imap-prototype.ts';
+import { featuredPrototypeStories, featuredYouTubeEmbedUrl } from '../src/data/destinations/hanoi/imap-featured.ts';
+import { prototypePlaces } from '../src/data/destinations/hanoi/imap-prototype.ts';
 import { resolveDestinationMedia, galleryIndex, gallerySupportIndices, gallerySwipeStep, type DestinationMedia } from '../src/lib/destination-media.ts';
 
 const source = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
-const renderer = source('src/components/DestinationMedia.astro');
+const renderer = source('src/components/shared/DestinationMedia.astro');
 const gallery = source('src/scripts/destination-media.ts');
 const controller = source('src/scripts/imap-prototype.ts');
 

@@ -37,7 +37,7 @@ test('shared route discovery provides native keyboard control and filtered-count
   const css = source('src/styles/imap.css');
   assert(component.includes('data-mobile-discovery="true"'));
   assert(!component.includes("idPrefix === 'home-imap'"), 'discovery must not depend on the route ID');
-  assert(source('src/pages/imap.astro').includes('<main data-imap-viewport-container>'));
+  assert(source('src/destinations/hanoi/Map.astro').includes('<main data-imap-viewport-container>'));
   assert(script.includes('containerStyle?.paddingTop') && script.includes('containerStyle?.paddingBottom'));
   assert.match(component, /data-imap="directory-close"[^>]*\bhidden>/);
   assert(script.includes('directoryClose.hidden = !mobile.matches'), 'mobile-only directory close cannot leak into the approved desktop directory');

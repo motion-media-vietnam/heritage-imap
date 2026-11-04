@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { prototypeCollection } from '../src/data/imap-prototype.ts';
-import { collections, itineraries, examplePrompts } from '../src/data/concierge.ts';
+import { prototypeCollection } from '../src/data/destinations/hanoi/imap-prototype.ts';
+import { collections, itineraries, examplePrompts } from '../src/data/destinations/hanoi/concierge.ts';
 const built=(file:string)=>readFileSync(new URL(`../dist/${file}`,import.meta.url),'utf8');
 test('concierge mounts one shared explorer with the complete existing destination catalog',()=>{
  const html=built('heritage-mach-ban/index.html');

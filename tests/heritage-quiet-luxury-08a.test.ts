@@ -1,14 +1,16 @@
 import { test } from 'node:test';
+import { hanoi } from '../src/data/destinations/hanoi/config.ts';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 const source = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
-const layout = source('src/layouts/Layout.astro');
+const layout = source('src/layouts/DestinationLayout.astro');
 const launcher = source('src/components/HeritageLauncher.astro');
-const sparkle = source('src/components/HeritageSparkle.astro');
+const sparkle = source('src/components/shared/HeritageSparkle.astro');
 
 // Source contracts only: rendered contrast, responsive fit and overlap require browser QA.
 test('08A: header retains Heritage route/label with an outlined CTA and shared sparkle', () => {
-  assert(layout.includes("{ href: '/heritage-mach-ban/', label: 'Heritage mách bạn' }"));
+  assert(hanoi.navigation.some(item => item.path === 'heritage-mach-ban/' && item.label === 'Heritage mách bạn' && 'highlight' in item && item.highlight));
+  assert(layout.includes('item.highlight && <HeritageSparkle />'));
   assert.equal((layout.match(/&& <HeritageSparkle \/>/g) ?? []).length, 2);
   const styles = layout.slice(layout.indexOf('<style>'), layout.indexOf('</style>'));
   assert(styles.includes('border: 1px solid #a58c61'));
@@ -40,7 +42,7 @@ test('08A.1: drawer uses the scoped free travel scripts and discloses its limits
   assert(launcher.includes('không phải dữ liệu thời gian thực'));
   assert(launcher.includes('data-heritage-prompts'));
   assert(launcher.includes('Không lưu hội thoại'));
-  assert(source('src/pages/heritage-mach-ban.astro').includes('chưa sử dụng AI hội thoại'));
+  assert(source('src/destinations/hanoi/Concierge.astro').includes('chưa sử dụng AI hội thoại'));
   assert(source('src/scripts/concierge.ts').includes('recommend(preferences)'));
 });
 

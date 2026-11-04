@@ -1,7 +1,7 @@
 // Controlled real-Leaflet geometry/lifecycle/RAF fixture, NOT a DOM renderer or tile scan.
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
-import { places } from '../../src/data/places.ts';
+import { places } from '../../src/data/destinations/hanoi/places.ts';
 import { createNeighborhoodState, filterNeighborhoodPlaces } from '../../src/lib/imap-neighborhood.ts';
 import { prototypeFitPadding, prototypeRadiusCamera } from '../../src/lib/imap-prototype-camera.ts';
 

@@ -1,4 +1,4 @@
-import type { Category, Coordinates, Place } from '../data/places.ts';
+import type { Category, Coordinates, Place } from '../types/place.ts';
 export function normalize(text: string): string {
   return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
 }

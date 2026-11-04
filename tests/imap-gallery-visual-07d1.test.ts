@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const renderer = readFileSync(new URL('../src/components/DestinationMedia.astro', import.meta.url), 'utf8');
+const renderer = readFileSync(new URL('../src/components/shared/DestinationMedia.astro', import.meta.url), 'utf8');
 
 // Source contracts only: rendered geometry, cropping and native gestures need browser QA.
 test('gallery browsing fills an editorial frame while enlargement contains the original', () => {

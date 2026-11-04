@@ -1,5 +1,5 @@
 ---
-import { places } from '../../data/places';
+import { places } from '../../data/destinations/hanoi/places';
 import { imapCategories } from '../../lib/imap-categories';
 import { populatedDistricts } from '../../lib/imap-prototype';
 import IMapStory from './IMapStory.astro';
@@ -7,6 +7,8 @@ import type { ContentMode } from '../../lib/imap-content';
 import 'leaflet/dist/leaflet.css';
 import '../../styles/imap.css';
 interface Props {
+  homePath?: string;
+  mapPath?: string;
   idPrefix: string;
   searchId?: string;
   filtersId?: string;
@@ -21,6 +23,7 @@ interface Props {
 }
 const { idPrefix, searchId = `${idPrefix}-search`, filtersId = `${idPrefix}-filters`, headerSelector,
   showFullLink = false, resultsId, nearbyId, resultCountId, emptyStateId, resetFiltersId, contentMode = 'published' } = Astro.props;
+const { homePath = '/', mapPath = '/imap/' } = Astro.props;
 const categories = imapCategories;
 const id = (suffix: string) => `${idPrefix}-${suffix}`;
 ---
@@ -30,7 +33,7 @@ const id = (suffix: string) => `${idPrefix}-${suffix}`;
   data-result-count-id={resultCountId} data-empty-state-id={emptyStateId} data-reset-filters-id={resetFiltersId}>
   <header class="imap-heading" data-imap="heading">
     <div><p class="imap-kicker">iMAP EXPLORER</p><h2 id={id('heading')}>Khám phá Hà Nội</h2></div>
-    {showFullLink && <a href="/imap/" class="imap-full-link">Mở iMap đầy đủ <span aria-hidden="true">↗</span></a>}
+    {showFullLink && <a href={mapPath} class="imap-full-link">Mở iMap đầy đủ <span aria-hidden="true">↗</span></a>}
   </header>
   <a class="imap-skip" href={`#${id('directory')}`} data-imap="skip">Đến danh sách địa điểm</a>
   <form class="imap-tools" data-imap="tools" role="search" aria-label="Tìm và lọc địa điểm">
@@ -77,7 +80,7 @@ const id = (suffix: string) => `${idPrefix}-${suffix}`;
       <p data-imap="status" class="imap-map-status" role="status">Đang tải bản đồ… Danh sách vẫn dùng được nếu bản đồ lỗi.</p>
     </div>
   </section>
-  <noscript><p class="imap-data-note">Bản đồ cần JavaScript. <a href={resultsId ? '#results-heading' : '/#results-heading'}>Xem các trang địa điểm</a>.</p></noscript>
+  <noscript><p class="imap-data-note">Bản đồ cần JavaScript. <a href={resultsId ? '#results-heading' : homePath + '#results-heading'}>Xem các trang địa điểm</a>.</p></noscript>
   {places.map(place => <template data-imap-story={place.slug}><IMapStory place={place} contentMode={contentMode} /></template>)}
 </hanoi-imap>
 <script>import '../../scripts/imap';</script>

@@ -1,0 +1,6 @@
+---
+import { destinationPagePaths } from '../../destinations/published';
+export const getStaticPaths = () => destinationPagePaths('map');
+const { View, routes } = Astro.props;
+---
+<View routes={routes} />

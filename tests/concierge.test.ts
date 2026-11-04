@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { places, demoLocation } from '../src/data/places.ts';
-import { collections, itineraries, examplePrompts, imapHref, destinationPhotos } from '../src/data/concierge.ts';
+import { places, demoLocation } from '../src/data/destinations/hanoi/places.ts';
+import { collections, itineraries, examplePrompts, imapHref, destinationPhotos } from '../src/data/destinations/hanoi/concierge.ts';
 import { recommend, normalizeRequest, type ConciergePreferences } from '../src/lib/concierge.ts';
 import { linkedDestination } from '../src/lib/imap-destination-link.ts';
 
@@ -77,7 +77,7 @@ test('deep link selection is standalone-only and uses the normal story path', ()
   const controller = readFileSync(new URL('../src/scripts/imap.ts', import.meta.url), 'utf8');
   assert.match(controller, /if \(root.id === 'full-imap'\)/);
   assert.match(controller, /if \(destination\) openPlace\(destination\)/);
-  const page = readFileSync(new URL('../src/pages/heritage-mach-ban.astro', import.meta.url), 'utf8');
+  const page = readFileSync(new URL('../src/destinations/hanoi/Concierge.astro', import.meta.url), 'utf8');
   assert.match(page, /<details class="concierge-preferences">/);
   assert.doesNotMatch(page, /<iframe|<video|<IMap/);
 });

@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
-import { heritageVideos, currentHeritageChoice, pastHeritageChoices } from '../src/data/heritage.ts';
-import { places } from '../src/data/places.ts';
+import { heritageVideos, currentHeritageChoice, pastHeritageChoices } from '../src/data/destinations/hanoi/heritage.ts';
+import { places } from '../src/data/destinations/hanoi/places.ts';
 
 const expectedIds = ['2CxNZtrFedo', 'Sige0y8XxeU', '-jVXCHcCoiw'];
 

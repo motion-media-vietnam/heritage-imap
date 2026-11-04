@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { districtGroups, districtPlaceSlugs } from '../src/data/districts.ts';
-import { places } from '../src/data/places.ts';
+import { districtGroups, districtPlaceSlugs } from '../src/data/destinations/hanoi/districts.ts';
+import { places } from '../src/data/destinations/hanoi/places.ts';
 
 test('the historical district directory contains 30 distinct areas', () => {
   assert.deepEqual(districtGroups.map(group => group.names.length), [12, 17, 1]);

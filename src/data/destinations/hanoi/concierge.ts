@@ -64,7 +64,7 @@ export const itineraries = [
     description: 'Một buổi dành cho sáng tạo và cảm hứng. Các không gian nghệ thuật đang được biên soạn.',
     image: heritageExperiences[2]!.image!.src, slugs: [] },
 ] as const;
-export const imapHref = (slug: string) => `/imap/?place=${encodeURIComponent(slug)}`;
+export const imapHref = (slug: string, mapPath = "/imap/") => `${mapPath}?place=${encodeURIComponent(slug)}`;
 export const collectionDestinations = (slugs: readonly string[]) => slugs.flatMap(slug => {
   const place = places.find(place => place.slug === slug);
   return place ? [place] : [];

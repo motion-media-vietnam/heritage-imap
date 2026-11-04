@@ -1,5 +1,6 @@
-import { places, type Coordinates } from '../data/places.ts';
-import { destinationInterests, interests, type Interest } from '../data/concierge.ts';
+import { places } from '../data/destinations/hanoi/places.ts';
+import type { Coordinates } from '../types/place.ts';
+import { destinationInterests, interests, type Interest } from '../data/destinations/hanoi/concierge.ts';
 import { distanceKm } from './explore.ts';
 
 export interface ConciergePreferences {

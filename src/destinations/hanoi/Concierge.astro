@@ -1,0 +1,85 @@
+---
+import Layout from '../../layouts/DestinationLayout.astro';
+import HomepageFooter from '../../components/HomepageFooter.astro';
+import PrototypeExplorer from '../../components/imap/PrototypeExplorer.astro';
+import HeritageSparkle from '../../components/shared/HeritageSparkle.astro';
+import ConciergeCollection from '../../components/ConciergeCollection.astro';
+import { places } from '../../data/destinations/hanoi/places';
+import { collections, itineraries, destinationPhotos, examplePrompts, interests, specialRequirements, collectionDestinations, imapHref } from '../../data/destinations/hanoi/concierge';
+import '../../styles/concierge.css';
+import '../../styles/concierge-v2.css';
+import HeritageLauncher from '../../components/HeritageLauncher.astro';
+import { hanoi } from '../../data/destinations/hanoi/config';
+import { legacyHanoiRoutes } from './routes';
+import type { DestinationRoutes } from '../../lib/destination-routes';
+interface Props { routes?: DestinationRoutes }
+const { routes = legacyHanoiRoutes } = Astro.props;
+const areas = [...new Set(places.map(place => place.area))];
+---
+<Layout hub={hanoi} homePath={routes.home} title="Heritage mách bạn · Một Hà Nội dành cho bạn" description="Những góc nhìn được chọn lọc, những nhịp dạo chơi riêng. Cùng Heritage tìm một cách khám phá Hà Nội hợp với bạn." wide>
+  <div class="heritage-concierge concierge-v2">
+    <section class="concierge-hero" data-page-hero aria-labelledby="concierge-title">
+      <img class="concierge-hero-image" src="/images/peaceful-streets.jpg" alt="Tranh Phố Bình Yên — Peaceful Streets do khách hàng cung cấp" width="1109" height="737" fetchpriority="high" />
+      <div class="concierge-hero-copy concierge-shell">
+        <p class="concierge-kicker">Heritage mách bạn · Hà Nội</p>
+        <h1 id="concierge-title">Theo chân &quot;thổ địa&quot; Heritage khám phá những nét riêng của Hà Nội nhé</h1>
+        <p>Chỗ nào đáng ghé, món gì đáng thử, trải nghiệm nào hợp với bạn? Heritage giúp bạn khám phá Hà Nội qua những lựa chọn được tuyển chọn kỹ lưỡng, dành riêng cho sở thích và hành trình của bạn.</p>
+        <a class="concierge-button concierge-heritage-button" href="#hoi-heritage" data-concierge-start><HeritageSparkle />Hỏi Heritage</a>
+      </div>
+    </section>
+
+    <div class="concierge-ask-surface">
+    <section class="concierge-shell concierge-ask" id="hoi-heritage" aria-labelledby="ask-title">
+      <div class="concierge-section-intro"><p class="concierge-kicker">Hỏi Heritage</p><h2 id="ask-title">Hôm nay bạn muốn khám phá một Hà Nội như thế nào?</h2><p>Một chút sở thích, một chút thời gian. Bắt đầu từ điều bạn muốn.</p></div>
+      <form id="concierge-form">
+        <div class="concierge-prompts" role="group" aria-label="Thử một lời gợi ý">{examplePrompts.map(prompt => <button type="button" data-concierge-prompt={prompt}>{prompt}<span aria-hidden="true">↗</span></button>)}</div>
+        <div class="concierge-query-card">
+        <label class="concierge-input-label" for="concierge-request">Kể Heritage nghe điều bạn đang tìm</label>
+        <div class="concierge-search"><textarea id="concierge-request" name="query" rows="1" maxlength="600" placeholder="Một buổi dạo phố, một khoảng lặng, hay câu chuyện về Hà Nội…"></textarea><button class="concierge-button" type="submit">Tìm gợi ý <span aria-hidden="true">↗</span></button></div>
+        </div>
+        <details class="concierge-preferences"><summary>Thêm một chút về bạn <span> Khu vực, thời gian & sở thích</span></summary>
+          <div class="concierge-preference-grid">
+            <label>Khu vực<select name="area"><option value="all">Toàn Hà Nội trong danh mục</option>{areas.map(area => <option value={area}>{area}</option>)}</select></label>
+            <label>Quỹ thời gian<select name="time"><option value="">Chưa quyết định</option><option value="1">1 giờ</option><option value="2">2 giờ</option><option value="half">Nửa ngày</option><option value="full">Cả ngày</option></select></label>
+            <label>Cách di chuyển<select name="mobility"><option value="">Chưa quyết định</option><option>Đi bộ</option><option>Xe đạp</option><option>Taxi / ô tô</option></select></label>
+          </div>
+          <div class="concierge-location"><button type="button" data-concierge-locate>Dùng vị trí hiện tại</button><button type="button" data-concierge-forget hidden>Bỏ vị trí đã dùng</button><p data-concierge-location-status role="status">Chỉ dùng vị trí khi bạn cho phép. Chọn khu vực nếu không muốn chia sẻ.</p></div>
+          <fieldset><legend>Bạn thích điều gì?</legend><div class="concierge-options">{interests.map(([id, label]) => <label><input type="checkbox" name="interest" value={id} />{label}</label>)}</div></fieldset>
+          <fieldset><legend>Nhu cầu đặc biệt</legend><p class="concierge-note">Chưa có xác nhận cho các nhu cầu này; chọn để kiểm tra khả năng đáp ứng, không phải chứng nhận.</p><div class="concierge-options">{specialRequirements.map(label => <label><input type="checkbox" name="requirement" value={label} />{label}</label>)}</div></fieldset>
+        </details>
+        <p class="concierge-note">Bản gợi ý theo dữ liệu: lựa chọn từ 6 địa điểm hiện có trên iMap, chưa sử dụng AI hội thoại. Không tra cứu trực tiếp giờ mở cửa, nhà hàng hay giao thông.</p>
+      </form>
+      <noscript><p>Bật JavaScript để dùng Hỏi Heritage. Các bộ sưu tập và liên kết iMap bên dưới vẫn dùng được.</p></noscript>
+    </section>
+    </div>
+
+    <section class="concierge-shell concierge-section" aria-labelledby="collections-title">
+      <div class="concierge-section-intro"><p class="concierge-kicker">Heritage tuyển chọn</p><h2 id="collections-title">Những cách khám phá Hà Nội</h2><p>Không cần một danh sách thật dài. Chỉ cần một điều khiến bạn muốn bước ra phố.</p></div>
+      <div class="concierge-collections">{collections.map((collection, index) => <ConciergeCollection mapPath={routes.map} collection={collection} index={index} />)}</div>
+    </section>
+
+    <section class="concierge-results concierge-shell concierge-section" id="concierge-results" aria-labelledby="concierge-results-title" hidden>
+      <p class="concierge-kicker">Dành cho chuyến đi của bạn</p><h2 id="concierge-results-title" tabindex="-1">Heritage mách bạn hành trình này</h2>
+      <p data-concierge-introduction></p><p data-concierge-summary role="status" aria-live="polite"></p><ul class="concierge-result-notes" data-concierge-notes></ul>
+      <div class="concierge-result-grid" data-concierge-results></div>
+      <div class="concierge-empty" data-concierge-empty hidden><h3>Mình thử một góc nhìn rộng hơn nhé?</h3><p>Chưa có địa điểm đủ dữ liệu cho lựa chọn này. Bạn có thể bỏ bớt điều kiện, đổi khu vực hoặc xem toàn bộ danh mục.</p><button type="button" data-concierge-broaden>Xem gợi ý không giới hạn bộ lọc</button><a class="destination-link" href={routes.map}>Khám phá danh mục iMap ↗</a></div>
+      {places.map(place => <template data-concierge-card={place.slug}><article class="concierge-result-card"><img src={destinationPhotos[place.slug]} alt={place.name} loading="lazy" decoding="async" /><div><p class="concierge-kicker">{place.area}</p><h3>{place.name}</h3><p data-concierge-reason></p><p class="concierge-note" data-concierge-distance hidden></p><p class="concierge-note">{place.visit} · {place.access}</p><a class="destination-link" href={imapHref(place.slug, routes.map)}>Khám phá trên iMap ↗</a><p class="concierge-note">Xem câu chuyện và nội dung ảnh/video hiện có trên iMap.</p></div></article></template>)}
+    </section>
+
+    <section class="concierge-itineraries concierge-section" aria-labelledby="itineraries-title"><div class="concierge-shell">
+      <div class="concierge-section-intro"><p class="concierge-kicker">Đi theo một nhịp riêng</p><h2 id="itineraries-title">Có một Hà Nội đang chờ bạn</h2><p>Những khung hành trình biên tập để bạn tùy chọn điểm dừng. Không phải tuyến tự động; thời gian là ý tưởng, chưa gồm di chuyển hay chờ đợi.</p></div>
+      <div class="concierge-itinerary-grid">{itineraries.map(itinerary => <article class="concierge-itinerary"><img src={itinerary.image} alt={itinerary.id === 'yeu-nghe-thuat' ? 'Biểu diễn ca trù · ảnh minh họa chủ đề nghệ thuật' : itinerary.title} loading="lazy" decoding="async" /><div class="itinerary-copy"><p class="concierge-kicker">{itinerary.area}</p><h3>{itinerary.title}</h3><p>{itinerary.description}</p><p class="concierge-note">{itinerary.duration}</p>{itinerary.slugs.length > 0 ? <details><summary>Khám phá hành trình ↗</summary><p class="concierge-note">Chọn từng điểm để mở iMap. Chưa có tuyến đường hoặc thứ tự di chuyển được xác nhận.</p>{collectionDestinations(itinerary.slugs).map(place => <a class="destination-link" href={imapHref(place.slug, routes.map)}>{place.name} ↗</a>)}</details> : <p class="concierge-note">Đang phát triển · Chưa có điểm dừng nghệ thuật đủ dữ liệu để mở hành trình.</p>}</div></article>)}</div>
+    </div></section>
+    <section class="concierge-shell concierge-map-section" aria-labelledby="concierge-map-title">
+      <header class="concierge-map-heading">
+        <div><p class="concierge-kicker">Từ câu chuyện đến hành trình</p><h2 id="concierge-map-title">Tiếp tục khám phá cùng iMap</h2><p>Chọn một địa điểm trên bản đồ để mở câu chuyện, hình ảnh và những trải nghiệm gần bạn.</p></div>
+        <a class="concierge-map-cta" href={routes.map}>Mở iMap đầy đủ <span aria-hidden="true">↗</span></a>
+      </header>
+      <div class="concierge-map-stage"><PrototypeExplorer embedded /></div>
+      <p class="concierge-map-signoff">Một thành phố. Nhiều cách để thương.</p>
+    </section>
+  </div>
+  <HomepageFooter slot="footer" partners={hanoi.partners} />
+  <HeritageLauncher slot="assistant" />
+</Layout>
+<script>import '../../scripts/concierge';</script>

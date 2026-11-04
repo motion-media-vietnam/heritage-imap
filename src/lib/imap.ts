@@ -1,5 +1,6 @@
-import { demoLocation, type Category, type Coordinates, type Place } from '../data/places.ts';
-import { districtPlaceSlugs } from '../data/districts.ts';
+import { demoLocation } from '../data/destinations/hanoi/places.ts';
+import type { Category, Coordinates, Place } from '../types/place.ts';
+import { districtPlaceSlugs } from '../data/destinations/hanoi/districts.ts';
 import { findPlaces, distanceKm } from './explore.ts';
 import { imapCategories, type ImapCategoryId } from './imap-categories.ts';
 import { filterNeighborhoodPlaces } from './imap-neighborhood.ts';

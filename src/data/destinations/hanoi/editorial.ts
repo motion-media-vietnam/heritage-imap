@@ -1,5 +1,5 @@
-import { places } from '../../../data/places.ts';
-import type { EditorialCardData, EditorialImage, EditorialSectionData, ExperienceFilter } from './types.ts';
+import { places } from './places.ts';
+import type { EditorialCardData, EditorialImage, EditorialSectionData, ExperienceFilter } from '../../../components/homepage/editorial/types.ts';
 
 /** Server-side content only. Images are the original client-approved workspace files. */
 const images = {

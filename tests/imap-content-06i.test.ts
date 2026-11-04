@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { featuredPrototypeStories as stories, featuredYouTubeEmbedUrl, featuredAffiliateUrl } from '../src/data/imap-featured.ts';
-import { prototypePlaces } from '../src/data/imap-prototype.ts';
-import { places as originals } from '../src/data/places.ts';
+import { featuredPrototypeStories as stories, featuredYouTubeEmbedUrl, featuredAffiliateUrl } from '../src/data/destinations/hanoi/imap-featured.ts';
+import { prototypePlaces } from '../src/data/destinations/hanoi/imap-prototype.ts';
+import { places as originals } from '../src/data/destinations/hanoi/places.ts';
 
 const route = readFileSync(new URL('../src/components/imap/PrototypeExplorer.astro', import.meta.url), 'utf8');
 const controller = readFileSync(new URL('../src/scripts/imap-prototype.ts', import.meta.url), 'utf8');
@@ -90,8 +90,8 @@ test('existing single-player controller and approved shared presentation remain 
   assert(route.includes('<Slogan class="prototype-slogan">Chạm để khám phá</Slogan>'));
   for (const heading of ['Chọn một địa điểm', 'Thông tin tham khảo', 'Trải nghiệm cùng nơi', 'Địa điểm gần đây']) assert(route.includes(heading));
   assert(route.includes('<DestinationMedia media={media} title={place.name} />'));
-  assert(readFileSync(new URL('../src/components/DestinationMedia.astro', import.meta.url), 'utf8').includes('href={media.videoUrl}'));
-  for (const path of ['../src/pages/index.astro', '../src/pages/imap.astro']) {
+  assert(readFileSync(new URL('../src/components/shared/DestinationMedia.astro', import.meta.url), 'utf8').includes('href={media.videoUrl}'));
+  for (const path of ['../src/destinations/hanoi/Home.astro', '../src/destinations/hanoi/Map.astro']) {
     assert(!readFileSync(new URL(path, import.meta.url), 'utf8').includes('imap-featured'));
   }
 });

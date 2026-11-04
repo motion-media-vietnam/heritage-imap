@@ -3,13 +3,13 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import postcss from 'postcss';
 import ts from 'typescript';
-import { places, demoLocation } from '../src/data/places.ts';
+import { places, demoLocation } from '../src/data/destinations/hanoi/places.ts';
 import { createExplorerState, filterExplorerPlaces, createInstanceLifetime } from '../src/lib/imap.ts';
 
 const source = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('frozen Hero and sections outside the explorer are byte-identical', () => {
-  const index = source('src/pages/index.astro');
+  const index = source('src/destinations/hanoi/Home.astro');
   const before = JSON.parse(source('tests/fixtures/homepage-frozen-sections.json'));
   assert.equal(index.slice(index.indexOf('  <section class="hero"'), index.indexOf('  <HeritageChoice />')), before.hero);
   assert.equal(index.slice(index.indexOf('  <div class="editorial-topics shell">'), index.indexOf('</Layout>')), before.afterExplorer);

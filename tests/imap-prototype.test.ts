@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
-import { places } from '../src/data/places.ts';
+import { places } from '../src/data/destinations/hanoi/places.ts';
 import { nearbyDestinations, selectDestination, sheetHeight, dedicatedVideos, practicalInformation, populatedDistricts, filterPrototypeDestinations, sheetStates, sheetStateHeight, nearestSheetState, videoSelectionSheetState } from '../src/lib/imap-prototype.ts';
 
 test('selection is synchronized through one slug and rejects filtered destinations', () => {

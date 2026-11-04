@@ -2,10 +2,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import audit from '../output/sprint-05a/candidates.draft.json' with { type: 'json' };
-import { places } from '../src/data/places.ts';
+import { places } from '../src/data/destinations/hanoi/places.ts';
 import { migrateImapCategory } from '../src/lib/imap-categories.ts';
 import { prototypePlaces, integratedPrototypeIds, heldPrototypeIds, prototypeDistrictPlaceSlugs,
-  populatedPrototypeDistricts, prototypeReferences, prototypeLinkedStories } from '../src/data/imap-prototype.ts';
+  populatedPrototypeDistricts, prototypeReferences, prototypeLinkedStories } from '../src/data/destinations/hanoi/imap-prototype.ts';
 import { createNeighborhoodState, filterNeighborhoodPlaces, markerCategory } from '../src/lib/imap-neighborhood.ts';
 import { nearbyDestinations, selectDestination, dedicatedVideos } from '../src/lib/imap-prototype.ts';
 
@@ -86,7 +86,7 @@ test('new records use explicit 16:9 media placeholders and retain the provisiona
     assert.equal(source.openingHours, null); assert.equal(source.ticketPrice, null);
     assert.equal(actual.art, undefined); assert.equal(dedicatedVideos[id], undefined);
   }
-  const media = readFileSync(new URL('../src/components/DestinationMedia.astro', import.meta.url), 'utf8');
+  const media = readFileSync(new URL('../src/components/shared/DestinationMedia.astro', import.meta.url), 'utf8');
   assert(route.includes('<DestinationMedia media={media} title={place.name} />'));
   assert(media.includes('Video đang được cập nhật'));
   assert(!route.includes('PlaceArt'));
@@ -105,7 +105,7 @@ test('new destination identities work with existing selection/nearby contracts a
   }
   assert.equal(selectDestination('pho-sach-dinh-le', heldPrototypeIds[0], visible), 'pho-sach-dinh-le');
   assert(route.includes('prototypeCollection as places') && controller.includes('prototypePlaces as places'));
-  for (const path of ['../src/pages/index.astro', '../src/pages/imap.astro']) {
+  for (const path of ['../src/destinations/hanoi/Home.astro', '../src/destinations/hanoi/Map.astro']) {
     assert(!readFileSync(new URL(path, import.meta.url), 'utf8').includes('data/imap-prototype'));
   }
 });

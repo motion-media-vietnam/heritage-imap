@@ -1,13 +1,9 @@
-export type Category = 'Hồ & cảnh quan' | 'Phố & cầu' | 'Di sản';
-export type Coordinates = { lat: number; lng: number };
-export type Place = {
-  slug: string; name: string; vietnamese: string; category: Category;
-  coordinates: Coordinates; area: string; description: string; story: string;
-  tip: string; visit: string; access: string; art: 'lake' | 'town' | 'temple' | 'citadel' | 'bridge';
-};
+import type { Coordinates, DestinationPlace, Place } from '../../../types/place.ts';
+import { hanoi } from './config.ts';
+
 export const demoLocation: Coordinates = { lat: 21.0286, lng: 105.8525 };
 // Nội dung tuyển chọn cho bản mẫu. Tọa độ gần đúng, không phải cổng vào đã xác minh.
-export const places: Place[] = [
+const records: Place[] = [
   {
     slug: 'ho-hoan-kiem', name: 'Hồ Hoàn Kiếm', vietnamese: 'Hồ Gươm', category: 'Hồ & cảnh quan',
     coordinates: { lat: 21.0286, lng: 105.8525 }, area: 'Khu vực Hoàn Kiếm', art: 'lake',
@@ -57,3 +53,5 @@ export const places: Place[] = [
     visit: 'Ngắm cầu, ưu tiên an toàn', access: 'Cầu đang khai thác giao thông',
   },
 ];
+
+export const places: DestinationPlace<typeof hanoi.id>[] = records.map(place => ({ ...place, cityId: hanoi.id }));

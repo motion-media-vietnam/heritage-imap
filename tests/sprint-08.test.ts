@@ -1,11 +1,12 @@
 import { test } from 'node:test';
+import { hanoi } from '../src/data/destinations/hanoi/config.ts';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { imapCategories, migrateImapCategory } from '../src/lib/imap-categories.ts';
-import { prototypePlaces } from '../src/data/imap-prototype.ts';
+import { prototypePlaces } from '../src/data/destinations/hanoi/imap-prototype.ts';
 import { categoryIconPath, markerCategory, createNeighborhoodState, filterNeighborhoodPlaces } from '../src/lib/imap-neighborhood.ts';
 import { createExplorerState, filterExplorerPlaces } from '../src/lib/imap.ts';
-import { places } from '../src/data/places.ts';
+import { places } from '../src/data/destinations/hanoi/places.ts';
 const source = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('08: exactly four shared categories and explicit non-destructive migration', () => {
@@ -26,12 +27,13 @@ test('08: exactly four shared categories and explicit non-destructive migration'
 });
 
 test('08: header reuses actual Heritage route; experience anchor does not target iMap', () => {
-  const layout = source('src/layouts/Layout.astro');
-  assert(layout.includes("href: '/#unmissable-experiences', label: 'Khám phá'"));
+  const layout = source('src/layouts/DestinationLayout.astro');
+  assert(hanoi.navigation.some(item => 'header' in item && item.header.path === '#unmissable-experiences' && 'label' in item.header && item.header.label === 'Khám phá'));
+  assert(layout.includes('href: homePath + (item.header?.path ?? item.path)'));
   assert(layout.includes('heritage-nav-cta'));
   assert(layout.includes("prefers-reduced-motion: reduce"));
   assert(source('src/components/LowerHomepage.astro').includes("id: 'unmissable-experiences'"));
-  assert(source('src/pages/heritage-mach-ban.astro').includes('chưa sử dụng AI hội thoại'));
+  assert(source('src/destinations/hanoi/Concierge.astro').includes('chưa sử dụng AI hội thoại'));
   assert(source('src/components/HeritageExperiences.astro').includes('<EditorialEyebrow text="Kho báu của Hà Nội" />'));
   assert(source('src/components/EditorialEyebrow.astro').includes("text = 'Khám phá Hà Nội theo cách của bạn'"));
 });
@@ -62,5 +64,9 @@ test('08A.1 supersedes 08: shared accessible launcher opens an in-page drawer, n
   assert(controller.includes('drawer.showModal()'));
   assert(controller.includes("import { answerHeritage, defaultChips } from '../lib/hoi-heritage'"));
   assert(!/<a\b|<iframe\b|fetch\(/.test(launcher));
-  for (const path of ['src/layouts/Layout.astro', 'src/pages/imap.astro', 'src/pages/imap-prototype.astro']) assert(source(path).includes('<HeritageLauncher />'));
+  assert(source('src/layouts/DestinationLayout.astro').includes('<slot name="assistant" />'));
+  for (const path of ['src/destinations/hanoi/Home.astro', 'src/destinations/hanoi/Concierge.astro', 'src/pages/places/[slug].astro']) assert(source(path).includes('<HeritageLauncher slot="assistant" />'));
+  assert(source('src/pages/[destination]/places/[slug].astro').includes('<Assistant slot="assistant" />'));
+  assert(source('src/destinations/published.ts').includes('assistant: HeritageLauncher'));
+  for (const path of ['src/destinations/hanoi/Map.astro', 'src/pages/imap-prototype.astro']) assert(source(path).includes('<HeritageLauncher />'));
 });

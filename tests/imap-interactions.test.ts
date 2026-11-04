@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
-import { places } from '../src/data/places.ts';
-import { districtPlaceSlugs } from '../src/data/districts.ts';
-import { prototypePlaces, prototypeDistrictPlaceSlugs } from '../src/data/imap-prototype.ts';
+import { places } from '../src/data/destinations/hanoi/places.ts';
+import { districtPlaceSlugs } from '../src/data/destinations/hanoi/districts.ts';
+import { prototypePlaces, prototypeDistrictPlaceSlugs } from '../src/data/destinations/hanoi/imap-prototype.ts';
 import { createNeighborhoodState, discoveryCategories, filterNeighborhoodPlaces, markerCategory,
   neighborhoodEmptyMessage, resetNeighborhoodFilters, type DiscoveryPlace } from '../src/lib/imap-neighborhood.ts';
 
