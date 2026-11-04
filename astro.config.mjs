@@ -10,6 +10,7 @@ export default defineConfig({
           injectRoute({
             pattern: '/national-preview',
             entrypoint: './src/national/Preview.astro',
+            prerender: false,
           });
         }
       },

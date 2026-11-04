@@ -1,0 +1,25 @@
+---
+import type { NationalPhoto } from '../../data/national/assets';
+import { translate, type Language } from '../../data/national/locale';
+
+interface Props {
+  photo: NationalPhoto;
+  lang: Language;
+  sizes: string;
+  eager?: boolean;
+  decorative?: boolean;
+}
+const { photo, lang, sizes, eager = false, decorative = false } = Astro.props;
+const smallWidth = Math.round(720 * photo.width / Math.max(photo.width, photo.height));
+---
+<img
+  src={photo.src}
+  srcset={photo.small === photo.src ? undefined : `${photo.small} ${smallWidth}w, ${photo.src} ${photo.width}w`}
+  sizes={photo.small === photo.src ? undefined : sizes}
+  width={photo.width}
+  height={photo.height}
+  alt={decorative ? '' : translate(photo.alt, lang)}
+  loading={eager ? 'eager' : 'lazy'}
+  fetchpriority={eager ? 'high' : undefined}
+  decoding="async"
+/>

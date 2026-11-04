@@ -1,0 +1,64 @@
+---
+import Photo from './Photo.astro';
+import Icon from '../shared/Icon.astro';
+import { collage, featured, hubHref, previewSponsorships, sponsorships } from '../../data/national/content';
+import { translate, ui, type Language } from '../../data/national/locale';
+import { activeSponsorships, featuredDestinations, type FeaturedMode } from '../../lib/national-selection';
+
+interface Props { lang: Language; mode: FeaturedMode; today: string }
+const { lang, mode, today } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const eligible = new Set(featured.map(item => item.id));
+const sponsors = activeSponsorships(sponsorships, today, new Set(featured.filter(item => hubHref(item.id)).map(item => item.id)));
+const sponsored = mode === 'sponsored' || (mode === 'auto' && sponsors.length > 0);
+const demo = mode === 'sponsored' && sponsors.length === 0;
+const windows = featuredDestinations(featured, demo ? activeSponsorships(previewSponsorships, today, eligible) : sponsors);
+const modes = [
+  { id: 'auto', label: ui.auto },
+  { id: 'editorial', label: ui.editorial },
+  { id: 'sponsored', label: ui.sponsored },
+] as const;
+function modeHref(id: FeaturedMode) {
+  const search = new URLSearchParams();
+  if (lang === 'en') search.set('lang', 'en');
+  if (id !== 'auto') search.set('featured', id);
+  return Astro.url.pathname + (search.size ? '?' + search : '') + '#featured';
+}
+---
+<section id="featured" class="n-featured n-section" aria-labelledby="featured-title">
+  <div class="n-shell">
+    <div class="n-section-top">
+      <div>
+        <p class="n-eyebrow"><span>01</span> · FEATURED DESTINATIONS</p>
+        <h2 id="featured-title">{t(ui.featured)}</h2>
+      </div>
+      <nav class="n-mode-switch" aria-label={t(ui.review)}>
+        {modes.map(item => <a href={modeHref(item.id)} aria-current={mode === item.id ? 'true' : undefined}>{t(item.label)}</a>)}
+      </nav>
+    </div>
+    {sponsored ? (
+      <>
+        <p class="n-feature-note">{demo ? t(ui.demo) : t(ui.featuredIntro)}</p>
+        <div class="n-mosaic">
+          {windows.map(({ item, sponsored: paid }) => (
+            <a class="n-mosaic-item" href={hubHref(item.id) ?? '#destination-' + item.id}>
+              <Photo photo={item.photo} {lang} sizes="(max-width: 660px) 90vw, (max-width: 1000px) 48vw, 45vw" />
+              {paid && <span class="n-sponsor">{t(demo ? ui.sponsorDemo : ui.sponsorLabel)}</span>}
+              <span class="n-mosaic-label"><span>{item.name}<small>{t(hubHref(item.id) ? ui.available : ui.upcoming)}</small></span><Icon name="arrow" size={21} /></span>
+            </a>
+          ))}
+        </div>
+      </>
+    ) : (
+      <div class="n-collage">
+        {collage.map(photo => <figure><Photo {photo} {lang} decorative sizes="(max-width: 660px) 46vw, 32vw" /></figure>)}
+        <div class="n-collage-panel">
+          <p class="n-eyebrow">VIETNAM, THROUGH THE EYES OF HERITAGE</p>
+          <p class="n-collage-copy">{t(ui.editorialCopy)}</p>
+          <a class="n-text-link" href="#explore-vietnam">{t(ui.explore)} <Icon name="arrow" size={17} /></a>
+        </div>
+      </div>
+    )}
+    <p class="n-photo-credit">{t(sponsored ? ui.mixedImagery : ui.imagery)}</p>
+  </div>
+</section>

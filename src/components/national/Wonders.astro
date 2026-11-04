@@ -1,0 +1,29 @@
+---
+import Photo from './Photo.astro';
+import Icon from '../shared/Icon.astro';
+import { wonders, hubHref } from '../../data/national/content';
+import { translate, ui, type Language } from '../../data/national/locale';
+
+interface Props { lang: Language }
+const { lang } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+---
+<section id="wonders" class="n-wonders n-section" aria-labelledby="wonders-title">
+  <div class="n-shell">
+    <div class="n-section-top">
+      <div><p class="n-eyebrow"><span>04</span> · WONDERS OF VIETNAM</p><h2 id="wonders-title">{t(ui.wonders)}</h2></div>
+      <p>{t(ui.wondersIntro)}</p>
+    </div>
+    <div class="n-wonder-grid">
+      {wonders.map((story, index) => (
+        <article class="n-wonder">
+          <a href={hubHref(story.destinationId) ?? '#destination-' + story.destinationId}>
+            <div class="n-wonder-image"><Photo photo={story.photo} {lang} sizes="(max-width: 660px) 90vw, 50vw" /></div>
+            <div class="n-wonder-caption"><span class="n-caption">0{index + 1} /</span><div><p>{t(story.description)}</p><h3>{t(story.title)}</h3></div><Icon name="arrow" size={20} /></div>
+          </a>
+        </article>
+      ))}
+    </div>
+    <p class="n-photo-credit">{t(ui.imagery)}</p>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+---
+import Photo from './Photo.astro';
+import type { Offer } from '../../data/national/content';
+import { translate, ui, type Language } from '../../data/national/locale';
+interface Props { lang: Language; visible: readonly Offer[] }
+const { lang, visible } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+---
+{visible.length > 0 && (
+  <section id="offers" class="n-offers n-section" aria-labelledby="offers-title">
+    <div class="n-shell">
+      <div class="n-section-top"><div><p class="n-eyebrow"><span>06</span> · TOP OFFERS</p><h2 id="offers-title">{t(ui.offers)}</h2></div></div>
+      <div class="n-offer-grid">
+        {visible.map(offer => <article>
+          <Photo photo={offer.photo} {lang} sizes="(max-width: 660px) 90vw, 30vw" />
+          <p class="n-eyebrow">{offer.partner}</p>
+          <h3>{t(offer.title)}</h3>
+          <p>{t(offer.terms)}</p>
+          <p><time datetime={offer.start}>{offer.start}</time> – <time datetime={offer.end}>{offer.end}</time></p>
+          <a class="n-text-link" href={offer.booking} target="_blank" rel="noopener noreferrer sponsored">{t(ui.booking)} ↗</a>
+        </article>)}
+      </div>
+    </div>
+  </section>
+)}

@@ -1,0 +1,42 @@
+---
+import Brand from './Brand.astro';
+import Icon from '../shared/Icon.astro';
+import { identity, hubHref } from '../../data/national/content';
+import { nationalDestinations } from '../../data/national/map';
+import { translate, ui, type Language } from '../../data/national/locale';
+
+interface Props { lang: Language; hasOffers: boolean }
+const { lang, hasOffers } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const active = nationalDestinations.filter(item => hubHref(item.id));
+---
+<footer class="n-footer" id="about">
+  <div class="n-shell">
+    <div class="n-footer-grid">
+      <div class="n-footer-intro"><Brand /><p>{t(ui.footerTag)}</p><small>{t(ui.aboutCopy)}</small></div>
+      <nav aria-label={t(ui.menu)}><h2>{t(ui.explore)}</h2>
+        <a href="#featured">{t(ui.destinations)}</a>
+        <a href="#wonders">{t(ui.wonders)}</a>
+        <a href="#taste">{t(ui.taste)}</a>
+        {hasOffers && <a href="#offers">{t(ui.offers)}</a>}
+      </nav>
+      <nav aria-label={t(ui.destinations)}><h2>{t(ui.destinations)}</h2>
+        {active.map(item => <a href={hubHref(item.id)}>{item.name}</a>)}
+        <a href="#explore-vietnam">{t(ui.mapLabel)}</a>
+      </nav>
+      <nav aria-label={t(ui.connect)}><h2>{t(ui.connect)}</h2>
+        <a href={identity.heritage}>Heritage</a>
+        <a href={identity.airline}>Vietnam Airlines</a>
+        <a href={identity.contact}>{t(ui.contact)}</a>
+        <a href={identity.advertise}>{t(ui.advertise)}</a>
+      </nav>
+    </div>
+    <div class="n-footer-bottom">
+      <span>© {identity.name} · {t(ui.review)}</span>
+      <span><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a> · <a href="https://www.geonames.org/">GeoNames</a></span>
+      {identity.privacy && <a href={identity.privacy}>{lang === 'vi' ? 'Quyền riêng tư' : 'Privacy policy'}</a>}
+      {identity.terms && <a href={identity.terms}>{lang === 'vi' ? 'Điều khoản sử dụng' : 'Terms of use'}</a>}
+      <a href="#top">{t(ui.backTop)} <Icon name="arrow" size={15} /></a>
+    </div>
+  </div>
+</footer>

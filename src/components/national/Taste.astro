@@ -1,0 +1,32 @@
+---
+import Photo from './Photo.astro';
+import Icon from '../shared/Icon.astro';
+import { foodStories } from '../../data/national/content';
+import { photos } from '../../data/national/assets';
+import { translate, ui, type Language } from '../../data/national/locale';
+
+interface Props { lang: Language }
+const { lang } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+---
+<section id="taste" class="n-taste n-section" aria-labelledby="taste-title">
+  <div class="n-shell n-taste-grid">
+    <div class="n-taste-copy">
+      <p class="n-eyebrow"><span>05</span> · TASTE OF VIETNAM</p>
+      <h2 id="taste-title">{t(ui.tasteIntro)}</h2>
+      <div class="n-taste-stories">
+        {foodStories.map(story => (
+          <article>
+            <h3>{t(story.title)}</h3>
+            <p>{t(story.description)}</p>
+            {'href' in story && <a href={story.href} class="n-text-link">{t(ui.taste)} · Hà Nội <Icon name="arrow" size={16} /></a>}
+          </article>
+        ))}
+      </div>
+    </div>
+    <figure class="n-taste-image">
+      <Photo photo={photos.taste} {lang} sizes="(max-width: 780px) 90vw, 45vw" />
+      <figcaption class="n-photo-credit">{t(ui.imagery)}</figcaption>
+    </figure>
+  </div>
+</section>

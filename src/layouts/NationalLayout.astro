@@ -1,0 +1,101 @@
+---
+import '../styles/global.css';
+import '../styles/national.css';
+import Icon from '../components/shared/Icon.astro';
+import Brand from '../components/national/Brand.astro';
+import { heroSlides, identity, hanoiHref } from '../data/national/content';
+import { translate, ui, type Language } from '../data/national/locale';
+import type { FeaturedMode } from '../lib/national-selection';
+
+interface Props { lang: Language; mode: FeaturedMode; hasOffers: boolean }
+const { lang, mode, hasOffers } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const canonical = new URL(Astro.url.pathname, Astro.url);
+const viUrl = new URL(canonical);
+const enUrl = new URL(canonical);
+enUrl.searchParams.set('lang', 'en');
+if (mode !== 'auto') {
+  viUrl.searchParams.set('featured', mode);
+  enUrl.searchParams.set('featured', mode);
+}
+if (lang === 'en') canonical.searchParams.set('lang', 'en');
+const first = heroSlides[0].photo;
+const nav = [
+  { href: '#explore-vietnam', label: ui.explore },
+  { href: '#featured', label: ui.destinations },
+  { href: '#wonders', label: ui.wonders },
+  { href: '#taste', label: ui.taste },
+  { href: hanoiHref + 'heritage-mach-ban/', label: ui.tips },
+  ...(hasOffers ? [{ href: '#offers', label: ui.offers }] : []),
+  { href: '#about', label: ui.about },
+];
+---
+<!doctype html>
+<html lang={lang} class="n-document">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content={t(ui.aboutCopy)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={identity.name} />
+    <meta property="og:description" content={t(ui.aboutCopy)} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'vi_VN'} />
+    <meta property="og:image" content={new URL(first.src, Astro.url).href} />
+    <meta property="og:url" content={canonical.href} />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" imagesrcset={`${first.small} 720w, ${first.src} ${first.width}w`} imagesizes="100vw" />
+    <title>{identity.name}</title>
+  </head>
+  <body class="n-body" id="top">
+    <a class="n-skip" href="#main">{t(ui.skip)}</a>
+    <header class="n-header">
+      <div class="n-header-left">
+        <a href={identity.advertise}>{t(ui.advertise)}</a>
+        <a href={identity.airline}>Vietnam Airlines</a>
+      </div>
+      <Brand />
+      <div class="n-header-right">
+        <nav class="n-language" aria-label={lang === 'vi' ? 'Ngôn ngữ' : 'Language'}>
+          <a href={viUrl.pathname + viUrl.search} hreflang="vi" lang="vi" aria-label="Tiếng Việt" aria-current={lang === 'vi' ? 'true' : undefined}>VI</a>
+          <a href={enUrl.pathname + enUrl.search} hreflang="en" lang="en" aria-label="English" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+        </nav>
+        <details class="n-menu" data-national-menu>
+          <summary aria-label={t(ui.menu)}><Icon name="menu" size={26} /></summary>
+          <nav class="n-menu-panel" aria-label={t(ui.menu)}>
+            <span class="n-eyebrow">{identity.name}</span>
+            {nav.map(item => <a href={item.href}>{t(item.label)} <Icon name="arrow" size={16} /></a>)}
+            <div class="n-menu-external">
+              <a href={identity.advertise}>{t(ui.advertise)}</a>
+              <a href={identity.airline}>Vietnam Airlines</a>
+            </div>
+          </nav>
+        </details>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <slot name="footer" />
+  </body>
+</html>
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('[data-national-menu]');
+  if (menu) {
+    const summary = menu.querySelector('summary');
+    menu.addEventListener('click', event => {
+      if (event.target instanceof Element && event.target.closest('a')) menu.open = false;
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        summary?.focus();
+      }
+    });
+    document.addEventListener('click', event => {
+      if (menu.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
+    });
+  }
+</script>
