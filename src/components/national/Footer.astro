@@ -5,8 +5,8 @@ import { identity, hubHref } from '../../data/national/content';
 import { nationalDestinations } from '../../data/national/map';
 import { translate, ui, type Language } from '../../data/national/locale';
 
-interface Props { lang: Language; hasOffers: boolean }
-const { lang, hasOffers } = Astro.props;
+interface Props { lang: Language }
+const { lang } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const active = nationalDestinations.filter(item => hubHref(item.id));
 ---
@@ -18,7 +18,7 @@ const active = nationalDestinations.filter(item => hubHref(item.id));
         <a href="#featured">{t(ui.destinations)}</a>
         <a href="#wonders">{t(ui.wonders)}</a>
         <a href="#taste">{t(ui.taste)}</a>
-        {hasOffers && <a href="#offers">{t(ui.offers)}</a>}
+        <a href="#offers">{t(ui.offers)}</a>
       </nav>
       <nav aria-label={t(ui.destinations)}><h2>{t(ui.destinations)}</h2>
         {active.map(item => <a href={hubHref(item.id)}>{item.name}</a>)}

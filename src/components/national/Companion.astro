@@ -1,0 +1,53 @@
+---
+import Photo from './Photo.astro';
+import Icon from '../shared/Icon.astro';
+import { photos } from '../../data/national/assets';
+import { companion, companionPrompts } from '../../data/national/companion';
+import { translate, ui, type Language } from '../../data/national/locale';
+
+interface Props { lang: Language }
+const { lang } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+---
+<section id="hoi-heritage" class="n-companion n-section" aria-labelledby="companion-title" data-national-companion data-lang={lang}>
+  <div class="n-shell n-companion-layout">
+    <div class="n-companion-copy">
+      <p class="n-eyebrow">HỎI HERITAGE · {t(companion.label)}</p>
+      <h2 id="companion-title">{t(companion.title)}</h2>
+      <p class="n-companion-intro">{t(companion.intro)}</p>
+      <div class="n-companion-card">
+        <form data-companion-start>
+          <label class="n-visually-hidden" for="companion-first-question">{t(companion.placeholder)}</label>
+          <div class="n-companion-input">
+            <textarea id="companion-first-question" name="question" rows="2" maxlength="600" required placeholder={t(companion.placeholder)}></textarea>
+            <button type="submit" disabled aria-label={t(companion.send)} aria-haspopup="dialog" aria-controls="companion-dialog"><Icon name="arrow" size={20} /></button>
+          </div>
+        </form>
+        <p class="n-eyebrow">{t(companion.suggestions)}</p>
+        <div class="n-companion-chips">
+          {companionPrompts.map(item => <button type="button" disabled data-companion-chip aria-haspopup="dialog" aria-controls="companion-dialog">{t(item.question)}</button>)}
+        </div>
+        <p class="n-companion-note">{t(companion.capability)}</p>
+        <p data-companion-status role="status"></p>
+      </div>
+    </div>
+    <figure class="n-companion-visual">
+      <Photo photo={photos.lantern} {lang} sizes="(max-width: 780px) 90vw, 40vw" />
+      <figcaption class="n-photo-credit">Hội An · {t(ui.imagery)}</figcaption>
+    </figure>
+  </div>
+  <dialog id="companion-dialog" class="n-companion-dialog" aria-labelledby="companion-dialog-title" aria-describedby="companion-capability">
+    <header>
+      <div><p class="n-eyebrow">{t(companion.label)}</p><h3 id="companion-dialog-title">{t(companion.conversation)}</h3></div>
+      <form method="dialog"><button type="submit" aria-label={t(companion.close)}>×</button></form>
+    </header>
+    <p id="companion-capability">{t(companion.capability)}</p>
+    <div class="n-companion-transcript" data-companion-transcript role="log" aria-label={t(companion.conversation)} tabindex="0"></div>
+    <form class="n-companion-input" data-companion-followup>
+      <label class="n-visually-hidden" for="companion-followup-question">{t(companion.followUp)}</label>
+      <textarea id="companion-followup-question" name="question" rows="2" maxlength="600" required placeholder={t(companion.followUp)} autofocus></textarea>
+      <button type="submit" aria-label={t(companion.send)}><Icon name="arrow" size={20} /></button>
+    </form>
+  </dialog>
+</section>
+<script>import '../../scripts/national-companion';</script>

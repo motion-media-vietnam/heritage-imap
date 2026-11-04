@@ -36,7 +36,7 @@ test('booking link validation rejects missing and unsafe destinations', () => {
 });
 
 test('offers appear only with an approved partner, active window and booking URL', () => {
-  const offer = { start: today, end: today, approved: true, partner: 'Partner fixture', booking: 'https://example.com/offer' };
+  const offer = { start: today, end: today, status: 'approved' as const, partner: 'Partner fixture', booking: 'https://example.com/offer' };
   assert.deepEqual(activeOffers([], today), []);
-  assert.deepEqual(activeOffers([offer, { ...offer, approved: false }, { ...offer, partner: '' }, { ...offer, booking: 'http://example.com' }, { ...offer, end: '2026-11-03' }], today), [offer]);
+  assert.deepEqual(activeOffers([offer, { ...offer, status: 'draft' }, { ...offer, partner: '' }, { ...offer, booking: 'http://example.com' }, { ...offer, end: '2026-11-03' }], today), [offer]);
 });

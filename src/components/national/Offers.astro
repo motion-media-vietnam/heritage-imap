@@ -1,25 +1,59 @@
 ---
 import Photo from './Photo.astro';
-import type { Offer } from '../../data/national/content';
+import Icon from '../shared/Icon.astro';
+import { photos } from '../../data/national/assets';
+import { destinations } from '../../data/destinations/index';
+import { offerCategories, offerCopy, offerExamples, type Offer } from '../../data/national/offers';
 import { translate, ui, type Language } from '../../data/national/locale';
-interface Props { lang: Language; visible: readonly Offer[] }
-const { lang, visible } = Astro.props;
+
+interface Props { lang: Language; visible: readonly Offer[]; demo: boolean }
+const { lang, visible, demo } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const previewUrl = new URL(Astro.url);
+if (demo) previewUrl.searchParams.delete('offers');
+else previewUrl.searchParams.set('offers', 'demo');
+const previewHref = previewUrl.pathname + previewUrl.search + '#offers';
 ---
-{visible.length > 0 && (
-  <section id="offers" class="n-offers n-section" aria-labelledby="offers-title">
-    <div class="n-shell">
-      <div class="n-section-top"><div><p class="n-eyebrow"><span>06</span> · TOP OFFERS</p><h2 id="offers-title">{t(ui.offers)}</h2></div></div>
+<section id="offers" class="n-offers n-section" aria-labelledby="offers-title" data-offer-state={demo ? 'demo' : visible.length ? 'available' : 'empty'}>
+  <div class="n-shell">
+    <div class="n-section-top">
+      <div><p class="n-eyebrow"><span>06</span> · TRAVEL OFFERS</p><h2 id="offers-title">{t(offerCopy.title)}</h2></div>
+      <p>{t(offerCopy.subtitle)}</p>
+    </div>
+    {demo ? (
+      <>
+        <p class="n-offer-demo"><strong>{t(offerCopy.demoLabel)}</strong> · {t(offerCopy.demoDescription)}</p>
+        <div class="n-offer-grid">
+          {offerExamples.map(offer => <article data-offer={offer.id}>
+            <Photo photo={offer.photo} {lang} sizes="(max-width: 620px) 90vw, 31vw" />
+            <p class="n-eyebrow">{t(offerCategories[offer.category])} · {destinations[offer.destinationId].name}</p>
+            <h3>{t(offer.title)}</h3>
+            <p>{t(offer.description)}</p>
+          </article>)}
+        </div>
+        <p class="n-photo-credit">{t(ui.imagery)}</p>
+      </>
+    ) : visible.length ? (
       <div class="n-offer-grid">
-        {visible.map(offer => <article>
-          <Photo photo={offer.photo} {lang} sizes="(max-width: 660px) 90vw, 30vw" />
-          <p class="n-eyebrow">{offer.partner}</p>
+        {visible.map(offer => <article data-offer={offer.id}>
+          <Photo photo={offer.photo} {lang} sizes="(max-width: 620px) 90vw, 31vw" />
+          <p class="n-eyebrow">{t(offerCategories[offer.category])} · {destinations[offer.destinationId].name}</p>
           <h3>{t(offer.title)}</h3>
-          <p>{t(offer.terms)}</p>
-          <p><time datetime={offer.start}>{offer.start}</time> – <time datetime={offer.end}>{offer.end}</time></p>
-          <a class="n-text-link" href={offer.booking} target="_blank" rel="noopener noreferrer sponsored">{t(ui.booking)} ↗</a>
+          <p>{t(offer.description)}</p>
+          <p>{offer.partner} · {t(offer.details)}</p>
+          <p class="n-caption"><time datetime={offer.start}>{offer.start}</time> – <time datetime={offer.end}>{offer.end}</time></p>
+          <a class="n-text-link" href={offer.booking} target="_blank" rel="noopener noreferrer sponsored">{t(offerCopy.view)} <Icon name="arrow" size={16} /></a>
         </article>)}
       </div>
-    </div>
-  </section>
-)}
+    ) : (
+      <div class="n-offers-empty">
+        <div><p class="n-eyebrow">{t(ui.review)}</p><h3>{t(offerCopy.awaiting)}</h3><p>{t(offerCopy.empty)}</p></div>
+        <figure>
+          <Photo photo={photos.bay} {lang} sizes="(max-width: 780px) 90vw, 54vw" />
+          <figcaption class="n-photo-credit">{t(ui.imagery)}</figcaption>
+        </figure>
+      </div>
+    )}
+    {import.meta.env.DEV && !visible.length && <a class="n-text-link n-offer-preview-link" href={previewHref}>{t(demo ? offerCopy.exitDemo : offerCopy.showDemo)} <Icon name="arrow" size={16} /></a>}
+  </div>
+</section>

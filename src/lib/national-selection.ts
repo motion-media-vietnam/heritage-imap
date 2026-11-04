@@ -33,10 +33,10 @@ export function featuredDestinations<T extends { id: string }>(selections: reado
   ].slice(0, 5).map(item => ({ item, sponsored: sponsored.has(item.id) }));
 }
 
-export function activeOffers<T extends DateWindow & { approved: boolean; partner: string; booking: string }>(offers: readonly T[], today: string) {
+export function activeOffers<T extends DateWindow & { status: "draft" | "approved"; partner: string; booking: string }>(offers: readonly T[], today: string) {
   return offers.flatMap(offer => {
     const booking = httpsLink(offer.booking);
-    return offer.approved && offer.partner.trim() && activeWindow(offer, today) && booking ? [{ ...offer, booking }] : [];
+    return offer.status === "approved" && offer.partner.trim() && activeWindow(offer, today) && booking ? [{ ...offer, booking }] : [];
   });
 }
 

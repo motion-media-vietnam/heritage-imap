@@ -3,12 +3,14 @@ import NationalLayout from '../layouts/NationalLayout.astro';
 import Hero from '../components/national/Hero.astro';
 import FeaturedDestinations from '../components/national/FeaturedDestinations.astro';
 import NationalMap from '../components/national/NationalMap.astro';
+import Companion from '../components/national/Companion.astro';
 import Seasonal from '../components/national/Seasonal.astro';
 import Wonders from '../components/national/Wonders.astro';
 import Taste from '../components/national/Taste.astro';
 import Offers from '../components/national/Offers.astro';
 import Footer from '../components/national/Footer.astro';
-import { nationalSettings, offers } from '../data/national/content';
+import { nationalSettings } from '../data/national/content';
+import { offers } from '../data/national/offers';
 import type { Language } from '../data/national/locale';
 import { activeOffers } from '../lib/national-selection';
 
@@ -16,16 +18,17 @@ const lang: Language = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'vi'
 const requested = Astro.url.searchParams.get('featured');
 const mode = requested === 'editorial' || requested === 'sponsored' ? requested : nationalSettings.featuredMode;
 const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date());
-const visibleOffers = activeOffers(offers, today);
-const hasOffers = visibleOffers.length > 0;
+const visibleOffers = activeOffers(offers, today).slice(0, 3);
+const demoOffers = import.meta.env.DEV && !visibleOffers.length && Astro.url.searchParams.get('offers') === 'demo';
 ---
-<NationalLayout {lang} {mode} {hasOffers}>
+<NationalLayout {lang} {mode}>
   <Hero {lang} />
   <FeaturedDestinations {lang} {mode} {today} />
   <NationalMap {lang} />
+  <Companion {lang} />
   <Seasonal {lang} {today} />
   <Wonders {lang} />
   <Taste {lang} />
-  <Offers {lang} visible={visibleOffers} />
-  <Footer slot="footer" {lang} {hasOffers} />
+  <Offers {lang} visible={visibleOffers} demo={demoOffers} />
+  <Footer slot="footer" {lang} />
 </NationalLayout>

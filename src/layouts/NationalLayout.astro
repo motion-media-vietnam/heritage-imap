@@ -3,17 +3,22 @@ import '../styles/global.css';
 import '../styles/national.css';
 import Icon from '../components/shared/Icon.astro';
 import Brand from '../components/national/Brand.astro';
-import { heroSlides, identity, hanoiHref } from '../data/national/content';
+import { heroSlides, identity } from '../data/national/content';
+import { companion } from '../data/national/companion';
 import { translate, ui, type Language } from '../data/national/locale';
 import type { FeaturedMode } from '../lib/national-selection';
 
-interface Props { lang: Language; mode: FeaturedMode; hasOffers: boolean }
-const { lang, mode, hasOffers } = Astro.props;
+interface Props { lang: Language; mode: FeaturedMode }
+const { lang, mode } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const canonical = new URL(Astro.url.pathname, Astro.url);
 const viUrl = new URL(canonical);
 const enUrl = new URL(canonical);
 enUrl.searchParams.set('lang', 'en');
+if (Astro.url.searchParams.get('offers') === 'demo') {
+  viUrl.searchParams.set('offers', 'demo');
+  enUrl.searchParams.set('offers', 'demo');
+}
 if (mode !== 'auto') {
   viUrl.searchParams.set('featured', mode);
   enUrl.searchParams.set('featured', mode);
@@ -25,8 +30,8 @@ const nav = [
   { href: '#featured', label: ui.destinations },
   { href: '#wonders', label: ui.wonders },
   { href: '#taste', label: ui.taste },
-  { href: hanoiHref + 'heritage-mach-ban/', label: ui.tips },
-  ...(hasOffers ? [{ href: '#offers', label: ui.offers }] : []),
+  { href: '#hoi-heritage', label: companion.title },
+  { href: '#offers', label: ui.offers },
   { href: '#about', label: ui.about },
 ];
 ---

@@ -19,17 +19,17 @@ Bản duyệt ngày 04/11/2026. Tiếp nối `9c4754e` trên nhánh `refactor/na
 | Bản đồ | `NationalMap.astro`, `national-map.ts`, `data/national/map.ts`. Leaflet nạp khi gần vùng xem hoặc qua nút mở bản đồ. Có ghim, thu phóng, thẻ địa phương, danh sách thay thế và bật/tắt thao tác bản đồ trên mobile. |
 | Seasonal | `Seasonal.astro`. CTA mở tuyển tập ngay trên trang. Mẫu Theo dấu mùa vàng được đánh dấu là bản duyệt. Cấu hình campaign hoạt động theo thời gian, URL booking hợp lệ mới sinh nút. |
 | Wonders và Taste | `Wonders.astro`, `Taste.astro`. Hai nhịp ảnh khác nhau. Liên kết sang hub hoặc thẻ điểm đến. Taste dẫn đến mục ẩm thực Hà Nội đang hoạt động. |
-| Offers và footer | `Offers.astro`, `Footer.astro`. Ưu đãi và mục menu tự ẩn khi không có dữ liệu hợp lệ. Footer có Heritage, Vietnam Airlines, liên hệ, quảng cáo, danh sách hub đã mở và attribution. |
+| Offers và footer | `Offers.astro`, `Footer.astro`. Chuyên mục luôn xuất hiện và hiển thị trạng thái chờ khi chưa có ưu đãi hợp lệ. Footer có Heritage, Vietnam Airlines, liên hệ, quảng cáo, danh sách hub đã mở và attribution. |
 | Dữ liệu và thiết kế | `data/national/{content,assets,map,locale}.ts`, `styles/national.css`, `assets/national/`. Tiếp tục dùng Astro, token typography Lora và Be Vietnam Pro, icon dùng chung và registry địa phương. |
 
-15 tọa độ khớp với ID bản ghi trong dữ liệu GeoNames Việt Nam. Điểm đại diện Quảng Ninh là Hạ Long, Ninh Bình là Hoa Lư và Phú Quốc là Dương Đông. Chúng là điểm tham chiếu du lịch, không phải ranh giới hành chính. Bản đồ dùng ô ảnh OpenStreetMap với referrer policy và attribution như hệ thống hiện có. [GeoNames](https://www.geonames.org/export/), [bộ dữ liệu Việt Nam](https://download.geonames.org/export/dump/VN.zip), [chính sách ô ảnh OpenStreetMap](https://operations.osmfoundation.org/policies/tiles/).
+16 tọa độ khớp với ID bản ghi trong dữ liệu GeoNames Việt Nam. Điểm đại diện Quảng Ninh là Hạ Long, Ninh Bình là Hoa Lư và Phú Quốc là Dương Đông. Chúng là điểm tham chiếu du lịch, không phải ranh giới hành chính. Bản đồ dùng ô ảnh OpenStreetMap với referrer policy và attribution như hệ thống hiện có. [GeoNames](https://www.geonames.org/export/), [bộ dữ liệu Việt Nam](https://download.geonames.org/export/dump/VN.zip), [chính sách ô ảnh OpenStreetMap](https://operations.osmfoundation.org/policies/tiles/).
 
 Nguồn tham chiếu sáng tạo gồm hình collage đính kèm, nhận diện biên tập của Heritage và cách các trang du lịch trình bày hình ảnh, khám phá và nội dung theo mùa. [Heritage](https://heritagevietnamairlines.com/), [The Aficionados](https://theaficionados.com/), [Design Hotels](https://www.designhotels.com/), [Visit Norway](https://www.visitnorway.com/), [Visit Iceland](https://www.visiticeland.com/).
 
 ## Cần trước khi phát hành
 
 - File logo quốc gia chính thức. Bản duyệt dùng tên thương hiệu dạng chữ. Chưa có hình dấu hiệu hoa sen chính thức trong kho mã nguồn.
-- Ảnh có quyền sử dụng và crop đã duyệt cho hero, collage, mosaic, mùa, kỳ quan, ẩm thực và thẻ điểm đến. Sáu ảnh AI chỉ là minh họa nội bộ. Ảnh Hồ Hoàn Kiếm dùng để xem thử thẻ Hà Nội, cần xác nhận quyền dùng ở National Hub. Chín điểm còn lại chưa có ảnh riêng.
+- Ảnh có quyền sử dụng và crop đã duyệt cho hero, collage, mosaic, mùa, kỳ quan, ẩm thực và thẻ điểm đến. Ảnh AI chỉ dùng để minh họa trong bản duyệt. Ảnh Hồ Hoàn Kiếm dùng để xem thử thẻ Hà Nội, cần xác nhận quyền dùng ở National Hub. Tám điểm còn lại chưa có ảnh riêng.
 - Chốt nội dung VI/EN và thông tin địa phương. Hà Nội có tuyến mở trong bản dựng, Ninh Bình và 13 điểm còn lại hiển thị trạng thái chờ.
 - Hợp đồng, tài sản quảng cáo, campaign, ưu đãi, điều kiện và URL booking có xác nhận. Bản duyệt không có hợp đồng hoặc ưu đãi thực.
 - URL chính sách quyền riêng tư và điều khoản cấp National Hub. Các mục này hiện ẩn. Liên hệ và quảng cáo trong bản duyệt dẫn về kênh chính thức của Heritage. [Liên hệ Heritage](https://heritagevietnamairlines.com/lien-he/), [quảng cáo Heritage](https://advertisement.heritagevietnamairlines.com/), [Vietnam Airlines](https://www.vietnamairlines.com/).
@@ -49,7 +49,7 @@ Tạo bằng ImageGen tích hợp. Mỗi ảnh có hai bản WebP trong `src/ass
 
 - Bản dựng sản xuất có 19 trang và 91 tệp trùng từng byte với mốc trước triển khai. Bao gồm `/`, CSS, JS, hình ảnh và các tuyến Hà Nội. Tuyến xem trước và tài nguyên mới không nằm trong sản phẩm phát hành.
 - Kiểm tra kiểu dữ liệu không có lỗi, cảnh báo hoặc gợi ý. Bộ hồi quy có 166 ca qua, 7 ca bỏ qua và đúng 28 ca lỗi đã có ở mốc trước thay đổi. Bốn kiểm thử mới kiểm tra lựa chọn tài trợ, lấp cửa sổ, URL booking và điều kiện ưu đãi.
-- Trình duyệt đã kiểm tra cả hai bố cục ở 1440, 1280, 768, 390 và 360 px. Không tràn ngang. Trục thương hiệu căn giữa. Đã thử menu Enter/Escape, chỉ báo slide, chuyển ngôn ngữ, chuyển chế độ, nạp ô bản đồ, ghim Ninh Bình, thẻ Hà Nội, bật/tắt thao tác map ở viewport mobile, CTA Seasonal và ẩn Offers.
+- Trình duyệt đã kiểm tra cả hai bố cục ở 1440, 1280, 768, 390 và 360 px. Không tràn ngang. Trục thương hiệu căn giữa. Đã thử menu Enter/Escape, chỉ báo slide, chuyển ngôn ngữ, chuyển chế độ, nạp ô bản đồ, ghim Ninh Bình, thẻ Hà Nội, bật/tắt thao tác map ở viewport mobile, CTA Seasonal và hành vi Offers của bản dựng đầu.
 - Đã mở trang chủ Hà Nội, link sâu `/imap/?place=van-mieu`, trang Hồ Hoàn Kiếm và Heritage mách bạn. Video Heritage mở iframe 16:9 và bắt đầu phát. Chưa thử hết thời lượng hoặc trên thiết bị vật lý.
 - Ảnh chụp toàn trang của hai chế độ ở desktop và mobile lưu trong thư mục bàn giao `national-preview-captures` của workspace. Bản xem trước dùng địa chỉ loopback trên máy này. Chưa triển khai Site.
 
@@ -58,3 +58,40 @@ Tạo bằng ImageGen tích hợp. Mỗi ảnh có hai bản WebP trong `src/ass
 Danh sách cạnh bản đồ hiển thị năm điểm đến theo thứ tự Hà Nội, TP. Hồ Chí Minh, Ninh Bình, Quảng Ninh và Điện Biên. Dữ liệu tên và trạng thái lấy từ danh mục địa phương dùng chung. Các dòng 01–05 chỉ chọn ghim, căn lại vùng nhìn và mở thẻ xem trước. Nút Khám phá chỉ xuất hiện trên thẻ có hub đang hoạt động. Chọn ghim ngoài danh sách vẫn mở được thẻ tương ứng.
 
 Bản đồ giữ 15 ghim ban đầu và thêm Điện Biên, dùng Điện Biên Phủ làm điểm đại diện. Điện Biên, TP. Hồ Chí Minh và Quảng Ninh đã có hồ sơ nháp. [GeoNames Điện Biên Phủ](https://www.geonames.org/1583477/dien-bien-phu.html).
+
+## Cập nhật Hỏi Heritage và Travel Offers
+
+- Explore Vietnam giữ năm dòng tuyển chọn và 16 ghim. Thẻ TP. Hồ Chí Minh và Điện Biên dùng ảnh AI có nhãn minh họa, đặt trong `src/assets/national/`. Hai hub này vẫn ở trạng thái nháp.
+- `Companion.astro` chèn ngay sau bản đồ. Ô nhập và năm gợi ý đưa câu hỏi vào hội thoại VI/EN. Câu hỏi và lượt tiếp theo tồn tại trong trang đang mở. `heritage-companion.ts` là điểm nối cho dịch vụ toàn quốc. Một số câu tiếng Việt về Hà Nội dùng lại `answerHeritage` và được gắn nhãn kịch bản. Các câu khác hiện thông báo giới hạn và liên kết điều hướng phù hợp. Câu hỏi ba ngày dẫn đến tuyển tập Hà Nội vì kịch bản hiện tại chưa có lịch trình ba ngày.
+- Heritage Travel Offers luôn xuất hiện sau Taste of Vietnam. `data/national/offers.ts` quản lý bốn nhóm ưu đãi, trạng thái, thời hạn, đối tác, ảnh và booking URL. Hệ thống hiển thị tối đa ba mục đã duyệt, còn hạn và có URL HTTPS hợp lệ. Mặc định hiển thị trạng thái chờ. `?offers=demo#offers` mở ba thẻ minh họa trong bản duyệt với nhãn rõ ràng, không giá, thương hiệu hoặc booking. [Tham chiếu Design Hotels](https://www.designhotels.com/deals/).
+- Đã kiểm tra thứ tự section, câu hỏi từ ô nhập và gợi ý, gửi tiếp, đóng bằng Escape, VI/EN, hai ảnh thẻ và liên kết điểm đến, trạng thái rỗng và ba thẻ minh họa ở 1440, 768, 390 px. Bộ lọc ưu đãi thực qua kiểm thử dữ liệu hợp lệ và không hợp lệ. Chưa thử đặt dịch vụ với đối tác thật hay trên điện thoại vật lý.
+- Build và kiểm tra kiểu dữ liệu sạch. Bản dựng vẫn gồm 91 tệp trùng từng byte. Bộ hồi quy 168 ca qua, 7 bỏ qua, 28 ca lỗi cũ. Chỉ bản xem trước cục bộ được cập nhật.
+
+Ảnh minh họa được tạo bằng ImageGen tích hợp, lưu dưới dạng WebP 720 × 480. Prompt sử dụng:
+
+- `saigon-720.webp` — Editorial photo illustration inspired by Ho Chi Minh City, Vietnam, for an internal travel preview. Horizontal 3:2 photograph, a quiet view across the Saigon river at blue hour toward layered city skyline, historic ferry in foreground, warm reflected lights, soft muted gold, blue-green and charcoal, premium travel magazine documentary look, natural perspective. No logos, captions, text or watermark.
+- `dienbien-720.webp` — Editorial photo illustration inspired by Điện Biên, northwest Vietnam, for an internal travel preview. Horizontal 3:2 travel magazine photograph of broad Muong Thanh valley, gentle fields in varied shades of green, layered mountains and a narrow lane, soft early light and haze, muted sage green and warm ivory. No text, logos, watermark or famous landmark.
+
+## Tệp thay đổi trong lần cập nhật này
+
+- `docs/architecture/NATIONAL-HOMEPAGE-PREVIEW.md`
+- `docs/billing.md`
+- `output/pdf/ha-long-billing-brief.pdf`
+- `src/assets/national/dienbien-720.webp`
+- `src/assets/national/saigon-720.webp`
+- `src/components/national/Companion.astro`
+- `src/components/national/Footer.astro`
+- `src/components/national/Offers.astro`
+- `src/data/national/assets.ts`
+- `src/data/national/companion.ts`
+- `src/data/national/content.ts`
+- `src/data/national/map.ts`
+- `src/data/national/offers.ts`
+- `src/layouts/NationalLayout.astro`
+- `src/lib/heritage-companion.ts`
+- `src/lib/national-selection.ts`
+- `src/national/Preview.astro`
+- `src/scripts/national-companion.ts`
+- `src/styles/national.css`
+- `tests/heritage-companion.test.ts`
+- `tests/national-selection.test.ts`
