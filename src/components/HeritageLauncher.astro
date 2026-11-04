@@ -1,33 +1,39 @@
 ---
-// Shared independent assistant: no map imports or changes to the page layout.
+import { companion } from '../data/national/companion';
+import { translate, type Language } from '../data/national/locale';
+
+interface Props { scope?: 'national'; lang?: Language }
+const { scope, lang = 'vi' } = Astro.props;
+const national = scope === 'national';
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 ---
-<div data-heritage-assistant>
-  <button class="heritage-tab" type="button" data-heritage-open aria-label="Hỏi Heritage nhé" aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false" hidden>
+<div data-heritage-assistant data-heritage-scope={scope} data-heritage-lang={national ? lang : undefined}>
+  <button class="heritage-tab" type="button" data-heritage-open aria-label={national ? t(companion.title) : "Hỏi Heritage nhé"} aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false" hidden>
     <span aria-hidden="true" class="heritage-monogram">H</span><span>HỎI HERITAGE</span>
   </button>
   <dialog id="heritage-drawer" class="heritage-drawer" aria-labelledby="heritage-drawer-title" aria-describedby="heritage-capability">
     <header class="heritage-drawer-header">
       <div class="heritage-heading-row">
-        <div><p class="heritage-kicker">HERITAGE GUIDE · HÀ NỘI</p><h2 id="heritage-drawer-title">Hỏi Heritage<span>.</span></h2><p class="heritage-description">Một người bạn có gu, dành riêng cho bạn.</p></div>
-        <button type="button" class="heritage-close" data-heritage-close aria-label="Đóng Hỏi Heritage" autofocus>×</button>
+        <div><p class="heritage-kicker">{national ? t(companion.kicker) : "HERITAGE GUIDE · HÀ NỘI"}</p><h2 id="heritage-drawer-title">{national ? t(companion.title) : "Hỏi Heritage"}<span>.</span></h2><p class="heritage-description">{national ? t(companion.label) : "Một người bạn có gu, dành riêng cho bạn."}</p></div>
+        <button type="button" class="heritage-close" data-heritage-close aria-label={national ? t(companion.close) : "Đóng Hỏi Heritage"} autofocus>×</button>
       </div>
-      <p id="heritage-capability" class="heritage-disclosure">Chỉ khám phá Hà Nội · Gợi ý theo kịch bản, không phải dữ liệu thời gian thực</p>
+      <p id="heritage-capability" class="heritage-disclosure">{national ? t(companion.capability) : "Chỉ khám phá Hà Nội · Gợi ý theo kịch bản, không phải dữ liệu thời gian thực"}</p>
     </header>
-    <div class="heritage-conversation" data-heritage-conversation tabindex="0" aria-label="Câu hỏi và trả lời">
-      <p class="heritage-intro">BẮT ĐẦU MỘT CÂU CHUYỆN VỀ HÀ NỘI</p>
-      <div data-heritage-messages role="log" aria-label="Trao đổi với Heritage" aria-live="polite" aria-relevant="additions">
-        <div class="heritage-message bot"><span class="heritage-avatar" aria-hidden="true">H</span><div class="heritage-bubble"><div class="heritage-msg-label">HERITAGE</div><div>Chào bạn, mình là Heritage. 🌿<br /><br />Bạn đang tìm một góc Hà Nội để khám phá, một món ngon đúng gu hay một lịch trình đi chơi thật vừa vặn?<br /><br />Kể mình nghe bạn thích gì nhé.</div></div></div>
+    <div class="heritage-conversation" data-heritage-conversation tabindex="0" aria-label={national ? t(companion.conversation) : "Câu hỏi và trả lời"}>
+      <p class="heritage-intro">{national ? t(companion.intro) : "BẮT ĐẦU MỘT CÂU CHUYỆN VỀ HÀ NỘI"}</p>
+      <div data-heritage-messages role="log" aria-label={national ? t(companion.conversation) : "Trao đổi với Heritage"} aria-live="polite" aria-relevant="additions">
+        <div class="heritage-message bot"><span class="heritage-avatar" aria-hidden="true">H</span><div class="heritage-bubble"><div class="heritage-msg-label">HERITAGE</div><div>{national ? t(companion.welcome) : <>Chào bạn, mình là Heritage. 🌿<br /><br />Bạn đang tìm một góc Hà Nội để khám phá, một món ngon đúng gu hay một lịch trình đi chơi thật vừa vặn?<br /><br />Kể mình nghe bạn thích gì nhé.</>}</div></div></div>
       </div>
     </div>
-    <section class="heritage-suggestions" aria-label="Gợi ý câu hỏi"><p class="heritage-sugg-label">GỢI Ý ĐỂ BẮT ĐẦU</p><div class="heritage-prompts" data-heritage-prompts></div></section>
+    <section class="heritage-suggestions" aria-label={national ? t(companion.suggestions) : "Gợi ý câu hỏi"}><p class="heritage-sugg-label">{national ? t(companion.suggestions).toLocaleUpperCase(lang) : "GỢI Ý ĐỂ BẮT ĐẦU"}</p><div class="heritage-prompts" data-heritage-prompts></div></section>
     <form class="heritage-input" data-heritage-form>
       <p class="heritage-sr-only" data-heritage-status role="status" aria-live="polite"></p>
-      <label class="heritage-sr-only" for="heritage-question">Câu hỏi của bạn</label>
+      <label class="heritage-sr-only" for="heritage-question">{national ? t(companion.questionLabel) : "Câu hỏi của bạn"}</label>
       <div class="heritage-input-row">
-        <textarea id="heritage-question" name="query" rows="1" maxlength="600" required aria-describedby="heritage-capability" placeholder="Hỏi về Hà Nội…"></textarea>
-        <button type="submit" data-heritage-send aria-label="Gửi câu hỏi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m4 12 16-8-5 16-3-7-8-1zm8 1 8-9" /></svg></button>
+        <textarea id="heritage-question" name="query" rows="1" maxlength="600" required aria-describedby="heritage-capability" placeholder={national ? t(companion.placeholder) : "Hỏi về Hà Nội…"}></textarea>
+        <button type="submit" data-heritage-send aria-label={national ? t(companion.send) : "Gửi câu hỏi"}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m4 12 16-8-5 16-3-7-8-1zm8 1 8-9" /></svg></button>
       </div>
-      <p class="heritage-foot">DEMO MIỄN PHÍ · Không gọi AI/API · Không lưu hội thoại</p>
+      <p class="heritage-foot">{national ? t(companion.foot) : "DEMO MIỄN PHÍ · Không gọi AI/API · Không lưu hội thoại"}</p>
     </form>
   </dialog>
 </div>

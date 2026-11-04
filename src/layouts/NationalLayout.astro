@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import '../styles/national.css';
 import Icon from '../components/shared/Icon.astro';
+import HeritageLauncher from '../components/HeritageLauncher.astro';
 import Brand from '../components/national/Brand.astro';
 import { heroSlides, identity } from '../data/national/content';
 import { companion } from '../data/national/companion';
@@ -30,7 +31,7 @@ const nav = [
   { href: '#featured', label: ui.destinations },
   { href: '#wonders', label: ui.wonders },
   { href: '#taste', label: ui.taste },
-  { href: '#hoi-heritage', label: companion.title },
+  { href: undefined, label: companion.title },
   { href: '#offers', label: ui.offers },
   { href: '#about', label: ui.about },
 ];
@@ -73,7 +74,7 @@ const nav = [
           <summary aria-label={t(ui.menu)}><Icon name="menu" size={26} /></summary>
           <nav class="n-menu-panel" aria-label={t(ui.menu)}>
             <span class="n-eyebrow">{identity.name}</span>
-            {nav.map(item => <a href={item.href}>{t(item.label)} <Icon name="arrow" size={16} /></a>)}
+            {nav.map(item => item.href ? <a href={item.href}>{t(item.label)} <Icon name="arrow" size={16} /></a> : <button type="button" data-heritage-header-open aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false">{t(item.label)} <Icon name="arrow" size={16} /></button>)}
             <div class="n-menu-external">
               <a href={identity.advertise}>{t(ui.advertise)}</a>
               <a href={identity.airline}>Vietnam Airlines</a>
@@ -84,6 +85,7 @@ const nav = [
     </header>
     <main id="main"><slot /></main>
     <slot name="footer" />
+    <HeritageLauncher scope="national" {lang} />
   </body>
 </html>
 <script>

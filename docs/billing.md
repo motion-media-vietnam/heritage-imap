@@ -180,3 +180,5 @@ Một bản dựng tĩnh và một Site hiện hữu phục vụ cả tuyến c�
 **Tinh chỉnh Explore Vietnam ngày 04/11/2026.** Danh sách năm điểm đến và thao tác căn lại bản đồ dùng cùng bản duyệt cục bộ, thư viện và nguồn ô ảnh hiện có. Chi phí dịch vụ định kỳ phát sinh là 0 USD/tháng ở bước này.
 
 **Hỏi Heritage và Travel Offers trong bản duyệt ngày 04/11/2026.** Hội thoại xử lý trong trình duyệt, dùng kịch bản Hà Nội hiện có. Offers đọc cấu hình tĩnh, hiện chưa có ưu đãi thực. Chi phí dịch vụ định kỳ phát sinh của bản duyệt là 0 USD/tháng. Chi phí tích hợp AI toàn quốc, vận hành nội dung và booking của đối tác sẽ được xác định khi có yêu cầu tích hợp.
+
+**Widget Hỏi Heritage dùng chung ngày 04/11/2026.** National Homepage và Hà Nội dùng cùng thành phần giao diện. Bản duyệt trả lời từ dữ liệu biên tập và kịch bản chạy cục bộ trong trình duyệt. Không phát sinh chi phí định kỳ cho backend, lưu trữ hoặc API. Chi phí tích hợp AI toàn quốc sẽ được đánh giá nếu triển khai dịch vụ.
