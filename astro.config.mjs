@@ -1,5 +1,18 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  integrations: [{
+    name: 'national-preview',
+    hooks: {
+      'astro:config:setup': ({ command, injectRoute }) => {
+        if (command === 'dev') {
+          injectRoute({
+            pattern: '/national-preview',
+            entrypoint: './src/national/Preview.astro',
+          });
+        }
+      },
+    },
+  }],
+});

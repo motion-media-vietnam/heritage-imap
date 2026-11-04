@@ -140,3 +140,21 @@ Trình duyệt đã kiểm tra tuyến mới và cũ với `?place=van-mieu`, ba
 - Thiết kế bản đồ quốc gia với điểm đại diện của từng địa phương đã xác minh và liên kết đến hub. Dữ liệu POI chi tiết tải trong hub tương ứng.
 - Chọn nội dung biên tập tuyển chọn, quy trình quyền ảnh/video, metadata và sitemap. Xác định liên kết hai chiều với website Heritage Vietnam Airlines.
 - Chuyển `/` sau khi thiết kế được duyệt và kiểm tra kế hoạch URL, canonical, query và anchor. Đánh giá lưu lượng bản đồ và phương án chi phí trước khi tăng độ phủ.
+
+## Phase 2 · Chuẩn bị National Homepage
+
+`/national-preview/` là tuyến xem trước cục bộ của Heritage Vietnam iMAP. Astro chỉ đăng ký tuyến này khi chạy máy chủ phát triển, từ `src/national/Preview.astro`. Bản dựng phát hành không chứa tuyến xem trước. Trang kiểm tra hiện có thông báo trạng thái và chỉ dẫn `noindex`, chờ sitemap, yêu cầu nội dung và art direction. `/` tiếp tục dùng trang chủ Hà Nội. [Astro Integration API](https://docs.astro.build/en/reference/integrations-reference/#injectroute-option).
+
+| Vị trí | Phạm vi |
+| --- | --- |
+| `src/national/Preview.astro` | Điểm vào cục bộ để lắp ghép và duyệt trang chủ. |
+| `src/components/national/` | Các khối riêng của National Homepage. Tạo khi sitemap xác định các khối cần dựng. |
+| `src/assets/national/` | Ảnh, logo và media quốc gia đã duyệt. Nhập qua Astro để tài nguyên của preview chưa xuất hiện trong bản dựng phát hành. |
+| `src/layouts/NationalLayout.astro` | Bố cục và metadata quốc gia khi có thiết kế được duyệt. |
+| `src/components/shared/`, `src/styles/` | Dùng lại component và token chung đã có. |
+
+Hướng thiết kế đã ghi nhận là **Nordic Editorial × Cultural Luxury × Cinematic Travel**. `global.css` có token Lora, Be Vietnam Pro, màu và khoảng cách, cùng các quy tắc của Hà Nội. Khi bắt đầu dựng giao diện, dùng lại phần token chung với phạm vi rõ ràng để giữ nguyên CSS đang áp dụng cho Hà Nội. `DestinationLayout.astro` dành cho hub địa phương. National Homepage sẽ có bố cục và nhận diện riêng, dùng lại các thành phần trung tính như `Icon` và `DestinationMedia`. Logo Hà Nội và bộ trả lời Hỏi Heritage theo kịch bản Hà Nội chỉ dùng trong ngữ cảnh Hà Nội.
+
+Đọc ID, tên và trạng thái từ `src/data/destinations/index.ts`, tạo URL bằng `destinationRoutes()` và chỉ gắn liên kết cho các hub đã đăng ký tuyến. Hà Nội có `/hanoi/` trong bản dựng chuyển tiếp. Ninh Bình đang ở trạng thái nháp và chưa có tuyến hoạt động. Địa phương mới tham gia cùng danh mục khi nội dung và tuyến đã được duyệt.
+
+**Xác minh Phase 2.** Trình duyệt mở được tuyến cục bộ. Bản dựng phát hành vẫn có 19 trang và 91 tệp trùng từng byte với commit `c29b2ed`. Kiểm tra kiểu dữ liệu sạch, 4/4 kiểm thử nền tảng qua. Bộ hồi quy đầy đủ có 162 ca qua, 7 ca bỏ qua và đúng 28 ca lỗi đã có ở Phase 1. Thay đổi được lưu cục bộ để tiếp tục thiết kế.

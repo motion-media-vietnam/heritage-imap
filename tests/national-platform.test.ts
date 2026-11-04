@@ -52,3 +52,7 @@ test('Ninh Binh is reserved as draft and cannot emit Hanoi assets or content und
     assert(!existsSync(built(route)), route);
   }
 });
+
+test('national preview is excluded from production output', () => {
+  assert(!existsSync(built('/national-preview/')));
+});
