@@ -2,7 +2,8 @@
 import Photo from './Photo.astro';
 import Icon from '../shared/Icon.astro';
 import { hubHref } from '../../data/national/content';
-import { nationalDestinations } from '../../data/national/map';
+import { featuredMapDestinationIds, nationalDestinations } from '../../data/national/map';
+import { destinations } from '../../data/destinations/index';
 import { translate, ui, type Language } from '../../data/national/locale';
 
 interface Props { lang: Language }
@@ -28,36 +29,45 @@ const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
         </div>
         <button class="n-map-reset" type="button" data-map-reset hidden><Icon name="locate" size={16} /> {t(ui.mapReset)}</button>
       </div>
-      <div class="n-map-cards" data-map-cards aria-live="polite">
-        {nationalDestinations.map(item => {
-          const href = hubHref(item.id);
-          return (
-            <article id={'destination-' + item.id} data-map-card={item.id} class="n-map-card">
-              {item.photo ? <div class="n-map-photo"><Photo photo={item.photo} {lang} sizes="(max-width: 780px) 38vw, 330px" /></div> : <div class="n-map-photo n-map-no-photo"><Icon name="pin" size={32} /><span>{t(ui.upcoming)}</span></div>}
-              <div class="n-map-card-copy">
-                <p class="n-eyebrow">{t(item.region)}</p>
-                <h3>{item.name}</h3>
-                {item.description && <p>{t(item.description)}</p>}
-                <span class:list={['n-map-state', { 'is-open': href }]}>{t(href ? ui.available : ui.upcoming)}</span>
-                {href && <a class="n-text-link" href={href}>{t(ui.visit)} <Icon name="arrow" size={17} /></a>}
-              </div>
-            </article>
-          );
-        })}
-      </div>
+      <aside class="n-map-sidebar">
+        <nav class="n-destination-list" aria-labelledby="featured-map-destinations">
+          <p id="featured-map-destinations" class="n-eyebrow">{t(ui.featured)}</p>
+          <ol role="list">
+            {featuredMapDestinationIds.map((id, index) => (
+              <li>
+                <a href={'#destination-' + id} data-map-destination={id}>
+                  <span class="n-destination-number" aria-hidden="true">0{index + 1}</span>
+                  <span>{destinations[id].name}</span>
+                  <Icon name="arrow" size={16} />
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <div class="n-map-cards" data-map-cards aria-live="polite">
+          {nationalDestinations.map(item => {
+            const href = hubHref(item.id);
+            return (
+              <article id={'destination-' + item.id} data-map-card={item.id} data-lat={item.coordinates[0]} data-lng={item.coordinates[1]} data-name={item.name} class="n-map-card">
+                {item.photo ? <div class="n-map-photo"><Photo photo={item.photo} {lang} sizes="(max-width: 780px) 38vw, 330px" /></div> : <div class="n-map-photo n-map-no-photo" aria-hidden="true"><Icon name="pin" size={26} /></div>}
+                <div class="n-map-card-copy">
+                  <p class="n-eyebrow">{t(item.region)}</p>
+                  <h3>{item.name}</h3>
+                  {item.description && <p>{t(item.description)}</p>}
+                  <span class:list={['n-map-state', { 'is-open': href }]}>{t(href ? ui.available : ui.upcoming)}</span>
+                  {href && <a class="n-text-link" href={href}>{t(ui.visit)} <Icon name="arrow" size={17} /></a>}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </aside>
     </div>
     <div class="n-map-tools">
       <p class="n-caption" data-map-help>{t(ui.mapNotes)} <span>{t(ui.mapHelp)}</span></p>
       <button type="button" class="n-map-touch" data-map-touch data-enable={t(ui.mapInteraction)} data-disable={t(ui.mapScroll)} aria-pressed="false" hidden>{t(ui.mapInteraction)}</button>
     </div>
     <p class="n-map-error" data-map-error role="status" hidden>{t(ui.mapError)}</p>
-    <nav class="n-destination-list" aria-label={t(ui.destinations)}>
-      {nationalDestinations.map(item => (
-        <a href={'#destination-' + item.id} data-map-destination={item.id} data-lat={item.coordinates[0]} data-lng={item.coordinates[1]} data-name={item.name}>
-          {item.name}
-        </a>
-      ))}
-    </nav>
     <p class="n-photo-credit">{t(ui.mixedImagery)} · <a href="https://www.geonames.org/">GeoNames</a> · <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a></p>
   </div>
 </section>

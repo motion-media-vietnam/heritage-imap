@@ -52,3 +52,9 @@ Tạo bằng ImageGen tích hợp. Mỗi ảnh có hai bản WebP trong `src/ass
 - Trình duyệt đã kiểm tra cả hai bố cục ở 1440, 1280, 768, 390 và 360 px. Không tràn ngang. Trục thương hiệu căn giữa. Đã thử menu Enter/Escape, chỉ báo slide, chuyển ngôn ngữ, chuyển chế độ, nạp ô bản đồ, ghim Ninh Bình, thẻ Hà Nội, bật/tắt thao tác map ở viewport mobile, CTA Seasonal và ẩn Offers.
 - Đã mở trang chủ Hà Nội, link sâu `/imap/?place=van-mieu`, trang Hồ Hoàn Kiếm và Heritage mách bạn. Video Heritage mở iframe 16:9 và bắt đầu phát. Chưa thử hết thời lượng hoặc trên thiết bị vật lý.
 - Ảnh chụp toàn trang của hai chế độ ở desktop và mobile lưu trong thư mục bàn giao `national-preview-captures` của workspace. Bản xem trước dùng địa chỉ loopback trên máy này. Chưa triển khai Site.
+
+## Tinh chỉnh Explore Vietnam
+
+Danh sách cạnh bản đồ hiển thị năm điểm đến theo thứ tự Hà Nội, TP. Hồ Chí Minh, Ninh Bình, Quảng Ninh và Điện Biên. Dữ liệu tên và trạng thái lấy từ danh mục địa phương dùng chung. Các dòng 01–05 chỉ chọn ghim, căn lại vùng nhìn và mở thẻ xem trước. Nút Khám phá chỉ xuất hiện trên thẻ có hub đang hoạt động. Chọn ghim ngoài danh sách vẫn mở được thẻ tương ứng.
+
+Bản đồ giữ 15 ghim ban đầu và thêm Điện Biên, dùng Điện Biên Phủ làm điểm đại diện. Điện Biên, TP. Hồ Chí Minh và Quảng Ninh đã có hồ sơ nháp. [GeoNames Điện Biên Phủ](https://www.geonames.org/1583477/dien-bien-phu.html).

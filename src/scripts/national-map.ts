@@ -16,11 +16,12 @@ if (root) {
   let map: LeafletMap | undefined;
   let loading = false;
   let active = links[0]?.dataset.mapDestination ?? '';
+  let focusOnLoad = false;
   let touchEnabled = false;
   let resetView: (() => void) | undefined;
 
   function select(id: string) {
-    if (!links.some(link => link.dataset.mapDestination === id)) return false;
+    if (!panels.some(panel => panel.dataset.mapCard === id)) return false;
     active = id;
     for (const panel of panels) panel.hidden = panel.dataset.mapCard !== id;
     for (const link of links) {
@@ -37,6 +38,11 @@ if (root) {
   function applyHash() {
     if (!location.hash.startsWith('#destination-')) return false;
     return select(location.hash.slice('#destination-'.length));
+  }
+
+  function centerOnSelection() {
+    const marker = markers.get(active);
+    if (map && marker) map.setView(marker.getLatLng(), Math.max(7, map.getZoom()), { animate: false });
   }
 
   function focusCardOnMobile() {
@@ -77,8 +83,8 @@ if (root) {
       layer.on('tileerror', () => { if (!hasTiles) error.hidden = false; });
       layer.addTo(instance);
       L.control.zoom({ position: 'bottomleft', zoomInTitle: root!.dataset.zoomIn, zoomOutTitle: root!.dataset.zoomOut }).addTo(instance);
-      for (const link of links) {
-        const { mapDestination: id, lat, lng, name } = link.dataset;
+      for (const panel of panels) {
+        const { mapCard: id, lat, lng, name } = panel.dataset;
         if (!id) continue;
         const marker = L.marker([Number(lat), Number(lng)], {
           title: name, alt: name,
@@ -93,6 +99,10 @@ if (root) {
         markers.set(id, marker);
       }
       select(active);
+      if (focusOnLoad) {
+        centerOnSelection();
+        focusOnLoad = false;
+      }
       pending.hidden = true;
       reset.hidden = false;
       applyGestures();
@@ -117,6 +127,11 @@ if (root) {
     const id = link.dataset.mapDestination;
     if (id && select(id)) {
       event.preventDefault();
+      if (map) centerOnSelection();
+      else {
+        focusOnLoad = true;
+        void initMap();
+      }
       focusCardOnMobile();
     }
   }));
