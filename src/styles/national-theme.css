@@ -14,6 +14,17 @@
   --national-gold-text: #8a6129;
   --national-caption: #686868;
   --national-teal-wash: #eef5f6;
+  --national-petrol: #254e5d;
+  --national-petrol-deep: #193d4b;
+  --national-champagne: #e1c68e;
+  --national-honey: #cda964;
+  --national-control-radius: 5px;
+  --national-control-border: #a88b5d66;
+  --national-control-highlight: inset 0 1px 0 #ffffff85;
+  --national-control-elevation: 0 3px 9px #132c3610;
+  --national-control-surface: linear-gradient(180deg, #fffefc, #f6f3ed);
+  --national-control-gold: linear-gradient(180deg, #ecdbb8, #d8b879);
+  --national-control-petrol: linear-gradient(180deg, #345c6a, #1e4352);
   --national-sans: var(--editorial-body);
   --national-serif: var(--editorial-display);
   --n-paper: var(--national-white);
