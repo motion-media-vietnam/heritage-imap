@@ -1,5 +1,7 @@
 # Heritage Vietnam iMAP · National Homepage preview
 
+Explore Vietnam được nâng cấp ngày 05/11/2026 tại [Discovery Map Refinement](NATIONAL-EXPLORE-REFINEMENT.md): pin ảnh, chấm phụ, spotlight theo thời hạn, danh mục 34/33 địa phương và tương tác. Chỉ áp dụng section bản đồ của bản duyệt cục bộ.
+
 Tinh chỉnh riêng khung tài trợ ngày 05/11/2026 được ghi tại [Sponsored Showcase Refinement](NATIONAL-SPONSORED-REFINEMENT.md), gồm năm vị trí mới, nguồn ảnh Quảng Ninh, bố cục desktop/mobile và QA. Header/Hero và Editorial Collage giữ nguyên.
 
 Tinh chỉnh Header và Hero ngày 05/11/2026 được ghi tại [Header + Hero Refinement](NATIONAL-HEADER-HERO-REFINEMENT.md), gồm nội dung mới, bộ ảnh chủ dự án, hoa sen Vietnam Airlines và QA. Chỉ áp dụng bản duyệt cục bộ, không xuất bản.

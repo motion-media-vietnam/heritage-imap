@@ -1,30 +1,59 @@
-import { destinations } from '../destinations/index';
-import { photos, hanoiPhoto } from './assets';
+import { destinationDirectory, travelAreaParents } from '../destinations/directory';
+import { featured } from './featured';
+import { photos } from './assets';
 import type { MapDestination } from './content';
 import type { Localized } from './locale';
+import hanoiPin from '../../assets/national/map/hanoi-pin.webp?url';
+import saigonPin from '../../assets/national/map/ho-chi-minh-pin.webp?url';
+import ninhBinhPin from '../../assets/national/map/ninh-binh-pin.webp?url';
+import quangNinhPin from '../../assets/national/map/quang-ninh-pin.webp?url';
+import dienBienPin from '../../assets/national/map/dien-bien-pin.webp?url';
 
-const north = ['Miền Bắc', 'Northern Vietnam'] as const satisfies Localized;
-const central = ['Miền Trung', 'Central Vietnam'] as const satisfies Localized;
-const south = ['Miền Nam', 'Southern Vietnam'] as const satisfies Localized;
+const regions = {
+  north: ['Miền Bắc', 'Northern Vietnam'],
+  central: ['Miền Trung & Tây Nguyên', 'Central Vietnam & Highlands'],
+  south: ['Miền Nam', 'Southern Vietnam'],
+} as const satisfies Record<string, Localized>;
 
-export const featuredMapDestinationIds = ['hanoi', 'ho-chi-minh', 'ninh-binh', 'quang-ninh', 'dien-bien'] as const satisfies readonly (keyof typeof destinations)[];
+export const featuredMapDestinationIds = ['hanoi', 'ho-chi-minh', 'ninh-binh', 'quang-ninh', 'dien-bien'] as const;
+const pinImages: Readonly<Record<string, string>> = { hanoi: hanoiPin, 'ho-chi-minh': saigonPin, 'ninh-binh': ninhBinhPin, 'quang-ninh': quangNinhPin, 'dien-bien': dienBienPin };
+const teasers: Readonly<Record<string, Localized>> = {
+  hanoi: ['Hồ, phố cổ và những lớp ký ức của thủ đô.', 'Lakes, old streets and the capital’s layers of memory.'],
+  'ninh-binh': ['Núi đá vôi, dòng nước yên và những hành trình qua cố đô.', 'Limestone peaks, still waters and journeys through the ancient capital.'],
+  'quang-ninh': ['Từ những mặt vịnh đến nẻo đường văn hóa miền núi.', 'From the bay to the cultural trails of the mountains.'],
+  'ho-chi-minh': ['Theo dòng sông, khám phá nhịp sống và những góc nhìn mới của thành phố.', 'Follow the river to discover the city’s rhythm and new perspectives.'],
+  'dien-bien': ['Điểm đến Tây Bắc đang được Heritage chuẩn bị.', 'A northwestern destination being prepared by Heritage.'],
+  hue: ['Kiến trúc cung đình và những lớp ký ức bên dòng sông.', 'Imperial architecture and layers of memory by the river.'],
+  'da-nang': ['Một miền khám phá từ nhịp phố tới những mái ngói bên sông.', 'Explore the rhythm of the city and riverside old streets.'],
+  'lao-cai': ['Những nếp ruộng và hành trình miền cao qua góc nhìn Heritage.', 'Terraced landscapes and highland journeys through Heritage’s eyes.'],
+};
 
-// GeoNames VN.txt, populated place records. Pins represent travel areas, not boundaries.
-export const nationalDestinations: MapDestination[] = [
-  { id: 'hanoi', name: destinations.hanoi.name, coordinates: [21.0245, 105.84117], geonameId: 1581130, region: north, photo: hanoiPhoto, description: ['Hồ, phố cổ và những lớp ký ức của thủ đô.', 'Lakes, old streets and the capital’s layers of memory.'] },
-  { id: 'ninh-binh', name: destinations['ninh-binh'].name, coordinates: [20.25809, 105.97965], geonameId: 1571968, region: north, photo: photos.river, description: ['Núi đá vôi, dòng nước yên và những hành trình qua cố đô.', 'Limestone peaks, still waters and journeys through the ancient capital.'] },
-  { id: 'quang-ninh', name: destinations['quang-ninh'].name, coordinates: [20.95045, 107.07336], geonameId: 1580410, region: north, photo: photos.bay, description: ['Những đảo đá mở ra từ sương trên mặt vịnh.', 'Limestone islands emerging from the bay’s morning mist.'] },
-  { id: 'dien-bien', name: destinations['dien-bien'].name, coordinates: [21.38602, 103.02301], geonameId: 1583477, region: north, photo: photos.dienbien, description: ['Điểm đến Tây Bắc đang được Heritage chuẩn bị.', 'A northwestern destination being prepared by Heritage.'] },
-  { id: 'ha-giang', name: 'Hà Giang', coordinates: [22.82333, 104.98357], geonameId: 1581349, region: north },
-  { id: 'sa-pa', name: 'Sa Pa', coordinates: [22.34023, 103.84415], geonameId: 1568043, region: north },
-  { id: 'mu-cang-chai', name: 'Mù Cang Chải', coordinates: [21.85125, 104.08954], geonameId: 1574362, region: north, photo: photos.terraces },
-  { id: 'dong-hoi', name: 'Đồng Hới', coordinates: [17.46885, 106.62226], geonameId: 1582886, region: central },
-  { id: 'hue', name: 'Huế', coordinates: [16.4619, 107.59546], geonameId: 1580240, region: central, photo: photos.hue },
-  { id: 'da-nang', name: 'Đà Nẵng', coordinates: [16.06778, 108.22083], geonameId: 1583992, region: central },
-  { id: 'hoi-an', name: 'Hội An', coordinates: [15.87944, 108.335], geonameId: 1580541, region: central, photo: photos.lantern },
-  { id: 'nha-trang', name: 'Nha Trang', coordinates: [12.24507, 109.19432], geonameId: 1572151, region: central },
-  { id: 'da-lat', name: 'Đà Lạt', coordinates: [11.94646, 108.44193], geonameId: 1584071, region: central },
-  { id: 'ho-chi-minh', name: destinations['ho-chi-minh'].name, coordinates: [10.82302, 106.62965], geonameId: 1566083, region: south, photo: photos.saigon, description: ['Khám phá nhịp sống thành phố qua những góc nhìn mới.', 'Discover the rhythm of the city from new perspectives.'] },
-  { id: 'can-tho', name: 'Cần Thơ', coordinates: [10.03711, 105.78825], geonameId: 1586203, region: south },
-  { id: 'phu-quoc', name: 'Phú Quốc', coordinates: [10.21716, 103.95929], geonameId: 1569973, region: south },
+export interface NationalMapDestination extends MapDestination {
+  provinceId: string; featured: boolean; contentReady: boolean;
+  pinImage?: string; photoPosition?: string; localPlace?: boolean;
+}
+export const provinceDestinations: NationalMapDestination[] = destinationDirectory.map(item => {
+  const showcase = featured.find(feature => feature.id === item.id);
+  const photo = showcase?.photo ?? (item.id === 'hue' ? photos.hue : item.id === 'da-nang' ? photos.lantern : item.id === 'lao-cai' ? photos.terraces : undefined);
+  return { id: item.id, name: item.name, coordinates: item.coordinates, geonameId: item.geonameId,
+    region: regions[item.region], provinceId: item.id, photo, description: teasers[item.id],
+    featured: Boolean(pinImages[item.id]), pinImage: pinImages[item.id], contentReady: Boolean(photo && teasers[item.id]),
+    photoPosition: showcase?.position,
+  };
+});
+
+// Existing travel-area anchors and pins remain available, revealed at closer zoom.
+const travelAreas: MapDestination[] = [
+  { id: 'ha-giang', name: 'Hà Giang', coordinates: [22.82333, 104.98357], geonameId: 1581349, region: regions.north },
+  { id: 'sa-pa', name: 'Sa Pa', coordinates: [22.34023, 103.84415], geonameId: 1568043, region: regions.north },
+  { id: 'mu-cang-chai', name: 'Mù Cang Chải', coordinates: [21.85125, 104.08954], geonameId: 1574362, region: regions.north, photo: photos.terraces },
+  { id: 'dong-hoi', name: 'Đồng Hới', coordinates: [17.46885, 106.62226], geonameId: 1582886, region: regions.central },
+  { id: 'hoi-an', name: 'Hội An', coordinates: [15.87944, 108.335], geonameId: 1580541, region: regions.central, photo: photos.lantern },
+  { id: 'nha-trang', name: 'Nha Trang', coordinates: [12.24507, 109.19432], geonameId: 1572151, region: regions.central },
+  { id: 'da-lat', name: 'Đà Lạt', coordinates: [11.94646, 108.44193], geonameId: 1584071, region: regions.central },
+  { id: 'phu-quoc', name: 'Phú Quốc', coordinates: [10.21721, 103.95929], geonameId: 1569973, region: regions.south },
+];
+export const nationalDestinations: NationalMapDestination[] = [
+  ...provinceDestinations,
+  ...travelAreas.map(item => ({ ...item, provinceId: travelAreaParents[item.id]!, featured: false, contentReady: Boolean(item.photo), localPlace: true })),
 ];
