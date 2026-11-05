@@ -18,10 +18,10 @@ const regions = {
 export const featuredMapDestinationIds = ['hanoi', 'ho-chi-minh', 'ninh-binh', 'quang-ninh', 'dien-bien'] as const;
 const pinImages: Readonly<Record<string, string>> = { hanoi: hanoiPin, 'ho-chi-minh': saigonPin, 'ninh-binh': ninhBinhPin, 'quang-ninh': quangNinhPin, 'dien-bien': dienBienPin };
 const teasers: Readonly<Record<string, Localized>> = {
-  hanoi: ['Hồ, phố cổ và những lớp ký ức của thủ đô.', 'Lakes, old streets and the capital’s layers of memory.'],
-  'ninh-binh': ['Núi đá vôi, dòng nước yên và những hành trình qua cố đô.', 'Limestone peaks, still waters and journeys through the ancient capital.'],
-  'quang-ninh': ['Từ những mặt vịnh đến nẻo đường văn hóa miền núi.', 'From the bay to the cultural trails of the mountains.'],
-  'ho-chi-minh': ['Theo dòng sông, khám phá nhịp sống và những góc nhìn mới của thành phố.', 'Follow the river to discover the city’s rhythm and new perspectives.'],
+  hanoi: ['Hồ yên, phố cổ, một miền ký ức.', 'Still lakes, old streets, living memories.'],
+  'ninh-binh': ['Núi soi bóng nước. Cố đô gọi mời.', 'Limestone reflections. An ancient capital awaits.'],
+  'quang-ninh': ['Từ mặt vịnh đến những nẻo đường miền núi.', 'From the bay to the mountain trails.'],
+  'ho-chi-minh': ['Nhịp phố, dòng sông và những góc nhìn mới.', 'City rhythms, river life and new perspectives.'],
   'dien-bien': ['Điểm đến Tây Bắc đang được Heritage chuẩn bị.', 'A northwestern destination being prepared by Heritage.'],
   hue: ['Kiến trúc cung đình và những lớp ký ức bên dòng sông.', 'Imperial architecture and layers of memory by the river.'],
   'da-nang': ['Một miền khám phá từ nhịp phố tới những mái ngói bên sông.', 'Explore the rhythm of the city and riverside old streets.'],

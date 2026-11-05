@@ -1,0 +1,26 @@
+---
+import atlas from '../../assets/national/map/vietnam-discovery.svg?url';
+import { discoveryAnchor, discoveryPins, discoveryViewBox } from '../../data/national/map-graphic';
+import { provinceDestinations } from '../../data/national/map';
+import { mapUi } from '../../data/national/map-locale';
+import { translate, type Language } from '../../data/national/locale';
+interface Props { lang: Language }
+const { lang } = Astro.props;
+const pins = discoveryPins.map(pin => ({ ...pin, destination: provinceDestinations.find(item => item.id === pin.id)! }));
+---
+<div class="n-map-graphic" data-map-graphic>
+  <div class="n-atlas-heading" aria-hidden="true"><span>HERITAGE ATLAS · 01</span><p>Việt Nam</p><i>Land of journeys</i></div>
+  <div class="n-atlas-plane">
+    <img class="n-atlas-art" src={atlas} width="800" height="760" alt="" decoding="async" />
+    <svg class="n-atlas-guides" viewBox={`0 0 ${discoveryViewBox.width} ${discoveryViewBox.height}`} aria-hidden="true">
+      {pins.map(pin => {
+        const anchor = discoveryAnchor(pin.destination.coordinates);
+        return <g><path d={`M ${anchor.x} ${anchor.y} Q ${pin.x} ${anchor.y} ${pin.x} ${pin.y}`} /><circle cx={anchor.x} cy={anchor.y} r="2.5" /></g>;
+      })}
+    </svg>
+    {pins.map(pin => <a class="n-atlas-pin" href={'#destination-' + pin.id} data-map-graphic-destination={pin.id} aria-label={translate(mapUi.openDestination, lang) + ' ' + pin.destination.name} style={{ left: `${pin.x / 8}%`, top: `${pin.y / 7.6}%` }}>
+      <span class="n-atlas-pin-photo"><img src={pin.destination.pinImage} alt="" width="48" height="48" decoding="async" /></span><span class="n-atlas-pin-tail"></span><span class="n-atlas-pin-name">{pin.destination.name}</span>
+    </a>)}
+  </div>
+  <p class="n-atlas-note">{translate(mapUi.illustrated, lang)}</p>
+</div>

@@ -6,7 +6,10 @@ if (root) {
   const canvas = root.querySelector<HTMLElement>('[data-map-canvas]')!;
   const cards = root.querySelector<HTMLElement>('[data-map-cards]')!;
   const directory = root.querySelector<HTMLElement>('.n-map-directory')!;
-  const pending = root.querySelector<HTMLElement>('[data-map-pending]')!;
+  const graphic = root.querySelector<HTMLElement>('[data-map-graphic]')!;
+  const overview = root.querySelector<HTMLButtonElement>('[data-map-overview]')!;
+  const legend = root.querySelector<HTMLElement>('[data-map-legend]')!;
+  const help = root.querySelector<HTMLElement>('[data-map-help]')!;
   const load = root.querySelector<HTMLButtonElement>('[data-map-load]')!;
   const reset = root.querySelector<HTMLButtonElement>('[data-map-reset]')!;
   const restore = root.querySelector<HTMLButtonElement>('[data-map-spotlight-reset]')!;
@@ -14,6 +17,7 @@ if (root) {
   const touch = root.querySelector<HTMLButtonElement>('[data-map-touch]')!;
   const error = root.querySelector<HTMLElement>('[data-map-error]')!;
   const links = [...root.querySelectorAll<HTMLAnchorElement>('[data-map-destination]')];
+  const graphicLinks = [...root.querySelectorAll<HTMLAnchorElement>('[data-map-graphic-destination]')];
   const panels = [...cards.querySelectorAll<HTMLElement>('[data-map-card]')];
   const markers = new Map<string, Marker>();
   const guides = new Map<string, { line: Polyline; anchor: CircleMarker }>();
@@ -24,14 +28,54 @@ if (root) {
   let map: LeafletMap | undefined;
   let loading = false;
   let focusOnLoad = false;
+  let keyboardMapFocus = false;
   let touchEnabled = false;
   let resetView: (() => void) | undefined;
+
+  function focusMapFromKeyboard() {
+    if (!keyboardMapFocus) return;
+    requestAnimationFrame(() => {
+      if (root!.dataset.mapState === 'interactiveMap') canvas.focus({ preventScroll: true });
+    });
+  }
+
+  function setMode(mode: 'defaultGraphicMap' | 'interactiveMap') {
+    const interactive = mode === 'interactiveMap';
+    root!.dataset.mapState = mode;
+    graphic.inert = interactive;
+    graphic.setAttribute('aria-hidden', String(interactive));
+    canvas.inert = !interactive;
+    canvas.setAttribute('aria-hidden', String(!interactive));
+    load.hidden = interactive;
+    load.setAttribute('aria-expanded', String(interactive));
+    overview.hidden = !interactive;
+    legend.hidden = !interactive;
+    reset.hidden = !interactive;
+    help.textContent = (interactive ? help.dataset.interactiveHelp : help.dataset.discoveryHelp) ?? '';
+    applyGestures();
+  }
+
+  function explore(id?: string, keyboard = false) {
+    if (id && !select(id)) return;
+    focusOnLoad = Boolean(id);
+    keyboardMapFocus = keyboard;
+    if (!map) { void initMap(); return; }
+    setMode('interactiveMap');
+    map.invalidateSize({ animate: false, pan: false });
+    if (id) centerOnSelection(); else resetView?.();
+    focusMapFromKeyboard();
+  }
 
   function select(id: string) {
     const selected = panels.find(panel => panel.dataset.mapCard === id);
     if (!selected) return false;
     active = id;
     root!.dataset.selectedDestination = id;
+    for (const link of graphicLinks) {
+      const current = link.dataset.mapGraphicDestination === id;
+      link.classList.toggle('is-selected', current);
+      if (current) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
+    }
     for (const panel of panels) panel.hidden = panel !== selected;
     for (const link of links) {
       if (link.dataset.mapDestination === (selected.dataset.province ?? id)) {
@@ -73,8 +117,9 @@ if (root) {
   }
 
   function applyGestures() {
+    const interactive = root!.dataset.mapState === 'interactiveMap';
+    touch.hidden = !interactive || !mobile.matches;
     if (!map) return;
-    touch.hidden = !mobile.matches;
     if (!mobile.matches || touchEnabled) map.dragging.enable(); else map.dragging.disable();
     if (touchEnabled && mobile.matches) map.touchZoom.enable(); else map.touchZoom.disable();
     touch.setAttribute('aria-pressed', String(touchEnabled));
@@ -133,6 +178,8 @@ if (root) {
   async function initMap() {
     if (map || loading) return;
     loading = true; load.disabled = true; error.hidden = true;
+    root!.setAttribute('aria-busy', 'true');
+    load.querySelector('span')!.textContent = load.dataset.loadingLabel!;
     try {
       const [L] = await Promise.all([import('leaflet'), import('leaflet/dist/leaflet.css')]);
       const instance = L.map(canvas, { zoomSnap: .25, zoomControl: false, scrollWheelZoom: false, touchZoom: false, dragging: !mobile.matches, minZoom: 4, maxZoom: 17 });
@@ -140,6 +187,10 @@ if (root) {
       resetView = () => { instance.stop(); instance.fitBounds([[8.55, 102.1], [23.45, 110.1]], { padding: [42, 64], animate: false }); updateLandmarks(); };
       instance.fitBounds([[8.55, 102.1], [23.45, 110.1]], { padding: [42, 64], animate: false });
       const layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { referrerPolicy: 'strict-origin-when-cross-origin', attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+      const firstTile = new Promise<void>(resolve => {
+        const timeout = window.setTimeout(resolve, 1200);
+        layer.once('tileload tileerror', () => { clearTimeout(timeout); resolve(); });
+      });
       let hasTiles = false;
       layer.on('tileload', () => { hasTiles = true; error.hidden = true; });
       layer.on('tileerror', () => { if (!hasTiles) error.hidden = false; }); layer.addTo(instance);
@@ -184,7 +235,9 @@ if (root) {
       });
       select(active); updateLandmarks();
       if (focusOnLoad) { centerOnSelection(); focusOnLoad = false; }
-      pending.hidden = true; reset.hidden = false; applyGestures();
+      await firstTile;
+      setMode('interactiveMap');
+      focusMapFromKeyboard();
       let observedWidth = canvas.clientWidth;
       let observedHeight = canvas.clientHeight;
       new ResizeObserver(() => {
@@ -197,14 +250,18 @@ if (root) {
       }).observe(canvas);
     } catch {
       map?.remove(); map = undefined; markers.clear(); guides.clear(); error.hidden = false;
-    } finally { load.disabled = false; loading = false; }
+    } finally {
+      load.disabled = false; loading = false; root!.removeAttribute('aria-busy');
+      load.querySelector('span')!.textContent = load.dataset.label!;
+    }
   }
 
   cards.dataset.enhanced = '';
-  if (applyHash()) focusOnLoad = true; else select(initial);
+  setMode('defaultGraphicMap');
+  if (applyHash()) explore(active); else select(initial);
   window.addEventListener('hashchange', () => {
     if (!applyHash()) return;
-    if (map) centerOnSelection(); else { focusOnLoad = true; void initMap(); }
+    explore(active);
     cards.scrollIntoView({ block: 'nearest', behavior: reducedMotion.matches ? 'instant' : 'smooth' });
   });
   links.forEach(link => link.addEventListener('click', event => {
@@ -212,7 +269,7 @@ if (root) {
     const id = link.dataset.mapDestination;
     if (!id || !select(id)) return;
     event.preventDefault();
-    if (map) centerOnSelection(); else { focusOnLoad = true; void initMap(); }
+    explore(id);
     focusCardOnMobile();
   }));
   restore.addEventListener('click', () => {
@@ -221,12 +278,26 @@ if (root) {
     if (more) more.open = false;
     centerOnSelection();
   });
-  load.hidden = false; load.addEventListener('click', () => void initMap());
+  graphicLinks.forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      explore(link.dataset.mapGraphicDestination, event.detail === 0);
+    });
+    link.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      explore(link.dataset.mapGraphicDestination, true);
+    });
+  });
+  load.addEventListener('click', event => explore(undefined, event.detail === 0));
+  overview.addEventListener('click', () => {
+    map?.stop(); touchEnabled = false; error.hidden = true;
+    setMode('defaultGraphicMap');
+    load.focus({ preventScroll: true });
+  });
   reset.addEventListener('click', () => resetView?.());
   touch.addEventListener('click', () => { touchEnabled = !touchEnabled; applyGestures(); });
   mobile.addEventListener('change', applyGestures);
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => { if (entries.some(entry => entry.isIntersecting)) { observer.disconnect(); void initMap(); } }, { rootMargin: '250px' });
-    observer.observe(canvas);
-  }
 }

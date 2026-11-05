@@ -1,5 +1,7 @@
 # Explore Vietnam: Discovery map refinement
 
+Ghi chú 06/11/2026: cách mở bản đồ và bố cục panel được tinh chỉnh tiếp trong [bản đồ hai trạng thái](NATIONAL-EXPLORE-TWO-STATES.md). Nội dung bên dưới lưu kết quả vòng 05/11/2026.
+
 Ngày 05/11/2026, trên `refactor/national-platform`, dựa trên `36f5481`. Chỉ section `/national-preview/#explore-vietnam`. Không xuất bản hoặc đổi Header, Hero, Featured, Seasonal, Wonders, Taste, Offers, Footer, Hỏi Heritage và website Hà Nội.
 
 ## Nội dung và thiết kế

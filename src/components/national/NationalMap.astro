@@ -1,6 +1,7 @@
 ---
 import Photo from './Photo.astro';
 import Icon from '../shared/Icon.astro';
+import VietnamDiscoveryMap from './VietnamDiscoveryMap.astro';
 import '../../styles/national-discovery-map.css';
 import { hubHref } from '../../data/national/content';
 import { nationalDestinations, provinceDestinations } from '../../data/national/map';
@@ -25,7 +26,7 @@ function destinationRow(item: (typeof directory)[number], index: number) {
 const primary = directory.slice(0, 5).map(destinationRow);
 const remaining = directory.slice(5).map((item, i) => destinationRow(item, i + 5));
 ---
-<section id="explore-vietnam" class="n-explore n-section" aria-labelledby="explore-title" data-national-map data-initial-destination={initialId} data-initial-label={spotlightLabel} data-selected-label={t(mapUi.selected)} data-zoom-in={t(ui.zoomIn)} data-zoom-out={t(ui.zoomOut)}>
+<section id="explore-vietnam" class="n-explore n-section" aria-labelledby="explore-title" data-national-map data-map-state="defaultGraphicMap" data-initial-destination={initialId} data-initial-label={spotlightLabel} data-selected-label={t(mapUi.selected)} data-zoom-in={t(ui.zoomIn)} data-zoom-out={t(ui.zoomOut)}>
   <div class="n-shell">
     <div class="n-section-top n-map-heading">
       <div><p class="n-eyebrow"><span>02</span> · EXPLORE VIETNAM</p><h2 id="explore-title">{t(ui.mapTitle)}</h2></div>
@@ -33,9 +34,13 @@ const remaining = directory.slice(5).map((item, i) => destinationRow(item, i + 5
     </div>
     <div class="n-map-frame">
       <div class="n-map-surface">
-        <div class="n-map-canvas" data-map-canvas role="region" aria-label={t(ui.mapLabel)}></div>
-        <div class="n-map-pending" data-map-pending><Icon name="compass" size={38} /><p>VIETNAM iMAP</p><button class="n-button n-button-light" type="button" data-map-load hidden>{t(ui.mapStart)}</button></div>
-        <div class="n-map-legend" aria-hidden="true"><span><i class="n-legend-pin"></i>{t(mapUi.featuredPins)}</span><span><i></i>{t(mapUi.otherPins)}</span></div>
+        <div id="national-interactive-map" class="n-map-canvas" data-map-canvas role="region" aria-label={t(ui.mapLabel)} aria-hidden="true" inert></div>
+        <VietnamDiscoveryMap {lang} />
+        <div class="n-map-mode-controls">
+          <button class="n-map-open" type="button" data-map-load data-label={t(mapUi.openMap)} data-loading-label={t(mapUi.openingMap)} aria-controls="national-interactive-map" aria-expanded="false"><Icon name="compass" size={17} /><span>{t(mapUi.openMap)}</span><Icon name="arrow" size={15} /></button>
+          <button class="n-map-overview" type="button" data-map-overview hidden><Icon name="back" size={14} />{t(mapUi.overview)}</button>
+        </div>
+        <div class="n-map-legend" data-map-legend aria-hidden="true" hidden><span><i class="n-legend-pin"></i>{t(mapUi.featuredPins)}</span><span><i></i>{t(mapUi.otherPins)}</span></div>
         <button class="n-map-reset" type="button" data-map-reset hidden><Icon name="locate" size={16} /> {t(ui.mapReset)}</button>
       </div>
       <aside class="n-map-sidebar" aria-label={t(mapUi.spotlight)}>
@@ -64,15 +69,15 @@ const remaining = directory.slice(5).map((item, i) => destinationRow(item, i + 5
         <nav class="n-destination-list n-map-directory" aria-labelledby="map-directory-title">
           <p id="map-directory-title" class="n-eyebrow">{t(mapUi.directory)}<span>{directory.length}</span></p>
           <ol role="list">{primary.map(item => <li><a href={'#destination-' + item.id} data-map-destination={item.id}><span class="n-destination-number" aria-hidden="true">{item.number}</span><span>{item.name}</span><Icon name="arrow" size={15} /></a></li>)}</ol>
-          <details class="n-map-more" data-map-directory-more><summary>{t(mapUi.more)}<span>{remaining.length}</span><Icon name="arrow" size={13} /></summary>
+          <details class="n-map-more" data-map-directory-more><summary><span class="n-map-more-label">{t(mapUi.more)}</span><span class="n-map-more-count">+{remaining.length}</span><Icon name="arrow" size={13} /></summary>
             <ol role="list" start={6}>{remaining.map(item => <li><a href={'#destination-' + item.id} data-map-destination={item.id}><span class="n-destination-number" aria-hidden="true">{item.number}</span><span>{item.name}</span><Icon name="arrow" size={15} /></a></li>)}</ol>
           </details>
         </nav>
       </aside>
     </div>
-    <div class="n-map-tools"><p class="n-caption" data-map-help>{t(ui.mapNotes)} <span>{t(ui.mapHelp)}</span></p><button type="button" class="n-map-touch" data-map-touch data-enable={t(ui.mapInteraction)} data-disable={t(ui.mapScroll)} aria-pressed="false" hidden>{t(ui.mapInteraction)}</button></div>
+    <div class="n-map-tools"><p class="n-caption" data-map-help data-discovery-help={t(mapUi.discoveryHelp)} data-interactive-help={t(ui.mapNotes) + ' ' + t(ui.mapHelp)}>{t(mapUi.discoveryHelp)}</p><button type="button" class="n-map-touch" data-map-touch data-enable={t(ui.mapInteraction)} data-disable={t(ui.mapScroll)} aria-pressed="false" hidden>{t(ui.mapInteraction)}</button></div>
     <p class="n-map-error" data-map-error role="status" hidden>{t(ui.mapError)}</p>
-    <p class="n-photo-credit">{t(ui.mixedImagery)} · <a href="https://www.geonames.org/">GeoNames</a> · <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a></p>
+    <p class="n-photo-credit">{t(ui.mixedImagery)} · <a href="https://www.naturalearthdata.com/">Natural Earth</a> · <a href="https://www.geonames.org/">GeoNames</a> · <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a></p>
   </div>
 </section>
 <script>import '../../scripts/national-map';</script>

@@ -13,4 +13,10 @@ export const mapUi = {
   photoPending: ['Góc nhìn đang được tuyển chọn', 'A new view is being curated'],
   featuredPins: ['Điểm đến nổi bật', 'Featured destinations'],
   otherPins: ['Điểm đến khác', 'More destinations'],
+  illustrated: ['Bản đồ minh họa · Chọn một ghim để bắt đầu', 'Illustrated map · Choose a pin to begin'],
+  openDestination: ['Khám phá trên bản đồ:', 'Explore on the map:'],
+  openMap: ['Khám phá trên bản đồ', 'Explore the map'],
+  openingMap: ['Đang mở bản đồ…', 'Opening the map…'],
+  overview: ['Xem dạng tổng quan', 'Illustrated overview'],
+  discoveryHelp: ['Chọn một ghim, một điểm đến hoặc mở bản đồ để bắt đầu.', 'Choose a pin, a destination or open the map to begin.'],
 } satisfies Record<string, Localized>;
