@@ -1,0 +1,26 @@
+/* Preview palette supplied by the owner, not an official VNA colour specification.
+   Keep these tokens on the National body; Destination Hubs retain their own theme. */
+.national-homepage {
+  --national-white: #ffffff;
+  --national-ink: #111111;
+  --national-teal: #006885;
+  --national-yellow: #f5c32f;
+  --national-gold: #cfa052;
+  --national-soft-grey: #efefef;
+  --national-ivory: #faf7f2;
+  --national-blush: #ead8cf;
+  --national-muted: #777777;
+  /* Darker companions keep small labels and captions readable on light paper. */
+  --national-gold-text: #8a6129;
+  --national-caption: #686868;
+  --national-teal-wash: #eef5f6;
+  --national-sans: var(--editorial-body);
+  --national-serif: var(--editorial-display);
+  --n-paper: var(--national-white);
+  --n-ink: var(--national-ink);
+  --n-muted: var(--national-caption);
+  --n-gold: var(--national-gold-text);
+  --n-line: var(--national-soft-grey);
+  --n-serif: var(--national-serif);
+  --n-sans: var(--national-sans);
+}

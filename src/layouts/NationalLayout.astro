@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/national-theme.css';
 import '../styles/national.css';
 import Icon from '../components/shared/Icon.astro';
 import HeritageLauncher from '../components/HeritageLauncher.astro';
@@ -57,7 +58,7 @@ const nav = [
     <link rel="preload" as="image" imagesrcset={`${first.small} 720w, ${first.src} ${first.width}w`} imagesizes="100vw" />
     <title>{identity.name}</title>
   </head>
-  <body class="n-body" id="top">
+  <body class="n-body national-homepage" id="top">
     <a class="n-skip" href="#main">{t(ui.skip)}</a>
     <header class="n-header">
       <div class="n-header-left">

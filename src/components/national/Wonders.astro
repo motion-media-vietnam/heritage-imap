@@ -18,7 +18,7 @@ const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
       {wonders.map((story, index) => (
         <article class="n-wonder">
           <a href={hubHref(story.destinationId) ?? '#destination-' + story.destinationId}>
-            <div class="n-wonder-image"><Photo photo={story.photo} {lang} sizes="(max-width: 660px) 90vw, 50vw" /></div>
+            <div class="n-wonder-image"><Photo photo={story.photo} {lang} sizes={index === 0 ? '92vw' : '(max-width: 620px) 85vw, 42vw'} /></div>
             <div class="n-wonder-caption"><span class="n-caption">0{index + 1} /</span><div><p>{t(story.description)}</p><h3>{t(story.title)}</h3></div><Icon name="arrow" size={20} /></div>
           </a>
         </article>

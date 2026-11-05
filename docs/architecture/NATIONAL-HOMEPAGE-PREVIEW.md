@@ -1,5 +1,7 @@
 # Heritage Vietnam iMAP · National Homepage preview
 
+Art direction ngày 05/11/2026 được ghi tại [National Visual Refinement](NATIONAL-VISUAL-REFINEMENT.md), gồm palette riêng, typography, composition và kết quả QA. Các phần bên dưới giữ lịch sử của những bản duyệt trước.
+
 Bản duyệt ngày 04/11/2026. Tiếp nối `9c4754e` trên nhánh `refactor/national-platform`. Mốc trước khi dựng là `checkpoint/national-homepage-before-build`. Mốc kiến trúc là `c29b2ed`, mốc khôi phục Hà Nội là `d80a433`.
 
 ## Duyệt trên máy này

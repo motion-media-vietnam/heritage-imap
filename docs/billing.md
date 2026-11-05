@@ -182,3 +182,5 @@ Một bản dựng tĩnh và một Site hiện hữu phục vụ cả tuyến c�
 **Hỏi Heritage và Travel Offers trong bản duyệt ngày 04/11/2026.** Hội thoại xử lý trong trình duyệt, dùng kịch bản Hà Nội hiện có. Offers đọc cấu hình tĩnh, hiện chưa có ưu đãi thực. Chi phí dịch vụ định kỳ phát sinh của bản duyệt là 0 USD/tháng. Chi phí tích hợp AI toàn quốc, vận hành nội dung và booking của đối tác sẽ được xác định khi có yêu cầu tích hợp.
 
 **Widget Hỏi Heritage dùng chung ngày 04/11/2026.** National Homepage và Hà Nội dùng cùng thành phần giao diện. Bản duyệt trả lời từ dữ liệu biên tập và kịch bản chạy cục bộ trong trình duyệt. Không phát sinh chi phí định kỳ cho backend, lưu trữ hoặc API. Chi phí tích hợp AI toàn quốc sẽ được đánh giá nếu triển khai dịch vụ.
+
+**Art direction National ngày 05/11/2026.** Chỉnh palette, typography và bố cục bằng CSS riêng của bản xem trước. Tái sử dụng ảnh, phông chữ và thư viện hiện có. Chi phí dịch vụ định kỳ phát sinh là 0 USD/tháng trong bản duyệt cục bộ, không xuất bản. Công sức thiết kế và kiểm tra tính riêng. Chưa thay đổi giả định lưu lượng hoặc xác nhận lại giá dịch vụ lịch sử.
