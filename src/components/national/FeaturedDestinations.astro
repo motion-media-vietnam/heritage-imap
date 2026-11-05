@@ -1,5 +1,6 @@
 ---
 import Photo from './Photo.astro';
+import '../../styles/national-sponsored.css';
 import Icon from '../shared/Icon.astro';
 import { collage, featured, hubHref, previewSponsorships, sponsorships } from '../../data/national/content';
 import { translate, ui, type Language } from '../../data/national/locale';
@@ -25,7 +26,7 @@ function modeHref(id: FeaturedMode) {
   return Astro.url.pathname + (search.size ? '?' + search : '') + '#featured';
 }
 ---
-<section id="featured" class="n-featured n-section" aria-labelledby="featured-title">
+<section id="featured" class:list={['n-featured', 'n-section', { 'n-featured--sponsored': sponsored }]} aria-labelledby="featured-title">
   <div class="n-shell">
     <div class="n-section-top">
       <div>
@@ -40,11 +41,11 @@ function modeHref(id: FeaturedMode) {
       <>
         <p class="n-feature-note">{demo ? t(ui.demo) : t(ui.featuredIntro)}</p>
         <div class="n-mosaic">
-          {windows.map(({ item, sponsored: paid }) => (
-            <a class="n-mosaic-item" href={hubHref(item.id) ?? '#destination-' + item.id}>
-              <Photo photo={item.photo} {lang} sizes="(max-width: 660px) 90vw, (max-width: 1000px) 48vw, 45vw" />
+          {windows.map(({ item, sponsored: paid }, index) => (
+            <a class="n-mosaic-item" data-featured-destination={item.id} style={{ '--featured-focal': item.position, '--featured-focal-mobile': item.mobilePosition }} href={hubHref(item.id) ?? '#destination-' + item.id}>
+              <Photo photo={item.photo} {lang} sizes={index === 0 ? '(max-width: 900px) 94vw, 42vw' : '(max-width: 900px) 46vw, 26vw'} />
               {paid && <span class="n-sponsor">{t(demo ? ui.sponsorDemo : ui.sponsorLabel)}</span>}
-              <span class="n-mosaic-label"><span>{item.name}<small>{t(hubHref(item.id) ? ui.available : ui.upcoming)}</small></span><Icon name="arrow" size={21} /></span>
+              <span class="n-mosaic-label"><span><span class="n-mosaic-name">{item.name}</span><small>{t(hubHref(item.id) ? ui.available : ui.upcoming)}</small></span><Icon name="arrow" size={21} /></span>
             </a>
           ))}
         </div>

@@ -34,22 +34,11 @@ export function hubHref(id: string) {
 }
 
 export const hanoiHref = destinationRoutes(destinations.hanoi.id).home;
-export const featured = [
-  { id: 'ninh-binh', name: destinations['ninh-binh'].name, photo: photos.river },
-  { id: 'quang-ninh', name: 'Quảng Ninh', photo: photos.bay },
-  { id: 'hoi-an', name: 'Hội An', photo: photos.lantern },
-  { id: 'hue', name: 'Huế', photo: photos.hue },
-  { id: 'hanoi', name: destinations.hanoi.name, photo: hanoiPhoto },
-];
+export { featured, previewSponsorships } from './featured';
 
 export const collage = [photos.hue, photos.river, photos.bay, photos.taste, photos.terraces, photos.lantern];
 
 export const sponsorships: Sponsorship[] = [];
-// Fixtures are available only when the editor chooses the sponsored preview.
-export const previewSponsorships: Sponsorship[] = [
-  { destinationId: 'quang-ninh', start: '2000-01-01', end: '2099-12-31', priority: 2, display: true, visualApproved: true },
-  { destinationId: 'hanoi', start: '2000-01-01', end: '2099-12-31', priority: 1, display: true, visualApproved: true },
-];
 
 interface Story {
   title: Localized;

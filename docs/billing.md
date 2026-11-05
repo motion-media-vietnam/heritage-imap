@@ -188,3 +188,13 @@ Một bản dựng tĩnh và một Site hiện hữu phục vụ cả tuyến c�
 **Visual refinement vòng 2 ngày 05/11/2026.** Hệ controls và tỷ lệ section tiếp tục dùng CSS, ảnh và phông chữ hiện có, không thêm dịch vụ hoặc thư viện. Chi phí dịch vụ định kỳ phát sinh của bản duyệt cục bộ là 0 USD/tháng. Khung bản đồ lớn hơn có thể tải thêm ô ảnh theo vùng nhìn và mức zoom; cần đo lại lưu lượng trước khi mở công khai. Công sức thiết kế/kiểm tra tính riêng; không xác nhận lại các mức giá lịch sử.
 
 **Header và Hero ngày 05/11/2026.** Dùng ba ảnh chủ dự án cung cấp, tối ưu thành sáu WebP (tổng 1.395.806 byte); tải theo màn hình, cache và slide được xem. Hoa sen từ SVG chính thức Heritage, lưu cùng mã nguồn. Chỉ đổi bản duyệt cục bộ, không thêm thư viện, dịch vụ ảnh, AI/API, tài khoản hoặc lượt truy cập công khai. Phí dịch vụ định kỳ tăng thêm là 0 USD/tháng trước thuế ở bước này; chưa phải dự toán khi mở công khai. Ảnh tĩnh đơn giản và tiết kiệm hơn dịch vụ ảnh trả phí, vẫn cần công sức tuyển chọn/tối ưu. Trước phát hành cần đo lại băng thông; giữ hạn mức host và không tự mua thêm. Công sức triển khai, bảo trì, thuế và quy đổi tiền tệ tách riêng; không xác nhận lại giá lịch sử. Không cần quyết định mua dịch vụ.
+
+<!-- pagebreak -->
+
+## Featured Destinations Sponsored - 05/11/2026
+
+Chỉ tinh chỉnh khung tài trợ trong bản duyệt cục bộ. Năm vị trí hiện là Hà Nội, TP. Hồ Chí Minh, Ninh Bình, Quảng Ninh và Điện Biên. Hai nhãn “Mẫu tài trợ” vẫn là dữ liệu minh họa, không đại diện hợp đồng hay doanh thu thực tế. Không có thanh toán, tracking quảng cáo, đấu giá vị trí hoặc tích hợp đối tác mới.
+
+Dùng lại ảnh Hà Nội và Ninh Bình; ba ảnh được cung cấp tạo năm WebP tĩnh, tổng 878.974 byte, không thêm dịch vụ ảnh hoặc thư viện. Ảnh tải khi gần vùng xem; tệp thực tải tùy màn hình và cache, không phải cả năm tệp mỗi lượt truy cập. Giữ ảnh tĩnh sẵn có là phương án đơn giản và không cần mua dịch vụ quản lý ảnh; công sức tối ưu, tuyển chọn và bảo trì tính riêng.
+
+**Phí dịch vụ định kỳ tăng thêm: 0 USD/tháng trước thuế ở bước duyệt này.** Chưa xuất bản, không phát sinh truy cập công khai, API, AI, backend, cơ sở dữ liệu, thuê bao hoặc dịch vụ lưu trữ mới. Không thay gói và không xác nhận lại mức giá lịch sử. Trước khi mở công khai cần đo lại lưu lượng ảnh/bản đồ và kiểm tra hạn mức host; chưa có đơn giá vượt hạn mức được xác nhận để dự báo hóa đơn. Nếu chạm hạn mức, giữ bản ổn định, giảm tải hoặc chờ khôi phục; không tự mua thêm. Thuế, quy đổi tiền tệ và công sức triển khai/bảo trì chưa tính vào phí nhà cung cấp. Không cần quyết định mua dịch vụ cho lần sửa này.

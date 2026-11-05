@@ -1,5 +1,7 @@
 # Heritage Vietnam iMAP · National Homepage preview
 
+Tinh chỉnh riêng khung tài trợ ngày 05/11/2026 được ghi tại [Sponsored Showcase Refinement](NATIONAL-SPONSORED-REFINEMENT.md), gồm năm vị trí mới, nguồn ảnh Quảng Ninh, bố cục desktop/mobile và QA. Header/Hero và Editorial Collage giữ nguyên.
+
 Tinh chỉnh Header và Hero ngày 05/11/2026 được ghi tại [Header + Hero Refinement](NATIONAL-HEADER-HERO-REFINEMENT.md), gồm nội dung mới, bộ ảnh chủ dự án, hoa sen Vietnam Airlines và QA. Chỉ áp dụng bản duyệt cục bộ, không xuất bản.
 
 Vòng refinement tiếp theo được ghi tại [Visual Refinement Round 2](NATIONAL-VISUAL-REFINEMENT-ROUND-2.md), tập trung vào controls, tỷ lệ collage/map, campaign và Offers. Đây là bản duyệt cục bộ, chưa xuất bản.
