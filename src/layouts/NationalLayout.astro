@@ -3,9 +3,11 @@ import '../styles/global.css';
 import '../styles/national-theme.css';
 import '../styles/national.css';
 import '../styles/national-controls.css';
+import '../styles/national-opening.css';
 import Icon from '../components/shared/Icon.astro';
 import HeritageLauncher from '../components/HeritageLauncher.astro';
 import Brand from '../components/national/Brand.astro';
+import AirlineLockup from '../components/national/AirlineLockup.astro';
 import { heroSlides, identity } from '../data/national/content';
 import { companion } from '../data/national/companion';
 import { translate, ui, type Language } from '../data/national/locale';
@@ -64,7 +66,7 @@ const nav = [
     <header class="n-header">
       <div class="n-header-left">
         <a href={identity.advertise}>{t(ui.advertise)}</a>
-        <a href={identity.airline}>Vietnam Airlines</a>
+        <a href={identity.airline}><AirlineLockup /></a>
       </div>
       <Brand />
       <div class="n-header-right">
@@ -79,7 +81,7 @@ const nav = [
             {nav.map(item => item.href ? <a href={item.href}>{t(item.label)} <Icon name="arrow" size={16} /></a> : <button type="button" data-heritage-header-open aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false">{t(item.label)} <Icon name="arrow" size={16} /></button>)}
             <div class="n-menu-external">
               <a href={identity.advertise}>{t(ui.advertise)}</a>
-              <a href={identity.airline}>Vietnam Airlines</a>
+              <a href={identity.airline}><AirlineLockup /></a>
             </div>
           </nav>
         </details>

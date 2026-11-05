@@ -1,5 +1,7 @@
 # Heritage Vietnam iMAP · National Homepage preview
 
+Tinh chỉnh Header và Hero ngày 05/11/2026 được ghi tại [Header + Hero Refinement](NATIONAL-HEADER-HERO-REFINEMENT.md), gồm nội dung mới, bộ ảnh chủ dự án, hoa sen Vietnam Airlines và QA. Chỉ áp dụng bản duyệt cục bộ, không xuất bản.
+
 Vòng refinement tiếp theo được ghi tại [Visual Refinement Round 2](NATIONAL-VISUAL-REFINEMENT-ROUND-2.md), tập trung vào controls, tỷ lệ collage/map, campaign và Offers. Đây là bản duyệt cục bộ, chưa xuất bản.
 
 Art direction ngày 05/11/2026 được ghi tại [National Visual Refinement](NATIONAL-VISUAL-REFINEMENT.md), gồm palette riêng, typography, composition và kết quả QA. Các phần bên dưới giữ lịch sử của những bản duyệt trước.

@@ -7,23 +7,24 @@ import { translate, ui, type Language } from '../../data/national/locale';
 interface Props { lang: Language }
 const { lang } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const [headlineLead, ...headlineRest] = t(ui.heroTitle).split(', ');
 ---
 <section class="n-hero" aria-labelledby="national-title" data-national-hero data-interval={nationalSettings.slideInterval} data-play={t(ui.play)} data-pause={t(ui.pause)}>
   <div class="n-hero-images">
     {heroSlides.map((slide, index) => (
-      <div class:list={['n-slide', { 'is-current': index === 0 }]} data-slide={index} data-caption={t(slide.caption)} aria-hidden={index === 0 ? undefined : 'true'}>
+      <div class:list={['n-slide', { 'is-current': index === 0 }]} data-slide={index} data-caption={t(slide.caption)} aria-hidden={index === 0 ? undefined : 'true'} style={{ '--hero-focal': slide.position, '--hero-focal-mobile': slide.mobilePosition }}>
         {index === 0 ? <Photo photo={slide.photo} {lang} sizes="100vw" eager /> : <template><Photo photo={slide.photo} {lang} sizes="100vw" /></template>}
       </div>
     ))}
   </div>
   <div class="n-hero-copy">
     <span class="n-eyebrow n-hero-kicker"><span></span>{t(ui.heroKicker)}</span>
-    <h1 id="national-title">{t(ui.heroTitle)}</h1>
+    <h1 id="national-title"><span>{headlineLead},</span>{' '}<span>{headlineRest.join(', ')}</span></h1>
     <p>{t(ui.heroIntro)}</p>
     <a class="n-button n-button-light" href="#explore-vietnam">{t(ui.explore)} <Icon name="arrow" size={17} /></a>
   </div>
   <div class="n-hero-meta">
-    <div><p class="n-hero-caption" data-slide-caption>{t(heroSlides[0].caption)}</p><span class="n-caption">{t(ui.review)} · {t(ui.imagery)}</span></div>
+    <div><p class="n-hero-caption" data-slide-caption>{t(heroSlides[0].caption)}</p><span class="n-caption">{t(ui.review)}</span></div>
     <div class="n-slide-controls" data-slide-controls hidden>
       <button type="button" data-slide-prev aria-label={t(ui.previous)}><Icon name="back" size={18} /></button>
       <div class="n-slide-indicators">

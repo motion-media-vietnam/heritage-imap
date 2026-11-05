@@ -1,0 +1,103 @@
+/* Header + Hero only. Keep the approved controls and compositions below intact. */
+.n-header, .n-hero {
+  --opening-champagne: linear-gradient(155deg, #f2ead9, #dcc9a2 62%, #c8ae7d);
+  --opening-champagne-hover: linear-gradient(155deg, #f7f0e3, #e5d5b5 62%, #d4be94);
+  --opening-petrol: linear-gradient(160deg, #365965, #254956 58%, #1d3d4b);
+}
+.n-header {
+  min-height: 88px; padding-block: 12px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  border-bottom-color: #cab99440;
+  background: linear-gradient(180deg, #ffffff, #fffefa);
+}
+.n-header-left { gap: 12px; }
+.n-header-right { gap: 12px; }
+.national-homepage .n-header .n-header-left > a {
+  min-height: 39px; padding: 10px 14px; border-radius: 5px;
+  font-size: 9px; letter-spacing: .085em;
+  box-shadow: inset 0 1px 0 #ffffff8c, inset 0 -1px 0 #7c67491a, 0 3px 8px #263c440d;
+}
+.national-homepage .n-header .n-header-left > a:first-child {
+  --control-surface: var(--opening-champagne);
+  --control-hover: var(--opening-champagne-hover);
+  --control-ink: #403526; --control-edge: #bca57b;
+}
+.national-homepage .n-header .n-header-left > a:nth-child(2) {
+  --control-surface: var(--opening-petrol);
+  --control-hover: linear-gradient(160deg, #426775, #305663 58%, #254957);
+  --control-edge: #244956;
+}
+.national-homepage .n-header-left .n-vna-lotus { background: linear-gradient(160deg, #f1e4c0, #c8ae77); }
+.national-homepage .n-menu-external .n-vna-lotus { background: #a98e5c; }
+.n-header .n-brand > span { font-size: clamp(37px, 3.5vw, 50px); color: #b39762; letter-spacing: -.06em; line-height: .98; }
+.n-header .n-brand > small { color: #34434a; font-size: 8px; font-weight: 500; letter-spacing: .23em; margin-top: 8px; }
+.national-homepage .n-header .n-language { gap: 2px; padding: 3px; border-color: #bda77e4f; background: linear-gradient(155deg, #faf8f2, #f3efe6); box-shadow: inset 0 1px 0 #ffffff, 0 2px 7px #263c4407; }
+.national-homepage .n-header .n-language a { font-size: 9px; color: #54636a; letter-spacing: .035em; }
+.national-homepage .n-header .n-language [aria-current] { color: #234957; background: linear-gradient(155deg, #ffffff, #f0eadd); border-color: #c7b49088; box-shadow: inset 0 1px 0 #fff, 0 1px 4px #263c4410; }
+.national-homepage .n-header .n-menu summary { width: 40px; height: 40px; border-color: #baa77f59; background: linear-gradient(155deg, #ffffff, #f2eee4); box-shadow: inset 0 1px 0 #fff, 0 2px 7px #263c440a; }
+.national-homepage .n-header .n-menu summary svg { width: 21px; height: 21px; stroke-width: 1.2; }
+
+.n-hero {
+  min-height: min(820px, calc(100svh - 88px));
+  padding: 80px clamp(28px, 5.8vw, 92px) 140px;
+}
+.n-hero .n-slide img { object-position: var(--hero-focal, center); filter: saturate(.9); }
+.n-hero-images::after { background: linear-gradient(90deg, #081c269e, #0b20295e 38%, #0b20290a 78%), linear-gradient(0deg, #071c2885, #081c292b 48%, #081c2908 78%); }
+.n-hero-copy { padding-inline-end: 0; }
+.n-hero .n-hero-kicker { font-size: 11px; font-weight: 500; letter-spacing: .15em; color: #f5f0e7; gap: 13px; }
+.n-hero .n-hero-kicker > span { width: 34px; border-top: 1px solid #d9c59c; }
+.national-homepage .n-hero h1 {
+  max-width: 12em; margin-block: 23px 21px;
+  font-size: clamp(40px, 3.8vw, 56px); line-height: 1.22;
+  font-weight: 500; letter-spacing: -.024em; color: #fffdf8;
+  text-wrap: initial;
+}
+.n-hero h1 > span { display: block; }
+.n-hero .n-hero-copy > p { max-width: 47ch; color: #f4f1e9; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.8; }
+.national-homepage .n-hero .n-button-light {
+  --control-surface: var(--opening-champagne);
+  --control-hover: var(--opening-champagne-hover);
+  --control-edge: #d3bc92; --control-ink: #403526;
+  margin-top: 27px; min-height: 46px; padding: 12px 20px; gap: 19px;
+  font-size: 10px; letter-spacing: .085em;
+  box-shadow: inset 0 1px 0 #fff9, inset 0 -1px 0 #7c67491a, 0 4px 12px #091e2524;
+}
+.n-hero .n-hero-meta { inset-inline: clamp(28px, 5.8vw, 92px); inset-block-end: 27px; }
+.n-hero .n-hero-caption { font-size: 11px; font-weight: 400; letter-spacing: .015em; margin-bottom: 4px; }
+.n-hero .n-hero-meta .n-caption { font-size: 8px; letter-spacing: .12em; color: #ede6d7c9; }
+.national-homepage .n-hero .n-slide-controls > button { min-width: 34px; min-height: 34px; border-color: #e6d5af66; background: linear-gradient(160deg, #f3e7cc1f, #142e3c5c); box-shadow: inset 0 1px 0 #ffffff29, 0 2px 6px #071c2610; }
+.national-homepage .n-hero .n-slide-controls > button:hover { background: linear-gradient(160deg, #f3e7cc35, #27465370); }
+.n-hero .n-slide-controls > button svg { width: 15px; height: 15px; stroke-width: 1.3; }
+.n-hero .n-slide-indicators span { width: 13px; height: 1px; background: #e9e3d5a6; }
+.n-hero .n-slide-indicators [aria-current] span { background: #decba2; height: 2px; }
+
+@media (max-width: 1000px) {
+  .n-header { min-height: 84px; }
+  .national-homepage .n-header .n-header-left > a { padding-inline: 10px; font-size: 8px; }
+  .n-header-left { gap: 8px; }
+  .n-header .n-brand > small { letter-spacing: .2em; }
+}
+@media (max-width: 620px) {
+  .n-header { min-height: 76px; padding-block: 10px; }
+  .n-header .n-brand > span { font-size: 30px; }
+  .n-header .n-brand > small { font-size: 7px; letter-spacing: .19em; margin-top: 7px; }
+  .national-homepage .n-header .n-header-right { gap: 6px; }
+  .national-homepage .n-header .n-language { gap: 0; padding: 2px; }
+  .national-homepage .n-header .n-language a { font-size: 8px; min-width: 24px; min-height: 32px; }
+  .national-homepage .n-header .n-menu summary { width: 32px; height: 36px; }
+  .national-homepage .n-header .n-menu summary svg { width: 19px; height: 19px; }
+  .n-hero { min-height: min(760px, calc(100svh - 76px)); padding: 70px 24px 155px; }
+  .n-hero .n-slide img { object-position: var(--hero-focal-mobile, center); }
+  .n-hero-images::after { background: linear-gradient(90deg, #071e299c, #0a202942 70%, #0a202920), linear-gradient(0deg, #071c2899, #091e2a30 62%, #091e2a12); }
+  .n-hero-copy { padding-inline-end: 30px; }
+  .n-hero .n-hero-kicker { font-size: 9px; letter-spacing: .12em; gap: 9px; }
+  .n-hero .n-hero-kicker > span { width: 24px; }
+  .national-homepage .n-hero h1 { font-size: clamp(24px, 7.2vw, 32px); line-height: 1.27; letter-spacing: -.023em; margin-block: 20px 19px; }
+  .n-hero .n-hero-copy > p { max-width: 31ch; font-size: 14px; line-height: 1.8; }
+  .national-homepage .n-hero .n-button-light { min-height: 44px; padding: 11px 15px; margin-top: 23px; font-size: 9px; gap: 16px; }
+  .n-hero .n-hero-meta { inset-inline: 24px; inset-block-end: 20px; gap: 11px; }
+  .n-hero .n-hero-caption { font-size: 10px; }
+  .n-hero .n-hero-meta .n-caption { font-size: 7px; }
+  .national-homepage .n-hero .n-slide-controls { gap: 4px; margin-left: 0; }
+  .national-homepage .n-hero .n-slide-controls > button { min-width: 32px; min-height: 32px; }
+}

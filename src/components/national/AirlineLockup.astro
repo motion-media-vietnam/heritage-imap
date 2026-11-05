@@ -1,0 +1,11 @@
+---
+import lotus from '../../assets/national/brand/vietnam-airlines-lotus.svg?url';
+---
+<span class="n-airline-lockup">
+  <span class="n-vna-lotus" style={{ '--lotus-source': `url("${lotus}")` }} aria-hidden="true"></span>
+  <span>Vietnam Airlines</span>
+</span>
+<style>
+  .n-airline-lockup { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .n-vna-lotus { display: block; flex: 0 0 22px; width: 22px; height: 14px; background: currentColor; -webkit-mask: var(--lotus-source) center / contain no-repeat; mask: var(--lotus-source) center / contain no-repeat; }
+</style>

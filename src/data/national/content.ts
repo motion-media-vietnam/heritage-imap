@@ -16,11 +16,7 @@ export const identity = {
 
 export const nationalSettings = { featuredMode: 'auto' as FeaturedMode, slideInterval: 7000 };
 
-export const heroSlides = [
-  { photo: photos.bay, caption: ['Vịnh Hạ Long · Miền Bắc', 'Hạ Long Bay · Northern Vietnam'] },
-  { photo: photos.terraces, caption: ['Mù Cang Chải · Tây Bắc', 'Mù Cang Chải · Northwest Highlands'] },
-  { photo: photos.lantern, caption: ['Hội An · Miền Trung', 'Hội An · Central Vietnam'] },
-] satisfies { photo: NationalPhoto; caption: Localized }[];
+export { heroSlides } from './hero';
 
 export interface MapDestination {
   id: string;
