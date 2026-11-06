@@ -1,48 +1,92 @@
 ---
 import Photo from './Photo.astro';
 import Icon from '../shared/Icon.astro';
+import fansipan from '../../assets/national/seasonal/fansipan-2-1672.webp?url';
+import fansipanSmall from '../../assets/national/seasonal/fansipan-2-720.webp?url';
+import type { NationalPhoto } from '../../data/national/assets';
 import { campaigns, hubHref, previewCampaign } from '../../data/national/content';
 import { translate, ui, type Language } from '../../data/national/locale';
-import { activeWindow, httpsLink } from '../../lib/national-selection';
+import { activeWindow } from '../../lib/national-selection';
 
 interface Props { lang: Language; today: string }
 const { lang, today } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
-const active = campaigns.find(item => activeWindow(item, today));
-const campaign = active ?? previewCampaign;
+const campaign = campaigns.find(item => activeWindow(item, today)) ?? previewCampaign;
+const sponsorPhoto: NationalPhoto = {
+  src: fansipan,
+  small: fansipanSmall,
+  width: 1672,
+  height: 941,
+  alt: ['Sun World · Lễ hội mùa đông trên đỉnh Fansipan 2026', 'Sun World · Winter Festival on Mount Fansipan 2026'],
+};
+const bookingUrl = 'https://sunworld.vn/vi/fansipan';
 ---
-<section id="seasonal" class="n-seasonal n-section" aria-labelledby="seasonal-title">
-  <div class="n-seasonal-image">
-    <Photo photo={campaign.photo} {lang} sizes="100vw" />
-    <div class="n-seasonal-copy n-shell">
-      <p class="n-eyebrow"><span>03</span> · SEASONAL HERITAGE{campaign.sponsored ? ' · ' + t(ui.sponsorLabel) : ''}</p>
-      <h2 id="seasonal-title">{t(campaign.title)}</h2>
-      <p>{t(campaign.description)}</p>
-      <span class="n-caption">{t(active ? ui.imagery : ui.review)}{!active && ' · ' + t(ui.imagery)}</span>
-      <a class="n-button n-button-light" href="#seasonal-selection" data-open-seasonal>{t(ui.selection)} <Icon name="arrow" size={17} /></a>
-    </div>
+<section id="seasonal" class="n-seasonal n-section" aria-label={t(ui.seasonal)}>
+  <div class="n-seasonal-layout n-shell">
+    <section class="n-seasonal-sponsor" aria-label={t(ui.sponsored)}>
+      <Photo photo={sponsorPhoto} {lang} sizes="94vw" />
+      <div class="n-seasonal-booking">
+        <p class="n-caption">{t(ui.review)} · {t(['Chờ duyệt', 'Pending approval'])}</p>
+        <a class="n-button n-button-light" href={bookingUrl}>Booking <Icon name="arrow" size={17} /></a>
+      </div>
+    </section>
+    <section id="seasonal-selection" class="n-seasonal-collage" aria-label={t(ui.editorial)}>
+      {campaign.stories.map((story, index) => (
+        <a href={hubHref(story.destinationId) ?? '#destination-' + story.destinationId} aria-label={t(story.title)}>
+          <Photo photo={story.photo} {lang} sizes={index % 2 === 0 ? '58vw' : '35vw'} />
+        </a>
+      ))}
+    </section>
   </div>
-  <details id="seasonal-selection" class="n-seasonal-selection n-shell">
-    <summary><span>{t(ui.selection)}</span><Icon name="arrow" size={20} /></summary>
-    <div class="n-seasonal-stories">
-      {campaign.stories.map(story => {
-        const booking = active && httpsLink(story.booking);
-        return (
-          <article>
-            <Photo photo={story.photo} {lang} sizes="(max-width: 660px) 90vw, 48vw" />
-            <h3>{t(story.title)}</h3>
-            <p>{t(story.description)}</p>
-            <a class="n-text-link" href={hubHref(story.destinationId) ?? '#destination-' + story.destinationId}>{t(ui.visit)} <Icon name="arrow" size={16} /></a>
-            {booking && <a class="n-text-link" href={booking} target="_blank" rel="noopener noreferrer sponsored">{t(ui.booking)} ↗</a>}
-          </article>
-        );
-      })}
-    </div>
-  </details>
 </section>
-<script>
-  const collection = document.querySelector<HTMLDetailsElement>('#seasonal-selection');
-  document.querySelector('[data-open-seasonal]')?.addEventListener('click', () => {
-    if (collection) collection.open = true;
-  });
-</script>
+
+<style>
+  .n-seasonal-layout {
+    display: grid;
+    gap: clamp(24px, 4.5vw, 64px);
+    padding-block: clamp(24px, 4vw, 58px);
+  }
+  .n-seasonal-sponsor {
+    border: 1px solid var(--n-line);
+    background: var(--n-paper);
+  }
+  .n-seasonal-sponsor > :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .n-seasonal-booking {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px clamp(12px, 2.2vw, 30px);
+  }
+  .n-seasonal-booking .n-caption { color: var(--n-muted); }
+  .n-seasonal-collage {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr);
+    align-items: start;
+    gap: clamp(10px, 2.3vw, 32px);
+  }
+  .n-seasonal-collage > a {
+    display: block;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+  .n-seasonal-collage > a:nth-child(even) {
+    aspect-ratio: 5 / 4;
+    margin-top: clamp(12px, 3vw, 42px);
+  }
+  .n-seasonal-collage :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .n-seasonal-collage > a:focus-visible {
+    outline: 2px solid var(--national-gold-text);
+    outline-offset: 4px;
+  }
+</style>
