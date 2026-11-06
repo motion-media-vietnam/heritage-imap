@@ -1,5 +1,6 @@
 import { photos, type NationalPhoto } from './assets';
 import type { Language, Localized } from './locale';
+import type { ListingEditorialFields } from './listing';
 
 export function cuisineHref(lang: Language) {
   return '/national-preview/am-thuc/' + (lang === 'en' ? '?lang=en' : '');
@@ -50,7 +51,7 @@ export const restaurantCategories = {
   vegetarian: ['Quán chay', 'Vegetarian dining'],
 } satisfies Record<string, Localized>;
 
-export interface Restaurant {
+export interface Restaurant extends ListingEditorialFields {
   id: string;
   destinationId: string;
   name: string;

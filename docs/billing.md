@@ -232,3 +232,13 @@ Giữ cách hiện tại đơn giản hơn mua dịch vụ thiết kế bản đ
 **Taste, họa tiết sen và Heritage List, 06/11/2026.** Phí dịch vụ tăng thêm cho bản duyệt là **0 USD/tháng**. Bản Taste dùng ảnh bún. Heritage List dùng lại ảnh sân thượng 96 KB và Metropole 961 KB, chờ duyệt vị trí mới. Footer dùng SVG 4,9 KB từ mẫu đã chọn. Trang lưu trú dùng dữ liệu tĩnh và không xử lý đặt phòng. Ảnh tải khi cần. Công sức biên tập tính riêng.
 
 **Tinh chỉnh giao diện, 06/11/2026.** Bản duyệt tăng **0 USD/tháng**. Ảnh Hạ Long 32 và 152 KB, Ninh Bình dùng lại ảnh. Hỏi Heritage và Spotlight chạy cục bộ. Ô OpenStreetMap chỉ tải sau thao tác chủ động.
+
+<!-- pagebreak -->
+
+## Heritage Listing V1 - 07/11/2026
+
+**Đã triển khai trong bản duyệt cục bộ. Phí dịch vụ định kỳ tăng thêm là 0 USD/tháng trước thuế.** Trang dùng chung website và dữ liệu biên tập, không thêm CMS, API tìm kiếm, hệ thống quảng cáo, dịch vụ xếp hạng hay giao dịch. Ảnh Hang Múa của Filipe Freitas được phép dùng miễn phí theo giấy phép kiểm tra ngày 07/11/2026. [Giấy phép Unsplash](https://unsplash.com/license).
+
+Hai phiên bản WebP của ảnh đầu trang lần lượt 57.850 và 194.604 byte. Nếu sau này xuất bản và giả định một nửa lượt tải ảnh dùng mỗi phiên bản, 1.000 / 10.000 / 100.000 lượt tải chưa có bộ nhớ đệm mỗi tháng truyền khoảng 0,126 / 1,26 / 12,62 GB ảnh đầu trang (126.227 byte nhân số lượt, GB thập phân). Đây là giả định, chưa gồm ảnh thẻ, phông chữ hay dữ liệu trang. Ở bản cục bộ hiện tại, cả ba kịch bản đều phát sinh 0 lượt tải công khai.
+
+Dữ liệu trong mã nguồn phù hợp cho bản V1 vì dùng lại quy trình duyệt hiện có. CMS có thể giúp biên tập độc lập khi danh sách lớn hơn, nhưng sẽ có thêm vận hành và cần xác minh giá, quyền dùng và hạn mức trước khi chọn. Trước khi xuất bản, đo băng thông thực tế và kiểm tra hạn mức hosting. Nếu chạm giới hạn, giữ bản duyệt hoặc giảm dung lượng ảnh trong lúc xử lý, không tự nâng gói. Công biên tập, bảo trì, thuế và chi phí dịch vụ tương lai tính riêng.

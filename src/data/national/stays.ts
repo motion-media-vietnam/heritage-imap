@@ -1,5 +1,6 @@
 import type { NationalPhoto } from './assets';
 import type { Language, Localized } from './locale';
+import type { ListingEditorialFields } from './listing';
 
 export function staysHref(lang: Language) {
   return '/national-preview/luu-tru/' + (lang === 'en' ? '?lang=en' : '');
@@ -17,10 +18,11 @@ export const stayTypes = {
   hotel: ['Khách sạn', 'Hotel'],
   boutique: ['Khách sạn boutique', 'Boutique hotel'],
   heritage: ['Khách sạn di sản', 'Heritage hotel'],
+  homestay: ['Homestay', 'Homestay'],
   resort: ['Khu nghỉ dưỡng', 'Resort'],
 } satisfies Record<string, Localized>;
 
-export interface Stay {
+export interface Stay extends ListingEditorialFields {
   id: string;
   name: string;
   destinationId: string;

@@ -1,0 +1,58 @@
+---
+import Photo from '../Photo.astro';
+import Icon from '../../shared/Icon.astro';
+import { listingCopy, type ListingEntry } from '../../../data/national/listing';
+import { translate, type Language } from '../../../data/national/locale';
+
+type Award = ListingEntry & { provinceName: string };
+interface Props { lang: Language; stay?: Award; restaurant?: Award }
+const { lang, stay, restaurant } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const slots = [
+  { label: listingCopy.monthlyStay, icon: 'pin', entry: stay },
+  { label: listingCopy.monthlyRestaurant, icon: 'food', entry: restaurant },
+];
+---
+<section class="listing-awards" aria-labelledby="listing-awards-title">
+  <header>
+    <h2 id="listing-awards-title">Heritage Awards</h2>
+    <p>{t(listingCopy.awardsIntro)}</p>
+  </header>
+  <div class="listing-awards-grid">
+    {slots.map(({ label, icon, entry }) => (
+      <article>
+        {entry ? (
+          <Photo photo={entry.coverImage} {lang} sizes="(max-width: 640px) 94vw, 48vw" />
+        ) : (
+          <div class="listing-award-placeholder" aria-hidden="true"><Icon name={icon} size={28} /></div>
+        )}
+        <div class="listing-award-copy">
+          {entry ? (
+            <>
+              <p class="n-eyebrow">{t(label)} · {entry.provinceName}</p>
+              <h3>{entry.name}</h3>
+              <p>{t(entry.shortDescription)}</p>
+              <a class="n-text-link" href={entry.destinationUrl}>{t(listingCopy.explore)} <Icon name="arrow" size={16} /></a>
+            </>
+          ) : (
+            <><h3>{t(label)}</h3><p>{t(listingCopy.monthlyEmpty)}</p></>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  header { margin-bottom: clamp(16px, 2.8vw, 32px); }
+  .listing-awards h2 { font-size: clamp(24px, 3.2vw, 42px); letter-spacing: -.04em; text-transform: uppercase; }
+  header p { color: var(--n-muted); margin-top: 6px; }
+  .listing-awards-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 3vw, 32px); }
+  article { min-width: 0; background: #fcfaf7; }
+  article :global(img), .listing-award-placeholder { width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; }
+  .listing-award-placeholder { display: grid; place-items: center; background: var(--national-ivory); border-bottom: 1px solid var(--national-control-border); color: var(--n-gold); }
+  .listing-award-copy { padding: clamp(16px, 2.6vw, 30px); }
+  .listing-award-copy h3 { font-family: var(--n-serif); font-size: clamp(19px, 2.7vw, 32px); }
+  .listing-award-copy p:not(.n-eyebrow) { color: var(--n-muted); font-size: 14px; margin-top: 5px; }
+  @media (max-width: 640px) { .listing-awards-grid { grid-template-columns: 1fr; } }
+</style>

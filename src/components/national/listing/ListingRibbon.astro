@@ -1,0 +1,30 @@
+---
+import Photo from '../Photo.astro';
+import Icon from '../../shared/Icon.astro';
+import { listingCopy, type ListingAdvertisement } from '../../../data/national/listing';
+import { translate, type Language } from '../../../data/national/locale';
+import { httpsLink } from '../../../lib/national-selection';
+
+interface Props { lang: Language; ad?: ListingAdvertisement }
+const { lang, ad } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const href = httpsLink(ad?.url);
+---
+<aside class="listing-ribbon" aria-labelledby="listing-ribbon-title" data-heritage-chat-zone="content">
+  {ad && href && <Photo photo={ad.image} {lang} sizes="(max-width: 620px) 94vw, 26vw" />}
+  <div>
+    <h2 class="n-eyebrow" id="listing-ribbon-title">{t(listingCopy.advertising)}</h2>
+    <p>{t(ad && href ? ad.copy : listingCopy.adEmpty)}</p>
+  </div>
+  {ad && href && <a class="n-text-link" href={href}>{t(ad.cta)} <Icon name="arrow" size={16} /></a>}
+</aside>
+
+<style>
+  .listing-ribbon { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; min-height: 88px; padding: clamp(16px, 2.5vw, 28px); border-block: 1px solid var(--national-control-border); background: #f3e9d8; }
+  .listing-ribbon div { flex: 1 1 170px; }
+  .listing-ribbon h2.n-eyebrow { font: 600 10px/1.6 var(--n-sans); }
+  .listing-ribbon p { font-size: 14px; color: #554637; }
+  .listing-ribbon :global(img) { width: min(100%, 280px); height: auto; }
+  .listing-ribbon a { color: var(--national-petrol-deep); }
+  @media (max-width: 620px) { .listing-ribbon :global(img) { width: 100%; } }
+</style>
