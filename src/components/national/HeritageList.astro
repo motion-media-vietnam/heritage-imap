@@ -1,0 +1,129 @@
+---
+import Photo from './Photo.astro';
+import Icon from '../shared/Icon.astro';
+import { cuisineCopy, cuisineHref } from '../../data/national/cuisine';
+import { stayCopy, staysHref, staysPreviewPhoto } from '../../data/national/stays';
+import { translate, ui, type Language } from '../../data/national/locale';
+
+interface Props { lang: Language }
+const { lang } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+---
+<section id="taste" class="n-heritage-list n-section" aria-labelledby="heritage-list-title">
+  <div class="n-shell n-list-shell">
+    <header class="n-section-top n-list-heading">
+      <div>
+        <p class="n-eyebrow"><span>05</span> — HERITAGE LIST</p>
+        <h2 id="heritage-list-title">{t(['Những lựa chọn của Heritage.', 'The Heritage selection.'])}</h2>
+      </div>
+      <p>{t(['Những địa chỉ đáng trải nghiệm, được Heritage tuyển chọn cho hành trình khám phá Việt Nam.', 'Memorable places to experience, chosen by Heritage for your journey through Vietnam.'])}</p>
+    </header>
+
+    <div class="n-list-spread">
+      <article class="n-list-restaurant">
+        <a class="n-list-window n-list-cover" href={cuisineHref(lang) + '#nha-hang'} aria-labelledby="heritage-restaurants-title heritage-restaurants-cta">
+          <img src="/images/hanoi-rooftop-bar.jpg" alt={t(['Bàn ăn ngoài trời dưới giàn hoa trong ánh chiều Hà Nội', 'An outdoor dining terrace with flowers in Hanoi’s evening light'])} width="800" height="533" loading="lazy" decoding="async" />
+          <div class="n-list-cover-copy">
+            <p class="n-eyebrow">HERITAGE RESTAURANT SELECTION</p>
+            <h3 id="heritage-restaurants-title">{t(['Những nhà hàng tốt nhất Việt Nam', 'Vietnam’s best restaurants'])}</h3>
+            <p class="n-list-teaser">{t(['Khám phá những địa chỉ ẩm thực đáng trải nghiệm trên khắp Việt Nam.', 'Discover dining experiences worth seeking out across Vietnam.'])}</p>
+            <span class="n-list-cta" id="heritage-restaurants-cta">{t(cuisineCopy.find)} <Icon name="arrow" size={16} /></span>
+          </div>
+        </a>
+        <p class="n-photo-credit">{t(ui.mixedImagery)}</p>
+      </article>
+
+      <article class="n-list-stays">
+        <a class="n-list-window n-list-hotel" href={staysHref(lang)} aria-labelledby="heritage-stays-title heritage-stays-cta">
+          <Photo photo={staysPreviewPhoto} {lang} sizes="(max-width: 680px) 94vw, 36vw" />
+          <div class="n-list-hotel-copy">
+            <p class="n-eyebrow">HERITAGE STAY COLLECTION</p>
+            <h3 id="heritage-stays-title">{t(stayCopy.headline)}</h3>
+            <p class="n-list-teaser">{t(stayCopy.intro)}</p>
+            <span class="n-list-cta" id="heritage-stays-cta">{t(stayCopy.explore)} <Icon name="arrow" size={16} /></span>
+          </div>
+        </a>
+        <p class="n-photo-credit">{t(ui.mixedImagery)}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .n-heritage-list { background: #fffdfa; }
+  .n-list-shell { max-width: 1260px; }
+  .n-list-heading { gap: 24px; margin-bottom: clamp(24px, 3vw, 40px); }
+  .n-list-heading > p { max-width: 34ch; font-size: 14px; line-height: 1.65; }
+  .n-list-spread { display: grid; grid-template-columns: minmax(0, 1.73fr) minmax(0, 1fr); gap: clamp(18px, 2vw, 28px); }
+  .n-list-spread article { display: flex; flex-direction: column; min-width: 0; }
+  .n-list-stays { padding-top: clamp(22px, 2.4vw, 36px); }
+  .n-list-window { position: relative; isolation: isolate; overflow: hidden; flex: 1; display: flex; align-items: end; min-width: 0; }
+  .n-list-window :global(img) {
+    position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    transition: transform .38s ease;
+  }
+  .n-list-window:hover :global(img) { transform: scale(1.025); }
+  .n-list-window h3 { font-family: var(--n-serif); letter-spacing: -.034em; text-wrap: balance; }
+  .n-list-cover {
+    --list-cover-inline: clamp(23px, 4.3vw, 58px);
+    --list-cover-bottom: clamp(24px, 3.4vw, 46px);
+    min-height: clamp(450px, 39vw, 560px); padding: 150px var(--list-cover-inline) var(--list-cover-bottom);
+    color: #fffaf0; background: #253330;
+  }
+  .n-list-cover :global(img) { object-position: 50% 45%; }
+  .n-list-cover-copy { position: relative; width: 100%; }
+  .n-list-cover-copy::before {
+    content: ""; position: absolute; z-index: -1; pointer-events: none;
+    inset: -80px calc(-1 * var(--list-cover-inline)) calc(-1 * var(--list-cover-bottom));
+    background: linear-gradient(180deg, transparent, #0b1715b5 80px, #0c1715eb);
+  }
+  .n-list-cover h3 { font-size: clamp(31px, 3.8vw, 55px); max-width: 19ch; margin: 8px 0 12px; }
+  .n-list-cover .n-eyebrow { color: #f1d9a9; }
+  .n-list-teaser { font-size: 13px; line-height: 1.6; margin-bottom: 17px; max-width: 47ch; }
+  .n-list-cover .n-list-teaser { max-width: 54ch; text-wrap: pretty; }
+  .n-list-hotel {
+    min-height: clamp(405px, 34vw, 515px); padding: 140px 0 clamp(17px, 2vw, 29px);
+    background: #66584a;
+  }
+  .n-list-hotel :global(img) { object-position: 50% 44%; }
+  .n-list-hotel-copy {
+    margin-inline: auto; width: min(86%, 390px); padding: clamp(16px, 1.7vw, 24px);
+    color: var(--n-ink); background: rgba(255, 250, 240, .92); border: 1px solid #f1dfc0;
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  }
+  .n-list-hotel:hover .n-list-hotel-copy { background: rgba(255, 250, 240, .94); }
+  .n-list-hotel .n-eyebrow { color: #805925; }
+  .n-list-hotel h3 { font-size: clamp(24px, 2.3vw, 33px); margin: 8px 0; }
+  .n-list-hotel .n-list-teaser { color: #514a3f; margin-bottom: 13px; }
+  .n-list-cta {
+    display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; width: fit-content;
+    min-height: 44px; padding: 7px 13px; border: 1px solid var(--national-control-border); border-radius: var(--national-control-radius);
+    background: var(--national-control-surface); color: var(--national-petrol-deep); box-shadow: var(--national-control-highlight);
+    font: 600 10px/1.35 var(--n-sans); letter-spacing: .09em; text-transform: uppercase; transition: background .2s ease;
+  }
+  .n-list-cover .n-list-cta { background: #13242280; border-color: #f1d9a9a0; color: #fffaf0; box-shadow: inset 0 1px 0 #ffffff17; }
+  .n-list-cover:hover .n-list-cta { background: #263a34; }
+  .n-list-hotel:hover .n-list-cta { background: #f2e7d2; }
+  .n-list-cta svg { transition: transform .2s ease; }
+  .n-list-window:hover .n-list-cta svg { transform: translateX(2px); }
+  .n-heritage-list .n-photo-credit { margin-top: 8px; }
+  @media (max-width: 900px) {
+    .n-list-spread { grid-template-columns: minmax(0, 1.34fr) minmax(0, 1fr); }
+    .n-list-hotel-copy { width: 87%; }
+  }
+  @media (max-width: 680px) {
+    .n-heritage-list { padding-block: 52px; }
+    .n-list-heading { gap: 10px; }
+    .n-list-spread { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .n-list-stays { padding-top: 0; }
+    .n-list-cover { --list-cover-inline: clamp(19px, 5.6vw, 28px); --list-cover-bottom: 22px; min-height: 440px; padding-top: 160px; }
+    .n-list-cover :global(img) { object-position: 56% 44%; }
+    .n-list-cover h3 { max-width: 15ch; font-size: clamp(29px, 8.5vw, 40px); }
+    .n-list-hotel { min-height: 425px; }
+    .n-list-hotel-copy { width: min(84%, 385px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .n-list-window :global(img), .n-list-cta, .n-list-cta svg { transition: none; }
+    .n-list-window:hover :global(img), .n-list-window:hover .n-list-cta svg { transform: none; }
+  }
+</style>

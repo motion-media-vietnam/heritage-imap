@@ -59,7 +59,9 @@ export interface Restaurant {
   experience: Localized;
   description: Localized;
   image: NationalPhoto;
+  selectionYear: number;
   detailsUrl: string;
+  officialUrl?: string;
   coordinates?: readonly [latitude: number, longitude: number];
   status: 'draft' | 'approved';
   placement: 'editorial' | 'sponsored';

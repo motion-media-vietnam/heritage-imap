@@ -1,0 +1,95 @@
+---
+import NationalLayout from '../layouts/NationalLayout.astro';
+import Footer from '../components/national/Footer.astro';
+import Photo from '../components/national/Photo.astro';
+import Icon from '../components/shared/Icon.astro';
+import { destinationDirectory } from '../data/destinations/directory';
+import { stayCollection, stayCopy, staysPreviewPhoto, stayTypes } from '../data/national/stays';
+import { translate, ui, type Language } from '../data/national/locale';
+import { httpsLink } from '../lib/national-selection';
+
+const lang: Language = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'vi';
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const homeHref = '/national-preview/' + (lang === 'en' ? '?lang=en' : '');
+const pageTitle = t(stayCopy.guide) + ' · Heritage Vietnam iMAP';
+const destinations = new Map(destinationDirectory.map(item => [item.id, item.name]));
+const stays = stayCollection.flatMap(stay => {
+  if (stay.status !== 'approved') return [];
+  const destination = destinations.get(stay.destinationId);
+  const detailsUrl = httpsLink(stay.detailsUrl) ?? (/^\/(?![\/\\])/.test(stay.detailsUrl) ? stay.detailsUrl : undefined);
+  return destination && detailsUrl ? [{ ...stay, destination, detailsUrl, bookingUrl: httpsLink(stay.bookingUrl) }] : [];
+});
+---
+<NationalLayout {lang} mode="auto" {homeHref} {pageTitle}>
+  <section class="n-stay-opening n-section" aria-labelledby="stay-title">
+    <div class="n-shell n-stay-cover">
+      <div class="n-stay-intro">
+        <a class="n-stay-back" href={homeHref + '#taste'}><Icon name="back" size={16} /> {t(stayCopy.back)}</a>
+        <p class="n-eyebrow">HERITAGE STAY COLLECTION</p>
+        <h1 id="stay-title">{t(stayCopy.guide)}</h1>
+        <p>{t(stayCopy.intro)}</p>
+      </div>
+      <figure>
+        <Photo photo={staysPreviewPhoto} {lang} sizes="(max-width: 780px) 94vw, 57vw" eager />
+        <figcaption class="n-photo-credit">{t(ui.mixedImagery)}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="n-stay-guide n-section" aria-labelledby="stay-guide-title">
+    <div class="n-shell">
+      {stays.length ? (
+        <>
+          <h2 id="stay-guide-title">{t(stayCopy.headline)}</h2>
+          <div class="n-stay-directory">
+            {stays.map(stay => (
+              <article>
+                <Photo photo={stay.image} {lang} sizes="(max-width: 680px) 94vw, 44vw" />
+                <div>
+                  <p class="n-eyebrow">{stay.destination} · {t(stayTypes[stay.accommodationType])} · {stay.selectionYear}</p>
+                  <h3>{stay.name}</h3>
+                  <p>{t(stay.description)}</p>
+                  <a class="n-text-link" href={stay.detailsUrl}>{t(stayCopy.details)} <Icon name="arrow" size={16} /></a>
+                  {stay.bookingUrl && <a class="n-text-link" href={stay.bookingUrl}>{t(stayCopy.book)} <Icon name="arrow" size={16} /></a>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div class="n-stay-empty">
+          <p class="n-eyebrow">{t(ui.review)}</p>
+          <h2 id="stay-guide-title">{t(stayCopy.empty)}</h2>
+          <p>{t(stayCopy.emptyDetail)}</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Footer slot="footer" {lang} {homeHref} />
+</NationalLayout>
+
+<style>
+  .n-stay-opening { background: #fffdfa; padding-block: clamp(32px, 5vw, 76px); }
+  .n-stay-cover { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; gap: clamp(24px, 5vw, 72px); }
+  .n-stay-back { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; margin-bottom: 18px; color: var(--national-petrol-deep); font-size: 12px; }
+  .n-stay-back:hover { text-decoration: underline; }
+  .n-stay-intro h1 { font-size: clamp(36px, 5.2vw, 72px); margin: 12px 0; letter-spacing: -.045em; }
+  .n-stay-intro > p:last-child { max-width: 34ch; color: var(--n-muted); }
+  .n-stay-cover :global(img) { width: 100%; height: clamp(215px, 32vw, 420px); object-fit: cover; object-position: 50% 45%; }
+  .n-stay-cover .n-photo-credit { margin-top: 8px; }
+  .n-stay-guide { padding-block: clamp(39px, 6vw, 78px); background: #f8f3ea; }
+  .n-stay-guide h2 { font-size: clamp(28px, 3.3vw, 46px); letter-spacing: -.04em; margin: 9px 0 16px; }
+  .n-stay-empty { padding: clamp(24px, 4vw, 52px); border-top: 1px solid #bc9f68; background: #fffdfa; }
+  .n-stay-empty > p:last-child { max-width: 63ch; color: var(--n-muted); }
+  .n-stay-directory article { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 26px; padding-block: 20px; border-top: 1px solid #dfd0b8; }
+  .n-stay-directory :global(img) { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+  .n-stay-directory h3 { font-size: clamp(23px, 2.5vw, 35px); margin-block: 9px; }
+  .n-stay-directory .n-text-link { margin: 12px 6px 0 0; }
+  @media (max-width: 780px) {
+    .n-stay-cover { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 680px) {
+    .n-stay-directory article { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

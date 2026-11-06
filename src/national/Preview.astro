@@ -5,7 +5,7 @@ import FeaturedDestinations from '../components/national/FeaturedDestinations.as
 import NationalMap from '../components/national/NationalMap.astro';
 import Seasonal from '../components/national/Seasonal.astro';
 import Wonders from '../components/national/Wonders.astro';
-import Taste from '../components/national/Taste.astro';
+import HeritageList from '../components/national/HeritageList.astro';
 import Offers from '../components/national/Offers.astro';
 import Footer from '../components/national/Footer.astro';
 import { nationalSettings } from '../data/national/content';
@@ -22,7 +22,7 @@ const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' })
   <NationalMap {lang} />
   <Seasonal {lang} {today} />
   <Wonders {lang} />
-  <Taste {lang} />
+  <HeritageList {lang} />
   <Offers {lang} {today} />
   <Footer slot="footer" {lang} />
 </NationalLayout>

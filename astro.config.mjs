@@ -17,6 +17,11 @@ export default defineConfig({
             entrypoint: './src/national/Cuisine.astro',
             prerender: false,
           });
+          injectRoute({
+            pattern: '/national-preview/luu-tru',
+            entrypoint: './src/national/Stays.astro',
+            prerender: false,
+          });
         }
       },
     },
