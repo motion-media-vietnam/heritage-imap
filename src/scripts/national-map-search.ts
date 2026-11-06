@@ -93,4 +93,11 @@ export function bindMapSearch(root: HTMLElement, onSelect: (entry: DestinationSe
   document.addEventListener('pointerdown', closeOutside);
   document.addEventListener('focusin', closeOutside);
   if (input.value.trim() && document.activeElement === input) showResults();
+  return () => {
+    input.value = '';
+    results = [];
+    list.replaceChildren();
+    status.textContent = '';
+    close();
+  };
 }

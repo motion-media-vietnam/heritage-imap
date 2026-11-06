@@ -6,33 +6,36 @@ import { bindMapSearch } from './national-map-search';
 const root = document.querySelector<HTMLElement>('[data-national-map]');
 if (root) {
   const canvas = root.querySelector<HTMLElement>('[data-map-canvas]')!;
-  const cards = root.querySelector<HTMLElement>('[data-map-cards]')!;
   const directory = root.querySelector<HTMLElement>('.n-map-directory')!;
+  const more = root.querySelector<HTMLDetailsElement>('[data-map-directory-more]')!;
+  const viewport = root.querySelector<HTMLElement>('.n-map-viewport')!;
   const graphic = root.querySelector<HTMLElement>('[data-map-graphic]')!;
   const overview = root.querySelector<HTMLButtonElement>('[data-map-overview]')!;
   const legend = root.querySelector<HTMLElement>('[data-map-legend]')!;
   const help = root.querySelector<HTMLElement>('[data-map-help]')!;
   const load = root.querySelector<HTMLButtonElement>('[data-map-load]')!;
   const reset = root.querySelector<HTMLButtonElement>('[data-map-reset]')!;
-  const restore = root.querySelector<HTMLButtonElement>('[data-map-spotlight-reset]')!;
-  const slotLabel = root.querySelector<HTMLElement>('[data-map-spotlight-label]')!;
+  const selection = root.querySelector<HTMLElement>('[data-map-selection]')!;
+  const selectionName = selection.querySelector<HTMLElement>('[data-map-selection-name]')!;
+  const selectionHub = selection.querySelector<HTMLAnchorElement>('[data-map-selection-hub]')!;
+  const selectionState = selection.querySelector<HTMLElement>('[data-map-selection-state]')!;
   const touch = root.querySelector<HTMLButtonElement>('[data-map-touch]')!;
   const error = root.querySelector<HTMLElement>('[data-map-error]')!;
   const search = root.querySelector<HTMLElement>('[data-map-search]')!;
   const links = [...root.querySelectorAll<HTMLAnchorElement>('[data-map-destination]')];
   const graphicLinks = [...root.querySelectorAll<HTMLAnchorElement>('[data-map-graphic-destination]')];
-  const panels = [...cards.querySelectorAll<HTMLElement>('[data-map-card]')];
+  const points = new Map([...root.querySelectorAll<HTMLElement>('[data-map-point]')].map(point => [point.dataset.mapPoint!, point]));
   const markers = new Map<string, Marker>();
   const guides = new Map<string, { line: Polyline; anchor: CircleMarker }>();
   const mobile = matchMedia('(max-width: 780px), (pointer: coarse)');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const initial = root.dataset.initialDestination ?? panels[0]!.dataset.mapCard!;
-  let active = initial;
+  let active: string | undefined;
   let map: LeafletMap | undefined;
   let leaflet: typeof import('leaflet') | undefined;
   let activePlace: DestinationSearchEntry | undefined;
   let placeMarker: Marker | undefined;
   let loading = false;
+  let interactiveRequested = false;
   let focusOnLoad = false;
   let keyboardMapFocus = false;
   let touchEnabled = false;
@@ -62,8 +65,8 @@ if (root) {
   }
 
   function explore(id?: string, keyboard = false, place?: DestinationSearchEntry) {
-    if (id && !select(id, place)) return;
-    if (!id) clearPlace();
+    if (!select(id, place, true)) return;
+    interactiveRequested = true;
     focusOnLoad = Boolean(id);
     keyboardMapFocus = keyboard;
     if (loading) return;
@@ -80,54 +83,61 @@ if (root) {
     activePlace = undefined;
   }
 
-  function select(id: string, place?: DestinationSearchEntry) {
-    const selected = panels.find(panel => panel.dataset.mapCard === id);
-    if (!selected) return false;
+  function select(id?: string, place?: DestinationSearchEntry, revealInDirectory = root!.dataset.mapState === 'interactiveMap') {
+    const selected = id ? points.get(id) : undefined;
+    if (id && !selected) return false;
     clearPlace();
     activePlace = place;
     active = id;
-    root!.dataset.selectedDestination = id;
+    if (id) root!.dataset.selectedDestination = id;
+    else delete root!.dataset.selectedDestination;
+    const hub = selected?.dataset.hub;
+    const name = selected?.dataset.name ?? '';
+    selectionName.textContent = name;
+    selectionName.hidden = Boolean(hub);
+    selectionHub.textContent = name;
+    selectionHub.hidden = !hub;
+    if (hub) selectionHub.href = hub;
+    else selectionHub.removeAttribute('href');
+    selectionState.textContent = hub ? '' : selection.dataset.upcoming ?? '';
+    selectionState.hidden = Boolean(hub);
+    selection.hidden = !selected || Boolean(place);
     for (const link of graphicLinks) {
       const current = link.dataset.mapGraphicDestination === id;
       link.classList.toggle('is-selected', current);
       if (current) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
     }
-    for (const panel of panels) panel.hidden = panel !== selected;
     for (const link of links) {
-      if (link.dataset.mapDestination === (selected.dataset.province ?? id)) {
+      if (link.dataset.mapDestination === (selected?.dataset.province ?? id)) {
         link.setAttribute('aria-current', 'true');
+        if (!revealInDirectory) continue;
         const details = link.closest('details');
         if (details) details.open = true;
         requestAnimationFrame(() => {
+          if (active !== id) return;
           const row = link.getBoundingClientRect();
           const frame = directory.getBoundingClientRect();
           if (row.top < frame.top || row.bottom > frame.bottom) directory.scrollTop += row.top - frame.top - 8;
         });
       } else link.removeAttribute('aria-current');
     }
-    slotLabel.textContent = id === initial ? root!.dataset.initialLabel! : root!.dataset.selectedLabel!;
-    restore.hidden = id === initial;
     for (const [key, marker] of markers) {
       const element = marker.getElement();
       element?.classList.toggle('is-selected', key === id);
       element?.setAttribute('aria-pressed', String(key === id));
-      marker.setZIndexOffset(key === id ? 3500 : panels.find(panel => panel.dataset.mapCard === key)?.dataset.featured ? 1500 : 0);
+      marker.setZIndexOffset(key === id ? 3500 : points.get(key)?.dataset.featured ? 1500 : 0);
     }
     return true;
   }
 
-  function exploreHash() {
+  function mapHashTarget() {
     if (location.hash.startsWith('#place-')) {
       const id = location.hash.slice('#place-'.length);
       const place = destinationSearchIndex.find(item => item.type !== 'destination' && item.id === id);
-      if (!place) return;
-      explore(place.provinceId, false, place);
-      root!.scrollIntoView({ block: 'start' });
+      if (place) return { id: place.provinceId, place };
     } else if (location.hash.startsWith('#destination-')) {
       const id = location.hash.slice('#destination-'.length);
-      if (!panels.some(panel => panel.dataset.mapCard === id)) return;
-      explore(id);
-      return true;
+      if (points.has(id)) return { id, place: undefined };
     }
   }
 
@@ -164,15 +174,15 @@ if (root) {
 
   function centerOnSelection() {
     if (activePlace) { showPlace(activePlace); return; }
-    const marker = markers.get(active);
+    const marker = active ? markers.get(active) : undefined;
     if (!map || !marker) return;
     map.stop();
     if (!map.hasLayer(marker)) marker.addTo(map);
     map.flyTo(marker.getLatLng(), Math.max(7, Math.min(map.getZoom(), 9)), { animate: !reducedMotion.matches, duration: .65 });
   }
 
-  function focusCardOnMobile() {
-    if (mobile.matches) cards.scrollIntoView({ block: 'nearest', behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+  function bringMapIntoView() {
+    viewport.scrollIntoView({ block: 'start', behavior: reducedMotion.matches ? 'instant' : 'smooth' });
   }
 
   function applyGestures() {
@@ -187,13 +197,13 @@ if (root) {
 
   function updateLandmarks() {
     if (!map) return;
-    const featured = panels.filter(panel => panel.dataset.featured);
-    const points = featured.map(panel => {
-      const point = map!.latLngToContainerPoint(markers.get(panel.dataset.mapCard!)!.getLatLng());
-      return { id: panel.dataset.mapCard!, x: point.x, y: point.y };
+    const featured = [...points].filter(([, point]) => point.dataset.featured);
+    const projected = featured.map(([id]) => {
+      const position = map!.latLngToContainerPoint(markers.get(id)!.getLatLng());
+      return { id, x: position.x, y: position.y };
     });
     const size = map.getSize();
-    const offsets = landmarkOffsets(points, size.x, size.y, map.getZoom() < 7);
+    const offsets = landmarkOffsets(projected, size.x, size.y, map.getZoom() < 7);
     for (const [id, offset] of offsets) {
       const marker = markers.get(id)!;
       const body = marker.getElement()?.querySelector<HTMLElement>('.n-pin-body');
@@ -206,9 +216,10 @@ if (root) {
       guide.line.setStyle({ opacity: offset[0] || offset[1] ? .65 : 0 });
       guide.anchor.setStyle({ opacity: offset[0] || offset[1] ? .8 : 0, fillOpacity: offset[0] || offset[1] ? 1 : 0 });
     }
-    for (const panel of panels.filter(panel => panel.dataset.localPlace)) {
-      const marker = markers.get(panel.dataset.mapCard!)!;
-      const visible = map.getZoom() >= 7 || active === panel.dataset.mapCard;
+    for (const [id, point] of points) {
+      if (!point.dataset.localPlace) continue;
+      const marker = markers.get(id)!;
+      const visible = map.getZoom() >= 7 || active === id;
       if (visible && !map.hasLayer(marker)) marker.addTo(map);
       else if (!visible && map.hasLayer(marker)) marker.remove();
     }
@@ -255,13 +266,12 @@ if (root) {
       layer.on('tileload', () => { hasTiles = true; error.hidden = true; });
       layer.on('tileerror', () => { if (!hasTiles) error.hidden = false; }); layer.addTo(instance);
       L.control.zoom({ position: 'bottomleft', zoomInTitle: root!.dataset.zoomIn, zoomOutTitle: root!.dataset.zoomOut }).addTo(instance);
-      for (const panel of panels) {
-        const { mapCard: id, lat, lng, name, featured, contentReady, localPlace } = panel.dataset;
-        if (!id) continue;
+      for (const [id, point] of points) {
+        const { lat, lng, name, featured, contentReady, localPlace } = point.dataset;
         const marker = L.marker([Number(lat), Number(lng)], {
           title: name, alt: name, keyboard: true,
           icon: L.divIcon({ className: 'n-map-pin ' + (featured ? 'n-map-pin--featured' : 'n-map-pin--secondary') + (contentReady ? ' has-content' : ''),
-            iconSize: featured ? [52, 64] : [30, 30], iconAnchor: featured ? [26, 64] : [15, 15], html: iconContent(panel) }),
+            iconSize: featured ? [52, 64] : [30, 30], iconAnchor: featured ? [26, 64] : [15, 15], html: iconContent(point) }),
         });
         if (!localPlace) marker.addTo(instance);
         if (!featured) marker.bindTooltip(name ?? '', { direction: 'top', offset: [0, -8], className: 'n-map-tooltip' });
@@ -295,12 +305,15 @@ if (root) {
       });
       select(active, activePlace); updateLandmarks();
       await firstTile;
-      setMode('interactiveMap');
-      if (focusOnLoad) { centerOnSelection(); focusOnLoad = false; }
-      focusMapFromKeyboard();
+      if (interactiveRequested) {
+        setMode('interactiveMap');
+        if (focusOnLoad) { centerOnSelection(); focusOnLoad = false; }
+        focusMapFromKeyboard();
+      }
       let observedWidth = canvas.clientWidth;
       let observedHeight = canvas.clientHeight;
       new ResizeObserver(() => {
+        if (root!.dataset.mapState !== 'interactiveMap') return;
         if (canvas.clientWidth === observedWidth && canvas.clientHeight === observedHeight) return;
         observedWidth = canvas.clientWidth; observedHeight = canvas.clientHeight;
         const overview = instance.getZoom() < 7;
@@ -317,55 +330,67 @@ if (root) {
     }
   }
 
-  cards.dataset.enhanced = '';
-  setMode('defaultGraphicMap');
-  select(initial);
-  exploreHash();
-  bindMapSearch(search, entry => {
+  const resetSearch = bindMapSearch(search, entry => {
     if (entry.type === 'destination') explore(entry.id);
     else explore(entry.provinceId, false, entry);
   });
+  function resetForVisit() {
+    interactiveRequested = false;
+    focusOnLoad = false;
+    keyboardMapFocus = false;
+    touchEnabled = false;
+    map?.stop().closePopup();
+    select();
+    setMode('defaultGraphicMap');
+    resetSearch();
+    directory.scrollTop = 0;
+    more.open = false;
+    error.hidden = true;
+  }
+  resetForVisit();
+  // Old fragments may still locate the map, but never select a point on entry.
+  if (mapHashTarget()) root.scrollIntoView({ block: 'start', behavior: 'instant' });
+  window.addEventListener('pageshow', event => { if (event.persisted) resetForVisit(); });
+
   function onMapHash() {
-    if (exploreHash()) cards.scrollIntoView({ block: 'nearest', behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+    const target = mapHashTarget();
+    if (!target) return;
+    explore(target.id, false, target.place);
+    bringMapIntoView();
   }
   window.addEventListener('hashchange', onMapHash);
-  document.querySelector('#seasonal-selection')?.addEventListener('click', event => {
-    if (!(event instanceof MouseEvent) || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  document.addEventListener('click', event => {
+    if (event.defaultPrevented || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const link = event.target instanceof Element ? event.target.closest('a') : null;
-    if (link && link.hash === location.hash) {
+    if (link && link.pathname === location.pathname && link.search === location.search && link.hash === location.hash && mapHashTarget()) {
       event.preventDefault();
       onMapHash();
     }
   });
   links.forEach(link => link.addEventListener('click', event => {
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (link.dataset.mapHub || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const id = link.dataset.mapDestination;
-    if (!id || !select(id)) return;
+    if (!id || !points.has(id)) return;
     event.preventDefault();
     explore(id);
-    focusCardOnMobile();
+    if (mobile.matches) bringMapIntoView();
   }));
-  restore.addEventListener('click', () => {
-    select(initial); directory.scrollTop = 0;
-    const more = root.querySelector<HTMLDetailsElement>('[data-map-directory-more]');
-    if (more) more.open = false;
-    centerOnSelection();
-  });
   graphicLinks.forEach(link => {
     link.addEventListener('click', event => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
-      explore(link.dataset.mapGraphicDestination, event.detail === 0);
+      select(link.dataset.mapGraphicDestination);
     });
     link.addEventListener('keydown', event => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
+      if (event.key !== ' ') return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
-      explore(link.dataset.mapGraphicDestination, true);
+      select(link.dataset.mapGraphicDestination);
     });
   });
-  load.addEventListener('click', event => explore(undefined, event.detail === 0));
+  load.addEventListener('click', event => explore(active, event.detail === 0, activePlace));
   overview.addEventListener('click', () => {
+    interactiveRequested = false;
     map?.stop(); touchEnabled = false; error.hidden = true;
     setMode('defaultGraphicMap');
     load.focus({ preventScroll: true });

@@ -3,7 +3,7 @@ import Brand from './Brand.astro';
 import Icon from '../shared/Icon.astro';
 import footerLotus from '../../assets/national/brand/heritage-lotus-footer.svg?url';
 import { identity } from '../../data/national/content';
-import { cuisineCopy, cuisineHref } from '../../data/national/cuisine';
+import { cuisineHref } from '../../data/national/cuisine';
 import { offerCopy } from '../../data/national/offers';
 import { canNamePartner, nationalPartners } from '../../data/national/partners';
 import { translate, ui, type Language } from '../../data/national/locale';
@@ -33,7 +33,7 @@ const terms = {
         <a href={homeHref + '#explore-vietnam'}>{t(['Bản đồ Việt Nam', 'Vietnam map'])}</a>
         <a href={homeHref + '#wonders'}>{t(ui.wonders)}</a>
         <a href={cuisineHref(lang)}>{t(ui.taste)}</a>
-        <a href={cuisineHref(lang) + '#nha-hang'}>{t(cuisineCopy.recommends)}</a>
+        <a href={homeHref + '#taste'}>{t(['Heritage — Danh sách tuyển chọn', 'Heritage — Curated List'])}</a>
         <a href={homeHref + '#offers'}>{t(offerCopy.title)}</a>
       </nav>
       {(officialPartners.length > 0 || proposedPartners.length > 0) && (

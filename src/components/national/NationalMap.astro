@@ -6,7 +6,7 @@ import MapSearch from './MapSearch.astro';
 import '../../styles/national-discovery-map.css';
 import { hubHref } from '../../data/national/content';
 import { nationalDestinations, provinceDestinations } from '../../data/national/map';
-import { editorialSpotlightOrder, mapDirectoryPriority, mapSpotlightPlacements, previewMapSpotlights } from '../../data/national/map-spotlight';
+import { editorialSpotlightOrder, mapDirectoryPriority, mapSpotlightPlacements, previewMapSpotlight } from '../../data/national/map-spotlight';
 import { chooseMapSpotlight, mapSpotlightHref, orderedMapDirectory } from '../../lib/national-map-selection';
 import { mapUi } from '../../data/national/map-locale';
 import { translate, ui, type Language } from '../../data/national/locale';
@@ -15,19 +15,24 @@ interface Props { lang: Language }
 const { lang } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date());
-const demo = import.meta.env.DEV && Astro.url.searchParams.get('spotlight') === 'demo';
-const spotlight = chooseMapSpotlight(provinceDestinations, demo ? previewMapSpotlights : mapSpotlightPlacements, today, editorialSpotlightOrder)!;
-const initialId = spotlight.destination.id;
-const directory = orderedMapDirectory(provinceDestinations, initialId, mapDirectoryPriority);
-const panels = [spotlight.destination, ...nationalDestinations.filter(item => item.id !== initialId)];
-const spotlightLabel = spotlight.placement ? t(demo ? mapUi.sponsorDemo : mapUi.sponsored) : t(mapUi.editorial);
+const showDemo = import.meta.env.DEV && Astro.url.searchParams.get('spotlight') !== 'editorial';
+const fallback = showDemo ? [previewMapSpotlight.destinationId, ...editorialSpotlightOrder] : editorialSpotlightOrder;
+const { destination, placement } = chooseMapSpotlight(provinceDestinations, mapSpotlightPlacements, today, fallback)!;
+const demo = showDemo && !placement && destination.id === previewMapSpotlight.destinationId;
+const spotlightLabel = t(placement ? mapUi.sponsored : demo ? mapUi.sponsorDemo : mapUi.editorial);
+const spotlightPhoto = placement?.featuredImage ?? destination.photo;
+const spotlightHref = mapSpotlightHref(hubHref(destination.id), placement);
+const directory = orderedMapDirectory(provinceDestinations, destination.id, mapDirectoryPriority);
 function destinationRow(item: (typeof directory)[number], index: number) {
-  return { id: item.id, name: item.name, number: String(index + 1).padStart(2, '0') };
+  return { id: item.id, name: item.name, number: String(index + 1).padStart(2, '0'), href: hubHref(item.id) };
 }
 const primary = directory.slice(0, 5).map(destinationRow);
 const remaining = directory.slice(5).map((item, i) => destinationRow(item, i + 5));
 ---
-<section id="explore-vietnam" class="n-explore n-section" aria-labelledby="explore-title" data-national-map data-map-state="defaultGraphicMap" data-initial-destination={initialId} data-initial-label={spotlightLabel} data-selected-label={t(mapUi.selected)} data-zoom-in={t(ui.zoomIn)} data-zoom-out={t(ui.zoomOut)}>
+<section id="explore-vietnam" class="n-explore n-section" aria-labelledby="explore-title" data-national-map data-map-state="defaultGraphicMap" data-zoom-in={t(ui.zoomIn)} data-zoom-out={t(ui.zoomOut)}>
+  <div hidden>
+    {nationalDestinations.map(item => <span data-map-point={item.id} data-province={item.provinceId} data-lat={item.coordinates[0]} data-lng={item.coordinates[1]} data-name={item.name} data-hub={hubHref(item.id)} data-featured={item.featured ? 'true' : undefined} data-pin-image={item.pinImage} data-content-ready={item.contentReady ? 'true' : undefined} data-local-place={item.localPlace ? 'true' : undefined}></span>)}
+  </div>
   <div class="n-shell">
     <div class="n-section-top n-map-heading">
       <div><p class="n-eyebrow"><span>02</span> · EXPLORE VIETNAM</p><h2 id="explore-title">{t(ui.mapTitle)}</h2></div>
@@ -42,39 +47,41 @@ const remaining = directory.slice(5).map((item, i) => destinationRow(item, i + 5
           <div class="n-map-mode-controls">
             <button class="n-map-open" type="button" data-map-load data-label={t(mapUi.openMap)} data-loading-label={t(mapUi.openingMap)} aria-controls="national-interactive-map" aria-expanded="false"><Icon name="compass" size={17} /><span>{t(mapUi.openMap)}</span><Icon name="arrow" size={15} /></button>
             <button class="n-map-overview" type="button" data-map-overview hidden><Icon name="back" size={14} />{t(mapUi.overview)}</button>
+            <div class="n-map-selection" data-map-selection data-upcoming={t(ui.upcoming)} role="group" aria-label={t(mapUi.selected)} hidden>
+              <strong data-map-selection-name></strong>
+              <a data-map-selection-hub hidden></a>
+              <small data-map-selection-state></small>
+            </div>
           </div>
           <div class="n-map-legend" data-map-legend aria-hidden="true" hidden><span><i class="n-legend-pin"></i>{t(mapUi.featuredPins)}</span><span><i></i>{t(mapUi.otherPins)}</span></div>
           <button class="n-map-reset" type="button" data-map-reset hidden><Icon name="locate" size={16} /> {t(ui.mapReset)}</button>
         </div>
       </div>
       <aside class="n-map-sidebar" aria-label={t(mapUi.spotlight)}>
-        <div class="n-map-spotlight">
-          <div class="n-map-slot-heading"><p class="n-eyebrow" data-map-spotlight-label>{spotlightLabel}</p><button type="button" data-map-spotlight-reset hidden>{t(mapUi.return)} <Icon name="back" size={12} /></button></div>
-          <div class="n-map-cards" data-map-cards aria-live="polite">
-            {panels.map(item => {
-              const placement = item.id === initialId ? spotlight.placement : undefined;
-              const photo = placement?.image ?? item.photo;
-              const href = mapSpotlightHref(hubHref(item.id), placement);
-              const bookingHref = placement?.bookingUrl ? mapSpotlightHref(undefined, { ...placement, destinationUrl: undefined }) : undefined;
-              return (
-                <article id={'destination-' + item.id} data-map-card={item.id} data-province={item.provinceId} data-lat={item.coordinates[0]} data-lng={item.coordinates[1]} data-name={item.name} data-featured={item.featured ? 'true' : undefined} data-pin-image={item.pinImage} data-content-ready={item.contentReady ? 'true' : undefined} data-local-place={item.localPlace ? 'true' : undefined} class="n-map-card">
-                  {photo ? <div class="n-map-photo" style={{ '--map-photo-position': item.photoPosition ?? 'center' }}><Photo {photo} {lang} sizes="(max-width: 780px) 90vw, 380px" /></div> : <div class="n-map-photo n-map-no-photo"><Icon name="compass" size={32} /><span>{t(mapUi.photoPending)}</span></div>}
-                  <div class="n-map-card-copy">
-                    <p class="n-eyebrow">{t(item.region)}</p><h3>{item.name}</h3>
-                    <p>{t(placement?.teaser ?? item.description ?? mapUi.preparing)}</p>
-                    <div class="n-map-card-bottom"><span class:list={['n-map-state', { 'is-open': hubHref(item.id) }]}>{t(hubHref(item.id) ? ui.available : ui.upcoming)}</span>
-                    {href && <a class="n-button n-map-cta" href={href}>{t(placement?.cta ?? (bookingHref === href ? ui.booking : ui.visit))}<Icon name="arrow" size={15} /></a>}</div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+        <div class="n-map-spotlight" data-map-spotlight={destination.id}>
+          <div class="n-map-slot-heading"><p class="n-eyebrow" data-map-spotlight-label>{spotlightLabel}</p></div>
+          <article class="n-map-card">
+            {spotlightPhoto ? (
+              spotlightHref
+                ? <a class="n-map-photo" href={spotlightHref} aria-labelledby="map-spotlight-title" style={{ '--map-photo-position': destination.photoPosition ?? 'center' }}><Photo photo={spotlightPhoto} {lang} sizes="(max-width: 780px) 90vw, 380px" /></a>
+                : <div class="n-map-photo" style={{ '--map-photo-position': destination.photoPosition ?? 'center' }}><Photo photo={spotlightPhoto} {lang} sizes="(max-width: 780px) 90vw, 380px" /></div>
+            ) : <div class="n-map-photo n-map-no-photo"><Icon name="compass" size={32} /><span>{t(mapUi.photoPending)}</span></div>}
+            <div class="n-map-card-copy">
+              <p class="n-eyebrow">{t(destination.region)}</p>
+              <h3 id="map-spotlight-title">{spotlightHref ? <a href={spotlightHref}>{destination.name}</a> : destination.name}</h3>
+              <p>{t(placement?.teaser ?? destination.description ?? mapUi.preparing)}</p>
+              <div class="n-map-card-bottom">
+                <span class:list={['n-map-state', { 'is-open': spotlightHref }]}>{t(spotlightHref ? ui.available : ui.upcoming)}</span>
+                {spotlightHref && <a class="n-button n-map-cta" href={spotlightHref}>{t(placement?.cta ?? ui.visit)}<Icon name="arrow" size={15} /></a>}
+              </div>
+            </div>
+          </article>
         </div>
         <nav class="n-destination-list n-map-directory" aria-labelledby="map-directory-title">
           <p id="map-directory-title" class="n-eyebrow">{t(mapUi.directory)}<span>{directory.length}</span></p>
-          <ol role="list">{primary.map(item => <li><a href={'#destination-' + item.id} data-map-destination={item.id}><span class="n-destination-number" aria-hidden="true">{item.number}</span><span>{item.name}</span><Icon name="arrow" size={15} /></a></li>)}</ol>
+          <ol role="list">{primary.map(item => <li><a href={item.href ?? '#explore-vietnam'} data-map-destination={item.id} data-map-hub={item.href}><span class="n-destination-number" aria-hidden="true">{item.number}</span><span>{item.name}</span><Icon name="arrow" size={15} /></a></li>)}</ol>
           <details class="n-map-more" data-map-directory-more><summary><span class="n-map-more-label">{t(mapUi.more)}</span><span class="n-map-more-count">+{remaining.length}</span><Icon name="arrow" size={13} /></summary>
-            <ol role="list" start={6}>{remaining.map(item => <li><a href={'#destination-' + item.id} data-map-destination={item.id}><span class="n-destination-number" aria-hidden="true">{item.number}</span><span>{item.name}</span><Icon name="arrow" size={15} /></a></li>)}</ol>
+            <ol role="list" start={6}>{remaining.map(item => <li><a href={item.href ?? '#explore-vietnam'} data-map-destination={item.id} data-map-hub={item.href}><span class="n-destination-number" aria-hidden="true">{item.number}</span><span>{item.name}</span><Icon name="arrow" size={15} /></a></li>)}</ol>
           </details>
         </nav>
       </aside>

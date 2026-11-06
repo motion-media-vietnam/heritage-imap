@@ -5,36 +5,37 @@ import { chooseMapSpotlight, landmarkOffsets, mapSpotlightHref, orderedMapDirect
 
 const photo = { src: '/review.webp', small: '/review.webp', width: 192, height: 192, alt: ['Ảnh', 'Image'] as const };
 const places = ['hanoi', 'quang-ninh', 'ho-chi-minh'].map(id => ({ id, photo, description: ['Giới thiệu', 'Introduction'] as const }));
-const paid = { destinationId: 'quang-ninh', status: 'approved', start: '2026-11-01', end: '2026-12-31', priority: 2, display: true, visualApproved: true } satisfies MapSpotlightPlacement;
+const paid = { destinationId: 'hanoi', status: 'approved', startDate: '2026-11-01', endDate: '2026-12-31', priority: 2, display: true, visualApproved: true } satisfies MapSpotlightPlacement;
 
 test('spotlight runs an inclusive two-month campaign, rolls over, then returns to configured editorial fallback', () => {
-  const campaigns: MapSpotlightPlacement[] = [paid, { ...paid, destinationId: 'ho-chi-minh', start: '2026-12-01', end: '2027-02-28', priority: 1 }];
-  for (const day of ['2026-11-01', '2026-12-31']) assert.equal(chooseMapSpotlight(places, campaigns, day, ['hanoi'])?.destination.id, 'quang-ninh');
+  const campaigns: MapSpotlightPlacement[] = [paid, { ...paid, destinationId: 'ho-chi-minh', startDate: '2026-12-01', endDate: '2027-02-28', priority: 1 }];
+  for (const day of ['2026-11-01', '2026-12-31']) assert.equal(chooseMapSpotlight(places, campaigns, day, ['quang-ninh'])?.destination.id, 'hanoi');
   assert.equal(chooseMapSpotlight(places, campaigns, '2027-01-01', ['hanoi'])?.destination.id, 'ho-chi-minh');
-  assert.equal(chooseMapSpotlight(places, campaigns, '2027-03-01', ['hanoi'])?.destination.id, 'hanoi');
+  assert.deepEqual(chooseMapSpotlight(places, campaigns, '2027-03-01', ['quang-ninh']), { destination: places[1], placement: undefined });
   assert.equal(chooseMapSpotlight(places, [], '2026-11-05', ['ho-chi-minh'])?.destination.id, 'ho-chi-minh');
 });
 
 test('spotlight rejects drafts, hidden/unapproved images, unknown destinations and invalid calendar windows', () => {
   const invalid: MapSpotlightPlacement[] = [
     { ...paid, status: 'draft' }, { ...paid, display: false }, { ...paid, visualApproved: false },
-    { ...paid, destinationId: 'missing' }, { ...paid, start: '2026-11-31' }, { ...paid, end: '2026-02-30' },
-    { ...paid, start: '2027-01-01' }, { ...paid, end: '2026-11-04' }, { ...paid, priority: NaN },
+    { ...paid, destinationId: 'missing' }, { ...paid, startDate: '2026-11-31' }, { ...paid, endDate: '2026-02-30' },
+    { ...paid, startDate: '2027-01-01' }, { ...paid, endDate: '2026-11-04' }, { ...paid, priority: NaN },
     { ...paid, teaser: ['', ''] },
   ];
   for (const record of invalid) assert.equal(chooseMapSpotlight(places, [record], '2026-11-05', ['hanoi'])?.placement, undefined);
-  assert.equal(chooseMapSpotlight([{ id: 'quang-ninh' }], [paid], '2026-11-05', [])?.placement, undefined);
+  assert.equal(chooseMapSpotlight([{ id: 'hanoi' }], [paid], '2026-11-05', [])?.placement, undefined);
   assert.equal(chooseMapSpotlight([], [paid], '2026-11-05', []), undefined);
 });
 
 test('spotlight accepts approved creative overrides without inventing an unpublished hub route', () => {
-  const campaign = { ...paid, image: photo, teaser: ['Nội dung', 'Story'] as const };
-  assert.equal(chooseMapSpotlight([{ id: 'quang-ninh' }], [campaign], '2026-11-05', [])?.placement, campaign);
+  const campaign = { ...paid, featuredImage: photo, teaser: ['Nội dung', 'Story'] as const };
+  assert.equal(chooseMapSpotlight([{ id: 'hanoi' }], [campaign], '2026-11-05', [])?.placement, campaign);
   assert.equal(mapSpotlightHref(undefined, campaign), undefined);
   for (const url of ['javascript:alert(1)', 'http://example.com', 'https://user:secret@example.com', '/quang-ninh/']) {
-    assert.equal(mapSpotlightHref('/hanoi/', { ...paid, bookingUrl: url }), '/hanoi/');
+    assert.equal(mapSpotlightHref(undefined, { ...paid, destinationUrl: url }), undefined);
   }
-  assert.equal(mapSpotlightHref(undefined, { ...paid, bookingUrl: 'https://example.com/visit' }), 'https://example.com/visit');
+  assert.equal(mapSpotlightHref('/hanoi/', { ...paid, destinationUrl: 'https://example.com/visit' }), '/hanoi/');
+  assert.equal(mapSpotlightHref(undefined, { ...paid, destinationUrl: 'https://example.com/visit' }), 'https://example.com/visit');
 });
 
 test('provincial directory contains 34 unique current units and keeps 33 outside any initial spotlight', () => {

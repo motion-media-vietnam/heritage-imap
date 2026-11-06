@@ -3,11 +3,12 @@ import type { Localized } from '../data/national/locale.ts';
 
 export interface MapSpotlightPlacement {
   destinationId: string;
+  sponsorId?: string;
   status: 'draft' | 'approved';
-  start: string; end: string; priority: number;
+  startDate: string; endDate: string; priority: number;
   display: boolean; visualApproved: boolean;
-  image?: NationalPhoto; teaser?: Localized; cta?: Localized;
-  bookingUrl?: string; destinationUrl?: string;
+  featuredImage?: NationalPhoto; teaser?: Localized; cta?: Localized;
+  destinationUrl?: string;
 }
 
 function calendarDate(value: string) {
@@ -22,10 +23,10 @@ export function chooseMapSpotlight<T extends { id: string; photo?: NationalPhoto
   const active = calendarDate(today) ? placements.filter(record => {
     const item = destinations.find(item => item.id === record.destinationId);
     return item && record.status === 'approved' && record.display && record.visualApproved
-      && Number.isFinite(record.priority) && calendarDate(record.start) && calendarDate(record.end)
-      && record.start <= today && today <= record.end
-      && (record.image ?? item.photo) && (record.teaser ?? item.description)?.every(text => text.trim());
-  }).sort((a, b) => b.priority - a.priority || a.start.localeCompare(b.start) || a.destinationId.localeCompare(b.destinationId)) : [];
+      && Number.isFinite(record.priority) && calendarDate(record.startDate) && calendarDate(record.endDate)
+      && record.startDate <= today && today <= record.endDate
+      && (record.featuredImage ?? item.photo) && (record.teaser ?? item.description)?.every(text => text.trim());
+  }).sort((a, b) => b.priority - a.priority || a.startDate.localeCompare(b.startDate) || a.destinationId.localeCompare(b.destinationId)) : [];
   const placement = active[0];
   const destination = placement ? destinations.find(item => item.id === placement.destinationId)
     : fallback.flatMap(id => destinations.find(item => item.id === id) ?? [])[0] ?? destinations[0];
@@ -40,16 +41,13 @@ export function orderedMapDirectory<T extends { id: string; name: string }>(item
   ];
 }
 
-// Only real Hub paths supplied by the caller or approved HTTPS destinations can be used.
+// Prefer the published Hub. An approved placement may explicitly provide an external destination.
 export function mapSpotlightHref(hub: string | undefined, placement?: MapSpotlightPlacement) {
-  for (const value of [placement?.bookingUrl, placement?.destinationUrl]) {
-    if (!value) continue;
-    try {
-      const url = new URL(value);
-      if (url.protocol === 'https:' && !url.username && !url.password) return url.href;
-    } catch { /* An incomplete campaign never creates a guessed route. */ }
-  }
-  return hub;
+  if (hub || !placement?.destinationUrl) return hub;
+  try {
+    const url = new URL(placement.destinationUrl);
+    if (url.protocol === 'https:' && !url.username && !url.password) return url.href;
+  } catch { /* An incomplete campaign never creates a guessed route. */ }
 }
 
 export interface ProjectedLandmark { id: string; x: number; y: number }
