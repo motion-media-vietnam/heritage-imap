@@ -17,6 +17,11 @@ export const mapUi = {
   openDestination: ['Khám phá trên bản đồ:', 'Explore on the map:'],
   openMap: ['Khám phá trên bản đồ', 'Explore the map'],
   openingMap: ['Đang mở bản đồ…', 'Opening the map…'],
+  searchLabel: ['Tìm địa điểm trên bản đồ', 'Search places on the map'],
+  searchPlaceholder: ['Tìm tỉnh thành, điểm đến hoặc địa danh...', 'Find a province, destination or place...'],
+  searchEmpty: ['Không tìm thấy địa điểm phù hợp.', 'No matching places found.'],
+  searchResults: ['kết quả tìm kiếm', 'search results'],
+  searchChosen: ['Đang hiển thị trên bản đồ', 'Showing on the map'],
   overview: ['Xem dạng tổng quan', 'Illustrated overview'],
   discoveryHelp: ['Chọn một ghim, một điểm đến hoặc mở bản đồ để bắt đầu.', 'Choose a pin, a destination or open the map to begin.'],
 } satisfies Record<string, Localized>;

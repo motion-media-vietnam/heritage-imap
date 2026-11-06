@@ -1,7 +1,7 @@
 import { destinations } from '../destinations/index';
 import { destinationRoutes } from '../../lib/destination-routes';
-import type { DateWindow, FeaturedMode, Sponsorship } from '../../lib/national-selection';
-import { photos, hanoiPhoto, type NationalPhoto } from './assets';
+import type { FeaturedMode, Sponsorship } from '../../lib/national-selection';
+import { photos, type NationalPhoto } from './assets';
 import type { Localized } from './locale';
 
 export const identity = {
@@ -47,26 +47,6 @@ interface Story {
   destinationId: string;
   booking?: string;
 }
-
-interface Campaign extends DateWindow {
-  title: Localized;
-  description: Localized;
-  photo: NationalPhoto;
-  sponsored: boolean;
-  stories: readonly Story[];
-}
-
-export const campaigns: Campaign[] = [];
-export const previewCampaign: Campaign = {
-  title: ['Theo dấu mùa vàng', 'Following the golden season'],
-  description: ['Khi những thửa ruộng ngả màu mật ong, miền cao kể câu chuyện của mình qua ánh sáng.', 'When rice terraces turn the colour of honey, the highlands tell their story through light.'],
-  photo: photos.terraces,
-  start: '2000-01-01', end: '2099-12-31', sponsored: false,
-  stories: [
-    { title: ['Đường cong của mùa gặt', 'The curves of harvest'], description: ['Một góc nhìn biên tập về ruộng bậc thang Tây Bắc.', 'An editorial view of the northwestern rice terraces.'], photo: photos.terraces, destinationId: 'mu-cang-chai' },
-    { title: ['Hà Nội qua một ngày thu', 'An autumn day in Hanoi'], description: ['Dạo một vòng hồ và để phố cũ dẫn đường.', 'Follow the lake and let the old streets lead the way.'], photo: hanoiPhoto, destinationId: 'hanoi' },
-  ],
-};
 
 export const wonders: Story[] = [
   { title: ['Trong lòng núi đá', 'Among limestone peaks'], description: ['Tràng An · Ninh Bình', 'Tràng An · Ninh Bình'], photo: photos.river, destinationId: 'ninh-binh' },

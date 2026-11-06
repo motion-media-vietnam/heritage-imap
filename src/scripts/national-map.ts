@@ -1,5 +1,7 @@
 import type { Map as LeafletMap, Marker, Polyline, CircleMarker } from 'leaflet';
 import { landmarkOffsets } from '../lib/national-map-selection';
+import { destinationSearchIndex, type DestinationSearchEntry } from '../data/destinations/search-index';
+import { bindMapSearch } from './national-map-search';
 
 const root = document.querySelector<HTMLElement>('[data-national-map]');
 if (root) {
@@ -16,6 +18,7 @@ if (root) {
   const slotLabel = root.querySelector<HTMLElement>('[data-map-spotlight-label]')!;
   const touch = root.querySelector<HTMLButtonElement>('[data-map-touch]')!;
   const error = root.querySelector<HTMLElement>('[data-map-error]')!;
+  const search = root.querySelector<HTMLElement>('[data-map-search]')!;
   const links = [...root.querySelectorAll<HTMLAnchorElement>('[data-map-destination]')];
   const graphicLinks = [...root.querySelectorAll<HTMLAnchorElement>('[data-map-graphic-destination]')];
   const panels = [...cards.querySelectorAll<HTMLElement>('[data-map-card]')];
@@ -26,6 +29,9 @@ if (root) {
   const initial = root.dataset.initialDestination ?? panels[0]!.dataset.mapCard!;
   let active = initial;
   let map: LeafletMap | undefined;
+  let leaflet: typeof import('leaflet') | undefined;
+  let activePlace: DestinationSearchEntry | undefined;
+  let placeMarker: Marker | undefined;
   let loading = false;
   let focusOnLoad = false;
   let keyboardMapFocus = false;
@@ -55,10 +61,12 @@ if (root) {
     applyGestures();
   }
 
-  function explore(id?: string, keyboard = false) {
-    if (id && !select(id)) return;
+  function explore(id?: string, keyboard = false, place?: DestinationSearchEntry) {
+    if (id && !select(id, place)) return;
+    if (!id) clearPlace();
     focusOnLoad = Boolean(id);
     keyboardMapFocus = keyboard;
+    if (loading) return;
     if (!map) { void initMap(); return; }
     setMode('interactiveMap');
     map.invalidateSize({ animate: false, pan: false });
@@ -66,9 +74,17 @@ if (root) {
     focusMapFromKeyboard();
   }
 
-  function select(id: string) {
+  function clearPlace() {
+    placeMarker?.remove();
+    placeMarker = undefined;
+    activePlace = undefined;
+  }
+
+  function select(id: string, place?: DestinationSearchEntry) {
     const selected = panels.find(panel => panel.dataset.mapCard === id);
     if (!selected) return false;
+    clearPlace();
+    activePlace = place;
     active = id;
     root!.dataset.selectedDestination = id;
     for (const link of graphicLinks) {
@@ -100,11 +116,54 @@ if (root) {
     return true;
   }
 
-  function applyHash() {
-    return location.hash.startsWith('#destination-') && select(location.hash.slice('#destination-'.length));
+  function exploreHash() {
+    if (location.hash.startsWith('#place-')) {
+      const id = location.hash.slice('#place-'.length);
+      const place = destinationSearchIndex.find(item => item.type !== 'destination' && item.id === id);
+      if (!place) return;
+      explore(place.provinceId, false, place);
+      root!.scrollIntoView({ block: 'start' });
+    } else if (location.hash.startsWith('#destination-')) {
+      const id = location.hash.slice('#destination-'.length);
+      if (!panels.some(panel => panel.dataset.mapCard === id)) return;
+      explore(id);
+      return true;
+    }
+  }
+
+  function showPlace(place: DestinationSearchEntry) {
+    if (!map || !leaflet) return;
+    const english = search.dataset.lang === 'en';
+    const langIndex = english ? 1 : 0;
+    const name = english ? place.nameEn : place.nameVi;
+    const province = destinationSearchIndex.find(item => item.id === place.provinceId);
+    const content = document.createElement('div');
+    const title = document.createElement('strong');
+    title.textContent = name;
+    const detail = document.createElement('small');
+    detail.textContent = place.area?.[langIndex] ?? (english ? province?.nameEn : province?.nameVi) ?? '';
+    const description = document.createElement('p');
+    description.textContent = place.description[langIndex];
+    content.append(title, detail, description);
+    if (place.existingContentUrl) {
+      const link = document.createElement('a');
+      link.href = place.existingContentUrl;
+      link.textContent = english ? 'Read on Heritage' : 'Đọc trên Heritage';
+      content.append(link);
+    }
+    const [lat, lng] = place.coordinates;
+    map.stop().setView([lat, lng], place.zoom ?? 14, { animate: false });
+    placeMarker?.remove();
+    placeMarker = leaflet.marker([lat, lng], {
+      title: name, alt: name, zIndexOffset: 4500,
+      icon: leaflet.divIcon({ className: 'n-map-place-pin', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -13] }),
+    }).addTo(map);
+    placeMarker.getElement()?.setAttribute('data-map-place-marker', place.id);
+    placeMarker.bindPopup(content, { className: 'n-map-place-popup', maxWidth: 235, minWidth: 145, autoPan: false }).openPopup();
   }
 
   function centerOnSelection() {
+    if (activePlace) { showPlace(activePlace); return; }
     const marker = markers.get(active);
     if (!map || !marker) return;
     map.stop();
@@ -182,9 +241,10 @@ if (root) {
     load.querySelector('span')!.textContent = load.dataset.loadingLabel!;
     try {
       const [L] = await Promise.all([import('leaflet'), import('leaflet/dist/leaflet.css')]);
+      leaflet = L;
       const instance = L.map(canvas, { zoomSnap: .25, zoomControl: false, scrollWheelZoom: false, touchZoom: false, dragging: !mobile.matches, minZoom: 4, maxZoom: 17 });
       map = instance;
-      resetView = () => { instance.stop(); instance.fitBounds([[8.55, 102.1], [23.45, 110.1]], { padding: [42, 64], animate: false }); updateLandmarks(); };
+      resetView = () => { instance.closePopup(); instance.stop(); instance.fitBounds([[8.55, 102.1], [23.45, 110.1]], { padding: [42, 64], animate: false }); updateLandmarks(); };
       instance.fitBounds([[8.55, 102.1], [23.45, 110.1]], { padding: [42, 64], animate: false });
       const layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { referrerPolicy: 'strict-origin-when-cross-origin', attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
       const firstTile = new Promise<void>(resolve => {
@@ -233,10 +293,10 @@ if (root) {
         if (landmarkFrame) return;
         landmarkFrame = requestAnimationFrame(() => { landmarkFrame = 0; updateLandmarks(); });
       });
-      select(active); updateLandmarks();
-      if (focusOnLoad) { centerOnSelection(); focusOnLoad = false; }
+      select(active, activePlace); updateLandmarks();
       await firstTile;
       setMode('interactiveMap');
+      if (focusOnLoad) { centerOnSelection(); focusOnLoad = false; }
       focusMapFromKeyboard();
       let observedWidth = canvas.clientWidth;
       let observedHeight = canvas.clientHeight;
@@ -249,7 +309,8 @@ if (root) {
         updateLandmarks();
       }).observe(canvas);
     } catch {
-      map?.remove(); map = undefined; markers.clear(); guides.clear(); error.hidden = false;
+      map?.remove(); map = undefined; leaflet = undefined; placeMarker = undefined;
+      markers.clear(); guides.clear(); error.hidden = false;
     } finally {
       load.disabled = false; loading = false; root!.removeAttribute('aria-busy');
       load.querySelector('span')!.textContent = load.dataset.label!;
@@ -258,11 +319,23 @@ if (root) {
 
   cards.dataset.enhanced = '';
   setMode('defaultGraphicMap');
-  if (applyHash()) explore(active); else select(initial);
-  window.addEventListener('hashchange', () => {
-    if (!applyHash()) return;
-    explore(active);
-    cards.scrollIntoView({ block: 'nearest', behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+  select(initial);
+  exploreHash();
+  bindMapSearch(search, entry => {
+    if (entry.type === 'destination') explore(entry.id);
+    else explore(entry.provinceId, false, entry);
+  });
+  function onMapHash() {
+    if (exploreHash()) cards.scrollIntoView({ block: 'nearest', behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+  }
+  window.addEventListener('hashchange', onMapHash);
+  document.querySelector('#seasonal-selection')?.addEventListener('click', event => {
+    if (!(event instanceof MouseEvent) || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target instanceof Element ? event.target.closest('a') : null;
+    if (link && link.hash === location.hash) {
+      event.preventDefault();
+      onMapHash();
+    }
   });
   links.forEach(link => link.addEventListener('click', event => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;

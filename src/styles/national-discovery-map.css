@@ -5,6 +5,40 @@
 .n-explore .n-map-heading > p { max-width: 30ch; font-size: 14px; line-height: 1.8; margin-bottom: 3px; }
 .n-explore .n-map-frame { --n-map-height: 800px; grid-template-columns: minmax(0, 1.95fr) minmax(320px, 1fr); border: 1px solid #b8aa8b55; border-radius: 5px; overflow: hidden; box-shadow: 0 10px 30px #173c4507; }
 .n-explore .n-map-surface { background: #e4ecea; }
+.n-explore .n-map-viewport { min-width: 0; background: #eaf0e8; }
+.n-explore .n-map-search { position: relative; z-index: 700; padding: 12px 16px; min-height: 68px; }
+.n-explore .n-map-search-control { position: relative; width: min(100%, 320px); color: #46635f; }
+.n-explore .n-map-search-control > svg { position: absolute; inset: 14px auto auto 13px; pointer-events: none; }
+.n-explore .n-map-search input {
+  width: 100%; height: 44px; padding: 0 12px 0 39px; border: 1px solid #b6ab8a80; border-radius: 6px;
+  background: #fffefa; color: #274a47; font: 400 16px var(--n-sans); box-shadow: 0 2px 6px #32453813;
+}
+.n-explore .n-map-search input::placeholder { color: #5c6b61; font-size: 11px; }
+.n-explore .n-map-search input:focus-visible { outline: 2px solid #43685c; outline-offset: 2px; }
+.n-explore .n-map-suggestions {
+  position: absolute; inset: calc(100% + 5px) 0 auto; overflow: auto; overscroll-behavior: contain; max-height: min(330px, 48vh);
+  background: #fffefa; border: 1px solid #b6ab8a80; border-radius: 6px; box-shadow: 0 8px 20px #20392e24;
+}
+.n-explore .n-map-suggestions ul { list-style: none; padding: 0; margin: 0; }
+.n-explore .n-map-suggestions li { display: grid; gap: 3px; padding: 10px 13px; cursor: pointer; font-size: 13px; }
+.n-explore .n-map-suggestions li + li { border-top: 1px solid #e8e2d6; }
+.n-explore .n-map-suggestions li:is(:hover, [aria-selected="true"]) { background: #ecf1ea; }
+.n-explore .n-map-suggestions small { color: #596961; font-size: 10px; }
+.n-explore .n-map-suggestions p { padding: 13px; color: #596961; font-size: 12px; }
+.n-explore .n-map-search-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.n-explore .n-map-place-pin {
+  border: 3px solid #fffdf6; border-radius: 50%; background: #37766a; box-shadow: 0 0 0 2px #9d8550, 0 3px 9px #243b3880;
+}
+.n-explore .n-map-place-pin:focus-visible { outline: 2px solid #2f584f; outline-offset: 4px; }
+.n-explore .n-map-place-popup .leaflet-popup-content-wrapper { background: #fffefa; border-radius: 7px; }
+.n-explore .n-map-place-popup .leaflet-popup-content { color: #294840; margin: 13px 23px 13px 14px; font: 400 12px/1.5 var(--n-sans); }
+.n-explore .n-map-place-popup strong { display: block; font: 400 19px/1.2 var(--n-serif); }
+.n-explore .n-map-place-popup small { display: block; margin-top: 4px; color: #596961; font-size: 10px; }
+.n-explore .n-map-place-popup p { margin: 8px 0 0; }
+.n-explore .n-map-place-popup .leaflet-popup-content a { display: inline-block; margin-top: 8px; color: #316358; text-decoration: underline; }
+@media (max-width: 390px) {
+  .n-explore .n-map-search { padding-inline: 12px; }
+}
 .n-explore .n-map-canvas { background: #e4ecea; visibility: hidden; opacity: 0; transition: opacity .45s ease; }
 .n-explore[data-map-state="interactiveMap"] .n-map-canvas { visibility: visible; opacity: 1; }
 .n-explore .n-map-surface { overflow: hidden; }
@@ -35,7 +69,7 @@
 .n-explore[data-map-state="interactiveMap"] .n-map-mode-controls { bottom: 22px; }
 .n-explore .n-map-mode-controls .n-map-overview { font-size: 9px; min-height: 38px; padding: 9px 14px; background: #fffdf7f0; }
 .n-explore .leaflet-tile-pane { filter: saturate(.4) sepia(.1) brightness(1.04) contrast(.9); }
-.n-explore .n-map-sidebar { display: flex; flex-direction: column; height: var(--n-map-height); background: #fffefa; border-left: 1px solid #b8aa8b40; }
+.n-explore .n-map-sidebar { display: flex; flex-direction: column; height: calc(var(--n-map-height) + 68px); background: #fffefa; border-left: 1px solid #b8aa8b40; }
 .n-explore .n-map-spotlight { flex: 0 0 auto; }
 .n-explore .n-map-slot-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 41px; padding: 8px 22px; background: #f8f6f0; }
 .n-explore .n-map-slot-heading p { font-size: 8px; letter-spacing: .11em; }

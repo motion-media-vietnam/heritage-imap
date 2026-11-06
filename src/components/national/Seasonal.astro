@@ -1,92 +1,127 @@
 ---
 import Photo from './Photo.astro';
 import Icon from '../shared/Icon.astro';
-import fansipan from '../../assets/national/seasonal/fansipan-2-1672.webp?url';
-import fansipanSmall from '../../assets/national/seasonal/fansipan-2-720.webp?url';
-import type { NationalPhoto } from '../../data/national/assets';
-import { campaigns, hubHref, previewCampaign } from '../../data/national/content';
+import { destinationSearchIndex } from '../../data/destinations/search-index';
+import { nationalDestinations } from '../../data/national/map';
+import { editorialSeason, previewSeasonalCampaign, seasonalCampaigns, type SeasonalArtwork } from '../../data/national/seasonal';
 import { translate, ui, type Language } from '../../data/national/locale';
-import { activeWindow } from '../../lib/national-selection';
+import { seasonalPreviewMode, selectSeasonal, type SeasonalMode } from '../../lib/seasonal-selection';
 
 interface Props { lang: Language; today: string }
 const { lang, today } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
-const campaign = campaigns.find(item => activeWindow(item, today)) ?? previewCampaign;
-const sponsorPhoto: NationalPhoto = {
-  src: fansipan,
-  small: fansipanSmall,
-  width: 1672,
-  height: 941,
-  alt: ['Sun World · Lễ hội mùa đông trên đỉnh Fansipan 2026', 'Sun World · Winter Festival on Mount Fansipan 2026'],
-};
-const bookingUrl = 'https://sunworld.vn/vi/fansipan';
+const preview = import.meta.env.DEV && Astro.url.pathname.replace(/\/$/, '') === '/national-preview';
+const mode = seasonalPreviewMode(Astro.url.searchParams.get('seasonal'), preview);
+const selection = selectSeasonal(mode, seasonalCampaigns, today, preview ? previewSeasonalCampaign : undefined);
+const sponsor = selection.mode === 'sponsored' ? selection : undefined;
+const campaign: SeasonalArtwork = sponsor?.campaign ?? editorialSeason;
+const options = [
+  { id: 'auto', label: ui.auto },
+  { id: 'sponsored', label: ['Khung tài trợ', 'Sponsored'] },
+  { id: 'editorial', label: ui.editorial },
+] as const;
+function modeHref(id: SeasonalMode) {
+  const query = new URLSearchParams(Astro.url.searchParams);
+  if (id === 'auto') query.delete('seasonal'); else query.set('seasonal', id);
+  return Astro.url.pathname + (query.size ? '?' + query : '') + '#seasonal';
+}
+const stops = campaign.stops.flatMap(stop => {
+  if (stop.kind === 'area') {
+    const area = nationalDestinations.find(item => item.id === stop.id);
+    return area ? [{ ...stop, name: area.name, href: '#destination-' + area.id }] : [];
+  }
+  const place = destinationSearchIndex.find(item => item.id === stop.id && item.type !== 'destination');
+  return place ? [{ ...stop, name: lang === 'en' ? place.nameEn : place.nameVi, href: '#place-' + place.id }] : [];
+}).slice(0, 3);
 ---
-<section id="seasonal" class="n-seasonal n-section" aria-label={t(ui.seasonal)}>
+<section id="seasonal" class="n-seasonal n-section" aria-labelledby="seasonal-title" data-seasonal-mode={selection.mode}>
   <div class="n-seasonal-layout n-shell">
-    <section class="n-seasonal-sponsor" aria-label={t(ui.sponsored)}>
-      <Photo photo={sponsorPhoto} {lang} sizes="94vw" />
-      <div class="n-seasonal-booking">
-        <p class="n-caption">{t(ui.review)} · {t(['Chờ duyệt', 'Pending approval'])}</p>
-        <a class="n-button n-button-light" href={bookingUrl}>Booking <Icon name="arrow" size={17} /></a>
+    <div class="n-section-top n-seasonal-heading">
+      <div>
+        <p class="n-eyebrow"><span>03</span> · SEASONAL DESTINATIONS</p>
+        <h2 id="seasonal-title">{t(campaign.title)}</h2>
       </div>
-    </section>
-    <section id="seasonal-selection" class="n-seasonal-collage" aria-label={t(ui.editorial)}>
-      {campaign.stories.map((story, index) => (
-        <a href={hubHref(story.destinationId) ?? '#destination-' + story.destinationId} aria-label={t(story.title)}>
-          <Photo photo={story.photo} {lang} sizes={index % 2 === 0 ? '58vw' : '35vw'} />
-        </a>
-      ))}
-    </section>
+      {preview && <nav class="n-mode-switch" aria-label={t(['Chế độ duyệt Seasonal Destinations', 'Seasonal Destinations preview mode'])}>
+        {options.map(option => <a href={modeHref(option.id)} aria-current={mode === option.id ? 'true' : undefined}>{t(option.label)}</a>)}
+      </nav>}
+    </div>
+    {sponsor ? (
+      <>
+        <p class="n-caption n-seasonal-credit">{t(sponsor.demo ? ['Bản duyệt nội bộ · Chờ duyệt', 'Internal preview · Pending approval'] : ['Nội dung tài trợ', 'Sponsored content'])}</p>
+        <div class="n-seasonal-sponsor">
+          <Photo photo={campaign.artwork} {lang} sizes="(min-width: 1440px) 1320px, 94vw" />
+          <a class="n-button n-button-light n-seasonal-booking" href={sponsor.campaign.bookingUrl}>Booking <Icon name="arrow" size={16} /></a>
+        </div>
+      </>
+    ) : (
+      <div class="n-seasonal-editorial">
+        <Photo photo={campaign.artwork} {lang} sizes="(min-width: 1440px) 1320px, 94vw" />
+        <div class="n-seasonal-editorial-copy">
+          <p>{t(editorialSeason.intro)}</p>
+          <a class="n-button n-button-light" href="#seasonal-selection">{t(['Khám phá mùa vàng', 'Explore the golden season'])}<Icon name="arrow" size={16} /></a>
+        </div>
+      </div>
+    )}
+    <div id="seasonal-selection" class="n-seasonal-discovery">
+      <p class="n-eyebrow">{t(ui.seasonal)}</p>
+      <ul>
+        {stops.map(stop => (
+          <li>
+            <a href={stop.href}>
+              <span class="n-seasonal-thumb" aria-hidden="true">
+                {stop.photo ? <Photo photo={stop.photo} {lang} sizes="60px" decorative /> : <Icon name="pin" size={19} />}
+              </span>
+              <span class="n-seasonal-stop"><strong>{stop.name}</strong>{stop.teaser && <small>{t(stop.teaser)}</small>}</span>
+              <span class="n-seasonal-stop-link">{t(['Khám phá', 'Explore'])} <Icon name="arrow" size={15} /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </section>
 
 <style>
-  .n-seasonal-layout {
-    display: grid;
-    gap: clamp(24px, 4.5vw, 64px);
-    padding-block: clamp(24px, 4vw, 58px);
+  .n-seasonal-layout { padding-block: clamp(30px, 4vw, 58px); }
+  .n-seasonal-heading { margin-bottom: 20px; gap: 16px; }
+  .n-seasonal .n-seasonal-heading h2 {
+    margin: 8px 0 0; max-width: none; font-size: clamp(28px, 3.2vw, 46px); line-height: 1.14; letter-spacing: -.035em;
   }
-  .n-seasonal-sponsor {
-    border: 1px solid var(--n-line);
-    background: var(--n-paper);
+  .n-seasonal-credit { margin-bottom: 8px; color: var(--n-muted); font-size: 9px; }
+  .n-seasonal-sponsor, .n-seasonal-editorial { position: relative; isolation: isolate; }
+  .n-seasonal-sponsor > :global(img) { display: block; width: 100%; height: auto; }
+  .n-seasonal-sponsor .n-seasonal-booking {
+    position: absolute; z-index: 1; top: 33.2%; left: 64%; translate: -50% 0;
+    min-height: 44px; padding: 8px clamp(12px, 1.7vw, 22px); gap: 13px;
+    font-size: clamp(9px, .9vw, 11px); white-space: nowrap;
   }
-  .n-seasonal-sponsor > :global(img) {
-    display: block;
-    width: 100%;
-    height: auto;
+  .n-seasonal-editorial { display: flex; align-items: end; aspect-ratio: 2.65; overflow: hidden; background: #333d24; }
+  .n-seasonal-editorial > :global(img), .n-seasonal-editorial::after {
+    position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover;
   }
-  .n-seasonal-booking {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 12px clamp(12px, 2.2vw, 30px);
+  .n-seasonal-editorial::after { content: ''; background: linear-gradient(35deg, #18271edb 1%, #22312767 34%, transparent 65%); }
+  .n-seasonal-editorial-copy { padding: clamp(16px, 3vw, 42px); color: #fffdf8; }
+  .n-seasonal-editorial-copy p { max-width: 36ch; margin-bottom: 13px; font-size: clamp(13px, 1.2vw, 17px); }
+  .n-seasonal-discovery { margin-top: clamp(16px, 2vw, 26px); }
+  .n-seasonal-discovery ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; padding: 0; margin: 8px 0 0; list-style: none; }
+  .n-seasonal-discovery li { border-top: 1px solid var(--n-line); }
+  .n-seasonal-discovery li > a { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+  .n-seasonal-thumb {
+    display: grid; place-items: center; width: 60px; height: 44px; flex: 0 0 auto; overflow: hidden;
+    color: #536d63; background: #e8ede3;
   }
-  .n-seasonal-booking .n-caption { color: var(--n-muted); }
-  .n-seasonal-collage {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr);
-    align-items: start;
-    gap: clamp(10px, 2.3vw, 32px);
-  }
-  .n-seasonal-collage > a {
-    display: block;
-    aspect-ratio: 3 / 2;
-    overflow: hidden;
-  }
-  .n-seasonal-collage > a:nth-child(even) {
-    aspect-ratio: 5 / 4;
-    margin-top: clamp(12px, 3vw, 42px);
-  }
-  .n-seasonal-collage :global(img) {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .n-seasonal-collage > a:focus-visible {
-    outline: 2px solid var(--national-gold-text);
-    outline-offset: 4px;
+  .n-seasonal-thumb :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .n-seasonal-stop { flex: 1; min-width: 0; }
+  .n-seasonal-stop strong { display: block; font: 400 clamp(17px, 1.5vw, 21px)/1.2 var(--n-serif); }
+  .n-seasonal-stop small { display: block; color: var(--n-muted); font-size: 11px; line-height: 1.4; }
+  .n-seasonal-stop-link { display: inline-flex; align-items: center; gap: 6px; color: #365e55; font-size: 9px; white-space: nowrap; }
+  .n-seasonal-discovery li > a:hover .n-seasonal-stop-link { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 620px) {
+    .n-seasonal-heading { align-items: start; flex-direction: column; }
+    .n-seasonal-sponsor::after { content: ''; position: absolute; inset: auto 0 0; height: 54px; background: linear-gradient(transparent, #292b2166); }
+    .n-seasonal-sponsor .n-seasonal-booking { top: auto; bottom: 5px; left: 50%; }
+    .n-seasonal-editorial { aspect-ratio: 1.55; }
+    .n-seasonal-editorial::after { background: linear-gradient(0deg, #18271eda, transparent 80%); }
+    .n-seasonal-discovery ul { grid-template-columns: 1fr; padding-inline-end: 28px; }
   }
 </style>

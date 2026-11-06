@@ -1,0 +1,23 @@
+---
+import Icon from '../shared/Icon.astro';
+import { translate, type Language } from '../../data/national/locale';
+import { mapUi } from '../../data/national/map-locale';
+
+interface Props { lang: Language }
+const { lang } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+---
+<div class="n-map-search" data-map-search data-lang={lang} data-no-results={t(mapUi.searchEmpty)}
+  data-result-label={t(mapUi.searchResults)} data-chosen-label={t(mapUi.searchChosen)}>
+  <div class="n-map-search-control">
+    <Icon name="search" size={17} />
+    <input type="search" role="combobox" aria-label={t(mapUi.searchLabel)} placeholder={t(mapUi.searchPlaceholder)}
+      aria-autocomplete="list" aria-expanded="false" aria-controls="national-map-suggestions"
+      autocomplete="off" spellcheck="false" />
+    <div class="n-map-suggestions" data-map-suggestions hidden>
+      <ul id="national-map-suggestions" role="listbox" aria-label={t(mapUi.searchResults)}></ul>
+      <p data-map-search-empty hidden>{t(mapUi.searchEmpty)}</p>
+    </div>
+  </div>
+  <span class="n-map-search-status" data-map-search-status role="status"></span>
+</div>

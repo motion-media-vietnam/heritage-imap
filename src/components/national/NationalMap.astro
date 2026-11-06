@@ -2,6 +2,7 @@
 import Photo from './Photo.astro';
 import Icon from '../shared/Icon.astro';
 import VietnamDiscoveryMap from './VietnamDiscoveryMap.astro';
+import MapSearch from './MapSearch.astro';
 import '../../styles/national-discovery-map.css';
 import { hubHref } from '../../data/national/content';
 import { nationalDestinations, provinceDestinations } from '../../data/national/map';
@@ -33,15 +34,18 @@ const remaining = directory.slice(5).map((item, i) => destinationRow(item, i + 5
       <p>{t(ui.mapIntro)}</p>
     </div>
     <div class="n-map-frame">
-      <div class="n-map-surface">
-        <div id="national-interactive-map" class="n-map-canvas" data-map-canvas role="region" aria-label={t(ui.mapLabel)} aria-hidden="true" inert></div>
-        <VietnamDiscoveryMap {lang} />
-        <div class="n-map-mode-controls">
-          <button class="n-map-open" type="button" data-map-load data-label={t(mapUi.openMap)} data-loading-label={t(mapUi.openingMap)} aria-controls="national-interactive-map" aria-expanded="false"><Icon name="compass" size={17} /><span>{t(mapUi.openMap)}</span><Icon name="arrow" size={15} /></button>
-          <button class="n-map-overview" type="button" data-map-overview hidden><Icon name="back" size={14} />{t(mapUi.overview)}</button>
+      <div class="n-map-viewport">
+        <MapSearch {lang} />
+        <div class="n-map-surface">
+          <div id="national-interactive-map" class="n-map-canvas" data-map-canvas role="region" aria-label={t(ui.mapLabel)} aria-hidden="true" inert></div>
+          <VietnamDiscoveryMap {lang} />
+          <div class="n-map-mode-controls">
+            <button class="n-map-open" type="button" data-map-load data-label={t(mapUi.openMap)} data-loading-label={t(mapUi.openingMap)} aria-controls="national-interactive-map" aria-expanded="false"><Icon name="compass" size={17} /><span>{t(mapUi.openMap)}</span><Icon name="arrow" size={15} /></button>
+            <button class="n-map-overview" type="button" data-map-overview hidden><Icon name="back" size={14} />{t(mapUi.overview)}</button>
+          </div>
+          <div class="n-map-legend" data-map-legend aria-hidden="true" hidden><span><i class="n-legend-pin"></i>{t(mapUi.featuredPins)}</span><span><i></i>{t(mapUi.otherPins)}</span></div>
+          <button class="n-map-reset" type="button" data-map-reset hidden><Icon name="locate" size={16} /> {t(ui.mapReset)}</button>
         </div>
-        <div class="n-map-legend" data-map-legend aria-hidden="true" hidden><span><i class="n-legend-pin"></i>{t(mapUi.featuredPins)}</span><span><i></i>{t(mapUi.otherPins)}</span></div>
-        <button class="n-map-reset" type="button" data-map-reset hidden><Icon name="locate" size={16} /> {t(ui.mapReset)}</button>
       </div>
       <aside class="n-map-sidebar" aria-label={t(mapUi.spotlight)}>
         <div class="n-map-spotlight">
