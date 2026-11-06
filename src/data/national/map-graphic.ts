@@ -6,7 +6,8 @@ export const discoveryViewBox = { width: 800, height: 760 } as const;
 export const discoveryPins = [
   { id: 'hanoi', x: 375, y: 132 },
   { id: 'ho-chi-minh', x: 422, y: 590 },
-  { id: 'ninh-binh', x: 400, y: 272 },
+  // Keep the tip just south of the geographic anchor (361, 193) to clear Hà Nội's label.
+  { id: 'ninh-binh', x: 361, y: 230 },
   { id: 'quang-ninh', x: 492, y: 188 },
   { id: 'dien-bien', x: 258, y: 155 },
 ] satisfies { id: typeof featuredMapDestinationIds[number]; x: number; y: number }[];
