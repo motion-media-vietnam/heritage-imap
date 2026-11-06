@@ -10,8 +10,6 @@ export const identity = {
   airline: 'https://www.vietnamairlines.com/',
   advertise: 'https://advertisement.heritagevietnamairlines.com/',
   contact: 'https://heritagevietnamairlines.com/lien-he/',
-  privacy: undefined as string | undefined,
-  terms: undefined as string | undefined,
 };
 
 export const nationalSettings = { featuredMode: 'auto' as FeaturedMode, slideInterval: 7000 };
@@ -53,8 +51,3 @@ export const wonders: Story[] = [
   { title: ['Dấu son cung đình', 'The vermilion of imperial Huế'], description: ['Kiến trúc và ký ức ở Huế', 'Architecture and memory in Huế'], photo: photos.hue, destinationId: 'hue' },
   { title: ['Vịnh của những tầng sương', 'A bay in layers of mist'], description: ['Hạ Long · Quảng Ninh', 'Hạ Long · Quảng Ninh'], photo: photos.bay, destinationId: 'quang-ninh' },
 ];
-
-export const foodStories = [
-  { title: ['Một bát bún, nhiều lớp vị', 'A bowl with layers of flavour'], description: ['Rau thơm, nước chấm và một chút khói bếp. Những chi tiết nhỏ làm nên ký ức về một bữa ăn Việt.', 'Fresh herbs, dipping sauce and a little kitchen smoke. The small details that make a Vietnamese meal memorable.'] },
-  { title: ['Dừng lại ở bàn ăn Hà Nội', 'Take a seat in Hanoi'], description: ['Theo nhịp hàng quán để khám phá hương vị quen thuộc của thành phố.', 'Follow the rhythm of local tables to discover the city’s familiar flavours.'], href: hanoiHref + '#food' },
-] satisfies { title: Localized; description: Localized; href?: string }[];

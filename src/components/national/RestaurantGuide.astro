@@ -1,0 +1,145 @@
+---
+import Icon from '../shared/Icon.astro';
+import Photo from './Photo.astro';
+import { cuisineCopy, restaurantCategories, type Restaurant } from '../../data/national/cuisine';
+import { destinationDirectory } from '../../data/destinations/directory';
+import { translate, ui, type Language, type Localized } from '../../data/national/locale';
+import { httpsLink } from '../../lib/national-selection';
+
+interface Props { lang: Language; selection: readonly Restaurant[] }
+const { lang, selection } = Astro.props;
+const t = (value: Localized) => translate(value, lang);
+const names = new Map(destinationDirectory.map(destination => [destination.id, destination.name]));
+const items = selection.flatMap(item => {
+  const destination = names.get(item.destinationId);
+  const detailsUrl = httpsLink(item.detailsUrl) ?? (/^\/(?![\/\\])/.test(item.detailsUrl) ? item.detailsUrl : undefined);
+  if (!destination || !detailsUrl) return [];
+  const category = t(restaurantCategories[item.category]);
+  const cuisine = t(item.cuisine).trim();
+  const experience = t(item.experience).trim();
+  const [lat, lon] = item.coordinates ?? [];
+  const mapUrl = typeof lat === 'number' && typeof lon === 'number' && Math.abs(lat) <= 90 && Math.abs(lon) <= 180
+    ? `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=17/${lat}/${lon}`
+    : undefined;
+  return [{ ...item, destination, detailsUrl, category, cuisine, experience, mapUrl }];
+});
+const fields = [
+  { key: 'destination', label: ['Tỉnh/thành', 'Destination'] },
+  { key: 'category', label: ['Nhóm địa chỉ', 'Category'] },
+  { key: 'cuisine', label: ['Loại hình ẩm thực', 'Cuisine'] },
+  { key: 'experience', label: ['Phong cách trải nghiệm', 'Experience'] },
+] as const;
+const filters = fields.map(field => ({
+  ...field, values: [...new Set(items.map(item => item[field.key]).filter(Boolean))].sort((a, b) => a.localeCompare(b, lang)),
+})).filter(field => field.values.length);
+const requested = Astro.url.searchParams.get('destination');
+const requestedDestination = requested && names.get(requested);
+---
+<section class="n-section n-guide" id="nha-hang" aria-labelledby="restaurant-guide-title">
+  <div class="n-shell">
+    <header class="n-section-top">
+      <div>
+        <p class="n-eyebrow"><span>01</span> · HERITAGE RESTAURANT GUIDE</p>
+        <h2 id="restaurant-guide-title">{t(cuisineCopy.guide)}</h2>
+      </div>
+      <p>{t(cuisineCopy.guideIntro)}</p>
+    </header>
+    {items.length ? (
+      <div data-restaurant-guide>
+        <form class="n-guide-filters" data-restaurant-filters hidden role="search" aria-label={t(cuisineCopy.guide)}>
+          <label>{lang === 'vi' ? 'Tìm nhà hàng hoặc quán ăn' : 'Find a restaurant or eatery'}
+            <input name="query" type="search" autocomplete="off" />
+          </label>
+          {filters.map(field => (
+            <label>{t(field.label)}
+              <select name={field.key}>
+                <option value="">{lang === 'vi' ? 'Tất cả' : 'All'}</option>
+                {field.values.map(value => <option value={value} selected={field.key === 'destination' && value === requestedDestination}>{value}</option>)}
+              </select>
+            </label>
+          ))}
+        </form>
+        <p data-restaurant-empty role="status" hidden>{lang === 'vi' ? 'Chưa có địa chỉ khớp với lựa chọn của bạn.' : 'No places match your selection.'}</p>
+        <div class="n-guide-list">
+          {items.map(item => (
+            <article data-restaurant data-destination={item.destination} data-category={item.category} data-cuisine={item.cuisine} data-experience={item.experience}>
+              <Photo photo={item.image} {lang} sizes="(max-width: 780px) 92vw, 40vw" />
+              <div>
+                <p class="n-eyebrow">{item.destination} · {item.category}{item.placement === 'sponsored' && <> · <strong>{t(ui.sponsorLabel)}</strong></>}</p>
+                <h3>{item.name}</h3>
+                <p>{item.cuisine}{item.experience && ' · ' + item.experience}</p>
+                <p>{t(item.description)}</p>
+                <a class="n-text-link" href={item.detailsUrl}>{lang === 'vi' ? 'Xem chi tiết' : 'View details'} <Icon name="arrow" /></a>
+                {item.mapUrl && <a class="n-text-link" href={item.mapUrl}>{lang === 'vi' ? 'Xem trên bản đồ' : 'View on map'} <Icon name="pin" /></a>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div class="n-guide-empty">
+        <span class="n-guide-seal"><Icon name="food" size={27} /></span>
+        <div>
+          <p class="n-eyebrow">{t(ui.review)}</p>
+          <h3>{t(cuisineCopy.empty)}</h3>
+          <p>{t(cuisineCopy.emptyDetail)}</p>
+          <a class="n-text-link" href="#chuyen-am-thuc">{t(cuisineCopy.stories)} <Icon name="arrow" /></a>
+        </div>
+      </div>
+    )}
+    <details class="n-guide-criteria">
+      <summary>{t(cuisineCopy.criteria)}</summary>
+      <p>{t(cuisineCopy.criteriaDetail)}</p>
+    </details>
+  </div>
+</section>
+
+<script>
+  const normalize = (text: string) => text.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/đ/g, 'd').trim();
+  document.querySelectorAll('[data-restaurant-guide]').forEach(guide => {
+    const form = guide.querySelector<HTMLFormElement>('[data-restaurant-filters]');
+    const empty = guide.querySelector<HTMLElement>('[data-restaurant-empty]');
+    if (!form || !empty) return;
+    const cards = [...guide.querySelectorAll<HTMLElement>('[data-restaurant]')];
+    const textIndex = cards.map(card => normalize(card.textContent ?? ''));
+    const update = () => {
+      const data = new FormData(form);
+      const query = normalize(String(data.get('query') ?? ''));
+      data.delete('query');
+      let visible = 0;
+      cards.forEach((card, index) => {
+        const filtersMatch = [...data].every(([key, value]) => !value || card.dataset[key] === value);
+        card.hidden = !filtersMatch || !textIndex[index]?.includes(query);
+        if (!card.hidden) visible += 1;
+      });
+      empty.hidden = visible > 0;
+    };
+    form.addEventListener('input', update);
+    form.addEventListener('submit', event => event.preventDefault());
+    form.hidden = false;
+    update();
+  });
+</script>
+
+<style>
+  .n-guide { background: #faf6ef; border-block: 1px solid #eadfcd; }
+  .n-guide .n-section-top h2 { max-width: 22ch; }
+  .n-guide-empty { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(16px, 3vw, 38px); align-items: start; padding: clamp(22px, 4vw, 54px); background: #fffdfa; border: 1px solid #e5dac6; border-top: 2px solid #b79a64; }
+  .n-guide-empty h3 { font-size: clamp(24px, 3vw, 38px); margin: 7px 0 12px; letter-spacing: -.035em; }
+  .n-guide-empty p:not(.n-eyebrow), .n-guide-criteria p { color: var(--n-muted); max-width: 63ch; margin-bottom: 16px; }
+  .n-guide-seal { display: grid; place-items: center; color: var(--n-gold); border: 1px solid #c6af81; border-radius: 50%; width: 55px; height: 55px; }
+  .n-guide-criteria { margin-top: 18px; padding: 12px 0; border-bottom: 1px solid #ded4c4; }
+  .n-guide-criteria summary { width: fit-content; color: var(--national-petrol-deep); cursor: pointer; font-size: 14px; }
+  .n-guide-criteria p { margin: 9px 0 0; font-size: 14px; }
+  .n-guide-filters { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+  .n-guide-filters label { display: grid; min-width: min(100%, 165px); gap: 5px; font-size: 12px; }
+  .n-guide-filters :is(select, input) { width: 100%; min-height: 44px; padding-inline: 10px; border: 1px solid #c1ab86; border-radius: 4px; background: #fffdfa; color: var(--n-ink); font: inherit; }
+  .n-guide-list article { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(18px, 4vw, 48px); padding: 22px 0; border-block-start: 1px solid #ded4c4; }
+  .n-guide-list :global(img) { width: 100%; aspect-ratio: 3 / 2; height: auto; object-fit: cover; }
+  .n-guide-list h3 { margin: 8px 0; font-size: clamp(22px, 2.7vw, 34px); }
+  .n-guide-list p { margin-bottom: 9px; }
+  @media (max-width: 620px) {
+    .n-guide-empty, .n-guide-list article { grid-template-columns: minmax(0, 1fr); }
+    .n-guide-seal { width: 44px; height: 44px; }
+  }
+</style>

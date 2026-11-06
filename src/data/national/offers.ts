@@ -1,47 +1,45 @@
-import type { DateWindow } from '../../lib/national-selection';
-import type { destinations } from '../destinations/index';
-import { photos, type NationalPhoto } from './assets';
+import skybag from '../../assets/national/vietnam-airlines/skybag.png?url';
+import type { NationalPhoto } from './assets';
 import type { Localized } from './locale';
+import { activeWindow, httpsLink } from '../../lib/national-selection';
 
-export const offerCategories = {
-  accommodation: ['Lưu trú', 'Accommodation'],
-  experiences: ['Trải nghiệm du lịch', 'Travel experiences'],
-  transportation: ['Di chuyển', 'Transportation'],
-  tours: ['Tour và hoạt động', 'Tours & activities'],
-} satisfies Record<string, Localized>;
+export const airlineBookingUrl = 'https://www.vietnamairlines.com/vi-vn/ve-may-bay';
 
-export interface OfferStory {
-  id: string;
+export const skybagArtwork: NationalPhoto = {
+  src: skybag,
+  small: skybag,
+  width: 853,
+  height: 1200,
+  alt: ['Artwork SKYBAG của Vietnam Airlines với túi vàng bên cửa sổ máy bay', 'Vietnam Airlines SKYBAG artwork with a gold bag beside an aircraft window'],
+};
+
+export interface AirlineCampaign {
+  campaignId: string;
   title: Localized;
-  description: Localized;
-  destinationId: keyof typeof destinations;
-  category: keyof typeof offerCategories;
-  photo: NationalPhoto;
-}
-
-export interface Offer extends OfferStory, DateWindow {
+  subtitle: Localized;
+  image: NationalPhoto;
+  bookingUrl: string;
+  startDate: string;
+  endDate: string;
   status: 'draft' | 'approved';
-  partner: string;
-  details: Localized;
-  booking: string;
+  optionalTerms?: Localized;
 }
 
-export const offers: Offer[] = [];
+export const airlineCampaigns: readonly AirlineCampaign[] = [];
 
-export const offerExamples: readonly OfferStory[] = [
-  { id: 'stay-example', title: ['Một kỳ nghỉ chậm', 'A slower escape'], description: ['Hình dung một kỳ nghỉ với nhiều thời gian cho cảnh sắc và những khoảng lặng.', 'Picture a stay with room for scenery and quiet moments.'], destinationId: 'ninh-binh', category: 'accommodation', photo: photos.river },
-  { id: 'water-example', title: ['Một ngày trên mặt vịnh', 'A day on the bay'], description: ['Góc nhìn khác về một hành trình qua miền nước và núi đá.', 'Another way to imagine a journey through waters and limestone islands.'], destinationId: 'quang-ninh', category: 'tours', photo: photos.bay },
-  { id: 'taste-example', title: ['Qua những bàn ăn', 'Around the table'], description: ['Gợi mở những trải nghiệm bắt đầu từ hương vị địa phương.', 'A glimpse of experiences that begin with local flavours.'], destinationId: 'ho-chi-minh', category: 'experiences', photo: photos.taste },
-];
+export function findAirlineCampaign(campaigns: readonly AirlineCampaign[], today: string) {
+  return campaigns.find(campaign => {
+    const booking = httpsLink(campaign.bookingUrl);
+    return campaign.status === 'approved' && campaign.campaignId.trim() && campaign.image.src && booking
+      && /^(www\.)?vietnamairlines\.com$/.test(new URL(booking).hostname)
+      && activeWindow({ start: campaign.startDate, end: campaign.endDate }, today);
+  });
+}
 
 export const offerCopy = {
-  title: ['Heritage Travel Offers', 'Heritage Travel Offers'],
-  subtitle: ['Những ưu đãi đáng giá cho hành trình tiếp theo của bạn.', 'Worthwhile offers for your next journey.'],
-  awaiting: ['Những hành trình đáng mong đợi', 'Journeys worth looking forward to'],
-  empty: ['Heritage đang tuyển chọn những trải nghiệm và ưu đãi đặc biệt dành cho chuyến đi tiếp theo của bạn.', 'Heritage is curating special experiences and offers for your next trip.'],
-  showDemo: ['Xem bố cục minh họa', 'Preview the sample layout'],
-  exitDemo: ['Về trạng thái chưa có ưu đãi', 'Return to the no-offers view'],
-  demoLabel: ['Dữ liệu minh họa', 'Illustrative data'],
-  demoDescription: ['Bố cục để duyệt. Các mục minh họa chưa mở đặt dịch vụ.', 'Layout preview. These sample entries are unavailable to book.'],
-  view: ['Khám phá ưu đãi', 'Explore offer'],
+  title: ['Vietnam Airlines Travel Offers', 'Vietnam Airlines Travel Offers'],
+  subtitle: ['Khởi hành cùng Vietnam Airlines. Mở ra những hành trình đáng nhớ.', 'Set off with Vietnam Airlines. Open the door to journeys worth remembering.'],
+  booking: ['Khám phá chuyến bay', 'Explore flights'],
+  official: ['Tìm và đặt vé trên website chính thức của Vietnam Airlines.', 'Search and book on the official Vietnam Airlines website.'],
+  imageNote: ['Artwork SKYBAG · Bản duyệt nội bộ', 'SKYBAG artwork · Internal preview'],
 } satisfies Record<string, Localized>;

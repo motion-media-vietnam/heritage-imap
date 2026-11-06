@@ -13,8 +13,8 @@ import { companion } from '../data/national/companion';
 import { translate, ui, type Language } from '../data/national/locale';
 import type { FeaturedMode } from '../lib/national-selection';
 
-interface Props { lang: Language; mode: FeaturedMode }
-const { lang, mode } = Astro.props;
+interface Props { lang: Language; mode: FeaturedMode; homeHref?: string; pageTitle?: string }
+const { lang, mode, homeHref = '', pageTitle = identity.name } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const canonical = new URL(Astro.url.pathname, Astro.url);
 const viUrl = new URL(canonical);
@@ -48,7 +48,7 @@ const nav = [
     <meta name="robots" content="noindex, nofollow" />
     <meta name="description" content={t(ui.aboutCopy)} />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={identity.name} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={t(ui.aboutCopy)} />
     <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'vi_VN'} />
     <meta property="og:image" content={new URL(first.src, Astro.url).href} />
@@ -58,8 +58,8 @@ const nav = [
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
-    <link rel="preload" as="image" imagesrcset={`${first.small} 720w, ${first.src} ${first.width}w`} imagesizes="100vw" />
-    <title>{identity.name}</title>
+    {!homeHref && <link rel="preload" as="image" imagesrcset={`${first.small} 720w, ${first.src} ${first.width}w`} imagesizes="100vw" />}
+    <title>{pageTitle}</title>
   </head>
   <body class="n-body national-homepage" id="top">
     <a class="n-skip" href="#main">{t(ui.skip)}</a>
@@ -78,7 +78,7 @@ const nav = [
           <summary aria-label={t(ui.menu)}><Icon name="menu" size={26} /></summary>
           <nav class="n-menu-panel" aria-label={t(ui.menu)}>
             <span class="n-eyebrow">{identity.name}</span>
-            {nav.map(item => item.href ? <a href={item.href}>{t(item.label)} <Icon name="arrow" size={16} /></a> : <button type="button" data-heritage-header-open aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false">{t(item.label)} <Icon name="arrow" size={16} /></button>)}
+            {nav.map(item => item.href ? <a href={homeHref + item.href}>{t(item.label)} <Icon name="arrow" size={16} /></a> : <button type="button" data-heritage-header-open aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false">{t(item.label)} <Icon name="arrow" size={16} /></button>)}
             <div class="n-menu-external">
               <a href={identity.advertise}>{t(ui.advertise)}</a>
               <a href={identity.airline}><AirlineLockup /></a>

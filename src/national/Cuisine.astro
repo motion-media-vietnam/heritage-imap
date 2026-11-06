@@ -1,0 +1,108 @@
+---
+import NationalLayout from '../layouts/NationalLayout.astro';
+import Footer from '../components/national/Footer.astro';
+import Photo from '../components/national/Photo.astro';
+import Icon from '../components/shared/Icon.astro';
+import RestaurantGuide from '../components/national/RestaurantGuide.astro';
+import { culinaryStories, cuisineCopy, cuisineHref, restaurants } from '../data/national/cuisine';
+import { destinationDirectory } from '../data/destinations/directory';
+import { photos } from '../data/national/assets';
+import { translate, ui, type Language } from '../data/national/locale';
+
+const lang: Language = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'vi';
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const homeHref = '/national-preview/' + (lang === 'en' ? '?lang=en' : '');
+const pageTitle = t(ui.taste) + ' · Heritage Vietnam iMAP';
+const selection = restaurants.filter(item => item.status === 'approved');
+const [leadStory, ...otherStories] = culinaryStories;
+const regions = destinationDirectory.flatMap(destination => {
+  const story = culinaryStories.find(item => item.destinationId === destination.id);
+  if (story) return [{ name: destination.name, href: '#' + story.id }];
+  if (!selection.some(item => item.destinationId === destination.id)) return [];
+  const url = new URL(cuisineHref(lang), Astro.url);
+  url.searchParams.set('destination', destination.id);
+  return [{ name: destination.name, href: url.pathname + url.search + '#nha-hang' }];
+});
+---
+<NationalLayout {lang} mode="auto" {homeHref} {pageTitle}>
+  <div class="n-cuisine-page">
+    <section class="n-cuisine-hero" aria-labelledby="cuisine-title">
+      <div class="n-shell n-cuisine-cover">
+        <div class="n-cuisine-cover-copy">
+          <a href={homeHref + '#taste'} class="n-cuisine-back"><Icon name="back" size={16} /> {lang === 'vi' ? 'Về National Homepage' : 'Back to the National Homepage'}</a>
+          <p class="n-eyebrow">TASTE OF VIETNAM</p>
+          <h1 id="cuisine-title">{t(cuisineCopy.hero)}</h1>
+        </div>
+        <figure>
+          <Photo photo={photos.taste} {lang} sizes="(max-width: 780px) 94vw, 49vw" eager />
+          <figcaption class="n-photo-credit">{t(ui.imagery)}</figcaption>
+        </figure>
+      </div>
+    </section>
+    <RestaurantGuide {lang} {selection} />
+    <section class="n-section n-cuisine-stories" id="chuyen-am-thuc" aria-labelledby="culinary-stories-title">
+      <div class="n-shell">
+        <header class="n-section-top">
+          <div><p class="n-eyebrow"><span>02</span> · CULINARY STORIES</p><h2 id="culinary-stories-title">{t(cuisineCopy.stories)}.</h2></div>
+          <p>{t(cuisineCopy.intro)}</p>
+        </header>
+        <div class="n-cuisine-edition">
+          <article class="n-cuisine-lead" id={leadStory.id}>
+            {leadStory.image && <figure>
+              <Photo photo={leadStory.image} {lang} sizes="(max-width: 780px) 94vw, 57vw" />
+              <figcaption class="n-photo-credit">{t(ui.imagery)}</figcaption>
+            </figure>}
+            <p class="n-eyebrow">{t(leadStory.category)}</p>
+            <h3>{t(leadStory.title)}</h3>
+            <p>{t(leadStory.teaser)}</p>
+            <a href={leadStory.href} class="n-text-link" hreflang="vi">{t(cuisineCopy.read)}{lang === 'en' && ' · VI'} <Icon name="arrow" /></a>
+          </article>
+          <div class="n-cuisine-sidebar">
+            {otherStories.map(story => (
+              <article id={story.id}>
+                <p class="n-eyebrow">{t(story.category)}</p>
+                <h3>{t(story.title)}</h3>
+                <p>{t(story.teaser)}</p>
+                <a href={story.href} class="n-text-link" hreflang="vi">{t(cuisineCopy.read)}{lang === 'en' && ' · VI'} <Icon name="arrow" /></a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="n-section n-cuisine-regions" aria-labelledby="cuisine-region-title">
+      <div class="n-shell">
+        <header class="n-section-top"><div><p class="n-eyebrow"><span>03</span> · EXPLORE BY REGION</p><h2 id="cuisine-region-title">{t(cuisineCopy.region)}</h2></div></header>
+        <ul>{regions.map(region => <li><a href={region.href}>{region.name} <Icon name="arrow" size={18} /></a></li>)}</ul>
+      </div>
+    </section>
+  </div>
+  <Footer slot="footer" {lang} {homeHref} />
+</NationalLayout>
+
+<style>
+  .n-cuisine-hero { background: #fffdfa; padding-block: clamp(25px, 4.3vw, 62px); }
+  .n-cuisine-cover { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); align-items: center; gap: clamp(25px, 5vw, 78px); }
+  .n-cuisine-back { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-bottom: 15px; color: var(--national-petrol-deep); font-size: 12px; }
+  .n-cuisine-back:hover { text-decoration: underline; }
+  .n-cuisine-cover h1 { margin-top: 12px; font-size: clamp(32px, 4.5vw, 63px); max-width: 15ch; letter-spacing: -.048em; }
+  .n-cuisine-cover :global(img) { width: 100%; height: clamp(195px, 23vw, 310px); object-fit: cover; object-position: center 51%; }
+  .n-cuisine-cover .n-photo-credit, .n-cuisine-lead .n-photo-credit { margin-top: 7px; }
+  .n-cuisine-edition { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: clamp(30px, 6vw, 88px); }
+  .n-cuisine-lead :global(img) { width: 100%; height: clamp(290px, 37vw, 475px); object-fit: cover; object-position: center 61%; }
+  .n-cuisine-lead > .n-eyebrow { margin-top: 20px; }
+  .n-cuisine-edition h3 { font-size: clamp(23px, 2.7vw, 37px); letter-spacing: -.035em; margin: 10px 0; }
+  .n-cuisine-edition article > p:not(.n-eyebrow) { color: var(--n-muted); max-width: 48ch; margin-bottom: 16px; }
+  .n-cuisine-sidebar article { padding-block: 24px; border-top: 1px solid #e4d9c8; }
+  .n-cuisine-sidebar h3 { font-size: clamp(22px, 2.25vw, 32px); }
+  .n-cuisine-regions { background: #faf6ef; }
+  .n-cuisine-regions ul { display: flex; flex-wrap: wrap; gap: 10px 28px; padding: 0; margin: 0; list-style: none; }
+  .n-cuisine-regions a { display: flex; align-items: center; gap: 24px; border-bottom: 1px solid #bfab81; min-height: 44px; color: var(--national-petrol-deep); }
+  .n-cuisine-regions a:hover { border-color: currentColor; }
+  @media (max-width: 780px) {
+    .n-cuisine-cover, .n-cuisine-edition { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .n-cuisine-cover h1 { max-width: 19ch; }
+    .n-cuisine-cover :global(img) { height: clamp(160px, 44vw, 260px); }
+    .n-cuisine-lead :global(img) { height: clamp(240px, 62vw, 390px); }
+  }
+</style>

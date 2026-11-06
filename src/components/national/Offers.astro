@@ -1,59 +1,58 @@
 ---
+import AirlineLockup from './AirlineLockup.astro';
 import Photo from './Photo.astro';
 import Icon from '../shared/Icon.astro';
-import { photos } from '../../data/national/assets';
-import { destinations } from '../../data/destinations/index';
-import { offerCategories, offerCopy, offerExamples, type Offer } from '../../data/national/offers';
-import { translate, ui, type Language } from '../../data/national/locale';
+import { airlineBookingUrl, airlineCampaigns, findAirlineCampaign, offerCopy, skybagArtwork } from '../../data/national/offers';
+import { translate, type Language } from '../../data/national/locale';
 
-interface Props { lang: Language; visible: readonly Offer[]; demo: boolean }
-const { lang, visible, demo } = Astro.props;
+interface Props { lang: Language; today: string }
+const { lang, today } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
-const previewUrl = new URL(Astro.url);
-if (demo) previewUrl.searchParams.delete('offers');
-else previewUrl.searchParams.set('offers', 'demo');
-const previewHref = previewUrl.pathname + previewUrl.search + '#offers';
+const campaign = findAirlineCampaign(airlineCampaigns, today);
+const artwork = campaign?.image ?? skybagArtwork;
 ---
-<section id="offers" class="n-offers n-section" aria-labelledby="offers-title" data-offer-state={demo ? 'demo' : visible.length ? 'available' : 'empty'}>
+<section id="offers" class="n-airline-offers n-section" aria-labelledby="offers-title" data-offer-state={campaign ? 'available' : 'booking'}>
   <div class="n-shell">
-    <div class="n-section-top">
-      <div><p class="n-eyebrow"><span>06</span> · TRAVEL OFFERS</p><h2 id="offers-title">{t(offerCopy.title)}</h2></div>
-      <p>{t(offerCopy.subtitle)}</p>
+    <div class="n-airline-feature">
+      <div class="n-airline-copy">
+        <p class="n-eyebrow"><span>06</span> · TRAVEL OFFERS</p>
+        <div class="n-airline-signature"><AirlineLockup /></div>
+        <h2 id="offers-title">{t(offerCopy.title)}</h2>
+        {campaign && <h3>{t(campaign.title)}</h3>}
+        <p class="n-airline-intro">{t(campaign?.subtitle ?? offerCopy.subtitle)}</p>
+        <a class="n-button n-button-light" href={campaign?.bookingUrl ?? airlineBookingUrl}>{t(offerCopy.booking)} <Icon name="arrow" /></a>
+        <p class="n-airline-booking-note">{t(offerCopy.official)}</p>
+        {campaign?.optionalTerms && <p class="n-airline-booking-note">{t(campaign.optionalTerms)}</p>}
+      </div>
+      <figure class="n-airline-artwork">
+        <Photo photo={artwork} {lang} sizes="(max-width: 780px) 94vw, 45vw" />
+        {!campaign && <figcaption class="n-photo-credit">{t(offerCopy.imageNote)}</figcaption>}
+      </figure>
     </div>
-    {demo ? (
-      <>
-        <p class="n-offer-demo"><strong>{t(offerCopy.demoLabel)}</strong> · {t(offerCopy.demoDescription)}</p>
-        <div class="n-offer-grid">
-          {offerExamples.map(offer => <article data-offer={offer.id}>
-            <Photo photo={offer.photo} {lang} sizes="(max-width: 620px) 90vw, 31vw" />
-            <p class="n-eyebrow">{t(offerCategories[offer.category])} · {destinations[offer.destinationId].name}</p>
-            <h3>{t(offer.title)}</h3>
-            <p>{t(offer.description)}</p>
-          </article>)}
-        </div>
-        <p class="n-photo-credit">{t(ui.imagery)}</p>
-      </>
-    ) : visible.length ? (
-      <div class="n-offer-grid">
-        {visible.map(offer => <article data-offer={offer.id}>
-          <Photo photo={offer.photo} {lang} sizes="(max-width: 620px) 90vw, 31vw" />
-          <p class="n-eyebrow">{t(offerCategories[offer.category])} · {destinations[offer.destinationId].name}</p>
-          <h3>{t(offer.title)}</h3>
-          <p>{t(offer.description)}</p>
-          <p>{offer.partner} · {t(offer.details)}</p>
-          <p class="n-caption"><time datetime={offer.start}>{offer.start}</time> – <time datetime={offer.end}>{offer.end}</time></p>
-          <a class="n-text-link" href={offer.booking} target="_blank" rel="noopener noreferrer sponsored">{t(offerCopy.view)} <Icon name="arrow" size={16} /></a>
-        </article>)}
-      </div>
-    ) : (
-      <div class="n-offers-empty">
-        <div><p class="n-eyebrow">{t(ui.review)}</p><h3>{t(offerCopy.awaiting)}</h3><p>{t(offerCopy.empty)}</p></div>
-        <figure>
-          <Photo photo={photos.bay} {lang} sizes="(max-width: 780px) 90vw, 54vw" />
-          <figcaption class="n-photo-credit">{t(ui.imagery)}</figcaption>
-        </figure>
-      </div>
-    )}
-    {import.meta.env.DEV && !visible.length && <a class="n-text-link n-offer-preview-link" href={previewHref}>{t(demo ? offerCopy.exitDemo : offerCopy.showDemo)} <Icon name="arrow" size={16} /></a>}
   </div>
 </section>
+
+<style>
+  .n-airline-offers { background: #fff; }
+  .n-airline-feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: linear-gradient(138deg, #183e4d, #102f3b 78%); color: #fffaf0; align-items: center; border: 1px solid #234954; }
+  .n-airline-copy { padding: clamp(28px, 6.5vw, 96px); padding-inline-end: clamp(22px, 4.6vw, 64px); }
+  .n-airline-copy .n-eyebrow { color: #e2c997; }
+  .n-airline-signature { margin-top: clamp(20px, 5vw, 60px); color: #e8c981; font-size: clamp(15px, 1.7vw, 22px); letter-spacing: -.025em; }
+  .n-airline-signature :global(.n-vna-lotus) { width: 30px; height: 21px; flex-basis: 30px; }
+  .n-airline-copy h2 { font-size: clamp(34px, 4.4vw, 66px); max-width: 12ch; letter-spacing: -.05em; margin: 15px 0 20px; }
+  .n-airline-copy h3 { font-size: clamp(20px, 2.1vw, 30px); margin-bottom: 12px; }
+  .n-airline-intro { max-width: 30ch; color: #e3e9e7; font-size: clamp(15px, 1.4vw, 19px); margin-bottom: 24px; }
+  .n-airline-booking-note { max-width: 40ch; font-size: 12px; color: #cedbdc; margin-top: 12px; }
+  .n-airline-copy :global(.n-button):focus-visible { outline-color: #f6ead1; }
+  .n-airline-artwork { display: grid; justify-items: center; background: #264c58; padding: clamp(14px, 2.2vw, 32px); align-self: stretch; align-content: center; }
+  .n-airline-artwork :global(img) { width: min(100%, 498px); height: auto; max-height: 700px; object-fit: contain; }
+  .n-airline-artwork .n-photo-credit { margin-top: 8px; color: #e3e9e7; text-align: center; }
+  @media (max-width: 780px) {
+    .n-airline-feature { grid-template-columns: minmax(0, 1fr); }
+    .n-airline-artwork { order: -1; }
+    .n-airline-artwork :global(img) { width: min(100%, 63vw, 390px); max-height: none; }
+    .n-airline-copy { padding: 28px max(20px, 6vw) 34px; }
+    .n-airline-signature { margin-top: 17px; }
+    .n-airline-copy h2 { font-size: clamp(32px, 8vw, 52px); }
+  }
+</style>

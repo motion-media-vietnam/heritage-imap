@@ -1,32 +1,77 @@
 ---
 import Photo from './Photo.astro';
 import Icon from '../shared/Icon.astro';
-import { foodStories } from '../../data/national/content';
+import { culinaryStories, cuisineCopy, cuisineHref } from '../../data/national/cuisine';
 import { photos } from '../../data/national/assets';
 import { translate, ui, type Language } from '../../data/national/locale';
 
 interface Props { lang: Language }
 const { lang } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const cuisine = cuisineHref(lang);
 ---
 <section id="taste" class="n-taste n-section" aria-labelledby="taste-title">
-  <div class="n-shell n-taste-grid">
-    <div class="n-taste-copy">
-      <p class="n-eyebrow"><span>05</span> · TASTE OF VIETNAM</p>
-      <h2 id="taste-title">{t(ui.tasteIntro)}</h2>
-      <div class="n-taste-stories">
-        {foodStories.map(story => (
-          <article>
-            <h3>{t(story.title)}</h3>
-            <p>{t(story.description)}</p>
-            {'href' in story && <a href={story.href} class="n-text-link">{t(ui.taste)} · Hà Nội <Icon name="arrow" size={16} /></a>}
-          </article>
-        ))}
+  <div class="n-shell">
+    <header class="n-section-top n-taste-heading">
+      <div><p class="n-eyebrow"><span>05</span> · TASTE OF VIETNAM</p><h2 id="taste-title">{t(ui.tasteIntro)}</h2></div>
+      <p>{t(cuisineCopy.intro)}</p>
+    </header>
+    <div class="n-taste-spread">
+      <div class="n-taste-editorial">
+        <figure class="n-taste-feature">
+          <Photo photo={photos.taste} {lang} sizes="(max-width: 780px) 94vw, 60vw" />
+          <figcaption class="n-photo-credit">{t(ui.imagery)}</figcaption>
+        </figure>
+        <h3>{t(cuisineCopy.stories)}</h3>
+        <ul class="n-taste-index">
+          {culinaryStories.slice(0, 2).map((story, i) => (
+            <li>
+              <span class="n-caption" aria-hidden="true">0{i + 1}</span>
+              <div><p class="n-eyebrow">{t(story.category)}</p><a href={cuisine + '#' + story.id}>{t(story.title)}</a></div>
+              <Icon name="arrow" size={18} />
+            </li>
+          ))}
+        </ul>
+        <a class="n-button" href={cuisine}>{t(cuisineCopy.discover)} <Icon name="arrow" /></a>
       </div>
+      <aside class="n-taste-guide" aria-labelledby="taste-guide-title">
+        <div class="n-taste-guide-mark"><Icon name="food" size={22} /></div>
+        <p class="n-eyebrow">{t(cuisineCopy.recommends)}</p>
+        <h3 id="taste-guide-title">{t(cuisineCopy.restaurantInvitation)}</h3>
+        <p>{t(cuisineCopy.restaurantIntro)}</p>
+        <a class="n-text-link" href={cuisine + '#nha-hang'}>{t(cuisineCopy.find)} <Icon name="arrow" /></a>
+      </aside>
     </div>
-    <figure class="n-taste-image">
-      <Photo photo={photos.taste} {lang} sizes="(max-width: 780px) 90vw, 45vw" />
-      <figcaption class="n-photo-credit">{t(ui.imagery)}</figcaption>
-    </figure>
   </div>
 </section>
+
+<style>
+  .n-taste { background: #fffdfa; }
+  .n-taste-heading h2 { max-width: 19ch; margin-bottom: 0; }
+  .n-taste-heading > p { max-width: 33ch; }
+  .n-taste-spread { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: clamp(30px, 6vw, 90px); align-items: start; }
+  .n-taste-feature :global(img) { width: 100%; height: clamp(310px, 38vw, 510px); object-fit: cover; object-position: center 53%; }
+  .n-taste-feature .n-photo-credit { margin-top: 8px; }
+  .n-taste-editorial h3 { margin: 20px 0 17px; font-size: clamp(24px, 2.5vw, 35px); letter-spacing: -.035em; }
+  .n-taste-index { list-style: none; padding: 0; margin: 0 0 22px; }
+  .n-taste-index li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px; padding: 13px 0; border-top: 1px solid #e7dfd0; }
+  .n-taste-index li:last-child { border-bottom: 1px solid #e7dfd0; }
+  .n-taste-index :is(.n-caption, svg) { color: var(--n-gold); }
+  .n-taste-index a { display: block; font-size: clamp(15px, 1.45vw, 21px); line-height: 1.4; }
+  .n-taste-index a:hover { color: var(--national-teal); text-decoration: underline; text-underline-offset: 3px; }
+  .n-taste-guide { padding: clamp(23px, 3vw, 45px) clamp(22px, 3vw, 44px) clamp(25px, 3.6vw, 50px); margin-top: clamp(22px, 4vw, 64px); background: #f5efe5; border-top: 1px solid #c6ab77; }
+  .n-taste-guide-mark { display: grid; width: 43px; height: 43px; place-items: center; color: var(--n-gold); border: 1px solid #c7af82; border-radius: 50%; margin-bottom: clamp(23px, 4vw, 44px); }
+  .n-taste-guide h3 { font-family: var(--n-serif); font-size: clamp(27px, 3.2vw, 45px); letter-spacing: -.035em; margin-block: 14px 16px; }
+  .n-taste-guide > p:not(.n-eyebrow) { max-width: 33ch; color: #5d554b; margin-bottom: 23px; }
+  @media (max-width: 780px) {
+    .n-taste-spread { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .n-taste-guide { margin-top: 0; }
+    .n-taste-feature :global(img) { height: clamp(255px, 67vw, 450px); }
+  }
+  @media (max-width: 520px) {
+    .n-taste { padding-block: 52px; }
+    .n-taste-heading > p { font-size: 14px; line-height: 1.6; }
+    .n-taste-guide-mark { width: 36px; height: 36px; margin-bottom: 16px; }
+    .n-taste-guide > p:not(.n-eyebrow) { font-size: 14px; line-height: 1.65; margin-bottom: 16px; }
+  }
+</style>

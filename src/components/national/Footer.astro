@@ -1,42 +1,104 @@
 ---
 import Brand from './Brand.astro';
 import Icon from '../shared/Icon.astro';
-import { identity, hubHref } from '../../data/national/content';
-import { nationalDestinations } from '../../data/national/map';
+import { identity } from '../../data/national/content';
+import { cuisineCopy, cuisineHref } from '../../data/national/cuisine';
+import { offerCopy } from '../../data/national/offers';
+import { canNamePartner, nationalPartners } from '../../data/national/partners';
 import { translate, ui, type Language } from '../../data/national/locale';
 
-interface Props { lang: Language }
-const { lang } = Astro.props;
+interface Props { lang: Language; homeHref?: string }
+const { lang, homeHref = '' } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
-const active = nationalDestinations.filter(item => hubHref(item.id));
+const officialPartners = nationalPartners.filter(canNamePartner);
+const proposedPartners = import.meta.env.DEV ? nationalPartners.filter(partner => partner.status === 'proposed') : [];
+const partnersLabel = t(['Đối tác đồng hành', 'Our partners']);
+const privacy = {
+  label: t(['Bảo mật · Vietnam Airlines', 'Privacy · Vietnam Airlines']),
+  href: `https://www.vietnamairlines.com/vn/${lang}/legal/privacy-policy`,
+};
+const terms = {
+  label: t(['Điều khoản · Heritage', 'Terms · Heritage']),
+  href: lang === 'vi' ? 'https://heritagevietnamairlines.com/dieu-khoan-chinh-sach/' : 'https://heritagevietnamairlines.com/en/terms-policies/',
+};
 ---
-<footer class="n-footer" id="about">
+<footer class="n-national-footer" id="about">
+  <svg class="n-footer-lotus" viewBox="0 0 520 312" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M260 266C190 225 181 136 260 25c79 111 70 200 0 241Z" />
+    <path d="M260 266C144 268 104 192 82 77c88 17 145 88 178 189Zm0 0c116 2 156-74 178-189-88 17-145 88-178 189Z" />
+    <path d="M260 266C141 305 62 264 23 166c104-7 176 22 237 100Zm0 0c119 39 198-2 237-100-104-7-176 22-237 100Z" />
+    <path d="M260 266v24m-97 0h194" />
+  </svg>
   <div class="n-shell">
-    <div class="n-footer-grid">
-      <div class="n-footer-intro"><Brand /><p>{t(ui.footerTag)}</p><small>{t(ui.aboutCopy)}</small></div>
-      <nav aria-label={t(ui.menu)}><h2>{t(ui.explore)}</h2>
-        <a href="#featured">{t(ui.destinations)}</a>
-        <a href="#wonders">{t(ui.wonders)}</a>
-        <a href="#taste">{t(ui.taste)}</a>
-        <a href="#offers">{t(ui.offers)}</a>
+    <div class:list={['n-signature-grid', { 'n-signature-three': !officialPartners.length && !proposedPartners.length }]}>
+      <div class="n-signature-intro"><Brand /><p>{t(ui.footerTag)}</p><small>{t(ui.aboutCopy)}</small></div>
+      <nav aria-label={t(ui.explore)}><h2>{t(ui.explore)}</h2>
+        <a href={homeHref + '#featured'}>{t(ui.destinations)}</a>
+        <a href={homeHref + '#explore-vietnam'}>{t(['Bản đồ Việt Nam', 'Vietnam map'])}</a>
+        <a href={homeHref + '#wonders'}>{t(ui.wonders)}</a>
+        <a href={cuisineHref(lang)}>{t(ui.taste)}</a>
+        <a href={cuisineHref(lang) + '#nha-hang'}>{t(cuisineCopy.recommends)}</a>
+        <a href={homeHref + '#offers'}>{t(offerCopy.title)}</a>
       </nav>
-      <nav aria-label={t(ui.destinations)}><h2>{t(ui.destinations)}</h2>
-        {active.map(item => <a href={hubHref(item.id)}>{item.name}</a>)}
-        <a href="#explore-vietnam">{t(ui.mapLabel)}</a>
-      </nav>
+      {(officialPartners.length > 0 || proposedPartners.length > 0) && (
+        <section class="n-footer-partners" aria-labelledby="footer-partners-title">
+          <h2 id="footer-partners-title">{partnersLabel}</h2>
+          {officialPartners.length > 0 && <ul>{officialPartners.map(partner => <li>{partner.name}</li>)}</ul>}
+          {proposedPartners.length > 0 && (
+            <>
+              <p class="n-partner-status">{t(['Danh sách dự kiến · Bản duyệt nội bộ', 'Proposed list · Internal preview'])}</p>
+              <ul>{proposedPartners.map(partner => (
+                <li>{partner.name}{partner.id === 'ho-chi-minh' && <small>{t(['Chờ xác nhận đơn vị', 'Partner entity to be confirmed'])}</small>}</li>
+              ))}</ul>
+            </>
+          )}
+        </section>
+      )}
       <nav aria-label={t(ui.connect)}><h2>{t(ui.connect)}</h2>
-        <a href={identity.heritage}>Heritage</a>
+        <a href={identity.heritage}>Heritage Vietnam Airlines</a>
         <a href={identity.airline}>Vietnam Airlines</a>
-        <a href={identity.contact}>{t(ui.contact)}</a>
-        <a href={identity.advertise}>{t(ui.advertise)}</a>
+        <a href={lang === 'vi' ? identity.contact : 'https://heritagevietnamairlines.com/en/contact/'}>{t(ui.contact)}</a>
+        <a href={identity.advertise}>{t(['Quảng cáo / Hợp tác', 'Advertising / Partnerships'])}</a>
+        <a href={privacy.href}>{privacy.label}</a>
+        <a href={terms.href}>{terms.label}</a>
       </nav>
     </div>
-    <div class="n-footer-bottom">
-      <span>© {identity.name} · {t(ui.review)}</span>
-      <span><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a> · <a href="https://www.geonames.org/">GeoNames</a></span>
-      {identity.privacy && <a href={identity.privacy}>{lang === 'vi' ? 'Quyền riêng tư' : 'Privacy policy'}</a>}
-      {identity.terms && <a href={identity.terms}>{lang === 'vi' ? 'Điều khoản sử dụng' : 'Terms of use'}</a>}
-      <a href="#top">{t(ui.backTop)} <Icon name="arrow" size={15} /></a>
+    <div class="n-signature-bottom">
+      <span>© {identity.name}{import.meta.env.DEV && ' · ' + t(ui.review)}</span>
+      <div class="n-signature-legal"><a href={privacy.href}>{privacy.label}</a><a href={terms.href}>{terms.label}</a></div>
+      {!homeHref && <div class="n-signature-legal"><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a><a href="https://www.geonames.org/">GeoNames</a></div>}
+      <a class="n-signature-top" href="#top">{t(ui.backTop)} <Icon name="arrow" size={15} /></a>
     </div>
   </div>
 </footer>
+
+<style>
+  .n-national-footer { position: relative; isolation: isolate; overflow: hidden; border-top: 1px solid #d8c49e; padding-block: clamp(40px, 5vw, 72px) 18px; background: #f8f3ea; color: #353c3b; }
+  .n-footer-lotus { position: absolute; z-index: -1; width: clamp(310px, 42vw, 620px); max-width: none; bottom: -36px; right: -36px; color: #a98035; opacity: .08; pointer-events: none; }
+  .n-signature-grid { display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(0, .9fr) minmax(0, 1.15fr) minmax(0, .9fr); gap: clamp(18px, 3vw, 45px); }
+  .n-signature-three { grid-template-columns: minmax(0, 1.28fr) repeat(2, minmax(0, 1fr)); }
+  .n-signature-intro > p { font: 400 clamp(22px, 2.2vw, 31px)/1.24 var(--n-serif); margin-block: 18px 11px; max-width: 16ch; color: var(--n-ink); }
+  .n-signature-intro > small { font-size: 12px; display: block; max-width: 35ch; color: #5e5b51; }
+  .n-signature-grid h2 { font: 600 10px/1.5 var(--n-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--n-gold); margin: 5px 0 13px; }
+  .n-signature-grid nav a { display: flex; align-items: center; width: fit-content; min-height: 30px; padding: 5px 0; font-size: 12px; line-height: 1.42; }
+  .n-footer-partners ul { list-style: none; padding: 0; margin: 0; }
+  .n-footer-partners li { font-size: 12px; line-height: 1.46; margin-bottom: 10px; }
+  .n-footer-partners li small { display: block; color: #635740; font-size: 11px; }
+  .n-partner-status { display: inline-block; padding: 4px 7px; border: 1px solid #ddceb1; margin-bottom: 11px; color: #63502c; font-size: 10px; }
+  .n-signature-bottom { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 6px 18px; border-top: 1px solid #d9c7a8; margin-top: clamp(24px, 3.5vw, 48px); padding-top: 12px; font-size: 10px; color: #575951; }
+  .n-signature-legal { display: flex; flex-wrap: wrap; column-gap: 12px; }
+  .n-signature-bottom a { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; }
+  .n-national-footer a:hover { color: var(--national-teal); text-decoration: underline; text-underline-offset: 3px; }
+  .n-signature-top svg { transform: rotate(-90deg); }
+  @media (max-width: 900px) {
+    .n-signature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 34px; }
+  }
+  @media (max-width: 520px) {
+    .n-national-footer { padding-top: 32px; }
+    .n-signature-grid { grid-template-columns: minmax(0, 1fr); gap: 17px; }
+    .n-signature-grid > :not(:first-child) { border-top: 1px solid #dfd0b6; padding-top: 13px; }
+    .n-signature-grid nav a { min-height: 34px; }
+    .n-footer-lotus { width: 315px; right: -65px; bottom: -38px; opacity: .06; }
+    .n-signature-bottom { align-items: start; flex-direction: column; }
+  }
+</style>
