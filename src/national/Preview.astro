@@ -10,17 +10,22 @@ import Offers from '../components/national/Offers.astro';
 import Footer from '../components/national/Footer.astro';
 import { nationalSettings } from '../data/national/content';
 import type { Language } from '../data/national/locale';
+import type { FeaturedMode } from '../lib/national-selection';
+import type { SeasonalMode } from '../lib/seasonal-selection';
 
-const lang: Language = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'vi';
+interface Props { reviewState?: { lang: Language; featured: FeaturedMode; seasonal: SeasonalMode } }
+const { reviewState } = Astro.props;
+const lang: Language = reviewState?.lang ?? (Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'vi');
 const requested = Astro.url.searchParams.get('featured');
-const mode = requested === 'editorial' || requested === 'sponsored' ? requested : nationalSettings.featuredMode;
+const mode = reviewState?.featured ?? (requested === 'editorial' || requested === 'sponsored' ? requested : nationalSettings.featuredMode);
+const seasonal = reviewState?.seasonal;
 const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date());
 ---
-<NationalLayout {lang} {mode}>
+<NationalLayout {lang} {mode} {seasonal}>
   <Hero {lang} />
-  <FeaturedDestinations {lang} {mode} {today} />
+  <FeaturedDestinations {lang} {mode} {today} {seasonal} />
   <NationalMap {lang} />
-  <Seasonal {lang} {today} />
+  <Seasonal {lang} {today} featured={mode} reviewMode={seasonal} />
   <Wonders {lang} />
   <HeritageList {lang} />
   <Offers {lang} {today} />

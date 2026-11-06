@@ -6,12 +6,14 @@ import { nationalDestinations } from '../../data/national/map';
 import { editorialSeason, previewSeasonalCampaign, seasonalCampaigns, type SeasonalArtwork } from '../../data/national/seasonal';
 import { translate, ui, type Language } from '../../data/national/locale';
 import { seasonalPreviewMode, selectSeasonal, type SeasonalMode } from '../../lib/seasonal-selection';
+import { approvalHomeHref, approvalReview } from '../../lib/national-approval';
+import type { FeaturedMode } from '../../lib/national-selection';
 
-interface Props { lang: Language; today: string }
-const { lang, today } = Astro.props;
+interface Props { lang: Language; today: string; featured?: FeaturedMode; reviewMode?: SeasonalMode }
+const { lang, today, featured, reviewMode } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
-const preview = import.meta.env.DEV && Astro.url.pathname.replace(/\/$/, '') === '/national-preview';
-const mode = seasonalPreviewMode(Astro.url.searchParams.get('seasonal'), preview);
+const preview = approvalReview || (import.meta.env.DEV && Astro.url.pathname.replace(/\/$/, '') === '/national-preview');
+const mode = reviewMode ?? seasonalPreviewMode(Astro.url.searchParams.get('seasonal'), preview);
 const selection = selectSeasonal(mode, seasonalCampaigns, today, preview ? previewSeasonalCampaign : undefined);
 const sponsor = selection.mode === 'sponsored' ? selection : undefined;
 const campaign: SeasonalArtwork | undefined = sponsor?.campaign;
@@ -28,6 +30,7 @@ const options = [
   { id: 'editorial', label: ui.editorial },
 ] as const;
 function modeHref(id: SeasonalMode) {
+  if (approvalReview) return approvalHomeHref(lang, featured, id) + '#seasonal';
   const query = new URLSearchParams(Astro.url.searchParams);
   if (id === 'auto') query.delete('seasonal'); else query.set('seasonal', id);
   return Astro.url.pathname + (query.size ? '?' + query : '') + '#seasonal';

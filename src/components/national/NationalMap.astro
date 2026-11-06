@@ -10,12 +10,13 @@ import { editorialSpotlightOrder, mapDirectoryPriority, mapSpotlightPlacements, 
 import { chooseMapSpotlight, mapSpotlightHref, orderedMapDirectory } from '../../lib/national-map-selection';
 import { mapUi } from '../../data/national/map-locale';
 import { translate, ui, type Language } from '../../data/national/locale';
+import { approvalReview } from '../../lib/national-approval';
 
 interface Props { lang: Language }
 const { lang } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date());
-const showDemo = import.meta.env.DEV && Astro.url.searchParams.get('spotlight') !== 'editorial';
+const showDemo = approvalReview || (import.meta.env.DEV && Astro.url.searchParams.get('spotlight') !== 'editorial');
 const fallback = showDemo ? [previewMapSpotlight.destinationId, ...editorialSpotlightOrder] : editorialSpotlightOrder;
 const { destination, placement } = chooseMapSpotlight(provinceDestinations, mapSpotlightPlacements, today, fallback)!;
 const demo = showDemo && !placement && destination.id === previewMapSpotlight.destinationId;

@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:approval": "astro build --config astro.approval.config.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",

@@ -8,10 +8,11 @@ import { culinaryStories, cuisineCopy, cuisineHref, restaurants } from '../data/
 import { destinationDirectory } from '../data/destinations/directory';
 import { photos } from '../data/national/assets';
 import { translate, ui, type Language } from '../data/national/locale';
+import { approvalHomeHref, approvalReview, nationalCollectionLanguage } from '../lib/national-approval';
 
-const lang: Language = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'vi';
+const lang: Language = nationalCollectionLanguage(Astro.url);
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
-const homeHref = '/national-preview/' + (lang === 'en' ? '?lang=en' : '');
+const homeHref = approvalReview ? approvalHomeHref(lang) : '/national-preview/' + (lang === 'en' ? '?lang=en' : '');
 const pageTitle = t(ui.taste) + ' · Heritage Vietnam iMAP';
 const selection = restaurants.filter(item => item.status === 'approved');
 const [leadStory, ...otherStories] = culinaryStories;

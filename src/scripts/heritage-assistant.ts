@@ -6,7 +6,7 @@ import { setupHeritageChatVisibility } from './heritage-chat-visibility';
 
 const root = document.querySelector<HTMLElement>('[data-heritage-assistant]');
 if (root) {
-  const national = import.meta.env.DEV && root.dataset.heritageScope === 'national';
+  const national = (import.meta.env.DEV || import.meta.env.PUBLIC_NATIONAL_APPROVAL === '1') && root.dataset.heritageScope === 'national';
   const lang = root.dataset.heritageLang === 'en' ? 'en' : 'vi';
   const t = (value: Localized) => translate(value, lang);
   const initialPrompts = national ? companionPrompts.map(item => t(item.question)) : defaultChips;

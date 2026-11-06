@@ -12,9 +12,11 @@ import { heroSlides, identity } from '../data/national/content';
 import { companion } from '../data/national/companion';
 import { translate, ui, type Language } from '../data/national/locale';
 import type { FeaturedMode } from '../lib/national-selection';
+import type { SeasonalMode } from '../lib/seasonal-selection';
+import { approvalHomeHref, approvalReview } from '../lib/national-approval';
 
-interface Props { lang: Language; mode: FeaturedMode; homeHref?: string; pageTitle?: string }
-const { lang, mode, homeHref = '', pageTitle = identity.name } = Astro.props;
+interface Props { lang: Language; mode: FeaturedMode; seasonal?: SeasonalMode; homeHref?: string; pageTitle?: string }
+const { lang, mode, seasonal, homeHref = '', pageTitle = identity.name } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const canonical = new URL(Astro.url.pathname, Astro.url);
 const viUrl = new URL(canonical);
@@ -29,6 +31,9 @@ if (mode !== 'auto') {
   enUrl.searchParams.set('featured', mode);
 }
 if (lang === 'en') canonical.searchParams.set('lang', 'en');
+const collectionPath = Astro.url.pathname.replace(/^\/(?:en|national-preview)\//, '/');
+const viHref = approvalReview ? (homeHref ? collectionPath : approvalHomeHref('vi', mode, seasonal)) : viUrl.pathname + viUrl.search;
+const enHref = approvalReview ? (homeHref ? '/en' + collectionPath : approvalHomeHref('en', mode, seasonal)) : enUrl.pathname + enUrl.search;
 const first = heroSlides[0].photo;
 const nav = [
   { href: '#explore-vietnam', label: ui.explore },
@@ -51,9 +56,11 @@ const nav = [
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={t(ui.aboutCopy)} />
     <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'vi_VN'} />
-    <meta property="og:image" content={new URL(first.src, Astro.url).href} />
-    <meta property="og:url" content={canonical.href} />
-    <link rel="canonical" href={canonical.href} />
+    {!approvalReview && <>
+      <meta property="og:image" content={new URL(first.src, Astro.url).href} />
+      <meta property="og:url" content={canonical.href} />
+      <link rel="canonical" href={canonical.href} />
+    </>}
     <link rel="icon" href="data:," />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -71,8 +78,8 @@ const nav = [
       <Brand />
       <div class="n-header-right">
         <nav class="n-language" aria-label={lang === 'vi' ? 'Ngôn ngữ' : 'Language'}>
-          <a href={viUrl.pathname + viUrl.search} hreflang="vi" lang="vi" aria-label="Tiếng Việt" aria-current={lang === 'vi' ? 'true' : undefined}>VI</a>
-          <a href={enUrl.pathname + enUrl.search} hreflang="en" lang="en" aria-label="English" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+          <a href={viHref} hreflang="vi" lang="vi" aria-label="Tiếng Việt" aria-current={lang === 'vi' ? 'true' : undefined}>VI</a>
+          <a href={enHref} hreflang="en" lang="en" aria-label="English" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
         </nav>
         <details class="n-menu" data-national-menu>
           <summary aria-label={t(ui.menu)}><Icon name="menu" size={26} /></summary>

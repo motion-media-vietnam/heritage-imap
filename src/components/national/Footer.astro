@@ -7,12 +7,14 @@ import { cuisineHref } from '../../data/national/cuisine';
 import { offerCopy } from '../../data/national/offers';
 import { canNamePartner, nationalPartners } from '../../data/national/partners';
 import { translate, ui, type Language } from '../../data/national/locale';
+import { approvalReview } from '../../lib/national-approval';
 
 interface Props { lang: Language; homeHref?: string }
 const { lang, homeHref = '' } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const officialPartners = nationalPartners.filter(canNamePartner);
 const proposedPartners = import.meta.env.DEV ? nationalPartners.filter(partner => partner.status === 'proposed') : [];
+const showPartners = approvalReview || officialPartners.length > 0 || proposedPartners.length > 0;
 const partnersLabel = t(['Đối tác đồng hành', 'Our partners']);
 const privacy = {
   label: t(['Bảo mật · Vietnam Airlines', 'Privacy · Vietnam Airlines']),
@@ -26,7 +28,7 @@ const terms = {
 <footer class="n-national-footer" id="about">
   <img class="n-footer-lotus" src={footerLotus} width="421" height="309" alt="" loading="lazy" decoding="async" />
   <div class="n-shell">
-    <div class:list={['n-signature-grid', { 'n-signature-three': !officialPartners.length && !proposedPartners.length }]}>
+    <div class:list={['n-signature-grid', { 'n-signature-three': !showPartners }]}>
       <div class="n-signature-intro"><Brand /><p>{t(ui.footerTag)}</p><small>{t(ui.aboutCopy)}</small></div>
       <nav aria-label={t(ui.explore)}><h2>{t(ui.explore)}</h2>
         <a href={homeHref + '#featured'}>{t(ui.destinations)}</a>
@@ -36,10 +38,11 @@ const terms = {
         <a href={homeHref + '#taste'}>{t(['Heritage — Danh sách tuyển chọn', 'Heritage — Curated List'])}</a>
         <a href={homeHref + '#offers'}>{t(offerCopy.title)}</a>
       </nav>
-      {(officialPartners.length > 0 || proposedPartners.length > 0) && (
+      {showPartners && (
         <section class="n-footer-partners" aria-labelledby="footer-partners-title">
           <h2 id="footer-partners-title">{partnersLabel}</h2>
           {officialPartners.length > 0 && <ul>{officialPartners.map(partner => <li>{partner.name}</li>)}</ul>}
+          {approvalReview && !officialPartners.length && <p class="n-partner-status">{t(['Danh sách đối tác đang chờ xác nhận', 'Partner list pending confirmation'])}</p>}
           {proposedPartners.length > 0 && (
             <>
               <p class="n-partner-status">{t(['Danh sách dự kiến · Bản duyệt nội bộ', 'Proposed list · Internal preview'])}</p>
@@ -60,7 +63,7 @@ const terms = {
       </nav>
     </div>
     <div class="n-signature-bottom">
-      <span>© {identity.name}{import.meta.env.DEV && ' · ' + t(ui.review)}</span>
+      <span>© {identity.name}{(import.meta.env.DEV || approvalReview) && ' · ' + t(ui.review)}</span>
       <div class="n-signature-legal"><a href={privacy.href}>{privacy.label}</a><a href={terms.href}>{terms.label}</a></div>
       {!homeHref && <div class="n-signature-legal"><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a><a href="https://www.geonames.org/">GeoNames</a></div>}
       <a class="n-signature-top" href="#top">{t(ui.backTop)} <Icon name="arrow" size={15} /></a>

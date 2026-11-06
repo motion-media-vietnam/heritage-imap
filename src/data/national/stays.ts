@@ -1,7 +1,9 @@
 import type { NationalPhoto } from './assets';
 import type { Language, Localized } from './locale';
+import { approvalCollectionHref, approvalReview } from '../../lib/national-approval';
 
 export function staysHref(lang: Language) {
+  if (approvalReview) return approvalCollectionHref('luu-tru', lang);
   return '/national-preview/luu-tru/' + (lang === 'en' ? '?lang=en' : '');
 }
 

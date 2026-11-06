@@ -1,7 +1,9 @@
 import { photos, type NationalPhoto } from './assets';
 import type { Language, Localized } from './locale';
+import { approvalCollectionHref, approvalReview } from '../../lib/national-approval';
 
 export function cuisineHref(lang: Language) {
+  if (approvalReview) return approvalCollectionHref('am-thuc', lang);
   return '/national-preview/am-thuc/' + (lang === 'en' ? '?lang=en' : '');
 }
 

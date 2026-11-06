@@ -5,9 +5,11 @@ import Icon from '../shared/Icon.astro';
 import { collage, featured, hubHref, previewSponsorships, sponsorships } from '../../data/national/content';
 import { translate, ui, type Language } from '../../data/national/locale';
 import { activeSponsorships, featuredDestinations, type FeaturedMode } from '../../lib/national-selection';
+import { approvalHomeHref, approvalReview } from '../../lib/national-approval';
+import type { SeasonalMode } from '../../lib/seasonal-selection';
 
-interface Props { lang: Language; mode: FeaturedMode; today: string }
-const { lang, mode, today } = Astro.props;
+interface Props { lang: Language; mode: FeaturedMode; today: string; seasonal?: SeasonalMode }
+const { lang, mode, today, seasonal } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const eligible = new Set(featured.map(item => item.id));
 const sponsors = activeSponsorships(sponsorships, today, new Set(featured.filter(item => hubHref(item.id)).map(item => item.id)));
@@ -20,6 +22,7 @@ const modes = [
   { id: 'sponsored', label: ui.sponsored },
 ] as const;
 function modeHref(id: FeaturedMode) {
+  if (approvalReview) return approvalHomeHref(lang, id, seasonal) + '#featured';
   const search = new URLSearchParams();
   if (lang === 'en') search.set('lang', 'en');
   if (id !== 'auto') search.set('featured', id);

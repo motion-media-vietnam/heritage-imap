@@ -1,0 +1,12 @@
+---
+import Preview from './Preview.astro';
+import { approvalHomeHref, reviewLanguages, reviewModes } from '../lib/national-approval';
+
+export function getStaticPaths() {
+  return reviewLanguages.flatMap(lang => reviewModes.flatMap(featured => reviewModes
+    .filter(seasonal => approvalHomeHref(lang, featured, seasonal) !== '/')
+    .map(seasonal => ({ params: { lang, featured, seasonal }, props: { lang, featured, seasonal } }))));
+}
+const { lang, featured, seasonal } = Astro.props;
+---
+<Preview reviewState={{ lang, featured, seasonal }} />
