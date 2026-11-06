@@ -225,4 +225,4 @@ Giữ cách hiện tại đơn giản hơn mua dịch vụ thiết kế bản đ
 
 **Tìm điểm đến và chế độ Seasonal, 06/11/2026.** Phí dịch vụ định kỳ tăng thêm trong bản duyệt là **0 USD/tháng**. Tìm kiếm 34 tỉnh/thành và 7 địa danh bằng chỉ mục tĩnh trên trình duyệt, với 0 lượt gọi dịch vụ tra tọa độ khi gõ. Leaflet tải ô ảnh OpenStreetMap khi người xem mở bản đồ hoặc chọn kết quả. Seasonal dùng lại ảnh tĩnh và liên kết Sun World hiện có. Trước khi phát hành, đo lưu lượng ô ảnh theo tỷ lệ chọn kết quả và kiểm tra giới hạn của nhà cung cấp bản đồ. Công sức biên tập và kiểm tra tính riêng.
 
-**Vị trí ghim Ninh Bình, 06/11/2026.** Điều chỉnh vị trí hiển thị trên bản đồ minh họa. Chi phí dịch vụ tăng thêm là **0 USD/tháng** vì dùng lại tọa độ, ảnh và luồng tải bản đồ tương tác hiện có.
+**Vị trí ghim Ninh Bình và Quảng Ninh, 06/11/2026.** Điều chỉnh vị trí hiển thị trên bản đồ minh họa. Chi phí dịch vụ tăng thêm là **0 USD/tháng** vì dùng lại tọa độ, ảnh và luồng tải bản đồ tương tác hiện có.

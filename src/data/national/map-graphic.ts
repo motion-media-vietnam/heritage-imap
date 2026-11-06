@@ -8,7 +8,8 @@ export const discoveryPins = [
   { id: 'ho-chi-minh', x: 422, y: 590 },
   // Keep the tip just south of the geographic anchor (361, 193) to clear Hà Nội's label.
   { id: 'ninh-binh', x: 361, y: 230 },
-  { id: 'quang-ninh', x: 492, y: 188 },
+  // Keep the coastal anchor visible beside the photo and clear of Hà Nội's pin.
+  { id: 'quang-ninh', x: 448, y: 185 },
   { id: 'dien-bien', x: 258, y: 155 },
 ] satisfies { id: typeof featuredMapDestinationIds[number]; x: number; y: number }[];
 
