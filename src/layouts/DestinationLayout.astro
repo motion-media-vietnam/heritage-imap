@@ -3,6 +3,7 @@ import Icon from '../components/shared/Icon.astro';
 import BrandLogo from '../components/shared/BrandLogo.astro';
 import type { DestinationHub } from '../data/destinations/types';
 import HeritageSparkle from '../components/shared/HeritageSparkle.astro';
+import HeritageChatEntry from '../components/shared/HeritageChatEntry.astro';
 import '../styles/global.css';
 import '../styles/editorial.css';
 interface Props {
@@ -45,10 +46,12 @@ const headerNavigation = hub.navigation.map(item => ({
         <div class="header-actions">
           <span class="site-language">{hub.languageLabel}</span>
           <a class="header-search" href={homePath + hub.search.path} aria-label={hub.search.label}><Icon name="search" size={23} /><span>Tìm kiếm</span></a>
+          {Astro.slots.has('assistant') && <span class="destination-chat-entry"><HeritageChatEntry compact /></span>}
           <details class="mobile-menu">
             <summary><Icon name="menu" size={24} /><span>Menu</span></summary>
             <nav aria-label="Điều hướng trên điện thoại">
               {headerNavigation.map(item => <a href={item.href} class:list={{ 'heritage-nav-cta': item.highlight }}>{item.highlight && <HeritageSparkle />}{item.label}<Icon name="arrow" size={18} /></a>)}
+              {Astro.slots.has('assistant') && <div class="destination-chat-menu"><HeritageChatEntry /></div>}
               <span class="menu-location">{hub.locationLabel} · {hub.languageLabel}</span>
             </nav>
           </details>
@@ -70,6 +73,11 @@ const headerNavigation = hub.navigation.map(item => ({
   </body>
 </html>
 <style>
+  .destination-chat-menu { padding-top: 12px; }
+  @media (max-width: 1000px) {
+    .destination-chat-entry { display: none; }
+  }
+  .mobile-menu nav { max-height: calc(100dvh - var(--header-height)); overflow-y: auto; }
   .site-header .desktop-nav a.heritage-nav-cta,
   .site-header .mobile-menu nav a.heritage-nav-cta { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: auto; min-height: 44px; padding: 9px 12px; border: 1px solid #a58c61; border-radius: 999px; background: transparent; color: #242724; box-shadow: none; transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
   .site-header .desktop-nav a.heritage-nav-cta:hover,

@@ -1,0 +1,18 @@
+---
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<button class:list={['heritage-chat-entry', { compact }]} type="button" data-heritage-header-open aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false" aria-label="Hỏi Heritage">
+  {compact ? <span aria-hidden="true">H</span> : 'Hỏi Heritage'}
+</button>
+<style>
+  .heritage-chat-entry {
+    min-height: 44px; padding: 6px 12px; border: 1px solid #a58c61; border-radius: 999px;
+    background: transparent; color: inherit; font: inherit; cursor: pointer;
+  }
+  .heritage-chat-entry.compact {
+    display: grid; place-items: center; flex: none; width: 44px; padding: 0;
+    font: italic 20px/1 Georgia, serif;
+  }
+  .heritage-chat-entry:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+</style>

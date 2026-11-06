@@ -48,13 +48,13 @@ const stops = campaign.stops.flatMap(stop => {
     {sponsor ? (
       <>
         <p class="n-caption n-seasonal-credit">{t(sponsor.demo ? ['Bản duyệt nội bộ · Chờ duyệt', 'Internal preview · Pending approval'] : ['Nội dung tài trợ', 'Sponsored content'])}</p>
-        <a class="n-seasonal-sponsor" href={sponsor.campaign.bookingUrl} aria-label={`Booking · ${t(campaign.title)}`}>
+        <a class="n-seasonal-sponsor" data-heritage-chat-zone="immersive" href={sponsor.campaign.bookingUrl} aria-label={`Booking · ${t(campaign.title)}`}>
           <Photo photo={campaign.artwork} {lang} sizes="100vw" />
           <span class="n-button n-button-light n-seasonal-booking">Booking <Icon name="arrow" size={16} /></span>
         </a>
       </>
     ) : (
-      <div class="n-seasonal-editorial">
+      <div class="n-seasonal-editorial" data-heritage-chat-zone="content">
         <Photo photo={campaign.artwork} {lang} sizes="(min-width: 1440px) 1320px, 94vw" />
         <div class="n-seasonal-editorial-copy">
           <p>{t(editorialSeason.intro)}</p>

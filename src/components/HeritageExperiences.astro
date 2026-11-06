@@ -12,7 +12,7 @@ import { heritageExperiences as experiences } from '../data/destinations/hanoi/h
       <p>Di sản Hà Nội không chỉ nằm trong những công trình cổ kính, mà còn hiện diện trong từng góc phố, nếp sống và những trải nghiệm được gìn giữ qua nhiều thế hệ.</p>
       <p class="experience-status">Những câu chuyện video đang được chuẩn bị.</p>
     </header>
-    <div class="experience-gallery">
+    <div class="experience-gallery" data-heritage-chat-zone="content">
       <div class="experience-track" id="heritage-experience-track" tabindex="0" aria-label="Trải nghiệm di sản Hà Nội — cuộn ngang để khám phá">
         {experiences.map((experience, index) => <article class:list={['experience-card', index === 0 ? 'experience-film' : 'experience-photo']} data-experience-card aria-labelledby={`heritage-experience-${index}`}>
           <div class:list={['experience-visual', { 'experience-pending': !experience.image }]}>

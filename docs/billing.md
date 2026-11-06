@@ -231,4 +231,4 @@ Giữ cách hiện tại đơn giản hơn mua dịch vụ thiết kế bản đ
 
 **Taste, họa tiết sen và Heritage List, 06/11/2026.** Phí dịch vụ tăng thêm cho bản duyệt là **0 USD/tháng**. Bản Taste dùng ảnh bún. Heritage List dùng lại ảnh sân thượng 96 KB và Metropole 961 KB, chờ duyệt vị trí mới. Footer dùng SVG 4,9 KB từ mẫu đã chọn. Trang lưu trú dùng dữ liệu tĩnh và không xử lý đặt phòng. Ảnh tải khi cần. Công sức biên tập tính riêng.
 
-**Tinh chỉnh National Homepage, 06/11/2026.** Bản duyệt tăng **0 USD/tháng**. Ảnh Hạ Long thêm hai tệp tĩnh 32 và 152 KB. Ảnh Ninh Bình dùng lại tệp có sẵn. Menu và màu sắc không gọi thêm dịch vụ.
+**Tinh chỉnh giao diện, 06/11/2026.** Bản duyệt tăng **0 USD/tháng**. Ảnh Hạ Long thêm tệp tĩnh 32 và 152 KB. Ảnh Ninh Bình dùng tệp có sẵn. Nút nổi Hỏi Heritage chạy trên trình duyệt, không thêm lượt gọi API hoặc hạ tầng.

@@ -11,6 +11,7 @@ import { formatDistance } from '../../lib/explore';
 import { googleWalkingDirections } from '../../lib/imap-directions';
 import { createNeighborhoodState, discoveryCategories, markerCategory } from '../../lib/imap-neighborhood';
 import DestinationPortrait from '../shared/DestinationPortrait.astro';
+import HeritageChatEntry from '../shared/HeritageChatEntry.astro';
 import 'leaflet/dist/leaflet.css';
 import '../../styles/imap-prototype.css';
 interface Props { embedded?: boolean }
@@ -21,7 +22,7 @@ const initiallyVisible = new Set(initialPlaces.map(place => place.slug));
 ---
 <section class="imap-prototype" data-embedded={embedded ? 'true' : undefined} id={embedded ? 'experiences' : undefined} aria-label="iMap · Khám phá Hà Nội">
     <a class="skip" href="#prototype-directory">Đến danh sách địa điểm</a>
-    {!embedded && <header class="prototype-header"><a class="prototype-brand" href="/" aria-label="Hanoi iMap — trang chủ"><BrandLogo {...hanoi.brand.logo} /></a><span>HÀ NỘI / NHỮNG CÂU CHUYỆN GẦN BẠN</span><b class="development-only">04A · PROTOTYPE</b></header>}
+    {!embedded && <header class="prototype-header"><a class="prototype-brand" href="/" aria-label="Hanoi iMap — trang chủ"><BrandLogo {...hanoi.brand.logo} /></a><span>HÀ NỘI / NHỮNG CÂU CHUYỆN GẦN BẠN</span><b class="development-only">04A · PROTOTYPE</b><HeritageChatEntry compact /></header>}
     <div class="prototype-main">
       <div class="intro"><p class="kicker">MỘT THÀNH PHỐ. NHIỀU CÂU CHUYỆN.</p><Slogan class="prototype-slogan">Chạm để khám phá</Slogan><p class="development-only">Bản mẫu khu vực đi bộ · Mục tiêu 8–12 điểm khi có dữ liệu đã duyệt · Chưa tích hợp trang chủ.</p></div>
       <section class="tools" id={embedded ? 'search' : undefined} aria-label="Tìm và lọc địa điểm">
@@ -36,8 +37,8 @@ const initiallyVisible = new Set(initialPlaces.map(place => place.slug));
         <p id="prototype-distance-note" class="sr-only">Bán kính tham khảo, không phải chỉ đường đi bộ.</p>
         <p id="prototype-location-message" class="location-message" role="status"></p>
       </section>
-      <section id="prototype-explorer" class="explorer" aria-label="Khám phá Hà Nội">
-        <div id="prototype-sheet" class="prototype-sheet" data-sheet-state="collapsed">
+      <section id="prototype-explorer" class="explorer" data-heritage-chat-zone="content" aria-label="Khám phá Hà Nội">
+        <div id="prototype-sheet" class="prototype-sheet" data-sheet-state="collapsed" data-heritage-chat-zone="content">
           <div id="sheet-handle" class="sheet-handle">
             <span class="drag-grip" aria-hidden="true"></span>
             <button id="prototype-discovery" class="discovery-bar" type="button" aria-expanded="false" aria-controls="prototype-directory">Khám phá {initialPlaces.length} địa điểm</button>

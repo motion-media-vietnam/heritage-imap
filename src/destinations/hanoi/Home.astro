@@ -14,7 +14,7 @@ interface Props { routes?: DestinationRoutes }
 const { routes = legacyHanoiRoutes } = Astro.props;
 ---
 <Layout hub={hanoi} homePath={routes.home} wide overlayHeader>
-  <section class="hero" data-page-hero aria-labelledby="hero-heading">
+  <section class="hero" data-page-hero data-heritage-chat-zone="immersive" aria-labelledby="hero-heading">
     <svg class="hero-tone-map" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <filter id="hero-shadow-detail" color-interpolation-filters="sRGB">

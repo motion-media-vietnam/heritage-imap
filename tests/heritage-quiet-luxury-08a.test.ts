@@ -24,9 +24,10 @@ test('08A: header retains Heritage route/label with an outlined CTA and shared s
   assert(!/background:\s*#(?:a73128|86271f)/i.test(styles));
 });
 
-test('HỎI HERITAGE: pine vertical edge button opens an accessible local drawer, not a link', () => {
-  for (const contract of ['Hỏi Heritage nhé', 'HỎI HERITAGE', 'position: fixed', 'right: 0', 'top: 50%', 'writing-mode: vertical-rl', 'border-radius: 12px 0 0 12px', 'background: #173d38', 'color: #fff', 'min-height: 44px', 'focus-visible', 'prefers-reduced-motion: reduce', 'width: min(416px, calc(100vw - 32px))', 'heritage-enter', 'aria-controls="heritage-drawer"', 'aria-haspopup="dialog"', '<dialog', 'data-heritage-close', 'role="log"']) assert(launcher.includes(contract), contract);
-  assert(!/<(?:a|img|iframe)\b|gradient\(/.test(launcher));
+test('HỎI HERITAGE: responsive edge button opens the existing accessible local drawer', () => {
+  for (const contract of ['Hỏi Heritage nhé', 'HỎI HERITAGE', 'position: fixed', 'right: env(safe-area-inset-right, 0px)', 'top: var(--heritage-dock-y, 50%)', 'writing-mode: vertical-rl', 'border-radius: 12px 0 0 12px', 'background: var(--heritage-tab-metal)', '--heritage-compact-size: 44px', 'color: #fff', 'min-height: 44px', 'focus-visible', 'prefers-reduced-motion: reduce', 'width: min(416px, calc(100vw - 32px))', 'heritage-enter', 'aria-controls="heritage-drawer"', 'aria-haspopup="dialog"', '<dialog', 'data-heritage-close', 'role="log"']) assert(launcher.includes(contract), contract);
+  assert.match(launcher, /\.heritage-drawer-header \{[^}]*background: #173d38/);
+  assert(!/<(?:a|img|iframe)\b/.test(launcher));
   assert(!/background:\s*#(?:a73128|86271f)/i.test(launcher));
   assert(sparkle.includes('aria-hidden="true"'));
   assert(sparkle.includes('focusable="false"'));
@@ -48,8 +49,9 @@ test('08A.1: drawer uses the scoped free travel scripts and discloses its limits
 
 test('08A.1: source preserves page state and accounts for controls, header and safe areas', () => {
   const controller = source('src/scripts/heritage-assistant.ts');
-  for (const contract of ['drawer.showModal()', 'window.scrollX', 'window.scrollY', 'previous.overflow', 'previous.gutter', "scrollbarGutter = 'stable'", "behavior: 'instant'", 'preventScroll: true', "drawer.addEventListener('close', restorePage)", "event.stopPropagation()", 'window.visualViewport', 'headerBottom()', '.leaflet-control', '.destination-video button', "'open'"]) assert(controller.includes(contract), contract);
-  assert(!controller.includes('.destination-video, '));
-  assert(!/history\.(?:pushState|replaceState)|location\.(?:href|assign|replace)|(?:openPlace|setView|flyTo|invalidateSize)\(/.test(controller));
+  const visibility = source('src/scripts/heritage-chat-visibility.ts');
+  for (const contract of ['drawer.showModal()', 'window.scrollX', 'window.scrollY', 'previous.overflow', 'previous.gutter', "scrollbarGutter = 'stable'", "behavior: 'instant'", 'preventScroll: true', "drawer.addEventListener('close', restorePage)", "event.stopPropagation()", 'window.visualViewport', 'headerBottom()', 'focusFallback']) assert(controller.includes(contract), contract);
+  for (const contract of ['.leaflet-control', 'video[controls]', 'dialog[open]', 'IntersectionObserver', 'tab.inert = !next', 'drawer.open', 'data-heritage-chat-zone="immersive"']) assert(visibility.includes(contract), contract);
+  assert(!/history\.(?:pushState|replaceState)|location\.(?:href|assign|replace)|(?:openPlace|setView|flyTo|invalidateSize)\(/.test(controller + visibility));
   for (const contract of ['safe-area-inset-bottom', 'safe-area-inset-right', '100dvh', 'overflow-y: auto', 'overscroll-behavior: contain', 'flex-shrink: 0', 'width: 100vw']) assert(launcher.includes(contract), contract);
 });

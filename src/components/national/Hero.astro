@@ -9,7 +9,7 @@ const { lang } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const [headlineLead, ...headlineRest] = t(ui.heroTitle).split(', ');
 ---
-<section class="n-hero" aria-labelledby="national-title" data-national-hero data-interval={nationalSettings.slideInterval} data-play={t(ui.play)} data-pause={t(ui.pause)}>
+<section class="n-hero" aria-labelledby="national-title" data-national-hero data-heritage-chat-zone="immersive" data-interval={nationalSettings.slideInterval} data-play={t(ui.play)} data-pause={t(ui.pause)}>
   <div class="n-hero-images">
     {heroSlides.map((slide, index) => (
       <div class:list={['n-slide', { 'is-current': index === 0 }]} data-slide={index} data-caption={t(slide.caption)} aria-hidden={index === 0 ? undefined : 'true'} style={{ '--hero-focal': slide.position, '--hero-focal-mobile': slide.mobilePosition }}>

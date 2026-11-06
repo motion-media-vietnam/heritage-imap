@@ -8,8 +8,8 @@ const national = scope === 'national';
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 ---
 <div data-heritage-assistant data-heritage-scope={scope} data-heritage-lang={national ? lang : undefined}>
-  <button class="heritage-tab" type="button" data-heritage-open aria-label={national ? t(companion.title) : "Hỏi Heritage nhé"} aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false" hidden>
-    <span aria-hidden="true" class="heritage-monogram">H</span><span>HỎI HERITAGE</span>
+  <button class="heritage-tab" type="button" data-heritage-open data-heritage-visibility="hidden" aria-label={national ? t(companion.title) : "Hỏi Heritage nhé"} aria-haspopup="dialog" aria-controls="heritage-drawer" aria-expanded="false" hidden inert>
+    <span aria-hidden="true" class="heritage-monogram">H</span><span class="heritage-tab-label">HỎI HERITAGE</span>
   </button>
   <dialog id="heritage-drawer" class="heritage-drawer" aria-labelledby="heritage-drawer-title" aria-describedby="heritage-capability">
     <header class="heritage-drawer-header">
@@ -39,12 +39,28 @@ const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 </div>
 <script>import '../scripts/heritage-assistant';</script>
 <style>
-  .heritage-tab { box-sizing: border-box; position: fixed; z-index: 2100; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 12px; min-width: 44px; padding: 18px max(12px, env(safe-area-inset-right)) 18px 12px; writing-mode: vertical-rl; border: 1px solid #173d38; border-right: 0; border-radius: 12px 0 0 12px; background: #173d38; color: #fff; box-shadow: -3px 2px 12px #173d3820; font: 500 10px/1.5 var(--editorial-body, 'Be Vietnam Pro', Arial, sans-serif); letter-spacing: .14em; cursor: pointer; }
+  .heritage-tab {
+    --heritage-tab-width: 36px;
+    --heritage-tab-height: 152px;
+    --heritage-compact-size: 44px;
+    --heritage-safe-top: env(safe-area-inset-top, 0px);
+    --heritage-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --heritage-tab-metal: linear-gradient(125deg, #3a6158 4%, #4f746b 28%, #3d635a 43%, #31554e 69%, #446e64);
+    box-sizing: border-box; position: fixed; z-index: 2100; right: env(safe-area-inset-right, 0px);
+    top: var(--heritage-dock-y, 50%); transform: translateY(-50%);
+    width: var(--heritage-tab-width); height: var(--heritage-tab-height); padding: 0;
+    display: flex; align-items: center; justify-content: center; gap: 12px; writing-mode: vertical-rl;
+    border: 1px solid #5d7e75; border-right: 0; border-radius: 12px 0 0 12px;
+    background: var(--heritage-tab-metal); color: #fff; box-shadow: inset 1px 0 #ffffff29, -3px 2px 12px #173d3820;
+    font: 500 10px/1.5 var(--editorial-body, 'Be Vietnam Pro', Arial, sans-serif); letter-spacing: .14em; cursor: pointer;
+    transition: opacity .2s ease, visibility .2s;
+  }
   .heritage-monogram { font: italic 20px/1 Georgia, serif; }
   .heritage-tab[hidden] { display: none; }
-  .heritage-tab:not([hidden]) { animation: heritage-tab-enter .22s ease-out; }
-  @keyframes heritage-tab-enter { from { opacity: 0; transform: translate(100%, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
-  .heritage-tab:hover { background: #254c46; }
+  .heritage-tab[data-heritage-visibility="hidden"] { opacity: 0; visibility: hidden; pointer-events: none; }
+  .heritage-tab[data-heritage-dock="compact"] { width: var(--heritage-compact-size); height: var(--heritage-compact-size); writing-mode: horizontal-tb; }
+  .heritage-tab[data-heritage-dock="compact"] .heritage-tab-label { display: none; }
+  .heritage-tab:hover { background: linear-gradient(#ffffff0c, #ffffff0c), var(--heritage-tab-metal); }
   .heritage-drawer { box-sizing: border-box; position: fixed; inset: auto 20px max(20px, env(safe-area-inset-bottom)) auto; width: min(416px, calc(100vw - 32px)); max-width: 100vw; height: min(704px, calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px) - 32px)); max-height: calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px) - 20px); margin: 0; padding: 0; overflow: hidden; overscroll-behavior: contain; border: 1px solid #d9e3dc; border-radius: 18px; background: #fafaf7; color: #344b45; box-shadow: 0 28px 90px #0c262231; font: 400 13px/1.65 var(--editorial-body, 'Be Vietnam Pro', Arial, sans-serif); }
   .heritage-drawer[open] { display: flex; flex-direction: column; animation: heritage-enter .2s ease-out; }
   .heritage-drawer::backdrop { background: #173d381a; }
@@ -80,7 +96,6 @@ const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
   .heritage-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   @keyframes heritage-enter { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
   @media (max-width: 720px) {
-    .heritage-tab { font-size: 10px; padding-block: 14px; }
     .heritage-drawer { inset: auto 0 calc(100dvh - var(--heritage-viewport-height, 100dvh)) auto; width: 100vw; height: min(90dvh, calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px) - 8px)); max-height: calc(var(--heritage-viewport-height, 100dvh) - var(--heritage-drawer-top, 0px) - 8px); border-radius: 19px 19px 0 0; }
     .heritage-input textarea { font-size: 16px; }
     .heritage-drawer-header { padding: 16px; }
@@ -89,5 +104,8 @@ const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
     @keyframes heritage-enter { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
   }
   @media (max-height: 600px) { .heritage-description, .heritage-intro, .heritage-sugg-label { display: none; } .heritage-suggestions { max-height: 66px; overflow-y: auto; } .heritage-drawer-header { padding-block: 8px; } .heritage-disclosure { margin-top: 4px; padding-top: 4px; } }
-  @media (prefers-reduced-motion: reduce) { .heritage-drawer[open], .heritage-tab:not([hidden]) { animation: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .heritage-tab { transition: none; }
+    .heritage-drawer[open] { animation: none; }
+  }
 </style>
