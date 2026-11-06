@@ -232,3 +232,20 @@ Giữ cách hiện tại đơn giản hơn mua dịch vụ thiết kế bản đ
 **Taste, họa tiết sen và Heritage List, 06/11/2026.** Phí dịch vụ tăng thêm cho bản duyệt là **0 USD/tháng**. Bản Taste dùng ảnh bún. Heritage List dùng lại ảnh sân thượng 96 KB và Metropole 961 KB, chờ duyệt vị trí mới. Footer dùng SVG 4,9 KB từ mẫu đã chọn. Trang lưu trú dùng dữ liệu tĩnh và không xử lý đặt phòng. Ảnh tải khi cần. Công sức biên tập tính riêng.
 
 **Tinh chỉnh giao diện, 06/11/2026.** Bản duyệt tăng **0 USD/tháng**. Ảnh Hạ Long 32 và 152 KB, Ninh Bình dùng lại ảnh. Hỏi Heritage và Spotlight chạy cục bộ. Ô OpenStreetMap chỉ tải sau thao tác chủ động.
+
+<!-- pagebreak -->
+## National Hub 1.0 · Dự toán bản duyệt Netlify
+
+**Phương án đề xuất ngày 06/11/2026.** Dùng Netlify Free cho một bản tĩnh, tên miền con miễn phí, tải lên từng bản đã duyệt. Phí thuê bao xác minh là **0 USD/tháng**, hạn mức 300 credits mỗi tháng dùng chung trong nhóm, không tự mua thêm. Nhà cung cấp có thể tạm dừng dự án khi hết credits cho tới kỳ mới. Kiểm tra tên dự án, chủ tài khoản và hạn mức còn lại trên bảng điều khiển trước lần tải lên đầu tiên. [Gói Free và hạn mức](https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/credit-based-pricing-plans/) · [Điều khoản Free](https://www.netlify.com/legal/self-serve-subscription-agreement/)
+
+**Đơn vị tính.** Một lần đưa bản lên địa chỉ chính của dự án duyệt tính 15 credits. Một GB truyền từ Netlify tính 20 credits. Mỗi 10.000 yêu cầu tải trang hoặc tài nguyên tính 2 credits. Dự toán dùng 6 MB (0,006 GB thập phân) và 45 yêu cầu mỗi phiên xem, chưa có số đo lưu lượng đối tác. Bản dựng tĩnh không dùng Functions, cơ sở dữ liệu, AI trả phí hoặc giao dịch. [Cách tính credits](https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/how-credits-work/)
+
+| Kịch bản tháng | Lượt xem | Lần đưa bản lên | GB và yêu cầu | Credits dự kiến | Phí Netlify |
+| --- | --- | --- | --- | --- | --- |
+| Thấp | 50 | 1 | 0,30 GB · 2.250 | 15 + 6 + 0,45 = 21,45 | 0 USD |
+| Dự kiến | 200 | 2 | 1,20 GB · 9.000 | 30 + 24 + 1,8 = 55,8 | 0 USD |
+| Cao | 1.000 | 4 | 6,00 GB · 45.000 | 60 + 120 + 9 = 189 | 0 USD |
+
+Dự toán còn phụ thuộc lượng credits của các dự án khác trong cùng nhóm. Mốc nội bộ 200 credits giúp kiểm tra lưu lượng sớm và giảm các lần tải lên nếu cần. 300 credits là giới hạn của gói, còn mốc nội bộ chỉ dùng để theo dõi. Subtotal trên không gồm công biên tập, vận hành, thuế hoặc quy đổi nếu sau này phát sinh giao dịch trả phí, chi phí tên miền tương lai và dịch vụ ngoài Netlify. Ô bản đồ OpenStreetMap tải trực tiếp khi người xem chủ động mở, theo hạn mức và chính sách cộng đồng riêng. [Chính sách ô ảnh OSM](https://operations.osmfoundation.org/policies/tiles/)
+
+**Quyền truy cập và lựa chọn khác.** Netlify Free không có mật khẩu dùng chung cho khách ngoài nhóm. Bản gửi qua liên kết dùng `noindex` và có thể xem khi biết URL. Chế độ riêng tư của Free chỉ dành cho chủ nhóm. Nếu cần giới hạn đối tác theo danh tính, phải chọn phương án khác trước khi đưa nội dung hạn chế lên mạng. Cloudflare Pages Free là lựa chọn cho bản tĩnh, với hạn mức 500 bản dựng Git/tháng và 25 MiB mỗi tệp, cần tài khoản và quy trình khác. Bản Sites Hà Nội tiếp tục phục vụ ở địa chỉ hiện có. [Quyền truy cập Netlify](https://docs.netlify.com/deploy/protect-deploys/) · [Giới hạn Cloudflare Pages](https://developers.cloudflare.com/pages/platform/limits/)
