@@ -1,6 +1,7 @@
 ---
 import Brand from './Brand.astro';
 import Icon from '../shared/Icon.astro';
+import footerLotus from '../../assets/national/brand/heritage-lotus-footer.svg?url';
 import { identity } from '../../data/national/content';
 import { cuisineCopy, cuisineHref } from '../../data/national/cuisine';
 import { offerCopy } from '../../data/national/offers';
@@ -23,12 +24,7 @@ const terms = {
 };
 ---
 <footer class="n-national-footer" id="about">
-  <svg class="n-footer-lotus" viewBox="0 0 520 312" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round">
-    <path d="M260 266C190 225 181 136 260 25c79 111 70 200 0 241Z" />
-    <path d="M260 266C144 268 104 192 82 77c88 17 145 88 178 189Zm0 0c116 2 156-74 178-189-88 17-145 88-178 189Z" />
-    <path d="M260 266C141 305 62 264 23 166c104-7 176 22 237 100Zm0 0c119 39 198-2 237-100-104-7-176 22-237 100Z" />
-    <path d="M260 266v24m-97 0h194" />
-  </svg>
+  <img class="n-footer-lotus" src={footerLotus} width="421" height="309" alt="" loading="lazy" decoding="async" />
   <div class="n-shell">
     <div class:list={['n-signature-grid', { 'n-signature-three': !officialPartners.length && !proposedPartners.length }]}>
       <div class="n-signature-intro"><Brand /><p>{t(ui.footerTag)}</p><small>{t(ui.aboutCopy)}</small></div>
@@ -74,7 +70,7 @@ const terms = {
 
 <style>
   .n-national-footer { position: relative; isolation: isolate; overflow: hidden; border-top: 1px solid #d8c49e; padding-block: clamp(40px, 5vw, 72px) 18px; background: #f8f3ea; color: #353c3b; }
-  .n-footer-lotus { position: absolute; z-index: -1; width: clamp(310px, 42vw, 620px); max-width: none; bottom: -36px; right: -36px; color: #a98035; opacity: .08; pointer-events: none; }
+  .n-footer-lotus { position: absolute; z-index: -1; width: clamp(420px, 32vw, 520px); height: auto; max-width: none; bottom: -2px; right: 6px; opacity: .12; pointer-events: none; }
   .n-signature-grid { display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(0, .9fr) minmax(0, 1.15fr) minmax(0, .9fr); gap: clamp(18px, 3vw, 45px); }
   .n-signature-three { grid-template-columns: minmax(0, 1.28fr) repeat(2, minmax(0, 1fr)); }
   .n-signature-intro > p { font: 400 clamp(22px, 2.2vw, 31px)/1.24 var(--n-serif); margin-block: 18px 11px; max-width: 16ch; color: var(--n-ink); }
@@ -98,7 +94,7 @@ const terms = {
     .n-signature-grid { grid-template-columns: minmax(0, 1fr); gap: 17px; }
     .n-signature-grid > :not(:first-child) { border-top: 1px solid #dfd0b6; padding-top: 13px; }
     .n-signature-grid nav a { min-height: 34px; }
-    .n-footer-lotus { width: 315px; right: -65px; bottom: -38px; opacity: .06; }
+    .n-footer-lotus { width: 250px; right: -38px; bottom: -54px; opacity: .09; }
     .n-signature-bottom { align-items: start; flex-direction: column; }
   }
 </style>
