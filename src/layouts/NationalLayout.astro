@@ -34,7 +34,7 @@ const nav = [
   { href: '#explore-vietnam', label: ui.explore },
   { href: '#featured', label: ui.destinations },
   { href: '#wonders', label: ui.wonders },
-  { href: '#taste', label: ui.taste },
+  { href: '#taste', label: homeHref ? ui.taste : ['Heritage- Danh sách tuyển chọn', 'Heritage – Curated List'] as const },
   { href: undefined, label: companion.title },
   { href: '#offers', label: ui.offers },
   { href: '#about', label: ui.about },

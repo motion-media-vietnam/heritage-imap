@@ -48,10 +48,10 @@ const stops = campaign.stops.flatMap(stop => {
     {sponsor ? (
       <>
         <p class="n-caption n-seasonal-credit">{t(sponsor.demo ? ['Bản duyệt nội bộ · Chờ duyệt', 'Internal preview · Pending approval'] : ['Nội dung tài trợ', 'Sponsored content'])}</p>
-        <div class="n-seasonal-sponsor">
-          <Photo photo={campaign.artwork} {lang} sizes="(min-width: 1440px) 1320px, 94vw" />
-          <a class="n-button n-button-light n-seasonal-booking" href={sponsor.campaign.bookingUrl}>Booking <Icon name="arrow" size={16} /></a>
-        </div>
+        <a class="n-seasonal-sponsor" href={sponsor.campaign.bookingUrl} aria-label={`Booking · ${t(campaign.title)}`}>
+          <Photo photo={campaign.artwork} {lang} sizes="100vw" />
+          <span class="n-button n-button-light n-seasonal-booking">Booking <Icon name="arrow" size={16} /></span>
+        </a>
       </>
     ) : (
       <div class="n-seasonal-editorial">
@@ -89,6 +89,9 @@ const stops = campaign.stops.flatMap(stop => {
   }
   .n-seasonal-credit { margin-bottom: 8px; color: var(--n-muted); font-size: 9px; }
   .n-seasonal-sponsor, .n-seasonal-editorial { position: relative; isolation: isolate; }
+  .n-seasonal[data-seasonal-mode="sponsored"] { container-type: inline-size; }
+  .n-seasonal-sponsor { display: block; margin-inline: calc((100% - 100cqw) / 2); }
+  .n-seasonal-sponsor:focus-visible { outline: 2px solid var(--national-gold-text); outline-offset: -3px; }
   .n-seasonal-sponsor > :global(img) { display: block; width: 100%; height: auto; }
   .n-seasonal-sponsor .n-seasonal-booking {
     position: absolute; z-index: 1; top: 33.2%; left: 64%; translate: -50% 0;

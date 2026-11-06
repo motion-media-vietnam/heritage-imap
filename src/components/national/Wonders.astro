@@ -24,6 +24,10 @@ const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
         </article>
       ))}
     </div>
-    <p class="n-photo-credit">{t(ui.imagery)}</p>
+    <p class="n-photo-credit">{t(['Ảnh Ninh Bình và Hạ Long · Ảnh AI minh họa Huế · Chờ duyệt', 'Ninh Bình and Hạ Long photography · Huế AI illustration · Pending approval'])}</p>
   </div>
 </section>
+
+<style>
+  .n-wonder:first-child .n-wonder-image :global(img) { object-position: center bottom; }
+</style>

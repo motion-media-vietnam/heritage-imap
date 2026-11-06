@@ -7,10 +7,15 @@ import hoiAnSmall from '../../assets/national/hero/hoi-an-720.webp?url';
 import type { NationalPhoto } from './assets';
 import type { Localized } from './locale';
 
-// Owner-supplied photography. Dedicated objects keep imagery below the hero intact.
+export const ninhBinhPhoto: NationalPhoto = {
+  src: ninhBinh, small: ninhBinhSmall, width: 1920, height: 1278,
+  alt: ['Thuyền nhỏ dưới vách núi đá trong ánh sáng dịu ở Ninh Bình', 'Small boats beneath limestone cliffs in soft light in Ninh Bình'],
+};
+
+// Owner-supplied photography.
 export const heroSlides = [
   {
-    photo: { src: ninhBinh, small: ninhBinhSmall, width: 1920, height: 1278, alt: ['Thuyền nhỏ dưới vách núi đá trong ánh sáng dịu ở Ninh Bình', 'Small boats beneath limestone cliffs in soft light in Ninh Bình'] },
+    photo: ninhBinhPhoto,
     caption: ['Ninh Bình · Miền Bắc', 'Ninh Bình · Northern Vietnam'],
     position: '50% 64%', mobilePosition: '53% 65%',
   },
