@@ -1,7 +1,7 @@
 ---
 import Photo from './Photo.astro';
 import Icon from '../shared/Icon.astro';
-import { culinaryStories, cuisineCopy, cuisineHref } from '../../data/national/cuisine';
+import { cuisineCopy, cuisineHref } from '../../data/national/cuisine';
 import { photos } from '../../data/national/assets';
 import { translate, ui, type Language } from '../../data/national/locale';
 
@@ -11,67 +11,103 @@ const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const cuisine = cuisineHref(lang);
 ---
 <section id="taste" class="n-taste n-section" aria-labelledby="taste-title">
-  <div class="n-shell">
+  <div class="n-shell n-taste-shell">
     <header class="n-section-top n-taste-heading">
-      <div><p class="n-eyebrow"><span>05</span> · TASTE OF VIETNAM</p><h2 id="taste-title">{t(ui.tasteIntro)}</h2></div>
+      <div>
+        <p class="n-eyebrow"><span>05</span> — TASTE OF VIETNAM</p>
+        <h2 id="taste-title">{t(ui.tasteIntro)}</h2>
+      </div>
       <p>{t(cuisineCopy.intro)}</p>
     </header>
     <div class="n-taste-spread">
-      <div class="n-taste-editorial">
-        <figure class="n-taste-feature">
-          <Photo photo={photos.taste} {lang} sizes="(max-width: 780px) 94vw, 60vw" />
-          <figcaption class="n-photo-credit">{t(ui.imagery)}</figcaption>
-        </figure>
-        <h3>{t(cuisineCopy.stories)}</h3>
-        <ul class="n-taste-index">
-          {culinaryStories.slice(0, 2).map((story, i) => (
-            <li>
-              <span class="n-caption" aria-hidden="true">0{i + 1}</span>
-              <div><p class="n-eyebrow">{t(story.category)}</p><a href={cuisine + '#' + story.id}>{t(story.title)}</a></div>
-              <Icon name="arrow" size={18} />
-            </li>
-          ))}
-        </ul>
-        <a class="n-button" href={cuisine}>{t(cuisineCopy.discover)} <Icon name="arrow" /></a>
-      </div>
-      <aside class="n-taste-guide" aria-labelledby="taste-guide-title">
-        <div class="n-taste-guide-mark"><Icon name="food" size={22} /></div>
-        <p class="n-eyebrow">{t(cuisineCopy.recommends)}</p>
-        <h3 id="taste-guide-title">{t(cuisineCopy.restaurantInvitation)}</h3>
-        <p>{t(cuisineCopy.restaurantIntro)}</p>
-        <a class="n-text-link" href={cuisine + '#nha-hang'}>{t(cuisineCopy.find)} <Icon name="arrow" /></a>
-      </aside>
+      <article class="n-taste-editorial">
+        <a class="n-taste-story" href={cuisine + '#chuyen-am-thuc'} aria-labelledby="taste-story-title taste-story-cta">
+          <figure class="n-taste-feature">
+            <Photo photo={photos.taste} {lang} sizes="(max-width: 700px) 94vw, (max-width: 1360px) 55vw, 730px" />
+            <figcaption class="n-photo-credit">{t(ui.imagery)}</figcaption>
+          </figure>
+          <div class="n-taste-story-copy">
+            <div>
+              <p class="n-eyebrow">{t(['Câu chuyện ẩm thực', 'Culinary story'])}</p>
+              <h3 id="taste-story-title">{t(['Hành trình của gia vị', 'The journey of spice'])}</h3>
+              <p class="n-taste-draft">{t(['Tựa bài minh họa', 'Working title'])}</p>
+            </div>
+            <span class="n-taste-cta" id="taste-story-cta">{t(cuisineCopy.read)} <Icon name="arrow" size={16} /></span>
+          </div>
+        </a>
+      </article>
+      <article class="n-taste-restaurants">
+        <a class="n-taste-guide" href={cuisine + '#nha-hang'} aria-labelledby="taste-guide-title taste-guide-cta">
+          <img src="/images/hanoi-rooftop-bar.jpg" alt={t(['Không gian bàn ăn ngoài trời với giàn hoa trong ánh chiều Hà Nội', 'An outdoor dining terrace with flowers in Hanoi’s evening light'])} width="800" height="533" loading="lazy" decoding="async" />
+          <div class="n-taste-guide-copy">
+            <p class="n-eyebrow">{t(cuisineCopy.recommends)}</p>
+            <h3 id="taste-guide-title">{t(['Những nhà hàng tốt nhất Việt Nam', 'Vietnam’s best restaurants'])}</h3>
+            <p class="n-taste-guide-teaser">{t(['Những địa chỉ ẩm thực đáng trải nghiệm được Heritage tuyển chọn.', 'Memorable places to eat, selected by Heritage.'])}</p>
+            <span class="n-taste-cta n-taste-cta-button" id="taste-guide-cta">{t(cuisineCopy.find)} <Icon name="arrow" size={16} /></span>
+          </div>
+        </a>
+        <p class="n-photo-credit">{t(ui.mixedImagery)}</p>
+      </article>
     </div>
   </div>
 </section>
 
 <style>
   .n-taste { background: #fffdfa; }
-  .n-taste-heading h2 { max-width: 19ch; margin-bottom: 0; }
-  .n-taste-heading > p { max-width: 33ch; }
-  .n-taste-spread { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: clamp(30px, 6vw, 90px); align-items: start; }
-  .n-taste-feature :global(img) { width: 100%; height: clamp(310px, 38vw, 510px); object-fit: cover; object-position: center 53%; }
-  .n-taste-feature .n-photo-credit { margin-top: 8px; }
-  .n-taste-editorial h3 { margin: 20px 0 17px; font-size: clamp(24px, 2.5vw, 35px); letter-spacing: -.035em; }
-  .n-taste-index { list-style: none; padding: 0; margin: 0 0 22px; }
-  .n-taste-index li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px; padding: 13px 0; border-top: 1px solid #e7dfd0; }
-  .n-taste-index li:last-child { border-bottom: 1px solid #e7dfd0; }
-  .n-taste-index :is(.n-caption, svg) { color: var(--n-gold); }
-  .n-taste-index a { display: block; font-size: clamp(15px, 1.45vw, 21px); line-height: 1.4; }
-  .n-taste-index a:hover { color: var(--national-teal); text-decoration: underline; text-underline-offset: 3px; }
-  .n-taste-guide { padding: clamp(23px, 3vw, 45px) clamp(22px, 3vw, 44px) clamp(25px, 3.6vw, 50px); margin-top: clamp(22px, 4vw, 64px); background: #f5efe5; border-top: 1px solid #c6ab77; }
-  .n-taste-guide-mark { display: grid; width: 43px; height: 43px; place-items: center; color: var(--n-gold); border: 1px solid #c7af82; border-radius: 50%; margin-bottom: clamp(23px, 4vw, 44px); }
-  .n-taste-guide h3 { font-family: var(--n-serif); font-size: clamp(27px, 3.2vw, 45px); letter-spacing: -.035em; margin-block: 14px 16px; }
-  .n-taste-guide > p:not(.n-eyebrow) { max-width: 33ch; color: #5d554b; margin-bottom: 23px; }
-  @media (max-width: 780px) {
-    .n-taste-spread { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-    .n-taste-guide { margin-top: 0; }
-    .n-taste-feature :global(img) { height: clamp(255px, 67vw, 450px); }
+  .n-taste-shell { max-width: 1260px; }
+  .n-taste-heading { gap: 24px; margin-bottom: clamp(22px, 3vw, 38px); }
+  .n-taste-heading h2 { max-width: 25ch; margin-bottom: 0; }
+  .n-taste-heading > p { max-width: 33ch; font-size: 14px; line-height: 1.65; }
+  .n-taste-spread { display: grid; grid-template-columns: minmax(0, 1.52fr) minmax(0, 1fr); gap: clamp(20px, 3.3vw, 46px); }
+  .n-taste-editorial, .n-taste-restaurants { min-width: 0; }
+  .n-taste-story { display: block; }
+  .n-taste-feature :global(img) { width: 100%; aspect-ratio: 1.46; height: auto; object-fit: cover; object-position: 50% 54%; }
+  .n-taste .n-photo-credit { margin-top: 8px; }
+  .n-taste-story-copy {
+    display: flex; align-items: end; justify-content: space-between; gap: 10px 18px; flex-wrap: wrap;
+    border-top: 1px solid #dfd0b5; margin-top: 12px; padding-top: 15px;
+  }
+  .n-taste :is(.n-taste-story-copy, .n-taste-guide-copy) h3 { font-family: var(--n-serif); letter-spacing: -.034em; }
+  .n-taste-story-copy h3 { font-size: clamp(29px, 3.7vw, 53px); margin: 6px 0 3px; }
+  .n-taste-draft { font-size: 11px; color: #6e6658; }
+  .n-taste-restaurants { display: flex; flex-direction: column; padding-top: clamp(19px, 2.4vw, 34px); }
+  .n-taste-guide {
+    position: relative; isolation: isolate; flex: 1; display: flex; align-items: end;
+    min-height: clamp(430px, 39vw, 565px); padding-block: 150px clamp(16px, 2.5vw, 34px);
+    background: #534c43;
+  }
+  .n-taste-guide > img { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 50%; }
+  .n-taste-guide-copy {
+    width: min(84%, 400px); margin-inline: auto; padding: clamp(16px, 2vw, 27px);
+    border: 1px solid #eee0c8; background: rgba(255, 251, 242, .91);
+    -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
+  }
+  .n-taste-guide-copy h3 { font-size: clamp(23px, 2.55vw, 36px); margin: 8px 0 10px; }
+  .n-taste-guide-teaser { color: #4e4a41; font-size: 13px; line-height: 1.55; margin-bottom: 13px; max-width: 32ch; }
+  .n-taste-cta {
+    display: inline-flex; align-items: center; gap: 12px; min-height: 44px; width: fit-content;
+    color: var(--national-petrol-deep); font: 600 10px/1.35 var(--n-sans); letter-spacing: .1em;
+    text-transform: uppercase; text-underline-offset: 4px;
+  }
+  .n-taste-cta-button { padding: 7px 12px; border: 1px solid #a88b5d80; border-radius: var(--national-control-radius); background: var(--national-control-surface); }
+  .n-taste-story:hover .n-taste-cta, .n-taste-guide:hover .n-taste-cta { text-decoration: underline; }
+  @media (min-width: 701px) and (max-width: 900px) {
+    .n-taste-guide { min-height: 420px; padding-top: 130px; }
+    .n-taste-guide-copy { width: 87%; padding: 15px; }
+  }
+  @media (max-width: 700px) {
+    .n-taste-heading { gap: 10px; }
+    .n-taste-spread { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .n-taste-restaurants { padding-top: 0; }
+    .n-taste-guide { min-height: clamp(398px, 63vw, 480px); }
+    .n-taste-guide-copy { width: min(83%, 390px); }
   }
   @media (max-width: 520px) {
-    .n-taste { padding-block: 52px; }
-    .n-taste-heading > p { font-size: 14px; line-height: 1.6; }
-    .n-taste-guide-mark { width: 36px; height: 36px; margin-bottom: 16px; }
-    .n-taste-guide > p:not(.n-eyebrow) { font-size: 14px; line-height: 1.65; margin-bottom: 16px; }
+    .n-taste { padding-block: 49px; }
+    .n-taste-feature :global(img) { aspect-ratio: 1.2; }
+    .n-taste-story-copy { row-gap: 1px; }
+    .n-taste-story-copy h3 { font-size: clamp(25px, 7.2vw, 29px); }
+    .n-taste-guide { min-height: 395px; padding-top: 135px; }
+    .n-taste-guide-copy { width: 84%; }
   }
 </style>
