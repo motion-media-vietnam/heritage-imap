@@ -14,7 +14,14 @@ const preview = import.meta.env.DEV && Astro.url.pathname.replace(/\/$/, '') ===
 const mode = seasonalPreviewMode(Astro.url.searchParams.get('seasonal'), preview);
 const selection = selectSeasonal(mode, seasonalCampaigns, today, preview ? previewSeasonalCampaign : undefined);
 const sponsor = selection.mode === 'sponsored' ? selection : undefined;
-const campaign: SeasonalArtwork = sponsor?.campaign ?? editorialSeason;
+const campaign: SeasonalArtwork | undefined = sponsor?.campaign;
+const editorialPhoto = {
+  ...editorialSeason.artwork,
+  alt: [
+    `${editorialSeason.destination[0]} · ${editorialSeason.title[0]}. ${editorialSeason.artwork.alt[0]}.`,
+    `${editorialSeason.destination[1]} · ${editorialSeason.title[1]}. ${editorialSeason.artwork.alt[1]}.`,
+  ] as const,
+};
 const options = [
   { id: 'auto', label: ui.auto },
   { id: 'sponsored', label: ['Khung tài trợ', 'Sponsored'] },
@@ -25,7 +32,7 @@ function modeHref(id: SeasonalMode) {
   if (id === 'auto') query.delete('seasonal'); else query.set('seasonal', id);
   return Astro.url.pathname + (query.size ? '?' + query : '') + '#seasonal';
 }
-const stops = campaign.stops.flatMap(stop => {
+const stops = (campaign?.stops ?? []).flatMap(stop => {
   if (stop.kind === 'area') {
     const area = nationalDestinations.find(item => item.id === stop.id);
     return area ? [{ ...stop, name: area.name, href: '#destination-' + area.id }] : [];
@@ -39,7 +46,7 @@ const stops = campaign.stops.flatMap(stop => {
     <div class="n-section-top n-seasonal-heading">
       <div>
         <p class="n-eyebrow"><span>03</span> · SEASONAL DESTINATIONS</p>
-        <h2 id="seasonal-title">{t(campaign.title)}</h2>
+        <h2 id="seasonal-title">{t(campaign?.title ?? editorialSeason.name)}</h2>
       </div>
       {preview && <nav class="n-mode-switch" aria-label={t(['Chế độ duyệt Seasonal Destinations', 'Seasonal Destinations preview mode'])}>
         {options.map(option => <a href={modeHref(option.id)} aria-current={mode === option.id ? 'true' : undefined}>{t(option.label)}</a>)}
@@ -48,21 +55,21 @@ const stops = campaign.stops.flatMap(stop => {
     {sponsor ? (
       <>
         <p class="n-caption n-seasonal-credit">{t(sponsor.demo ? ['Bản duyệt nội bộ · Chờ duyệt', 'Internal preview · Pending approval'] : ['Nội dung tài trợ', 'Sponsored content'])}</p>
-        <a class="n-seasonal-sponsor" data-heritage-chat-zone="immersive" href={sponsor.campaign.bookingUrl} aria-label={`Booking · ${t(campaign.title)}`}>
-          <Photo photo={campaign.artwork} {lang} sizes="100vw" />
+        <a class="n-seasonal-sponsor" data-heritage-chat-zone="immersive" href={sponsor.campaign.bookingUrl} aria-label={`Booking · ${t(sponsor.campaign.title)}`}>
+          <Photo photo={sponsor.campaign.artwork} {lang} sizes="100vw" />
           <span class="n-button n-button-light n-seasonal-booking">Booking <Icon name="arrow" size={16} /></span>
         </a>
       </>
     ) : (
       <div class="n-seasonal-editorial" data-heritage-chat-zone="content">
-        <Photo photo={campaign.artwork} {lang} sizes="(min-width: 1440px) 1320px, 94vw" />
-        <div class="n-seasonal-editorial-copy">
-          <p>{t(editorialSeason.intro)}</p>
-          <a class="n-button n-button-light" href="#seasonal-selection">{t(['Khám phá mùa vàng', 'Explore the golden season'])}<Icon name="arrow" size={16} /></a>
+        <Photo photo={editorialPhoto} {lang} sizes="(min-width: 1440px) 1320px, 94vw" />
+        <div class="n-seasonal-editorial-actions">
+          <a class="n-button n-button-light" href={editorialSeason.guideUrl}>{t(['Đọc Heritage Guide TP.HCM', 'Read the Ho Chi Minh City guide'])}<Icon name="arrow" size={16} /></a>
+          <a class="n-seasonal-original" href={editorialPhoto.src} target="_blank" rel="noopener">{t(['Mở ảnh gốc để quét QR', 'Open original image to scan the QR code'])}</a>
         </div>
       </div>
     )}
-    <div id="seasonal-selection" class="n-seasonal-discovery">
+    {sponsor && <div id="seasonal-selection" class="n-seasonal-discovery">
       <p class="n-eyebrow">{t(ui.seasonal)}</p>
       <ul>
         {stops.map(stop => (
@@ -77,7 +84,7 @@ const stops = campaign.stops.flatMap(stop => {
           </li>
         ))}
       </ul>
-    </div>
+    </div>}
   </div>
 </section>
 
@@ -88,7 +95,7 @@ const stops = campaign.stops.flatMap(stop => {
     margin: 8px 0 0; max-width: none; font-size: clamp(28px, 3.2vw, 46px); line-height: 1.14; letter-spacing: -.035em;
   }
   .n-seasonal-credit { margin-bottom: 8px; color: var(--n-muted); font-size: 9px; }
-  .n-seasonal-sponsor, .n-seasonal-editorial { position: relative; isolation: isolate; }
+  .n-seasonal-sponsor { position: relative; isolation: isolate; }
   .n-seasonal[data-seasonal-mode="sponsored"] { container-type: inline-size; }
   .n-seasonal-sponsor { display: block; margin-inline: calc((100% - 100cqw) / 2); }
   .n-seasonal-sponsor:focus-visible { outline: 2px solid var(--national-gold-text); outline-offset: -3px; }
@@ -98,13 +105,9 @@ const stops = campaign.stops.flatMap(stop => {
     min-height: 44px; padding: 8px clamp(12px, 1.7vw, 22px); gap: 13px;
     font-size: clamp(9px, .9vw, 11px); white-space: nowrap;
   }
-  .n-seasonal-editorial { display: flex; align-items: end; aspect-ratio: 2.65; overflow: hidden; background: #333d24; }
-  .n-seasonal-editorial > :global(img), .n-seasonal-editorial::after {
-    position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover;
-  }
-  .n-seasonal-editorial::after { content: ''; background: linear-gradient(35deg, #18271edb 1%, #22312767 34%, transparent 65%); }
-  .n-seasonal-editorial-copy { padding: clamp(16px, 3vw, 42px); color: #fffdf8; }
-  .n-seasonal-editorial-copy p { max-width: 36ch; margin-bottom: 13px; font-size: clamp(13px, 1.2vw, 17px); }
+  .n-seasonal-editorial > :global(img) { display: block; width: 100%; height: auto; }
+  .n-seasonal-editorial-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin-top: 16px; }
+  .n-seasonal-original { display: inline-flex; align-items: center; min-height: 44px; color: #365e55; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
   .n-seasonal-discovery { margin-top: clamp(16px, 2vw, 26px); }
   .n-seasonal-discovery ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; padding: 0; margin: 8px 0 0; list-style: none; }
   .n-seasonal-discovery li { border-top: 1px solid var(--n-line); }
@@ -123,8 +126,6 @@ const stops = campaign.stops.flatMap(stop => {
     .n-seasonal-heading { align-items: start; flex-direction: column; }
     .n-seasonal-sponsor::after { content: ''; position: absolute; inset: auto 0 0; height: 54px; background: linear-gradient(transparent, #292b2166); }
     .n-seasonal-sponsor .n-seasonal-booking { top: auto; bottom: 5px; left: 50%; }
-    .n-seasonal-editorial { aspect-ratio: 1.55; }
-    .n-seasonal-editorial::after { background: linear-gradient(0deg, #18271eda, transparent 80%); }
     .n-seasonal-discovery ul { grid-template-columns: 1fr; padding-inline-end: 28px; }
   }
 </style>

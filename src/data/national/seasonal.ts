@@ -1,6 +1,7 @@
 import fansipan from '../../assets/national/seasonal/fansipan-2-1672.webp?url';
 import fansipanSmall from '../../assets/national/seasonal/fansipan-2-720.webp?url';
-import { photos, type NationalPhoto } from './assets';
+import heritageGuide from '../../assets/national/seasonal/HG Tp HCM.jpg?url';
+import type { NationalPhoto } from './assets';
 import type { Localized } from './locale';
 import type { SeasonalSponsor } from '../../lib/seasonal-selection';
 
@@ -18,14 +19,18 @@ export interface SeasonalArtwork {
 }
 
 export const editorialSeason = {
-  title: ['Theo dấu mùa vàng', 'Following the golden season'],
-  intro: ['Những mùa lúa chín đẹp nhất trên những cung đường Việt Nam.', 'Follow the golden rice terraces along Vietnam’s highland roads.'],
-  artwork: photos.terraces,
-  stops: [
-    { id: 'mu-cang-chai', kind: 'area', photo: photos.terraces, teaser: ['Ruộng bậc thang Tây Bắc.', 'Northwestern rice terraces.'] },
-    { id: 'hoang-su-phi', kind: 'place', teaser: ['Những thửa ruộng trên sườn núi.', 'Rice terraces on the mountainsides.'] },
-  ],
-} satisfies SeasonalArtwork & { intro: Localized };
+  name: ['Heritage Guide TP.HCM', 'Heritage Guide Ho Chi Minh City'],
+  title: ['Không gian mới, tầm vóc mới', 'New space, new stature'],
+  destination: ['Thành phố Hồ Chí Minh', 'Ho Chi Minh City'],
+  artwork: {
+    src: heritageGuide,
+    small: heritageGuide,
+    width: 2560,
+    height: 531,
+    alt: ['Bìa Heritage Guide, đường chân trời thành phố và mã QR của ấn phẩm', 'Heritage Guide cover, the city skyline and the publication’s QR code'],
+  },
+  guideUrl: 'https://heritagevietnamairlines.com/cac-an-pham/heritage-guide/tp-ho-chi-minh-nov-2026',
+} satisfies { name: Localized; title: Localized; destination: Localized; artwork: NationalPhoto; guideUrl: string };
 
 type SeasonalCampaign = SeasonalSponsor & SeasonalArtwork;
 
