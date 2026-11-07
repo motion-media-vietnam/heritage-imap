@@ -1,6 +1,6 @@
 ---
 import Icon from '../../shared/Icon.astro';
-import artwork from '../../../assets/national/listing/chaca-editorial-hero.webp?url';
+import artwork from '../../../assets/national/listing/wine-orchid-editorial-hero.webp?url';
 import { listingCopy, listingHref, listingPath, listingProvinces } from '../../../data/national/listing';
 import { translate, type Language } from '../../../data/national/locale';
 
@@ -11,8 +11,8 @@ const suggestions = listingProvinces.map(({ id, nameVi, nameEn, aliases, type, p
   ({ id, nameVi, nameEn, aliases, type, provinceId }));
 ---
 <section class="listing-hero" aria-labelledby="listing-title" data-heritage-chat-zone="immersive">
-  <img class="listing-artwork" src={artwork} width="1903" height="826" loading="eager" fetchpriority="high" decoding="async"
-    alt={t(['Chả cá vàng nghệ, bún và rau thơm trên đĩa gốm nâu', 'Turmeric fish, rice vermicelli and herbs on a terracotta plate'])} />
+  <img class="listing-artwork" src={artwork} width="1900" height="828" loading="eager" fetchpriority="high" decoding="async"
+    alt={t(['Ly vang đỏ và những cánh hoa lan trên bàn gỗ dưới ánh sáng ấm', 'A glass of red wine and orchid petals on a warmly lit wooden table'])} />
   <div class="listing-intro">
     <h1 id="listing-title">{t(listingCopy.title)}</h1>
     <form action={listingPath} role="search" aria-label={t(listingCopy.search)}
@@ -29,7 +29,7 @@ const suggestions = listingProvinces.map(({ id, nameVi, nameEn, aliases, type, p
     </form>
   </div>
   <p class="listing-credit">
-    {t(['Chả cá · Hà Nội, Việt Nam', 'Chả cá · Hanoi, Vietnam'])}
+    {t(['Tĩnh vật · Vang đỏ và hoa lan', 'Still life · Red wine and orchids'])}
     <small>{t(['Ảnh minh họa AI · Heritage iMAP', 'AI-generated illustration · Heritage iMAP'])}</small>
   </p>
 </section>
@@ -161,7 +161,7 @@ const suggestions = listingProvinces.map(({ id, nameVi, nameEn, aliases, type, p
 
   @media (max-width: 760px) {
     .listing-hero { --listing-inset: clamp(24px, 7vw, 48px); align-items: start; min-height: 530px; padding-block: 110px 100px; }
-    .listing-artwork { object-position: 59% 50%; }
+    .listing-artwork { object-position: 77% 50%; }
     .listing-hero::before {
       content: "";
       position: absolute;
@@ -174,6 +174,7 @@ const suggestions = listingProvinces.map(({ id, nameVi, nameEn, aliases, type, p
   }
 
   @media (max-width: 480px) {
+    .listing-hero { padding-block-start: 62px; }
     .listing-search-box { grid-template-columns: 44px minmax(0, 1fr); padding-inline: 2px 8px; }
     input[type="search"] { padding-inline-start: 4px; }
     input[type="search"]::placeholder { font-size: 14px; }

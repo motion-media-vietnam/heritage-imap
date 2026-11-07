@@ -68,7 +68,7 @@ export interface ListingAdvertisement {
 export const listingAdvertisement: ListingAdvertisement | undefined = undefined;
 
 export const listingCopy = {
-  title: ['Những lựa chọn của Heritage.', 'The Heritage selection.'],
+  title: ['Lựa chọn của Heritage', 'The Heritage selection.'],
   search: ['Tìm điểm đến, nhà hàng, khách sạn...', 'Search destinations, restaurants, hotels...'],
   searchButton: ['Tìm kiếm', 'Search'],
   suggestions: ['Gợi ý tỉnh, thành phố', 'Province and city suggestions'],
