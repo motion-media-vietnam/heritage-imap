@@ -69,6 +69,10 @@ export const listingAdvertisement: ListingAdvertisement | undefined = undefined;
 
 export const listingCopy = {
   title: ['Lựa chọn của Heritage', 'The Heritage selection.'],
+  headline: [
+    'Khám phá hương vị ẩm thực độc đáo và không gian lưu trú đặc sắc qua bộ sưu tập nhà hàng và khách sạn của Heritage',
+    'Discover distinctive flavors and memorable stays in Heritage’s collection of restaurants and hotels.',
+  ],
   search: ['Tìm điểm đến, nhà hàng, khách sạn...', 'Search destinations, restaurants, hotels...'],
   searchButton: ['Tìm kiếm', 'Search'],
   suggestions: ['Gợi ý tỉnh, thành phố', 'Province and city suggestions'],
