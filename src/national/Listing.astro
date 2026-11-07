@@ -40,7 +40,7 @@ const title = (category: ListingCategory, count: number) => {
   return t(listingCopy[category]).replace(/^20/, String(count || 20));
 };
 ---
-<NationalLayout {lang} mode="auto" {homeHref} pageTitle={t(listingCopy.title) + ' · Heritage Vietnam iMAP'}>
+<NationalLayout {lang} mode="auto" {homeHref} brandHref={homeHref} pageTitle={t(listingCopy.title) + ' · Heritage Vietnam iMAP'}>
   <ListingHero {lang} {query} unmatched={Boolean(query && !province)} />
   <div class="n-shell listing-editorial">
     <ListingAwards {lang} stay={award('stay')} restaurant={award('restaurant')} />

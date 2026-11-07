@@ -242,3 +242,5 @@ Giữ cách hiện tại đơn giản hơn mua dịch vụ thiết kế bản đ
 Hai phiên bản WebP của ảnh đầu trang lần lượt 57.850 và 194.604 byte. Nếu sau này xuất bản và giả định một nửa lượt tải ảnh dùng mỗi phiên bản, 1.000 / 10.000 / 100.000 lượt tải chưa có bộ nhớ đệm mỗi tháng truyền khoảng 0,126 / 1,26 / 12,62 GB ảnh đầu trang (126.227 byte nhân số lượt, GB thập phân). Đây là giả định, chưa gồm ảnh thẻ, phông chữ hay dữ liệu trang. Ở bản cục bộ hiện tại, cả ba kịch bản đều phát sinh 0 lượt tải công khai.
 
 Dữ liệu trong mã nguồn phù hợp cho bản V1 vì dùng lại quy trình duyệt hiện có. CMS có thể giúp biên tập độc lập khi danh sách lớn hơn, nhưng sẽ có thêm vận hành và cần xác minh giá, quyền dùng và hạn mức trước khi chọn. Trước khi xuất bản, đo băng thông thực tế và kiểm tra hạn mức hosting. Nếu chạm giới hạn, giữ bản duyệt hoặc giảm dung lượng ảnh trong lúc xử lý, không tự nâng gói. Công biên tập, bảo trì, thuế và chi phí dịch vụ tương lai tính riêng.
+
+**Điều hướng logo, 07/11/2026.** Liên kết từ Heritage Listing về trang chủ cùng hệ thống. Phí dịch vụ tăng thêm là **0 USD/tháng** vì chỉ đổi đường dẫn nội bộ trong bản duyệt.

@@ -13,8 +13,8 @@ import { companion } from '../data/national/companion';
 import { translate, ui, type Language } from '../data/national/locale';
 import type { FeaturedMode } from '../lib/national-selection';
 
-interface Props { lang: Language; mode: FeaturedMode; homeHref?: string; pageTitle?: string }
-const { lang, mode, homeHref = '', pageTitle = identity.name } = Astro.props;
+interface Props { lang: Language; mode: FeaturedMode; homeHref?: string; pageTitle?: string; brandHref?: string }
+const { lang, mode, homeHref = '', pageTitle = identity.name, brandHref } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
 const canonical = new URL(Astro.url.pathname, Astro.url);
 const viUrl = new URL(canonical);
@@ -68,7 +68,7 @@ const nav = [
         <a href={identity.advertise}>{t(ui.advertise)}</a>
         <a href={identity.airline}><AirlineLockup /></a>
       </div>
-      <Brand />
+      <Brand href={brandHref} />
       <div class="n-header-right">
         <nav class="n-language" aria-label={lang === 'vi' ? 'Ngôn ngữ' : 'Language'}>
           <a href={viUrl.pathname + viUrl.search} hreflang="vi" lang="vi" aria-label="Tiếng Việt" aria-current={lang === 'vi' ? 'true' : undefined}>VI</a>
