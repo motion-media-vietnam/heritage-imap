@@ -244,3 +244,5 @@ Hai phiên bản WebP của ảnh đầu trang lần lượt 57.850 và 194.604 
 Dữ liệu trong mã nguồn phù hợp cho bản V1 vì dùng lại quy trình duyệt hiện có. CMS có thể giúp biên tập độc lập khi danh sách lớn hơn, nhưng sẽ có thêm vận hành và cần xác minh giá, quyền dùng và hạn mức trước khi chọn. Trước khi xuất bản, đo băng thông thực tế và kiểm tra hạn mức hosting. Nếu chạm giới hạn, giữ bản duyệt hoặc giảm dung lượng ảnh trong lúc xử lý, không tự nâng gói. Công biên tập, bảo trì, thuế và chi phí dịch vụ tương lai tính riêng.
 
 **Điều hướng logo, 07/11/2026.** Liên kết từ Heritage Listing về trang chủ cùng hệ thống. Phí dịch vụ tăng thêm là **0 USD/tháng** vì chỉ đổi đường dẫn nội bộ trong bản duyệt.
+
+**Hero Heritage Listing, 07/11/2026.** Bản duyệt cục bộ dùng một WebP 213.270 byte và không thêm dịch vụ định kỳ, **0 USD/tháng**. Ảnh minh họa tạo trong công cụ tích hợp, không có yêu cầu tới API ảnh khi người xem tải trang. Nếu xuất bản sau khi duyệt, riêng ảnh này tương ứng khoảng 0,21 / 2,13 / 21,33 GB cho 1.000 / 10.000 / 100.000 lượt tải chưa có bộ nhớ đệm (GB thập phân). Tính lưu lượng vào hạn mức hosting của lần phát hành. Công biên tập và bảo trì tính riêng.

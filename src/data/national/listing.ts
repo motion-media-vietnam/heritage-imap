@@ -69,8 +69,7 @@ export const listingAdvertisement: ListingAdvertisement | undefined = undefined;
 
 export const listingCopy = {
   title: ['Những lựa chọn của Heritage.', 'The Heritage selection.'],
-  intro: ['Khám phá những địa chỉ ẩm thực và lưu trú được Heritage tuyển chọn trên khắp Việt Nam.', 'Discover dining and stays selected by Heritage across Vietnam.'],
-  search: ['Bạn muốn khám phá điểm đến nào?', 'Which destination would you like to explore?'],
+  search: ['Tìm điểm đến, nhà hàng, khách sạn...', 'Search destinations, restaurants, hotels...'],
   searchButton: ['Tìm kiếm', 'Search'],
   suggestions: ['Gợi ý tỉnh, thành phố', 'Province and city suggestions'],
   noMatch: ['Hãy chọn một tỉnh hoặc thành phố trong danh sách gợi ý.', 'Choose a province or city from the suggestions.'],
