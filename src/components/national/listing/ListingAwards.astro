@@ -4,7 +4,10 @@ import Icon from '../../shared/Icon.astro';
 import { listingCopy, type ListingEntry } from '../../../data/national/listing';
 import { translate, type Language } from '../../../data/national/locale';
 
-type Award = ListingEntry & { provinceName: string };
+type Award = Pick<ListingEntry, 'name' | 'coverImage' | 'shortDescription' | 'destinationUrl'> & {
+  provinceName: string;
+  isArticle?: boolean;
+};
 interface Props { lang: Language; stay?: Award; restaurant?: Award }
 const { lang, stay, restaurant } = Astro.props;
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
@@ -32,7 +35,9 @@ const slots = [
               <p class="n-eyebrow">{t(label)} · {entry.provinceName}</p>
               <h3>{entry.name}</h3>
               <p>{t(entry.shortDescription)}</p>
-              <a class="n-text-link" href={entry.destinationUrl}>{t(listingCopy.explore)} <Icon name="arrow" size={16} /></a>
+              <a class="n-text-link" href={entry.destinationUrl} aria-label={t(entry.isArticle ? listingCopy.readArticle : listingCopy.explore) + ' · ' + entry.name}>
+                {t(entry.isArticle ? listingCopy.readArticle : listingCopy.explore)} <Icon name="arrow" size={16} />
+              </a>
             </>
           ) : (
             <><h3>{t(label)}</h3><p>{t(listingCopy.monthlyEmpty)}</p></>

@@ -90,6 +90,7 @@ export const listingCopy = {
   empty: ['Danh sách đang được tuyển chọn. Các địa chỉ sẽ xuất hiện sau khi được duyệt.', 'The selection is in progress. Places will appear after editorial approval.'],
   localEmpty: ['Chưa có địa chỉ được duyệt tại điểm đến này.', 'There are no approved listings for this destination yet.'],
   explore: ['Khám phá địa điểm', 'Explore this place'],
+  readArticle: ['Đọc bài viết', 'Read the article'],
   previous: ['Xem mục trước', 'Previous places'],
   next: ['Xem mục tiếp theo', 'Next places'],
   advertising: ['Quảng cáo', 'Advertising'],

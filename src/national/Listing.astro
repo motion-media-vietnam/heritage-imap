@@ -6,9 +6,11 @@ import ListingAwards from '../components/national/listing/ListingAwards.astro';
 import ListingCarousel from '../components/national/listing/ListingCarousel.astro';
 import ListingRibbon from '../components/national/listing/ListingRibbon.astro';
 import { listingAdvertisement, listingCopy, listingEntries, listingHref, listingProvinces, type ListingCategory } from '../data/national/listing';
+import { listingAwardArticles } from '../data/national/listing-awards';
 import { translate, type Language } from '../data/national/locale';
 import { normalizeDestinationSearch, searchDestinations } from '../lib/destination-search';
 import { destinationPlacePaths } from '../destinations/published';
+import { httpsLink } from '../lib/national-selection';
 
 const lang: Language = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'vi';
 const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
@@ -30,7 +32,15 @@ const approved = listingEntries.flatMap(entry => {
 }).sort((a, b) => a.editorialOrder - b.editorialOrder);
 
 const month = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date()).slice(0, 7);
-const award = (category: ListingCategory) => approved.find(entry => entry.category === category && entry.featuredMonth === month);
+function award(category: ListingCategory) {
+  const article = listingAwardArticles[category];
+  if (article) {
+    const provinceName = provinces.get(article.province);
+    const destinationUrl = httpsLink(article.destinationUrl);
+    if (provinceName && destinationUrl) return { ...article, provinceName, destinationUrl, isArticle: true };
+  }
+  return approved.find(entry => entry.category === category && entry.featuredMonth === month);
+}
 const collection = (category: ListingCategory) => approved
   .filter(entry => entry.category === category && (!province || entry.province === province.id)).slice(0, 20);
 const restaurants = collection('restaurant');
