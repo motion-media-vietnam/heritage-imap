@@ -1,17 +1,19 @@
 import type { DestinationSearchEntry } from '../data/destinations/search-index.ts';
 
-function normalized(value: string) {
+export type DestinationSearchCandidate = Pick<DestinationSearchEntry, 'id' | 'nameVi' | 'nameEn' | 'aliases' | 'type' | 'provinceId'>;
+
+export function normalizeDestinationSearch(value: string) {
   return value.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/đ/g, 'd')
     .replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
-export function searchDestinations(index: readonly DestinationSearchEntry[], value: string, limit = 7) {
-  const query = normalized(value);
+export function searchDestinations<T extends DestinationSearchCandidate>(index: readonly T[], value: string, limit = 7) {
+  const query = normalizeDestinationSearch(value);
   if (!query) return [];
   const words = query.split(' ');
   const scored = index.flatMap(entry => {
-    const names = [entry.nameVi, entry.nameEn].map(normalized);
-    const aliases = entry.aliases.map(normalized);
+    const names = [entry.nameVi, entry.nameEn].map(normalizeDestinationSearch);
+    const aliases = entry.aliases.map(normalizeDestinationSearch);
     const terms = [...names, ...aliases];
     let rank = 5;
     if (names.includes(query)) rank = 0;
@@ -29,4 +31,12 @@ export function searchDestinations(index: readonly DestinationSearchEntry[], val
     if (parent && !scored.some(result => result.entry.id === parent.id)) scored.splice(1, 0, { entry: parent, rank: 5 });
   }
   return scored.slice(0, limit).map(result => result.entry);
+}
+
+export function resolveListingProvince<T extends DestinationSearchCandidate>(provinces: readonly T[], value: string) {
+  const matches = searchDestinations(provinces, value, 2);
+  const query = normalizeDestinationSearch(value);
+  return matches.find(entry =>
+    [entry.nameVi, entry.nameEn, ...entry.aliases].some(term => normalizeDestinationSearch(term) === query)
+  ) ?? (matches.length === 1 ? matches[0] : undefined);
 }

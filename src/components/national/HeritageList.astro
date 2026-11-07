@@ -3,6 +3,7 @@ import Photo from './Photo.astro';
 import Icon from '../shared/Icon.astro';
 import { cuisineCopy, cuisineHref } from '../../data/national/cuisine';
 import { stayCopy, staysHref, staysPreviewPhoto } from '../../data/national/stays';
+import { listingHref } from '../../data/national/listing';
 import { translate, ui, type Language } from '../../data/national/locale';
 
 interface Props { lang: Language }
@@ -14,7 +15,7 @@ const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
     <header class="n-section-top n-list-heading">
       <div>
         <p class="n-eyebrow"><span>05</span> — HERITAGE LIST</p>
-        <h2 id="heritage-list-title">{t(['Những lựa chọn của Heritage.', 'The Heritage selection.'])}</h2>
+        <h2 id="heritage-list-title"><a href={listingHref(lang)}>{t(['Những lựa chọn của Heritage.', 'The Heritage selection.'])}</a></h2>
       </div>
       <p>{t(['Những địa chỉ đáng trải nghiệm, được Heritage tuyển chọn cho hành trình khám phá Việt Nam.', 'Memorable places to experience, chosen by Heritage for your journey through Vietnam.'])}</p>
     </header>
@@ -53,6 +54,7 @@ const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
   .n-heritage-list { background: #fffdfa; }
   .n-list-shell { max-width: 1260px; }
   .n-list-heading { gap: 24px; margin-bottom: clamp(24px, 3vw, 40px); }
+  .n-list-heading h2 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .15em; }
   .n-list-heading > p { max-width: 34ch; font-size: 14px; line-height: 1.65; }
   .n-list-spread { display: grid; grid-template-columns: minmax(0, 1.73fr) minmax(0, 1fr); gap: clamp(18px, 2vw, 28px); }
   .n-list-spread article { display: flex; flex-direction: column; min-width: 0; }

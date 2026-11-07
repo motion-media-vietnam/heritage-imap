@@ -1,0 +1,67 @@
+---
+import NationalLayout from '../layouts/NationalLayout.astro';
+import Footer from '../components/national/Footer.astro';
+import ListingHero from '../components/national/listing/ListingHero.astro';
+import ListingAwards from '../components/national/listing/ListingAwards.astro';
+import ListingCarousel from '../components/national/listing/ListingCarousel.astro';
+import ListingRibbon from '../components/national/listing/ListingRibbon.astro';
+import { listingAdvertisement, listingCopy, listingEntries, listingHref, listingProvinces, type ListingCategory } from '../data/national/listing';
+import { translate } from '../data/national/locale';
+import { resolveListingProvince } from '../lib/destination-search';
+import { approvalHomeHref, approvalReview, nationalCollectionLanguage } from '../lib/national-approval';
+import { destinationPlacePaths } from '../destinations/published';
+
+interface Props { provinceId?: string }
+const lang = nationalCollectionLanguage(Astro.url);
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const homeHref = approvalReview ? approvalHomeHref(lang) : '/national-preview/' + (lang === 'en' ? '?lang=en' : '');
+const query = approvalReview ? '' : (Astro.url.searchParams.get('q') ?? '').trim().slice(0, 80);
+const province = approvalReview
+  ? listingProvinces.find(entry => entry.id === Astro.props.provinceId)
+  : resolveListingProvince(listingProvinces, query);
+const provinceName = province && (lang === 'en' ? province.nameEn : province.nameVi);
+const provinces = new Map(listingProvinces.map(entry => [entry.id, lang === 'en' ? entry.nameEn : entry.nameVi]));
+const detailPaths = new Set(destinationPlacePaths().map(({ params }) => '/' + params.destination + '/places/' + params.slug + '/'));
+const approved = listingEntries.flatMap(entry => {
+  const name = provinces.get(entry.province);
+  const validDetail = entry.destinationUrl.startsWith('/' + entry.province + '/') && detailPaths.has(entry.destinationUrl);
+  return entry.publicationStatus === 'approved' && name && validDetail
+    ? [{ ...entry, provinceName: name }] : [];
+}).sort((a, b) => a.editorialOrder - b.editorialOrder);
+
+const month = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date()).slice(0, 7);
+const award = (category: ListingCategory) => approved.find(entry => entry.category === category && entry.featuredMonth === month);
+const collection = (category: ListingCategory) => approved
+  .filter(entry => entry.category === category && (!province || entry.province === province.id)).slice(0, 20);
+const restaurants = collection('restaurant');
+const stays = collection('stay');
+const title = (category: ListingCategory, count: number) => {
+  if (provinceName) return t(category === 'restaurant' ? listingCopy.localRestaurant : listingCopy.localStay) + ' ' + provinceName;
+  return t(listingCopy[category]).replace(/^20/, String(count || 20));
+};
+---
+<NationalLayout {lang} mode="auto" {homeHref} brandHref={homeHref} pageTitle={t(listingCopy.title) + ' · Heritage Vietnam iMAP'}>
+  <ListingHero {lang} query={approvalReview ? provinceName ?? '' : query} unmatched={Boolean(query && !province)} />
+  <div class="n-shell listing-editorial">
+    <ListingAwards {lang} stay={award('stay')} restaurant={award('restaurant')} />
+    <div class="listing-results">
+      {provinceName && (
+        <p class="listing-filter" role="status">
+          {t(listingCopy.results)} · <strong>{provinceName}</strong>
+          <a href={listingHref(lang)}>{t(listingCopy.clear)}</a>
+        </p>
+      )}
+      <ListingCarousel id="heritage-restaurants" {lang} title={title('restaurant', restaurants.length)} entries={restaurants} filtered={Boolean(province)} />
+      <ListingCarousel id="heritage-stays" {lang} title={title('stay', stays.length)} entries={stays} filtered={Boolean(province)} />
+    </div>
+    <ListingRibbon {lang} ad={listingAdvertisement} />
+  </div>
+  <Footer slot="footer" {lang} {homeHref} />
+</NationalLayout>
+
+<style>
+  .listing-editorial { display: grid; gap: clamp(40px, 6vw, 82px); padding-block: clamp(34px, 6vw, 76px); }
+  .listing-results { min-width: 0; display: grid; gap: clamp(26px, 4vw, 52px); }
+  .listing-filter { color: var(--n-muted); font-size: 14px; }
+  .listing-filter a { display: inline-block; margin-inline-start: 10px; color: var(--national-petrol-deep); text-decoration: underline; text-underline-offset: 3px; }
+</style>

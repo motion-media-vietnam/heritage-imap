@@ -1,0 +1,139 @@
+---
+import Icon from '../../shared/Icon.astro';
+import heroLarge from '../../../assets/national/listing/hang-mua-filipe-freitas.webp?url';
+import heroSmall from '../../../assets/national/listing/hang-mua-filipe-freitas-small.webp?url';
+import { listingCopy, listingHref, listingPath, listingProvinces } from '../../../data/national/listing';
+import { translate, type Language } from '../../../data/national/locale';
+import { approvalReview } from '../../../lib/national-approval';
+
+interface Props { lang: Language; query: string; unmatched: boolean }
+const { lang, query, unmatched } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+const suggestions = listingProvinces.map(({ id, nameVi, nameEn, aliases, type, provinceId }) =>
+  ({ id, nameVi, nameEn, aliases, type, provinceId }));
+---
+<section class="listing-hero" aria-labelledby="listing-title">
+  <div class="n-shell listing-opening">
+    <div class="listing-intro">
+      <p class="n-eyebrow">Heritage Selection</p>
+      <h1 id="listing-title">{t(listingCopy.title)}</h1>
+      <p class="listing-deck">{t(listingCopy.intro)}</p>
+      <form action={approvalReview ? listingHref(lang) : listingPath} role="search" aria-label={t(listingCopy.search)}
+        data-listing-search data-static-search={approvalReview ? '' : undefined}
+        data-provinces={JSON.stringify(suggestions)} data-lang={lang} data-heritage-chat-zone="content">
+        {!approvalReview && lang === 'en' && <input type="hidden" name="lang" value="en" />}
+        <div class="listing-search-box">
+          <Icon name="search" size={19} />
+          <input name="q" type="search" maxlength="80" aria-label={t(listingCopy.search)}
+            placeholder={t(listingCopy.search)} value={query} autocomplete="off"
+            aria-describedby={unmatched ? 'listing-search-error' : undefined} />
+          <button type="submit">{t(listingCopy.searchButton)}</button>
+        </div>
+        <ul class="listing-suggestions" aria-label={t(listingCopy.suggestions)} hidden></ul>
+        {(unmatched || approvalReview) && <p id="listing-search-error" role="status" hidden={!unmatched}>{t(listingCopy.noMatch)} <a href={listingHref(lang)}>{t(listingCopy.clear)}</a></p>}
+      </form>
+    </div>
+    <figure>
+      <img src={heroLarge} srcset={heroSmall + ' 640w, ' + heroLarge + ' 1280w'} sizes="(max-width: 760px) 94vw, (max-width: 1400px) 48vw, 680px"
+        width="1280" height="1600" loading="eager" fetchpriority="high" decoding="async"
+        alt={t(['Dòng sông uốn qua thung lũng núi đá vôi nhìn từ Hang Múa, Ninh Bình', 'A river winding between limestone hills, seen from Mua Cave in Ninh Bình'])} />
+      <figcaption>
+        <a href="https://unsplash.com/photos/a-river-running-through-a-lush-green-valley-gtZoAtx4vHY">Ninh Bình · {t(['Hang Múa', 'Mua Cave'])} / Filipe Freitas · Unsplash</a>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<script>
+  import { resolveListingProvince, searchDestinations, type DestinationSearchCandidate } from '../../../lib/destination-search';
+
+  const form = document.querySelector<HTMLFormElement>('[data-listing-search]');
+  const input = form?.querySelector<HTMLInputElement>('input[type="search"]');
+  const list = form?.querySelector<HTMLUListElement>('.listing-suggestions');
+  if (form && input && list) {
+    const provinces: DestinationSearchCandidate[] = JSON.parse(form.dataset.provinces ?? '[]');
+    const update = () => {
+      const matches = searchDestinations(provinces, input.value);
+      list.replaceChildren(...matches.map(province => {
+        const item = document.createElement('li');
+        const option = document.createElement('button');
+        option.type = 'button';
+        option.textContent = form.dataset.lang === 'en' ? province.nameEn : province.nameVi;
+        option.addEventListener('click', () => {
+          input.value = option.textContent ?? '';
+          form.requestSubmit();
+        });
+        item.append(option);
+        return item;
+      }));
+      list.hidden = matches.length === 0;
+    };
+    const feedback = form.querySelector<HTMLElement>('#listing-search-error');
+    if (form.hasAttribute('data-static-search') && feedback) {
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const query = input.value.trim();
+        const province = resolveListingProvince(provinces, query);
+        if (!query || province) {
+          location.assign(province ? new URL(province.id + '/', form.action) : form.action);
+        } else {
+          feedback.hidden = false;
+          input.setAttribute('aria-describedby', feedback.id);
+          input.focus();
+        }
+      });
+      input.addEventListener('input', () => {
+        feedback.hidden = true;
+        input.removeAttribute('aria-describedby');
+      });
+    }
+    input.addEventListener('input', update);
+    input.addEventListener('focus', update);
+    form.addEventListener('focusout', event => {
+      if (!(event.relatedTarget instanceof Node) || !form.contains(event.relatedTarget)) list.hidden = true;
+    });
+    form.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !list.hidden) {
+        event.preventDefault();
+        if (document.activeElement !== input) input.focus();
+        list.hidden = true;
+      }
+      if (event.key === 'ArrowDown' && event.target === input && !list.hidden) {
+        event.preventDefault();
+        list.querySelector('button')?.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .listing-hero { background: var(--national-ivory); }
+  .listing-opening { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); align-items: center; gap: clamp(24px, 4vw, 64px); padding-block: 24px; }
+  .listing-intro { padding-block: 28px; }
+  .listing-hero h1 { font-family: var(--n-serif); font-size: clamp(38px, 5vw, 72px); letter-spacing: -.05em; line-height: 1.12; margin-block: 13px 20px; text-wrap: balance; }
+  .listing-deck { max-width: 43ch; color: var(--n-muted); margin-bottom: clamp(18px, 4vw, 32px); }
+  .listing-hero figure { position: relative; }
+  .listing-hero img { width: 100%; height: clamp(432px, 37vw, 510px); object-fit: cover; object-position: 50% 42%; }
+  .listing-hero figcaption { position: absolute; inset: auto auto 10px 10px; max-width: calc(100% - 20px); padding: 4px 8px; background: #fcfaf7eb; color: #302d29; font-size: 10px; }
+  figcaption a:hover, #listing-search-error a { text-decoration: underline; text-underline-offset: 3px; }
+  form { position: relative; max-width: 540px; z-index: 1; }
+  .listing-search-box { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 5px 5px 5px 12px; border: 1px solid var(--national-control-border); border-radius: 9px; background: var(--national-white); color: var(--national-petrol-deep); }
+  input[type="search"] { min-width: 0; width: 100%; min-height: 44px; border: 0; background: transparent; color: var(--n-ink); font: inherit; font-size: 14px; padding-inline: 2px; }
+  input[type="search"]:focus-visible { outline: 2px solid var(--national-petrol); outline-offset: 1px; }
+  button[type="submit"] { min-height: 44px; padding-inline: clamp(8px, 1.3vw, 18px); border: 1px solid var(--national-control-border); border-radius: var(--national-control-radius); background: var(--national-control-gold); font: 600 12px var(--n-sans); cursor: pointer; }
+  .listing-suggestions { position: absolute; top: 100%; inset-inline: 0; max-height: 210px; overflow-y: auto; margin: 3px 0 0; padding: 4px; list-style: none; border: 1px solid var(--national-control-border); border-radius: 7px; background: var(--national-white); box-shadow: var(--national-control-elevation); }
+  .listing-suggestions :global(button) { display: block; width: 100%; min-height: 42px; border: 0; border-radius: 3px; padding-inline: 10px; text-align: start; background: transparent; cursor: pointer; font: inherit; font-size: 14px; }
+  .listing-suggestions :global(button:hover), .listing-suggestions :global(button:focus-visible) { background: var(--national-ivory); outline-offset: -2px; }
+  #listing-search-error { font-size: 13px; margin-top: 8px; }
+  @media (max-width: 760px) {
+    .listing-opening { grid-template-columns: minmax(0, 1fr); gap: 22px; padding-block: 30px 24px; }
+    .listing-intro { padding-block: 0; }
+    .listing-hero img { height: auto; aspect-ratio: 4 / 3; }
+    .listing-search-box { gap: 5px; padding-left: 8px; }
+    input[type="search"] { font-size: 16px; }
+  }
+  @media (max-width: 480px) {
+    .listing-search-box { grid-template-columns: auto minmax(0, 1fr); }
+    .listing-search-box button { grid-column: 2; justify-self: end; }
+  }
+</style>

@@ -1,7 +1,10 @@
 ---
 import { identity } from '../../data/national/content';
+
+interface Props { href?: string }
+const { href = '#top' } = Astro.props;
 ---
-<a class="n-brand" href="#top" aria-label={identity.name}>
+<a class="n-brand" {href} aria-label={identity.name}>
   <span>Heritage</span>
   <small>VIETNAM iMAP</small>
 </a>

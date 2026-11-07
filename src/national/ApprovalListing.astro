@@ -1,0 +1,12 @@
+---
+import Listing from './Listing.astro';
+import { listingProvinces } from '../data/national/listing';
+
+export function getStaticPaths() {
+  return [
+    { params: { province: undefined } },
+    ...listingProvinces.map(province => ({ params: { province: province.id } })),
+  ];
+}
+---
+<Listing provinceId={Astro.params.province} />

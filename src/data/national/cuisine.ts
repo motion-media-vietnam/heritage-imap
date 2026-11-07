@@ -1,6 +1,7 @@
 import { photos, type NationalPhoto } from './assets';
 import type { Language, Localized } from './locale';
 import { approvalCollectionHref, approvalReview } from '../../lib/national-approval';
+import type { ListingEditorialFields } from './listing';
 
 export function cuisineHref(lang: Language) {
   if (approvalReview) return approvalCollectionHref('am-thuc', lang);
@@ -52,7 +53,7 @@ export const restaurantCategories = {
   vegetarian: ['Quán chay', 'Vegetarian dining'],
 } satisfies Record<string, Localized>;
 
-export interface Restaurant {
+export interface Restaurant extends ListingEditorialFields {
   id: string;
   destinationId: string;
   name: string;

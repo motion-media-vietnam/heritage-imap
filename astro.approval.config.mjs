@@ -11,6 +11,8 @@ export default defineConfig({
       'astro:config:setup': ({ injectRoute }) => {
         const route = (pattern, entrypoint) => injectRoute({ pattern, entrypoint, prerender: true });
         route('/national-preview', './src/national/Preview.astro');
+        route('/heritage-listing/[...province]', './src/national/ApprovalListing.astro');
+        route('/en/heritage-listing/[...province]', './src/national/ApprovalListing.astro');
         route('/review/[lang]/[featured]/[seasonal]', './src/national/ApprovalVariant.astro');
         for (const [path, page] of [['am-thuc', 'Cuisine'], ['luu-tru', 'Stays']]) {
           for (const prefix of ['', '/en', '/national-preview']) {

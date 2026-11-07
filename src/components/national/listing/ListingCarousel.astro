@@ -1,0 +1,142 @@
+---
+import Photo from '../Photo.astro';
+import Icon from '../../shared/Icon.astro';
+import { listingCopy, type ListingEntry } from '../../../data/national/listing';
+import { translate, type Language } from '../../../data/national/locale';
+
+interface Props {
+  id: string;
+  lang: Language;
+  title: string;
+  entries: readonly (ListingEntry & { provinceName: string })[];
+  filtered: boolean;
+}
+const { id, lang, title, entries, filtered } = Astro.props;
+const t = (value: Parameters<typeof translate>[0]) => translate(value, lang);
+---
+<section class="listing-collection" id={id} aria-labelledby={id + '-title'} data-listing-carousel>
+  <header>
+    <h2 id={id + '-title'}>{title}</h2>
+    {entries.length > 1 && (
+      <div class="listing-controls" hidden>
+        <button type="button" aria-label={t(listingCopy.previous)} aria-controls={id + '-items'} data-step="-1"><Icon name="back" size={18} /></button>
+        <button type="button" aria-label={t(listingCopy.next)} aria-controls={id + '-items'} data-step="1"><Icon name="arrow" size={18} /></button>
+      </div>
+    )}
+  </header>
+  {entries.length ? (
+    <div class="listing-track" id={id + '-items'} role="region" aria-labelledby={id + '-title'} tabindex="0" data-heritage-chat-zone="content">
+      <ul>
+        {entries.map(entry => (
+          <li>
+            <a href={entry.destinationUrl} aria-label={t(listingCopy.explore) + ' · ' + entry.name}>
+              <Photo photo={entry.coverImage} {lang} sizes="(max-width: 480px) 70vw, (max-width: 680px) 48vw, (max-width: 1023px) 33vw, 245px" />
+              <div class="listing-card-copy">
+                <p class="n-eyebrow">{entry.provinceName} · {t(entry.subcategory)}</p>
+                <h3>{entry.name}</h3>
+                <span class="n-text-link">{t(listingCopy.explore)} <Icon name="arrow" size={14} /></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <p class="listing-empty">{t(filtered ? listingCopy.localEmpty : listingCopy.empty)}</p>
+  )}
+</section>
+
+<script>
+  for (const carousel of document.querySelectorAll<HTMLElement>('[data-listing-carousel]')) {
+    const track = carousel.querySelector<HTMLElement>('.listing-track');
+    const controls = carousel.querySelector<HTMLElement>('.listing-controls');
+    const previous = controls?.querySelector<HTMLButtonElement>('[data-step="-1"]');
+    const next = controls?.querySelector<HTMLButtonElement>('[data-step="1"]');
+    if (!track || !controls || !previous || !next) continue;
+
+    const sync = () => {
+      const end = track.scrollWidth - track.clientWidth;
+      controls.hidden = end <= 1;
+      previous.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft >= end - 1;
+    };
+    const move = (direction: number) => {
+      const items = track.querySelectorAll('li');
+      const step = items[1].offsetLeft - items[0].offsetLeft;
+      track.scrollBy({ left: step * direction, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    };
+    previous.addEventListener('click', () => move(-1));
+    next.addEventListener('click', () => move(1));
+    track.addEventListener('scroll', sync, { passive: true });
+    new ResizeObserver(sync).observe(track);
+    sync();
+
+    track.addEventListener('keydown', event => {
+      if (event.target !== track || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+      event.preventDefault();
+      move(event.key === 'ArrowLeft' ? -1 : 1);
+    });
+
+    let pointer: { id: number; x: number; left: number } | undefined;
+    let dragged = false;
+    track.addEventListener('pointerdown', event => {
+      dragged = false;
+      if (event.pointerType !== 'mouse' || event.button !== 0 || controls.hidden) return;
+      pointer = { id: event.pointerId, x: event.clientX, left: track.scrollLeft };
+    });
+    track.addEventListener('pointermove', event => {
+      if (!pointer || pointer.id !== event.pointerId) return;
+      const delta = event.clientX - pointer.x;
+      if (!dragged && Math.abs(delta) < 6) return;
+      if (!dragged) {
+        dragged = true;
+        track.setPointerCapture(pointer.id);
+        track.classList.add('is-dragging');
+      }
+      track.scrollLeft = pointer.left - delta;
+    });
+    const stop = () => {
+      pointer = undefined;
+      track.classList.remove('is-dragging');
+    };
+    track.addEventListener('pointerup', stop);
+    track.addEventListener('pointercancel', stop);
+    track.addEventListener('pointerleave', () => { if (!dragged) stop(); });
+    track.addEventListener('lostpointercapture', stop);
+    track.addEventListener('dragstart', event => event.preventDefault());
+    track.addEventListener('click', event => {
+      if (dragged && event.detail > 0) {
+        event.preventDefault();
+        dragged = false;
+      }
+    }, true);
+  }
+</script>
+
+<style>
+  .listing-collection { min-width: 0; }
+  header { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+  .listing-collection h2 { font-size: clamp(21px, 2.7vw, 38px); letter-spacing: -.035em; text-transform: uppercase; }
+  .listing-controls { flex: none; display: flex; gap: 7px; }
+  .listing-controls button { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--national-control-border); border-radius: 50%; background: var(--national-white); color: var(--national-petrol-deep); cursor: pointer; }
+  .listing-controls button:disabled { opacity: .4; cursor: default; }
+  .listing-track { --gap: clamp(12px, 1.6vw, 22px); --card-width: calc((100% - 4 * var(--gap)) / 5); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-color: #aa926f var(--national-ivory); }
+  .listing-track:focus-visible { outline: 2px solid var(--national-petrol); outline-offset: 3px; }
+  .listing-track.is-dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; }
+  .listing-track.is-dragging a { cursor: grabbing; }
+  ul { display: grid; grid-auto-columns: var(--card-width); grid-auto-flow: column; gap: var(--gap); list-style: none; margin: 0; padding: 0 0 12px; }
+  li { min-width: 0; scroll-snap-align: start; }
+  li a { display: block; height: 100%; background: #fcfaf7; }
+  li a:focus-visible { outline-offset: -3px; }
+  li :global(img) { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+  .listing-card-copy { padding: 12px 12px 2px; }
+  .listing-card-copy h3 { font-family: var(--n-serif); margin-top: 4px; overflow-wrap: anywhere; }
+  .listing-card-copy .n-text-link { letter-spacing: .06em; }
+  .listing-empty { padding: clamp(18px, 3vw, 28px); border-top: 1px solid var(--national-control-border); background: var(--national-ivory); color: var(--n-muted); font-size: 14px; }
+  @media (max-width: 1023px) { .listing-track { --card-width: calc((100% - 2 * var(--gap)) / 3); } }
+  @media (max-width: 680px) { .listing-track { --card-width: calc((100% - var(--gap)) / 2); } }
+  @media (max-width: 480px) {
+    header { flex-wrap: wrap; }
+    .listing-track { --card-width: 76%; }
+  }
+</style>

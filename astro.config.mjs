@@ -13,6 +13,11 @@ export default defineConfig({
             prerender: false,
           });
           injectRoute({
+            pattern: '/heritage-listing',
+            entrypoint: './src/national/Listing.astro',
+            prerender: false,
+          });
+          injectRoute({
             pattern: '/national-preview/am-thuc',
             entrypoint: './src/national/Cuisine.astro',
             prerender: false,
